@@ -17,7 +17,8 @@ describe("DAOHistory", function () {
     describe("getDaoHistory", function () {
         it("デモデータを取得することができる", async function () {
             const { history } = await loadFixture(deployFixture);
-            const result = history.getDaoHistory("demo", 0);
+            const result = await history.getDaoHistory("demo", 0);
+            expect(result.length).to.be.equal(2);
         });
     });
 
