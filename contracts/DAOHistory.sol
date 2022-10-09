@@ -7,23 +7,31 @@ contract DAOHistory {
     constructor() public {
         string[] memory roles = new string[](1);
         roles[0] = "admin";
+        Score memory _score = Score({
+            scores: new uint256[](0),
+            perspectiveId: 0
+        });
 
         histories["demo"][0].push(
             DAOHistoryItem(
-                unicode"① 問題を解いたときに出てくる英語年齢が高めに出るように設定してシェアされやすくした\n② 問題文を英語表示できるようにすることで、ユーザが英語で考えやすくした\n③ 問題文を英語表示できるようにすることで、ユーザが英語で考えやすくした",
+                unicode"① DAOHistoryの解決する課題を整理した\n② 必要な開発工数を見積もった\n③ デモのストーリを検討した。",
                 1000000000000,
                 roles,
                 block.timestamp,
-                msg.sender
+                msg.sender,
+                0,
+                _score
             )
         );
         histories["demo"][0].push(
             DAOHistoryItem(
-                unicode"・質問文を349個追加しました：主にBasic/ディベート/MBA質問集。",
-                3214141,
+                unicode"・スマートコントラクトを開発した",
+                32141400001,
                 new string[](0),
                 block.timestamp,
-                msg.sender
+                msg.sender,
+                0,
+                _score
             )
         );
     }
@@ -33,7 +41,6 @@ contract DAOHistory {
         view
         returns (DAOHistoryItem[] memory)
     {
-        //TODO: implement
         return histories[daoId][projectId];
     }
 
