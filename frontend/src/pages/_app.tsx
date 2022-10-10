@@ -20,7 +20,7 @@ const MyApp = ({ Component, pageProps }: any) => {
   const metamaskErrorRender = () => {
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <div >Englister DAOを表示するにはMetaMaskが必要です。</div>
+        <div >画面を表示するにはMetaMaskが必要です。</div>
         <div >MetaMaskのインストールをお願いします。</div>
         <div >またiOS/AndroidはMetaMaskのブラウザからアクセスしてください。</div>
         <div>
@@ -53,7 +53,7 @@ const MyApp = ({ Component, pageProps }: any) => {
   }
 
   return <SafeHydrate>
-    <title>Englister DAO(PoC)</title>
+    <title>DAO History(Web3 Hachathon Demo)</title>
     {
       typeof window === 'undefined' ? windowErrorRender() :
         !isMetaMaskInstalled() ? metamaskErrorRender() :
