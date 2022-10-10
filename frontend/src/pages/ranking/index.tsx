@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import { css } from "@emotion/react";
 
 import { TableSort } from "@/components/TableSort";
-import attributes from "@/components/TableSort/attributes.json";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 
 const Ranking: NextPage = () => {
@@ -18,7 +17,7 @@ const Ranking: NextPage = () => {
         margin: 32px 300px;
       `}
     >
-      <TableSort data={daoHistory} />
+      <TableSort data={daoHistory as any} />
     </div>
   );
 };
