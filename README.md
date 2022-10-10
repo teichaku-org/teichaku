@@ -35,3 +35,8 @@ npm run dev
 ```
 $ npm run test
 ```
+
+## 型の自動生成
+```
+npm run generate
+```

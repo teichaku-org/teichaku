@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-import artifact from "@/abi/DAOToken.json";
+import artifact from "@/abi/DAOToken.sol/DAOToken.json";
 
 const contractAddress = process.env
   .NEXT_PUBLIC_DAOTOKEN_CONTRACT_ADDRESS as string;
