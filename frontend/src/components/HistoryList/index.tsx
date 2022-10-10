@@ -17,6 +17,7 @@ import {
   IconSearch,
 } from "@tabler/icons";
 import { css } from "@emotion/react";
+import { HistoryCard } from "../HistoryCard";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -130,7 +131,7 @@ function sortData(
   );
 }
 
-export function TableSort({ data }: TableSortProps) {
+export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
@@ -162,88 +163,39 @@ export function TableSort({ data }: TableSortProps) {
   }, []);
 
   const rows = sortedData.map((row, index) => (
-    <tr key={index}>
-      <td
-        css={css`
-          overflow-wrap: break-word;
-        `}
-      >
-        {row.contributionText}
-      </td>
-      <td>{row.reward}</td>
-      <td>{row.role}</td>
-      <td>{row.timestamp}</td>
-      <td>{row.contributor}</td>
-    </tr>
+    <div
+      css={css`
+        margin: 20px;
+      `}
+    >
+      <HistoryCard
+        key={index}
+        contributionText={row.contributionText}
+        reward={String(Math.round(row.reward))}
+        role={row.role}
+        timestamp={Date()}
+      />
+    </div>
   ));
 
   return (
-    <ScrollArea>
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        icon={<IconSearch size={14} stroke={1.5} />}
-        value={search}
-        onChange={handleSearchChange}
-      />
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        sx={{ tableLayout: "fixed", minWidth: 700 }}
-      >
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === "contributionText"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("contributionText")}
-            >
-              貢献内容
-            </Th>
-            <Th
-              sorted={sortBy === "reward"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("reward")}
-            >
-              報酬
-            </Th>
-            <Th
-              sorted={sortBy === "role"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("role")}
-            >
-              ロール
-            </Th>
-            <Th
-              sorted={sortBy === "timestamp"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("timestamp")}
-            >
-              対象期間
-            </Th>
-            <Th
-              sorted={sortBy === "contributor"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("contributor")}
-            >
-              貢献者
-            </Th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length > 0 ? (
-            rows
-          ) : (
-            <tr>
-              <td colSpan={Object.keys(data[0]).length}>
-                <Text weight={500} align="center">
-                  Nothing found
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-    </ScrollArea>
+    <div
+      css={css`
+        width: 80%;
+        margin: auto;
+      `}
+    >
+      {rows.length > 0 ? (
+        rows
+      ) : (
+        <tr>
+          <td colSpan={Object.keys(data[0]).length}>
+            <Text weight={500} align="center">
+              Nothing found
+            </Text>
+          </td>
+        </tr>
+      )}
+    </div>
   );
 }
