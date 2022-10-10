@@ -63,16 +63,17 @@ describe("Web3Hachathon Demo Scenario", function () {
             const demoHistory = demoHistoryList[0]
 
             //貢献内容
-            expect(demoHistory.contributionText).to.equal("Web3Hachathonの準備");
+            expect(demoHistory.contributionText).to.equal("①アプリ側でも「他の人の意見を参考にする」を見れるようにして、アプリのユーザも日本語の意見を考えやすくした\nhttps://twitter.com/IT_KOTA3/status/1539245638239526913\n\n②アプリから「最初の３問はハートを消費しない」というウソの文言を削除し、「問題をスタート時にハートが１つ消費される」ということを記載した");
             //報酬
-            expect(demoHistory.reward).to.equal(ethers.utils.parseEther("100"));
+            expect(demoHistory.reward).to.equal(ethers.utils.parseEther("669.0197786367365"));
             //ロール
-            expect(demoHistory.roles).to.deep.equal(["owner", "engineer"]);
+            expect(demoHistory.roles).to.deep.equal(["デザイナー"]);
             //対象期間
-            expect(demoHistory.timestamp).to.equal(1665390549);
+            expect(demoHistory.timestamp).to.equal(1657274544);
             //誰がやったか
-            expect(demoHistory.contributor).to.equal(owner.address);
-
+            expect(demoHistory.contributor).to.equal("0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C");
+            // poll Id
+            expect(demoHistory.pollId).to.equal(0);
             //→ 報酬額や、対象期間、ロールなどでソートができる
         })
     });
