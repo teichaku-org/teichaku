@@ -9,30 +9,45 @@ export default async function setupDeploy() {
     const SYMBOL = "W3HC"
     const INITIAL_SUPPLY = ethers.utils.parseEther("0");
     const token = await Token.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
+    await token.deployed();
+    console.log("DAOToken deployed to:", token.address);
 
     // DaoHistoryのデプロイ
     const DaoHistory = await ethers.getContractFactory("DAOHistory");
     const daoHistory = await DaoHistory.deploy();
+    await daoHistory.deployed();
+    console.log("DAOHistory deployed to:", daoHistory.address);
 
     // Pollのデプロイ
     const Poll = await ethers.getContractFactory("Poll");
     const poll = await Poll.deploy();
+    await poll.deployed();
+    console.log("Poll deployed to:", poll.address);
+
 
     // HistoryNFTのデプロイ
     const HistoryNFT = await ethers.getContractFactory("HistoryNFT");
     const NFT_NAME = "DaoHistoryNFT"
     const NFT_SYMBOL = "DH"
     const historyNFT = await HistoryNFT.deploy(NFT_NAME, NFT_SYMBOL);
+    await historyNFT.deployed();
+    console.log("HistoryNFT deployed to:", historyNFT.address);
+
 
     // NFT化コントラクトのデプロイ
     const NFTCreator = await ethers.getContractFactory("HistoryNFTCreator");
     const nftCreator = await NFTCreator.deploy();
+    await nftCreator.deployed();
+    console.log("NFTCreator deployed to:", nftCreator.address);
+
 
     // DAONFTのデプロイ
     const DAONFT = await ethers.getContractFactory("DAONFT");
     const DAONFT_NAME = "DAO Membership NFT For Poll"
     const DAONFT_SYMBOL = "DAONFT"
     const daonft = await DAONFT.deploy(DAONFT_NAME, DAONFT_SYMBOL);
+    await daonft.deployed();
+    console.log("DAONFT deployed to:", daonft.address);
 
 
     // TODO: NFT化コントラクトが作成するNFTのアドレスを登録
