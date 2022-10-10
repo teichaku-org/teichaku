@@ -1,12 +1,13 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import artifact from "../src/abi/DAOToken.json";
+
+import artifact from "@/abi/DAOToken.json";
 
 const contractAddress = process.env
   .NEXT_PUBLIC_DAOTOKEN_CONTRACT_ADDRESS as string;
 
-const Home: NextPage = () => {
+const Test: NextPage = () => {
   const [total, setTotal] = useState(0);
 
   const getProvider = () => {
@@ -41,4 +42,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Test;
