@@ -7,6 +7,11 @@ import useDaoHistory from "@/hooks/dao/useDaoHistory";
 
 const Ranking: NextPage = () => {
   const { daoHistory } = useDaoHistory()
+  if (!daoHistory) return <div>loading...</div>
+  if (daoHistory.length === 0) return <div>no data</div>
+
+
+  console.log({ daoHistory })
   return (
     <div
       css={css`
