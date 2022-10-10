@@ -76,4 +76,6 @@ describe("Web3Hachathon Demo Scenario", function () {
             //→ 報酬額や、対象期間、ロールなどでソートができる
         })
     });
+
+
 });
