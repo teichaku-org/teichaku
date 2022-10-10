@@ -13,6 +13,6 @@ struct DAOHistoryItem {
     string[] roles;
     uint256 timestamp;
     address contributor;
-    uint256 pollId;
+    int256 pollId;
     Score score;
 }

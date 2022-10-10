@@ -7,10 +7,10 @@ struct AbstractPollItem {
 
 struct ContributionItem {
     string contributionText;
-    string[] evidence;
+    string[] evidences;
     string[] roles;
     address contributor;
-    uint256 pollId;
+    int256 pollId;
 }
 
 struct DetailPollItem {

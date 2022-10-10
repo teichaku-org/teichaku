@@ -7,14 +7,18 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./lib/Array.sol";
 import "./DAOToken.sol";
 import "./DAONFT.sol";
+import "./DAOHistory.sol";
 import "./lib/SafeMath.sol";
 import "./interface/DAOEvents.sol";
 import "./struct/PollItem.sol";
+import "./struct/DAOHistoryItem.sol";
 
 struct Vote {
     address voter;
     address[] candidates;
-    uint256[] points;
+    uint256[][] points;
+    string[] comments;
+    uint256 perspectiveId;
 }
 
 contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
@@ -32,6 +36,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // 投票するのに必要なNFTのアドレス
     // NFT address required to vote
     address public nftAddress;
+
+    // 投票結果等を保存するDAO履歴のアドレス
+    // DAO History address
+    address public daoHistoryAddress;
 
     // 投票はDAO NFTをREQUIRED_TOKEN_FOR_VOTEよりも多く保持しているアドレスのみ可能
     // Voting is only possible for addresses that hold more than REQUIRED_TOKEN_FOR_VOTE DAO NFT
@@ -73,6 +81,25 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // End-time of polls
     mapping(int256 => uint256) public endTimeStamp;
 
+    // 投票観点
+    // perspective
+    mapping(uint256 => string[]) public perspectives;
+
+    // アクティブな投票観点
+    // active perspective
+    uint256 public activePerspective = 0;
+
+    /**
+     * @notice Change Perspective
+     * @dev only owner can change Perspective
+     */
+    function changePerspective(string[] memory perspectiveTexts)
+        external
+        onlyOwner
+    {
+        perspectives[++activePerspective] = perspectiveTexts;
+    }
+
     /**
      * @notice Set DAO Token Address
      * @dev only owner can set DAO Token Address
@@ -87,6 +114,17 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      */
     function setNftAddress(address _nftAddress) external onlyOwner {
         nftAddress = _nftAddress;
+    }
+
+    /**
+     * @notice Set DAO History Address
+     * @dev only owner can set DAO History Address
+     */
+    function setDaoHistoryAddress(address _daoHistoryAddress)
+        external
+        onlyOwner
+    {
+        daoHistoryAddress = _daoHistoryAddress;
     }
 
     /**
@@ -165,14 +203,38 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     /**
      * @notice candidate to the current poll
      */
-    function candidateToContributionPoll() external whenNotPaused {
+    function candidateToContributionPoll(
+        string memory contributionText,
+        string[] memory evidences,
+        string[] memory roles // TODO: NFTから取得する
+    ) external whenNotPaused {
+        uint256 updateIndex = 999;
         for (uint256 index = 0; index < candidates[pollId].length; index++) {
-            require(
-                candidates[pollId][index] != msg.sender,
-                "You are already candidate to the current poll."
-            );
+            if (candidates[pollId][index] != msg.sender) {
+                updateIndex = index;
+            }
         }
-        candidates[pollId].push(msg.sender);
+
+        //TODO: get role info from NFT
+
+        if (updateIndex == 999) {
+            candidates[pollId].push(msg.sender);
+            contributions[pollId].push(
+                ContributionItem(
+                    contributionText,
+                    evidences,
+                    roles,
+                    msg.sender,
+                    pollId
+                )
+            );
+        } else {
+            contributions[pollId][updateIndex]
+                .contributionText = contributionText;
+            contributions[pollId][updateIndex].evidences = evidences;
+            contributions[pollId][updateIndex].roles = roles;
+        }
+
         emit Candidated(pollId, msg.sender);
     }
 
@@ -190,11 +252,11 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * Points are normalized to a total of 100 points.
      * A voted point for oneself will always be 0.
      */
-    function vote(address[] memory _candidates, uint256[] memory _points)
-        external
-        whenNotPaused
-        returns (bool)
-    {
+    function vote(
+        address[] memory _candidates,
+        uint256[][] memory _points,
+        string[] memory _comments
+    ) external whenNotPaused returns (bool) {
         // Check if votig is enabled
         require(
             votingEnabled,
@@ -218,6 +280,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             "The number of points is not valid."
         );
 
+        string[] memory _perspectives = perspectives[activePerspective];
         for (uint256 index = 0; index < _candidates.length; index++) {
             // Check if the candidate is in the current poll
             require(
@@ -226,40 +289,30 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             );
 
             // Check if the points are valid
-            require(
-                _points[index] >= 0,
-                "The points are not valid. (0 <= points)"
-            );
-            require(
-                _points[index] <= VOTE_MAX_POINT,
-                "The points are not valid. (points < VOTE_MAX_POINT)"
-            );
+            for (uint256 i = 0; i < _perspectives.length; i++) {
+                require(
+                    _points[index][i] >= 0,
+                    "The points are not valid. (0 <= points)"
+                );
+                require(
+                    _points[index][i] <= VOTE_MAX_POINT,
+                    "The points are not valid. (points < VOTE_MAX_POINT)"
+                );
 
-            // A voted point for oneself will always be 0.
-            if (_candidates[index] == msg.sender) {
-                _points[index] = 0;
+                // A voted point for oneself will always be 0.
+                if (_candidates[index] == msg.sender) {
+                    _points[index][i] = 0;
+                }
             }
         }
 
         Vote memory _vote = Vote({
             voter: msg.sender,
             candidates: _candidates,
-            points: _points
+            points: _points,
+            comments: _comments,
+            perspectiveId: activePerspective
         });
-
-        uint256 totalPoints = _calculateTotalPoint(_vote);
-
-        // normalize the points to a total of 100 points
-        for (
-            uint256 candidateIndex = 0;
-            candidateIndex < _vote.candidates.length;
-            candidateIndex++
-        ) {
-            _vote.points[candidateIndex] = SafeMath.div(
-                SafeMath.mul(_vote.points[candidateIndex], 100),
-                totalPoints
-            );
-        }
 
         // save the vote to the list of votes
         votes[pollId].push(_vote);
@@ -289,31 +342,24 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      */
     function _settleContributionPoll() internal {
         // Add up votes for each candidate
-        address[] memory summedCandidates = candidates[pollId];
-        uint256[] memory summedPoints = new uint256[](
-            candidates[pollId].length
+        address[] memory _candidates = candidates[pollId];
+        Vote[] memory _votes = votes[pollId];
+        string[] memory _perspectives = perspectives[activePerspective];
+        uint256[][] memory summedPerspectivePoints = new uint256[][](
+            _candidates.length
         );
-        address[] memory voters = getCurrentVoters();
-        for (uint256 index = 0; index < votes[pollId].length; index++) {
-            Vote memory _vote = votes[pollId][index];
-            for (
-                uint256 candidateIndex = 0;
-                candidateIndex < _vote.candidates.length;
-                candidateIndex++
-            ) {
-                address _candidate = _vote.candidates[candidateIndex];
-                uint256 _point = _vote.points[candidateIndex];
-                for (
-                    uint256 summedCandidateIndex = 0;
-                    summedCandidateIndex < summedCandidates.length;
-                    summedCandidateIndex++
-                ) {
-                    if (summedCandidates[summedCandidateIndex] == _candidate) {
-                        summedPoints[summedCandidateIndex] = SafeMath.add(
-                            summedPoints[summedCandidateIndex],
-                            _point
-                        );
-                        break;
+        uint256[] memory summedPoints = new uint256[](_candidates.length);
+
+        for (uint256 c = 0; c < _candidates.length; c++) {
+            for (uint256 v = 0; v < _votes.length; v++) {
+                if (_votes[v].perspectiveId != activePerspective) {
+                    //評価観点が最新でないものはスキップ
+                    continue;
+                }
+                for (uint256 p = 0; p < _perspectives.length; p++) {
+                    if (_votes[v].candidates[c] == _candidates[c]) {
+                        summedPoints[c] += _votes[v].points[c][p];
+                        summedPerspectivePoints[c][p] = _votes[v].points[c][p];
                     }
                 }
             }
@@ -330,27 +376,49 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             candidates[pollId].length
         );
         if (totalPoints > 0) {
-            for (uint256 index = 0; index < summedCandidates.length; index++) {
+            for (uint256 index = 0; index < _candidates.length; index++) {
                 uint256 _points = summedPoints[index];
                 assignmentToken[index] = SafeMath.div(
                     SafeMath.mul(_points, CONTRIBUTOR_ASSIGNMENT_TOKEN),
                     totalPoints
                 );
             }
-            _mintTokenForContributor(summedCandidates, assignmentToken);
+            _mintTokenForContributor(_candidates, assignmentToken);
         }
 
         // Decide how much to distribute to Supporters
-        uint256 totalVoterCount = voters.length;
+        address[] memory _voters = getCurrentVoters();
+        uint256 totalVoterCount = _voters.length;
         if (totalVoterCount > 0) {
             uint256 voterAssignmentToken = SafeMath.div(
                 SUPPORTER_ASSIGNMENT_TOKEN,
                 totalVoterCount
             );
-            _mintTokenForSupporter(voters, voterAssignmentToken);
+            _mintTokenForSupporter(_voters, voterAssignmentToken);
         }
 
         endTimeStamp[pollId] = block.timestamp;
+
+        //TODO: 集計結果をDAO Historyに保存する
+        DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
+        for (uint256 c = 0; c < _candidates.length; c++) {
+            ContributionItem memory contributionItem = contributions[pollId][c];
+            Score memory score = Score({
+                perspectiveId: activePerspective,
+                scores: summedPerspectivePoints[c]
+            });
+            DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
+                contributionText: contributionItem.contributionText,
+                reward: assignmentToken[c],
+                roles: contributionItem.roles,
+                timestamp: block.timestamp,
+                contributor: _candidates[c],
+                pollId: pollId,
+                score: score
+            });
+            daoHistory.addDaoHistory("demo", 0, daoHistoryItem);
+        }
+
         emit SettlePoll(pollId);
     }
 
@@ -390,34 +458,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         for (uint256 index = 0; index < to.length; index++) {
             daoToken.mint(to[index], amount);
         }
-    }
-
-    /**
-     * @notice Sum up the points of the vote
-     */
-    function _calculateTotalPoint(Vote memory _vote)
-        internal
-        pure
-        returns (uint256)
-    {
-        uint256 totalPoints = 0;
-        for (
-            uint256 candidateIndex = 0;
-            candidateIndex < _vote.candidates.length;
-            candidateIndex++
-        ) {
-            totalPoints = SafeMath.add(
-                totalPoints,
-                _vote.points[candidateIndex]
-            );
-        }
-
-        require(
-            totalPoints > 0,
-            "The total points are not valid. (totalPoints <= 0)"
-        );
-
-        return totalPoints;
     }
 
     /**
@@ -469,17 +509,17 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     /**
      * @notice get the poll detail information
      */
-    function getPollDetail(int256 pollId)
+    function getPollDetail(int256 _pollId)
         public
         view
         returns (DetailPollItem memory)
     {
         //candidates
-        ContributionItem[] memory _contributions = contributions[pollId];
-        //voters
+        ContributionItem[] memory _contributions = contributions[_pollId];
+        //voters (FIX: currentじゃなくて_pollIdで取得したいはず)
         address[] memory _voters = getCurrentVoters();
         //start time
-        uint256 timestamp = startTimeStamp[pollId];
+        uint256 timestamp = startTimeStamp[_pollId];
 
         // DetailPollItemを作成
         DetailPollItem memory _detailPoll = DetailPollItem(
