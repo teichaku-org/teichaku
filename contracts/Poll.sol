@@ -21,13 +21,6 @@ struct Vote {
     uint256 perspectiveId;
 }
 
-struct Assessment {
-    address voter;
-    uint256[] points;
-    string[] comment;
-    uint256 perspectiveId;
-}
-
 contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // DAO ID
     string public daoId;
@@ -90,10 +83,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // 投票のリスト
     // list of vote
     mapping(int256 => Vote[]) public votes; // pollId => [vote1, vote2, ...]
-
-    // 投票をcandidateごとに分類したmap
-    // map classified by candidate
-    mapping(int256 => mapping(address => Score[])) public votesByCandidate; // pollId => candidate => [vote1, vote2, ...]
 
     // 投票の開始時間
     // Start-time of polls
@@ -384,22 +373,34 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         address[] memory _candidates = candidates[currentMexPollId];
         Vote[] memory _votes = votes[currentMexPollId];
         string[] memory _perspectives = perspectives[activePerspective];
-        uint256[][] memory summedPerspectivePoints = new uint256[][](
+
+        // candidateごとの集計データ
+        Assessment[][] memory candidatesAssessments = new Assessment[][](
             _candidates.length
         );
+        // スコアの集計データ(各観点を集計したスコアの合計)
         uint256[] memory summedPoints = new uint256[](_candidates.length);
 
         for (uint256 c = 0; c < _candidates.length; c++) {
-            summedPerspectivePoints[c] = new uint256[](_perspectives.length);
+            candidatesAssessments[c] = new Assessment[](_votes.length);
             for (uint256 v = 0; v < _votes.length; v++) {
                 if (_votes[v].perspectiveId != activePerspective) {
                     //評価観点が最新でないものはスキップ
                     continue;
                 }
+
+                candidatesAssessments[c][v] = Assessment({
+                    voter: _votes[v].voter,
+                    candidate: _candidates[c],
+                    perspectiveId: activePerspective,
+                    points: _votes[v].points[c],
+                    comment: _votes[v].comments[c],
+                    pollId: currentMexPollId
+                });
+
                 for (uint256 p = 0; p < _perspectives.length; p++) {
                     if (_votes[v].candidates[c] == _candidates[c]) {
                         summedPoints[c] += _votes[v].points[c][p];
-                        summedPerspectivePoints[c][p] += _votes[v].points[c][p];
                     }
                 }
             }
@@ -445,20 +446,20 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             ContributionItem memory contributionItem = contributions[
                 currentMexPollId
             ][c];
-            Score memory score = Score({
-                perspectiveId: activePerspective,
-                scores: summedPerspectivePoints[c]
-            });
             DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
                 contributionText: contributionItem.contributionText,
                 reward: assignmentToken[c],
                 roles: contributionItem.roles,
                 timestamp: block.timestamp,
                 contributor: _candidates[c],
-                pollId: currentMexPollId,
-                score: score
+                pollId: currentMexPollId
             });
             daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
+            daoHistory.addAssessment(
+                daoId,
+                projectId,
+                candidatesAssessments[c]
+            );
         }
 
         emit SettlePoll(currentMexPollId);

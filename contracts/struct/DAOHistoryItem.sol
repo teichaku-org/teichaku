@@ -1,11 +1,12 @@
-struct Score {
-    uint256[] scores;
-    uint256 perspectiveId;
-}
+pragma solidity ^0.8.9;
 
-struct Comment {
+struct Assessment {
+    address voter;
+    address candidate;
+    uint256[] points;
     string comment;
-    address author;
+    uint256 perspectiveId;
+    int256 pollId;
 }
 
 struct DAOHistoryItem {
@@ -15,5 +16,5 @@ struct DAOHistoryItem {
     uint256 timestamp;
     address contributor;
     int256 pollId;
-    Score score;
+    //WARN: Assessment[] assessments;を定義できない
 }
