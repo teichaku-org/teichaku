@@ -4,7 +4,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DAOHistory is AccessControl, Ownable {
-    mapping(string => mapping(uint256 => DAOHistoryItem[])) histories;
+    mapping(string => mapping(string => DAOHistoryItem[])) histories;
 
     // Role to add DAO History
     bytes32 public constant ADD_HISTORY_ROLE = keccak256("ADD_HISTORY_ROLE");
@@ -18,7 +18,7 @@ contract DAOHistory is AccessControl, Ownable {
         return true;
     }
 
-    function getDaoHistory(string memory daoId, uint256 projectId)
+    function getDaoHistory(string memory daoId, string memory projectId)
         public
         view
         returns (DAOHistoryItem[] memory)
@@ -28,7 +28,7 @@ contract DAOHistory is AccessControl, Ownable {
 
     function addDaoHistory(
         string memory daoId,
-        uint256 projectId,
+        string memory projectId,
         DAOHistoryItem memory daoHistoryItem
     ) public {
         require(

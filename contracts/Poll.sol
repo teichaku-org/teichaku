@@ -25,10 +25,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // DAO ID
     string public daoId;
     // Project Id
-    uint256 public projectId;
+    string public projectId;
 
     // Constructor
-    constructor(string memory _daoId, uint256 _projectId) {
+    constructor(string memory _daoId, string memory _projectId) {
         daoId = _daoId;
         projectId = _projectId;
     }
@@ -214,7 +214,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     /**
      * @notice candidate to the current poll
      */
-    function candidateToContributionPoll(
+    function candidateToCurrentPoll(
         string memory contributionText,
         string[] memory evidences,
         string[] memory roles // TODO: NFTから取得する
