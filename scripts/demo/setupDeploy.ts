@@ -20,7 +20,7 @@ export default async function setupDeploy() {
 
     // Pollのデプロイ
     const Poll = await ethers.getContractFactory("Poll");
-    const poll = await Poll.deploy();
+    const poll = await Poll.deploy("demo", 0);
     await poll.deployed();
     console.log("Poll deployed to:", poll.address);
 
@@ -58,6 +58,8 @@ export default async function setupDeploy() {
     await poll.setDaoHistoryAddress(daoHistory.address);
     await poll.setNftAddress(daonft.address)
 
+    // Pollの締め切りができる権限をownerに持たせる
+    await poll.setPollAdminRole(owner.address);
 
     // PollはTokenをmintする権限を持つ
     await token.setupMinterRole(poll.address);
