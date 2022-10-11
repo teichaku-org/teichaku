@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { css } from "@emotion/react";
 
-import { HistoryList } from "@/components/HistoryList";
+import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 
 const Ranking: NextPage = () => {
@@ -13,7 +13,7 @@ const Ranking: NextPage = () => {
   return (
     <div
       css={css`
-        margin: 32px 300px;
+        margin: 32px 5%;
       `}
     >
       <HistoryList data={daoHistory} />

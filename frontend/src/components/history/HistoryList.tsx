@@ -17,7 +17,7 @@ import {
   IconSearch,
 } from "@tabler/icons";
 import { css } from "@emotion/react";
-import { HistoryCard } from "../HistoryCard";
+import { HistoryCard } from "./HistoryCard";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -181,7 +181,7 @@ export function HistoryList({ data }: TableSortProps) {
   return (
     <div
       css={css`
-        width: 80%;
+        width: 90%;
         margin: auto;
       `}
     >
