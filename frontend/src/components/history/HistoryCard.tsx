@@ -1,5 +1,12 @@
 import { css } from "@emotion/react";
-import { createStyles, Paper, Text, ThemeIcon } from "@mantine/core";
+import {
+  Badge,
+  createStyles,
+  Paper,
+  Text,
+  ThemeIcon,
+  useMantineTheme,
+} from "@mantine/core";
 import { IconCoin } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
@@ -40,14 +47,16 @@ interface HistoryCardProps {
 }
 
 const jobColors: Record<string, string> = {
-  engineer: "blue",
-  manager: "cyan",
-  designer: "pink",
+  開発者: "blue",
+  マーケター: "orange",
+  デザイナー: "green",
+  プロダクトマネージャー: "grape",
 };
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
   const { contributionText, reward, roles, timestamp } = props;
+  const theme = useMantineTheme();
   return (
     <Paper withBorder radius="md" className={classes.card}>
       <div
@@ -68,7 +77,12 @@ export function HistoryCard(props: HistoryCardProps) {
         </Text>
       </div>
       {roles.map((role, index) => (
-        <li>{role}</li>
+        <Badge
+          color={jobColors[role]}
+          variant={theme.colorScheme === "dark" ? "light" : "outline"}
+        >
+          {role}
+        </Badge>
       ))}
       <Text size="xl" weight={500} mt="md">
         {contributionText}
