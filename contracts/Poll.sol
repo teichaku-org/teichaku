@@ -22,6 +22,17 @@ struct Vote {
 }
 
 contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
+    // DAO ID
+    string public daoId;
+    // Project Id
+    string public projectId;
+
+    // Constructor
+    constructor(string memory _daoId, string memory _projectId) {
+        daoId = _daoId;
+        projectId = _projectId;
+    }
+
     // ContributionPollを開始したり終了する権限
     // Role to start and end a ContributionPoll
     bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
@@ -203,14 +214,14 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     /**
      * @notice candidate to the current poll
      */
-    function candidateToContributionPoll(
+    function candidateToCurrentPoll(
         string memory contributionText,
         string[] memory evidences,
         string[] memory roles // TODO: NFTから取得する
     ) external whenNotPaused {
         uint256 updateIndex = 999;
         for (uint256 index = 0; index < candidates[pollId].length; index++) {
-            if (candidates[pollId][index] != msg.sender) {
+            if (candidates[pollId][index] == msg.sender) {
                 updateIndex = index;
             }
         }
@@ -253,6 +264,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * A voted point for oneself will always be 0.
      */
     function vote(
+        int256 _pollId,
         address[] memory _candidates,
         uint256[][] memory _points,
         string[] memory _comments
@@ -263,13 +275,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             "Voting is not enabled right now. Contact the admin to start voting."
         );
 
-        address[] memory voters = getCurrentVoters();
+        address[] memory voters = getVoters(_pollId);
 
         // Check if the voter is eligible to vote
         require(isEligibleToVote(msg.sender), "You are not eligible to vote.");
-
-        // Check if the voter is already voted
-        require(!Array.contains(voters, msg.sender), "You are already voted.");
 
         // Check if the candidate is not empty
         require(_candidates.length != 0, "Candidates must not be empty.");
@@ -306,6 +315,15 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             }
         }
 
+        // Check if the voter has already voted
+        //FIX: 999を止める。もしくは投票の最大数をチェックする
+        uint256 voterIndex = 999;
+        for (uint256 index = 0; index < voters.length; index++) {
+            if (voters[index] == msg.sender) {
+                voterIndex = index;
+            }
+        }
+
         Vote memory _vote = Vote({
             voter: msg.sender,
             candidates: _candidates,
@@ -314,9 +332,14 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             perspectiveId: activePerspective
         });
 
-        // save the vote to the list of votes
-        votes[pollId].push(_vote);
-        emit Voted(pollId, msg.sender);
+        if (voterIndex == 999) {
+            // save the vote to the list of votes
+            votes[_pollId].push(_vote);
+        } else {
+            // update the vote to the list of votes
+            votes[_pollId][voterIndex] = _vote;
+        }
+        emit Voted(_pollId, msg.sender);
         return true;
     }
 
@@ -341,6 +364,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * @notice Settle the current poll and aggregate the result
      */
     function _settleContributionPoll() internal {
+        //FIX: 最新のpollIdではなく、指定したpollIdを使うようにする
         // Add up votes for each candidate
         address[] memory _candidates = candidates[pollId];
         Vote[] memory _votes = votes[pollId];
@@ -387,7 +411,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         }
 
         // Decide how much to distribute to Supporters
-        address[] memory _voters = getCurrentVoters();
+        address[] memory _voters = getVoters(pollId);
         uint256 totalVoterCount = _voters.length;
         if (totalVoterCount > 0) {
             uint256 voterAssignmentToken = SafeMath.div(
@@ -416,7 +440,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 pollId: pollId,
                 score: score
             });
-            daoHistory.addDaoHistory("demo", 0, daoHistoryItem);
+            daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
         }
 
         emit SettlePoll(pollId);
@@ -475,10 +499,35 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     }
 
     /**
+     * @notice get the poll's votes
+     */
+    function getVotes(int256 _pollId) public view returns (Vote[] memory) {
+        return votes[_pollId];
+    }
+
+    /**
+     * @notice get the poll's current perspective
+     */
+    function getCurrentPerspectives() public view returns (string[] memory) {
+        return perspectives[activePerspective];
+    }
+
+    /**
+     * @notice get the poll's perspective
+     */
+    function getPerspectives(uint256 _perspectiveId)
+        public
+        view
+        returns (string[] memory)
+    {
+        return perspectives[_perspectiveId];
+    }
+
+    /**
      * @notice get the current poll's voters
      */
-    function getCurrentVoters() public view returns (address[] memory) {
-        Vote[] memory _votes = votes[pollId];
+    function getVoters(int256 _pollId) public view returns (address[] memory) {
+        Vote[] memory _votes = votes[_pollId];
         address[] memory _voters = new address[](_votes.length);
         for (uint256 index = 0; index < _votes.length; index++) {
             _voters[index] = _votes[index].voter;
@@ -516,8 +565,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     {
         //candidates
         ContributionItem[] memory _contributions = contributions[_pollId];
-        //voters (FIX: currentじゃなくて_pollIdで取得したいはず)
-        address[] memory _voters = getCurrentVoters();
+        //voters
+        address[] memory _voters = getVoters(_pollId);
         //start time
         uint256 timestamp = startTimeStamp[_pollId];
 

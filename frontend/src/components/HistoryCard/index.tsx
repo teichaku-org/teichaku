@@ -39,6 +39,12 @@ interface HistoryCardProps {
   timestamp: string;
 }
 
+const jobColors: Record<string, string> = {
+  engineer: "blue",
+  manager: "cyan",
+  designer: "pink",
+};
+
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
   const { contributionText, reward, role, timestamp } = props;

@@ -327,7 +327,7 @@ export default async (daoHistory: DAOHistory) => {
                 perspectiveId: 1
             }
         };
-        await daoHistory.addDaoHistory("demo", 0, daoHistoryItem)
+        await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
 
 
     }

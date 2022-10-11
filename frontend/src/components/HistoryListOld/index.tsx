@@ -17,6 +17,7 @@ import {
   IconSearch,
 } from "@tabler/icons";
 import { css } from "@emotion/react";
+import { DAOHistoryItemStruct, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -42,13 +43,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface RowData {
-  contributionText: string;
-  reward: number;
-  role: string;
-  timestamp: string;
-  contributor: string;
-}
+type RowData = DAOHistoryItemStructOutput;
 
 interface TableSortProps {
   data: RowData[];
@@ -170,9 +165,9 @@ export function HistoryList({ data }: TableSortProps) {
       >
         {row.contributionText}
       </td>
-      <td>{row.reward}</td>
-      <td>{row.role}</td>
-      <td>{row.timestamp}</td>
+      <td>{row.reward.toString()}</td>
+      <td>{row.roles}</td>
+      <td>{row.timestamp.toString()}</td>
       <td>{row.contributor}</td>
     </tr>
   ));
@@ -208,9 +203,9 @@ export function HistoryList({ data }: TableSortProps) {
               報酬
             </Th>
             <Th
-              sorted={sortBy === "role"}
+              sorted={sortBy === "roles"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting("role")}
+              onSort={() => setSorting("roles")}
             >
               ロール
             </Th>
