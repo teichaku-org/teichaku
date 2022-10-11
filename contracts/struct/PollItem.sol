@@ -19,3 +19,7 @@ struct DetailPollItem {
     address[] voters;
     uint256 startTimeStamp;
 }
+
+struct Perspectives {
+    string[] names;
+}

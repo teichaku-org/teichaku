@@ -41,8 +41,8 @@ async function setupDemo(
     await poll.connect(otherAccount2).candidateToCurrentPoll("遊んで暮らしてました😆", ["https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Sunset_in_the_Carribean.jpg/700px-Sunset_in_the_Carribean.jpg"], ["遊び人"])
 
     // すでに2人は投票している状態にする
-    await poll.connect(otherAccount).vote(6, [otherAccount.address, otherAccount2.address], [[1, 1, 4], [2, 3, 4]], ["すごい！！", "もっと頑張れ"])
-    await poll.connect(otherAccount2).vote(6, [otherAccount.address, otherAccount2.address], [[5, 5, 5], [3, 5, 2]], ["やるやん", "俺すごい"])
+    await poll.connect(otherAccount).vote(6, [otherAccount.address, otherAccount2.address], [[1, 2, 3], [2, 3, 4]], ["すごい！！", "もっと頑張れ"])
+    await poll.connect(otherAccount2).vote(6, [otherAccount.address, otherAccount2.address], [[5, 5, 5], [5, 5, 5]], ["やるやん", "俺すごい"])
 
 }
 

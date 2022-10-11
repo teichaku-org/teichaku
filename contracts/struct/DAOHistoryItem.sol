@@ -8,10 +8,6 @@ struct Comment {
     address author;
 }
 
-struct Perspectives {
-    string[] names;
-}
-
 struct DAOHistoryItem {
     string contributionText;
     uint256 reward;

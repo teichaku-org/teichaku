@@ -21,6 +21,13 @@ struct Vote {
     uint256 perspectiveId;
 }
 
+struct Assessment {
+    address voter;
+    uint256[] points;
+    string[] comment;
+    uint256 perspectiveId;
+}
+
 contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // DAO ID
     string public daoId;
@@ -83,6 +90,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // 投票のリスト
     // list of vote
     mapping(int256 => Vote[]) public votes; // pollId => [vote1, vote2, ...]
+
+    // 投票をcandidateごとに分類したmap
+    // map classified by candidate
+    mapping(int256 => mapping(address => Score[])) public votesByCandidate; // pollId => candidate => [vote1, vote2, ...]
 
     // 投票の開始時間
     // Start-time of polls
@@ -388,7 +399,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 for (uint256 p = 0; p < _perspectives.length; p++) {
                     if (_votes[v].candidates[c] == _candidates[c]) {
                         summedPoints[c] += _votes[v].points[c][p];
-                        summedPerspectivePoints[c][p] = _votes[v].points[c][p];
+                        summedPerspectivePoints[c][p] += _votes[v].points[c][p];
                     }
                 }
             }
