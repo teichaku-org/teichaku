@@ -220,4 +220,36 @@ describe("Web3Hachathon Demo Scenario", function () {
             expect(detail.contributions[2].contributionText).to.equal("修正後テスト");
         })
     });
+
+    describe("投票の締め切りができる", function () {
+        it("投票を締め切ることで、各自のトークン量が増えていることを確認する", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            const beforeBalance1 = await token.balanceOf(owner.address)
+            const beforeBalance2 = await token.balanceOf(otherAccount.address)
+            const beforeBalance3 = await token.balanceOf(otherAccount2.address)
+            await poll.settleCurrentPollAndCreateNewPoll()
+            const afterBalance1 = await token.balanceOf(owner.address)
+            const afterBalance2 = await token.balanceOf(otherAccount.address)
+            const afterBalance3 = await token.balanceOf(otherAccount2.address)
+            expect(afterBalance1).to.greaterThan(beforeBalance1);
+            expect(afterBalance2).to.greaterThan(beforeBalance2);
+            expect(afterBalance3).to.greaterThan(beforeBalance3);
+        })
+
+        it("投票結果が保存されていることを確認できる", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+        })
+    });
 });
