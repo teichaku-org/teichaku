@@ -20,7 +20,7 @@ export default async function setupDeploy() {
 
     // Pollのデプロイ
     const Poll = await ethers.getContractFactory("Poll");
-    const poll = await Poll.deploy("demo", 0);
+    const poll = await Poll.deploy("demo", "season1");
     await poll.deployed();
     console.log("Poll deployed to:", poll.address);
 

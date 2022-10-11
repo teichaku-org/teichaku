@@ -15,7 +15,7 @@ export default () => {
     const contractWithSigner = getContractWithSigner(contractAddress, artifact.abi) as DAOHistory
 
     useEffect(() => {
-        contract.functions.getDaoHistory("demo", 0).then((res) => {
+        contract.functions.getDaoHistory("demo", "season1").then((res) => {
             setDaoHistory(res[0])
         })
     }, [address]);

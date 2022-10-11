@@ -31,7 +31,7 @@ contract HistoryNFTCreator is Ownable {
      */
     function mintForSprint(
         string memory daoId,
-        uint256 projectId,
+        string memory projectId,
         int256 pollId
     ) public {
         //DAO Historyからデータを取得する
@@ -58,7 +58,9 @@ contract HistoryNFTCreator is Ownable {
     /**
      * @notice Create NFT based on whole period.
      */
-    function mintForWholePeriod(string memory daoId, uint256 projectId) public {
+    function mintForWholePeriod(string memory daoId, string memory projectId)
+        public
+    {
         //DAO Historyからデータを取得する
         DAOHistory daoHistory = DAOHistory(_daoHistoryAddress);
         DAOHistoryItem[] memory daoHistoryItems = daoHistory.getDaoHistory(

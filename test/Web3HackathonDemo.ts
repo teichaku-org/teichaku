@@ -37,7 +37,7 @@ describe("Web3Hachathon Demo Scenario", function () {
         it("daoHistoryの状態は空っぽ", async function () {
             const { owner, token, daoHistory, poll } = await loadFixture(deployFixture);
             const expected = 0;
-            const demoHistory = await daoHistory.getDaoHistory("demo", 0)
+            const demoHistory = await daoHistory.getDaoHistory("demo", "season1")
             expect(demoHistory.length).to.equal(expected);
         });
 
@@ -64,9 +64,9 @@ describe("Web3Hachathon Demo Scenario", function () {
             expect(await token.balanceOf(owner.address)).to.equal(expected);
         });
 
-        it("daoHistoryの状態は空でない", async function () {
+        it("demo, season1のdaoHistoryの状態は空でない", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const demoHistory = await daoHistory.getDaoHistory("demo", 0)
+            const demoHistory = await daoHistory.getDaoHistory("demo", "season1")
             expect(demoHistory.length).to.not.equal(0);
         });
 
@@ -84,7 +84,7 @@ describe("Web3Hachathon Demo Scenario", function () {
     describe("DAO Historyの操作紹介", function () {
         it("それぞれの貢献カードには、「貢献内容」「報酬」「ロール」「対象期間」「誰がやったか(address)」が記載されている", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const demoHistoryList = await daoHistory.getDaoHistory("demo", 0)
+            const demoHistoryList = await daoHistory.getDaoHistory("demo", "season1")
             const demoHistory = demoHistoryList[0]
 
             //貢献内容
@@ -200,4 +200,24 @@ describe("Web3Hachathon Demo Scenario", function () {
         })
     });
 
+    describe("貢献登録部分の操作紹介", function () {
+        it("自分も貢献した内容を登録することができる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            await poll.candidateToCurrentPoll("テスト", ["https://yahoo.co.jp"], ["エンジニア", "PM"])
+
+            const activePolls = await poll.getActivePolls()
+            const activePoll = activePolls[0]
+            expect(activePoll.candidatesCount).to.equal(3);
+        })
+
+        it("上書きをすることもできる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            await poll.candidateToCurrentPoll("テスト", ["https://yahoo.co.jp"], ["エンジニア", "PM"])
+            await poll.candidateToCurrentPoll("修正後テスト", [], ["エンジニア", "PM"])
+
+            const detail = await poll.getPollDetail(6)
+            expect(detail.contributions.length).to.equal(3);
+            expect(detail.contributions[2].contributionText).to.equal("修正後テスト");
+        })
+    });
 });
