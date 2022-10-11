@@ -29,8 +29,8 @@ import type {
 
 export interface HistoryNFTCreatorInterface extends utils.Interface {
   functions: {
-    "mintForSprint(string,uint256,int256)": FunctionFragment;
-    "mintForWholePeriod(string,uint256)": FunctionFragment;
+    "mintForSprint(string,string,int256)": FunctionFragment;
+    "mintForWholePeriod(string,string)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setDAOHistoryAddress(address)": FunctionFragment;
@@ -53,13 +53,13 @@ export interface HistoryNFTCreatorInterface extends utils.Interface {
     functionFragment: "mintForSprint",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "mintForWholePeriod",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -153,14 +153,14 @@ export interface HistoryNFTCreator extends BaseContract {
   functions: {
     mintForSprint(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       pollId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     mintForWholePeriod(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -188,14 +188,14 @@ export interface HistoryNFTCreator extends BaseContract {
 
   mintForSprint(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     pollId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   mintForWholePeriod(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -223,14 +223,14 @@ export interface HistoryNFTCreator extends BaseContract {
   callStatic: {
     mintForSprint(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       pollId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     mintForWholePeriod(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -268,14 +268,14 @@ export interface HistoryNFTCreator extends BaseContract {
   estimateGas: {
     mintForSprint(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       pollId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     mintForWholePeriod(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -304,14 +304,14 @@ export interface HistoryNFTCreator extends BaseContract {
   populateTransaction: {
     mintForSprint(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       pollId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     mintForWholePeriod(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

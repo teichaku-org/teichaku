@@ -22,10 +22,11 @@ export default () => {
 
     const _daoHistory = daoHistory.map(d => {
         return {
-            ...d,
-            reward: ethers.utils.formatEther(d.reward) as any,
-            timestamp: new Date(Number(d.timestamp) * 1000).toLocaleString()
-
+            contributionText: d.contributionText,
+            reward: Number(ethers.utils.formatEther(d.reward)),
+            role: d.roles[0], //TODO: ロールは複数持ちえる
+            timestamp: new Date(Number(d.timestamp) * 1000).toLocaleString(),
+            contributor: d.contributor
         }
     })
     return {

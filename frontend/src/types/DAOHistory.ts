@@ -69,8 +69,8 @@ export interface DAOHistoryInterface extends utils.Interface {
   functions: {
     "ADD_HISTORY_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "addDaoHistory(string,uint256,(string,uint256,string[],uint256,address,int256,(uint256[],uint256)))": FunctionFragment;
-    "getDaoHistory(string,uint256)": FunctionFragment;
+    "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256,(uint256[],uint256)))": FunctionFragment;
+    "getDaoHistory(string,string)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -113,13 +113,13 @@ export interface DAOHistoryInterface extends utils.Interface {
     functionFragment: "addDaoHistory",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       DAOHistoryItemStruct
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "getDaoHistory",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -299,14 +299,14 @@ export interface DAOHistory extends BaseContract {
 
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[DAOHistoryItemStructOutput[]]>;
 
@@ -367,14 +367,14 @@ export interface DAOHistory extends BaseContract {
 
   addDaoHistory(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     daoHistoryItem: DAOHistoryItemStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   getDaoHistory(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<DAOHistoryItemStructOutput[]>;
 
@@ -435,14 +435,14 @@ export interface DAOHistory extends BaseContract {
 
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<DAOHistoryItemStructOutput[]>;
 
@@ -546,14 +546,14 @@ export interface DAOHistory extends BaseContract {
 
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -617,14 +617,14 @@ export interface DAOHistory extends BaseContract {
 
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

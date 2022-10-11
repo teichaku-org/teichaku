@@ -16,7 +16,7 @@ const Ranking: NextPage = () => {
         margin: 32px 300px;
       `}
     >
-      <HistoryList data={daoHistory as any} />
+      <HistoryList data={daoHistory} />
     </div>
   );
 };
