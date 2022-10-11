@@ -242,13 +242,23 @@ describe("Web3Hachathon Demo Scenario", function () {
             expect(afterBalance3).to.greaterThan(beforeBalance3);
         })
 
-        it("投票結果が保存されていることを確認できる", async function () {
+        it("投票結果がDAO Historyに保存されていることを確認できる", async function () {
             const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
             const pollId = 6
             const candidates = [otherAccount.address, otherAccount2.address]
             const points = [[5, 5, 5], [2, 2, 2]]
             const comments = ["コメント１", "コメント２"]
             await poll.vote(pollId, candidates, points, comments)
+
+            await poll.settleCurrentPollAndCreateNewPoll()
+            const history = await daoHistory.getDaoHistory("demo", "season1")
+
+            const otherAccount2History = history.filter((h) => h.contributor === otherAccount2.address && h.pollId.toNumber() == 6)
+            expect(otherAccount2History.length).to.equal(1);
+            expect(otherAccount2History[0].contributionText).to.equal("遊んで暮らしてました😆");
+            expect(otherAccount2History[0].score).to.equal([2, 2, 2]);
+
+
 
         })
     });

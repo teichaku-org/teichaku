@@ -3,6 +3,11 @@ struct Score {
     uint256 perspectiveId;
 }
 
+struct Comment {
+    string comment;
+    address author;
+}
+
 struct Perspectives {
     string[] names;
 }
