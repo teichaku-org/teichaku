@@ -7,7 +7,7 @@ async function main() {
     owner, otherAccount, otherAccount2,
     token, daoHistory, poll, historyNFT, nftCreator, daonft
   } = await setupDeploy()
-  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory);
+  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
 
 }
 

@@ -19,7 +19,7 @@ describe("Web3Hachathon Demo Scenario", function () {
             token, daoHistory, poll, historyNFT, nftCreator, daonft
         } = await loadFixture(deployFixture);
 
-        await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory);
+        await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
 
         return {
             owner, otherAccount, otherAccount2,
@@ -40,6 +40,21 @@ describe("Web3Hachathon Demo Scenario", function () {
             const demoHistory = await daoHistory.getDaoHistory("demo", 0)
             expect(demoHistory.length).to.equal(expected);
         });
+
+        it("アクティブな投票の一覧を取得したときに基本的な情報は全て０", async function () {
+            const { owner, token, daoHistory, poll } = await loadFixture(deployFixture);
+            const activePolls = await poll.getActivePolls()
+            const activePoll = activePolls[0]
+
+            //投票開始日
+            expect(activePoll.startTimeStamp).to.equal(0);
+            //投票者の数
+            expect(activePoll.votersCount).to.equal(0);
+            //立候補者の数
+            expect(activePoll.candidatesCount).to.equal(0);
+            //pollId
+            expect(activePoll.pollId).to.equal(0);
+        })
     });
 
     describe("デモデータをセットした後の状態について確認", function () {
@@ -54,6 +69,16 @@ describe("Web3Hachathon Demo Scenario", function () {
             const demoHistory = await daoHistory.getDaoHistory("demo", 0)
             expect(demoHistory.length).to.not.equal(0);
         });
+
+
+        it("pollIdが6になっている", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            const activePolls = await poll.getActivePolls()
+            const activePoll = activePolls[0]
+
+            //pollId
+            expect(activePoll.pollId).to.equal(6);
+        })
     });
 
     describe("DAO Historyの操作紹介", function () {
@@ -78,5 +103,101 @@ describe("Web3Hachathon Demo Scenario", function () {
         })
     });
 
+
+    describe("投票部分の操作紹介", function () {
+        it("現在アクティブな投票の一覧を取得することができる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            const activePolls = await poll.getActivePolls()
+
+            //デモでは常にアクティブな投票が１つ存在している
+            expect(activePolls.length).to.equal(1);
+        })
+
+        it("投票の一覧では、基本的な情報を取得できる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            const activePolls = await poll.getActivePolls()
+            const activePoll = activePolls[0]
+
+            //投票開始日
+            expect(activePoll.startTimeStamp).to.not.equal(0);
+            //投票者の数
+            expect(activePoll.votersCount).to.equal(2);
+            //立候補者の数
+            expect(activePoll.candidatesCount).to.equal(2);
+            //pollId
+            expect(activePoll.pollId).to.equal(6);
+        })
+
+        it("pollIdを指定して詳細を取得することができる", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const pollDetail = await poll.getPollDetail(pollId)
+
+            //投票開始日
+            expect(pollDetail.startTimeStamp).to.not.equal(0);
+
+            //立候補をしている人のリスト
+            expect(pollDetail.contributions.length).to.equal(2);
+            expect(pollDetail.contributions[1].contributionText).to.equal("遊んで暮らしてました😆")
+            expect(pollDetail.contributions[1].contributor).to.equal(otherAccount2.address)
+            expect(pollDetail.contributions[1].evidences[0]).to.not.equal("")
+
+            //すでに投票した人たちのアドレス
+            expect(pollDetail.voters.length).to.equal(2);
+            expect(pollDetail.voters[0]).to.equal(otherAccount.address);
+            expect(pollDetail.voters[1]).to.equal(otherAccount2.address);
+
+            //投票開始日
+            expect(pollDetail.startTimeStamp).to.not.equal(0);
+
+            //pollId
+            expect(pollDetail.pollId).to.equal(pollId);
+        })
+
+
+        it("実際に投票を実施することができる", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            const pollDetail = await poll.getPollDetail(pollId)
+            expect(pollDetail.voters.length).to.equal(3);
+        })
+
+        it("投票時のperspectiveが保存されている", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            // voteに紐づいてperspectiveIdが保存されている
+            const pollDetail = await poll.getVotes(pollId)
+            expect(pollDetail[2].perspectiveId).to.equal(1);
+
+            //その時のperspectiveの内容を取得できる
+            const perspectives = await poll.getPerspectives(1)
+            expect(perspectives[0]).to.equal("ビジョンの実現に貢献している");
+        })
+
+        it("投票の上書きができる", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            const fixedComments = ["修正済みコメント１", "修正済みコメント２"]
+            await poll.vote(pollId, candidates, points, fixedComments)
+
+            const pollDetail = await poll.getCurrentVotes()
+            expect(pollDetail[2].comments[0]).to.equal("修正済みコメント１");
+        })
+    });
 
 });
