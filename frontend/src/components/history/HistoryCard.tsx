@@ -32,11 +32,12 @@ const useStyles = createStyles((theme) => ({
       width: 6,
       backgroundImage: theme.fn.linearGradient(
         0,
-        theme.colors.pink[6],
-        theme.colors.orange[6]
+        theme.colors.grape[6],
+        theme.colors.blue[6]
       ),
     },
   },
+  reward: {},
 }));
 
 interface HistoryCardProps {
@@ -68,12 +69,32 @@ export function HistoryCard(props: HistoryCardProps) {
           size="xl"
           radius="md"
           variant="gradient"
-          gradient={{ deg: 0, from: "pink", to: "orange" }}
+          gradient={{ deg: 0, from: "blue", to: "grape" }}
         >
           <IconCoin size={28} stroke={1.5} />
         </ThemeIcon>
-        <Text size="xl" mt="sm">
-          {reward} ENG
+        <Text
+          component="span"
+          align="center"
+          color={theme.colorScheme === "dark" ? "white" : "black"}
+          // variant="gradient"
+          // gradient={{ from: "blue", to: "grape", deg: 40 }}
+          size="xl"
+          weight={700}
+          style={{ fontFamily: "Greycliff CF, sans-serif" }}
+          css={css`
+            font-size: 30px;
+          `}
+        >
+          {reward}
+          <span
+            css={css`
+              font-size: 20px;
+              margin-left: 5px;
+            `}
+          >
+            coin
+          </span>
         </Text>
       </div>
       {roles.map((role, index) => (
@@ -84,10 +105,19 @@ export function HistoryCard(props: HistoryCardProps) {
           {role}
         </Badge>
       ))}
-      <Text size="xl" weight={500} mt="md">
+      <Text
+        size="xl"
+        weight={500}
+        mt="md"
+        color={theme.colorScheme === "dark" ? "white" : "black"}
+      >
         {contributionText}
       </Text>
-      <Text size="sm" mt="sm">
+      <Text
+        size="sm"
+        mt="sm"
+        color={theme.colorScheme === "dark" ? "white" : "black"}
+      >
         {timestamp}
       </Text>
     </Paper>
