@@ -35,7 +35,7 @@ const useStyles = createStyles((theme) => ({
 interface HistoryCardProps {
   contributionText: string;
   reward: string;
-  role: string;
+  roles: string[];
   timestamp: string;
 }
 
@@ -47,7 +47,7 @@ const jobColors: Record<string, string> = {
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
-  const { contributionText, reward, role, timestamp } = props;
+  const { contributionText, reward, roles, timestamp } = props;
   return (
     <Paper withBorder radius="md" className={classes.card}>
       <div
@@ -67,21 +67,15 @@ export function HistoryCard(props: HistoryCardProps) {
           {reward} ENG
         </Text>
       </div>
+      {roles.map((role, index) => (
+        <li>{role}</li>
+      ))}
       <Text size="xl" weight={500} mt="md">
         {contributionText}
       </Text>
-      <div
-        css={css`
-          display: flex;
-        `}
-      >
-        <Text size="sm" mt="sm">
-          {role}
-        </Text>
-        <Text size="sm" mt="sm">
-          {timestamp}
-        </Text>
-      </div>
+      <Text size="sm" mt="sm">
+        {timestamp}
+      </Text>
     </Paper>
   );
 }

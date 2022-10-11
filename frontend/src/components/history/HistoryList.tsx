@@ -46,7 +46,7 @@ const useStyles = createStyles((theme) => ({
 interface RowData {
   contributionText: string;
   reward: number;
-  role: string;
+  roles: string[];
   timestamp: string;
   contributor: string;
 }
@@ -172,8 +172,8 @@ export function HistoryList({ data }: TableSortProps) {
         key={index}
         contributionText={row.contributionText}
         reward={String(Math.round(row.reward))}
-        role={row.role}
-        timestamp={Date()}
+        roles={row.roles}
+        timestamp={row.timestamp}
       />
     </div>
   ));
