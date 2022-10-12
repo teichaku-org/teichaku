@@ -122,6 +122,7 @@ export interface PollInterface extends utils.Interface {
     "candidates(int256,uint256)": FunctionFragment;
     "changePerspective(string[])": FunctionFragment;
     "contributions(int256,uint256)": FunctionFragment;
+    "currentMexPollId()": FunctionFragment;
     "daoHistoryAddress()": FunctionFragment;
     "daoId()": FunctionFragment;
     "daoTokenAddress()": FunctionFragment;
@@ -143,7 +144,6 @@ export interface PollInterface extends utils.Interface {
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
     "perspectives(uint256,uint256)": FunctionFragment;
-    "pollId()": FunctionFragment;
     "projectId()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
@@ -156,7 +156,7 @@ export interface PollInterface extends utils.Interface {
     "setRequiredTokenForVote(uint256)": FunctionFragment;
     "setSupporterAssignmentToken(uint256)": FunctionFragment;
     "setVoteMaxPoint(uint256)": FunctionFragment;
-    "setVotingEnabled(bool)": FunctionFragment;
+    "setVotingEnabled(int256,bool)": FunctionFragment;
     "settleCurrentPollAndCreateNewPoll()": FunctionFragment;
     "startTimeStamp(int256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -180,6 +180,7 @@ export interface PollInterface extends utils.Interface {
       | "candidates"
       | "changePerspective"
       | "contributions"
+      | "currentMexPollId"
       | "daoHistoryAddress"
       | "daoId"
       | "daoTokenAddress"
@@ -201,7 +202,6 @@ export interface PollInterface extends utils.Interface {
       | "pause"
       | "paused"
       | "perspectives"
-      | "pollId"
       | "projectId"
       | "renounceOwnership"
       | "renounceRole"
@@ -272,6 +272,10 @@ export interface PollInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "contributions",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "currentMexPollId",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "daoHistoryAddress",
@@ -345,7 +349,6 @@ export interface PollInterface extends utils.Interface {
     functionFragment: "perspectives",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "pollId", values?: undefined): string;
   encodeFunctionData(functionFragment: "projectId", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -393,7 +396,7 @@ export interface PollInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setVotingEnabled",
-    values: [PromiseOrValue<boolean>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
     functionFragment: "settleCurrentPollAndCreateNewPoll",
@@ -472,6 +475,10 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "currentMexPollId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "daoHistoryAddress",
     data: BytesLike
   ): Result;
@@ -528,7 +535,6 @@ export interface PollInterface extends utils.Interface {
     functionFragment: "perspectives",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "pollId", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "projectId", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -832,6 +838,8 @@ export interface Poll extends BaseContract {
       }
     >;
 
+    currentMexPollId(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     daoHistoryAddress(overrides?: CallOverrides): Promise<[string]>;
 
     daoId(overrides?: CallOverrides): Promise<[string]>;
@@ -911,8 +919,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    pollId(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     projectId(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -972,6 +978,7 @@ export interface Poll extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setVotingEnabled(
+      pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -1062,6 +1069,8 @@ export interface Poll extends BaseContract {
     }
   >;
 
+  currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+
   daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
 
   daoId(overrides?: CallOverrides): Promise<string>;
@@ -1141,8 +1150,6 @@ export interface Poll extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  pollId(overrides?: CallOverrides): Promise<BigNumber>;
-
   projectId(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
@@ -1202,6 +1209,7 @@ export interface Poll extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setVotingEnabled(
+    pollId: PromiseOrValue<BigNumberish>,
     _votingEnabled: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -1290,6 +1298,8 @@ export interface Poll extends BaseContract {
       }
     >;
 
+    currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+
     daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
 
     daoId(overrides?: CallOverrides): Promise<string>;
@@ -1367,8 +1377,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    pollId(overrides?: CallOverrides): Promise<BigNumber>;
-
     projectId(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
@@ -1426,6 +1434,7 @@ export interface Poll extends BaseContract {
     ): Promise<void>;
 
     setVotingEnabled(
+      pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -1602,6 +1611,8 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+
     daoHistoryAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     daoId(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1679,8 +1690,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    pollId(overrides?: CallOverrides): Promise<BigNumber>;
-
     projectId(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -1740,6 +1749,7 @@ export interface Poll extends BaseContract {
     ): Promise<BigNumber>;
 
     setVotingEnabled(
+      pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1831,6 +1841,8 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    currentMexPollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     daoHistoryAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     daoId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1912,8 +1924,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    pollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     projectId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
@@ -1973,6 +1983,7 @@ export interface Poll extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setVotingEnabled(
+      pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

@@ -81,6 +81,18 @@ describe("Web3Hachathon Demo Scenario", function () {
         })
     });
 
+    describe("DAOの情報を取得", function () {
+        it("DAOの名前などを取得できる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            const daoInfo = await daoHistory.getDaoInfo("demo")
+            expect(daoInfo.name).to.equal("Web3HackathonデモDAO");
+            expect(daoInfo.description).equal("ハッカソンのために作ったDAOです");
+            expect(daoInfo.website).to.equal("");
+            expect(daoInfo.logo).equal("");
+            expect(daoInfo.projects).to.members(["season1"])
+        });
+    });
+
     describe("DAO Historyの操作紹介", function () {
         it("それぞれの貢献カードには、「貢献内容」「報酬」「ロール」「対象期間」「誰がやったか(address)」が記載されている", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
@@ -218,6 +230,57 @@ describe("Web3Hachathon Demo Scenario", function () {
             const detail = await poll.getPollDetail(6)
             expect(detail.contributions.length).to.equal(3);
             expect(detail.contributions[2].contributionText).to.equal("修正後テスト");
+        })
+    });
+
+    describe("投票の締め切りができる", function () {
+        it("投票を締め切ることで、各自のトークン量が増えていることを確認する", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            const beforeBalance1 = await token.balanceOf(owner.address)
+            const beforeBalance2 = await token.balanceOf(otherAccount.address)
+            const beforeBalance3 = await token.balanceOf(otherAccount2.address)
+            await poll.settleCurrentPollAndCreateNewPoll()
+            const afterBalance1 = await token.balanceOf(owner.address)
+            const afterBalance2 = await token.balanceOf(otherAccount.address)
+            const afterBalance3 = await token.balanceOf(otherAccount2.address)
+            expect(afterBalance1).to.greaterThan(beforeBalance1);
+            expect(afterBalance2).to.greaterThan(beforeBalance2);
+            expect(afterBalance3).to.greaterThan(beforeBalance3);
+        })
+
+        it("投票結果がDAO Historyに保存されていることを確認できる", async function () {
+            const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
+            const pollId = 6
+            const candidates = [otherAccount.address, otherAccount2.address]
+            const points = [[5, 5, 5], [2, 2, 2]]
+            const comments = ["コメント１", "コメント２"]
+            await poll.vote(pollId, candidates, points, comments)
+
+            await poll.settleCurrentPollAndCreateNewPoll()
+            const history = await daoHistory.getDaoHistory("demo", "season1")
+            const assessments = await daoHistory.getDaoAssessments("demo", "season1")
+
+            // pollId = 6の投票結果を見る
+            const otherAccount2History = history.filter((h) => h.contributor === otherAccount2.address && h.pollId.toNumber() == 6)
+            const otherAccount2Assessment = assessments.filter((h) => h.contributor === otherAccount2.address && h.pollId.toNumber() == 6)
+
+            // 貢献した回数は1件
+            expect(otherAccount2History.length).to.equal(1);
+            // どんな貢献をしたのか
+            expect(otherAccount2History[0].contributionText).to.equal("遊んで暮らしてました😆");
+
+            // 評価は2人から受けている (自分の評価は含まれない)
+            expect(otherAccount2Assessment.length).to.equal(2);
+
+            // コメントがどうだったか
+            expect(otherAccount2Assessment[0].comment).to.equal("もっと頑張れ");
+
         })
     });
 });

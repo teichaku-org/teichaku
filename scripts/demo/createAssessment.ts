@@ -1,5 +1,5 @@
-import { ethers } from "ethers";
-import { DAOHistory, DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
+import { BigNumber, ethers } from "ethers";
+import { AssessmentStruct, DAOHistory, } from "../../typechain-types/contracts/DAOHistory";
 
 export default async (daoHistory: DAOHistory) => {
     const data = [
@@ -308,25 +308,29 @@ export default async (daoHistory: DAOHistory) => {
             "pollId": 5
         }]
 
+    const contributors = data.map(d => d.contributor)
+    const uniqueContributors = [...new Set(contributors)]
+
     function createRandomScore() {
         //スコアは少数がつけられないことに注意
-        return Math.floor(Math.random() * 500);
+        return BigNumber.from(Math.floor(Math.random() * 500));
     }
 
-    for (const item of data) {
-        const scoreMax = 5
-        const daoHistoryItem: DAOHistoryItemStruct = {
-            contributionText: item.contributionText,
-            reward: ethers.utils.parseEther(item.reward.toString()),
-            roles: [item.roles],
-            timestamp: item.timestamp,
-            contributor: item.contributor,
-            pollId: item.pollId
-        };
-        await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
 
-
+    for (let i = 0; i < 100; i++) {
+        const randomContributor = uniqueContributors[Math.floor(Math.random() * uniqueContributors.length)]
+        const randomVoter = uniqueContributors[Math.floor(Math.random() * uniqueContributors.length)]
+        const randomComment = "コメント" + i
+        const assessment: AssessmentStruct = {
+            voter: randomVoter,
+            contributor: randomContributor,
+            points: [createRandomScore(), createRandomScore(), createRandomScore()],
+            comment: randomComment,
+            perspectiveId: BigNumber.from(1),
+            pollId: BigNumber.from(Math.floor(Math.random() * 6)),
+        }
+        await daoHistory.addAssessment("demo", "season1", [assessment])
     }
-
 
 }
+

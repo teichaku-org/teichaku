@@ -1,3 +1,5 @@
+pragma solidity ^0.8.9;
+
 struct AbstractPollItem {
     int256 pollId;
     uint256 votersCount;
@@ -18,4 +20,8 @@ struct DetailPollItem {
     ContributionItem[] contributions;
     address[] voters;
     uint256 startTimeStamp;
+}
+
+struct Perspectives {
+    string[] names;
 }

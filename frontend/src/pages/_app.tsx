@@ -1,4 +1,6 @@
-import { MantineProvider } from "@mantine/core";
+import { AppHeader } from "@/components/common/AppHeader";
+import { AppNavbar } from "@/components/common/AppNavbar";
+import { AppShell, MantineProvider, Navbar } from "@mantine/core";
 import dynamic from 'next/dynamic';
 import NetworkCheck from '../components/web3/common/NetworkCheck';
 
@@ -47,7 +49,16 @@ const MyApp = ({ Component, pageProps }: any) => {
           colorScheme: "dark",
         }}
       >
-        <Component {...pageProps} />
+        <AppShell
+          padding="md"
+          navbar={<AppNavbar />}
+          header={<AppHeader />}
+          styles={(theme) => ({
+            main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+          })}
+        >
+          <Component {...pageProps} />
+        </AppShell>
       </MantineProvider>
     </div>
   }
