@@ -10,18 +10,6 @@ const NetworkCheck = () => {
     const expectedNetworkChainId = process.env.NEXT_PUBLIC_EXPECTED_NETWORK_CHAIN_ID;
 
 
-    const addressOrLogin = () => {
-        if (address) {
-            return <div>
-                <div>接続済みアドレス: {address}</div>
-            </div>
-        } else {
-            return <div>
-                <button onClick={login}>MetaMaskでログイン</button>
-            </div>
-        }
-    }
-
     useEffect(() => {
         const chengeNetworkRequest = async () => {
             try {
@@ -78,7 +66,7 @@ const NetworkCheck = () => {
 
 
     return <div>
-        {addressOrLogin()}
+
     </div>
 
 }
