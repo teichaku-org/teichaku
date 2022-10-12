@@ -1,4 +1,5 @@
 import { AppHeader } from "@/components/common/AppHeader";
+import { AppNavbar } from "@/components/common/AppNavbar";
 import { AppShell, MantineProvider, Navbar } from "@mantine/core";
 import dynamic from 'next/dynamic';
 import NetworkCheck from '../components/web3/common/NetworkCheck';
@@ -50,7 +51,7 @@ const MyApp = ({ Component, pageProps }: any) => {
       >
         <AppShell
           padding="md"
-          navbar={<Navbar p="xs" width={{ base: 300 }}>{/* Navbar content */}</Navbar>}
+          navbar={<AppNavbar />}
           header={<AppHeader />}
           styles={(theme) => ({
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
