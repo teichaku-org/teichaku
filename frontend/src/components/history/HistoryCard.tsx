@@ -84,6 +84,7 @@ export function HistoryCard(props: HistoryCardProps) {
           style={{ fontFamily: "Greycliff CF, sans-serif" }}
           css={css`
             font-size: 30px;
+            margin-left: 5px;
           `}
         >
           {reward}
@@ -98,12 +99,18 @@ export function HistoryCard(props: HistoryCardProps) {
         </Text>
       </div>
       {roles.map((role, index) => (
-        <Badge
-          color={jobColors[role]}
-          variant={theme.colorScheme === "dark" ? "light" : "outline"}
-        >
-          {role}
-        </Badge>
+        <>
+          <Badge
+            color={jobColors[role]}
+            variant={theme.colorScheme === "dark" ? "light" : "outline"}
+            size="lg"
+            css={css`
+              margin-right: 5px;
+            `}
+          >
+            {role}
+          </Badge>
+        </>
       ))}
       <Text
         size="xl"
