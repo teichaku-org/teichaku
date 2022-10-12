@@ -1,6 +1,4 @@
-import { css } from "@emotion/react";
-import { Text, ThemeIcon } from "@mantine/core";
-import { IconHistory } from "@tabler/icons";
+import { Text } from "@mantine/core";
 
 export function HistoryTitle() {
   return (

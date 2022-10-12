@@ -120,6 +120,8 @@ export function HistoryCard(props: HistoryCardProps) {
         css={css`
           margin-right: 5px;
           white-space: pre-wrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         `}
       >
         {contributionText}
