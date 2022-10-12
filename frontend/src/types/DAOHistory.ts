@@ -27,14 +27,29 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export type ScoreStruct = {
-  scores: PromiseOrValue<BigNumberish>[];
+export type AssessmentStruct = {
+  voter: PromiseOrValue<string>;
+  contributor: PromiseOrValue<string>;
+  points: PromiseOrValue<BigNumberish>[];
+  comment: PromiseOrValue<string>;
   perspectiveId: PromiseOrValue<BigNumberish>;
+  pollId: PromiseOrValue<BigNumberish>;
 };
 
-export type ScoreStructOutput = [BigNumber[], BigNumber] & {
-  scores: BigNumber[];
+export type AssessmentStructOutput = [
+  string,
+  string,
+  BigNumber[],
+  string,
+  BigNumber,
+  BigNumber
+] & {
+  voter: string;
+  contributor: string;
+  points: BigNumber[];
+  comment: string;
   perspectiveId: BigNumber;
+  pollId: BigNumber;
 };
 
 export type DAOHistoryItemStruct = {
@@ -44,7 +59,6 @@ export type DAOHistoryItemStruct = {
   timestamp: PromiseOrValue<BigNumberish>;
   contributor: PromiseOrValue<string>;
   pollId: PromiseOrValue<BigNumberish>;
-  score: ScoreStruct;
 };
 
 export type DAOHistoryItemStructOutput = [
@@ -53,8 +67,7 @@ export type DAOHistoryItemStructOutput = [
   string[],
   BigNumber,
   string,
-  BigNumber,
-  ScoreStructOutput
+  BigNumber
 ] & {
   contributionText: string;
   reward: BigNumber;
@@ -62,15 +75,34 @@ export type DAOHistoryItemStructOutput = [
   timestamp: BigNumber;
   contributor: string;
   pollId: BigNumber;
-  score: ScoreStructOutput;
+};
+
+export type DAOInfoStruct = {
+  name: PromiseOrValue<string>;
+  description: PromiseOrValue<string>;
+  website: PromiseOrValue<string>;
+  logo: PromiseOrValue<string>;
+  projects: PromiseOrValue<string>[];
+};
+
+export type DAOInfoStructOutput = [string, string, string, string, string[]] & {
+  name: string;
+  description: string;
+  website: string;
+  logo: string;
+  projects: string[];
 };
 
 export interface DAOHistoryInterface extends utils.Interface {
   functions: {
     "ADD_HISTORY_ROLE()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "addDaoHistory(string,uint256,(string,uint256,string[],uint256,address,int256,(uint256[],uint256)))": FunctionFragment;
-    "getDaoHistory(string,uint256)": FunctionFragment;
+    "addAssessment(string,string,(address,address,uint256[],string,uint256,int256)[])": FunctionFragment;
+    "addDao(string,string,string,string,string,string)": FunctionFragment;
+    "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256))": FunctionFragment;
+    "getDaoAssessments(string,string)": FunctionFragment;
+    "getDaoHistory(string,string)": FunctionFragment;
+    "getDaoInfo(string)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -87,8 +119,12 @@ export interface DAOHistoryInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "ADD_HISTORY_ROLE"
       | "DEFAULT_ADMIN_ROLE"
+      | "addAssessment"
+      | "addDao"
       | "addDaoHistory"
+      | "getDaoAssessments"
       | "getDaoHistory"
+      | "getDaoInfo"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
@@ -110,16 +146,39 @@ export interface DAOHistoryInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "addAssessment",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>, AssessmentStruct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addDao",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "addDaoHistory",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       DAOHistoryItemStruct
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "getDaoAssessments",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getDaoHistory",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDaoInfo",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -168,13 +227,23 @@ export interface DAOHistoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "addAssessment",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "addDao", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "addDaoHistory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getDaoAssessments",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getDaoHistory",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getDaoInfo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -297,18 +366,46 @@ export interface DAOHistory extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
+    addAssessment(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      _assessments: AssessmentStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    addDao(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
+      website: PromiseOrValue<string>,
+      logo: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getDaoAssessments(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[AssessmentStructOutput[]]>;
+
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[DAOHistoryItemStructOutput[]]>;
+
+    getDaoInfo(
+      daoId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[DAOInfoStructOutput]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -365,18 +462,46 @@ export interface DAOHistory extends BaseContract {
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
+  addAssessment(
+    daoId: PromiseOrValue<string>,
+    projectId: PromiseOrValue<string>,
+    _assessments: AssessmentStruct[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  addDao(
+    daoId: PromiseOrValue<string>,
+    projectId: PromiseOrValue<string>,
+    name: PromiseOrValue<string>,
+    description: PromiseOrValue<string>,
+    website: PromiseOrValue<string>,
+    logo: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   addDaoHistory(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     daoHistoryItem: DAOHistoryItemStruct,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  getDaoAssessments(
+    daoId: PromiseOrValue<string>,
+    projectId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<AssessmentStructOutput[]>;
+
   getDaoHistory(
     daoId: PromiseOrValue<string>,
-    projectId: PromiseOrValue<BigNumberish>,
+    projectId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<DAOHistoryItemStructOutput[]>;
+
+  getDaoInfo(
+    daoId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<DAOInfoStructOutput>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -433,18 +558,46 @@ export interface DAOHistory extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
+    addAssessment(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      _assessments: AssessmentStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    addDao(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
+      website: PromiseOrValue<string>,
+      logo: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getDaoAssessments(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<AssessmentStructOutput[]>;
+
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<DAOHistoryItemStructOutput[]>;
+
+    getDaoInfo(
+      daoId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<DAOInfoStructOutput>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -544,16 +697,44 @@ export interface DAOHistory extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
+    addAssessment(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      _assessments: AssessmentStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    addDao(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
+      website: PromiseOrValue<string>,
+      logo: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    getDaoAssessments(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getDaoInfo(
+      daoId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -615,16 +796,44 @@ export interface DAOHistory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    addAssessment(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      _assessments: AssessmentStruct[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addDao(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      name: PromiseOrValue<string>,
+      description: PromiseOrValue<string>,
+      website: PromiseOrValue<string>,
+      logo: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     addDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    getDaoAssessments(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getDaoHistory(
       daoId: PromiseOrValue<string>,
-      projectId: PromiseOrValue<BigNumberish>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getDaoInfo(
+      daoId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
