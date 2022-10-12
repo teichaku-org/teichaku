@@ -18,6 +18,7 @@ import {
 } from "@tabler/icons";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
+import { HistoryTitle } from "./HistoryTitle";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -185,6 +186,13 @@ export function HistoryList({ data }: TableSortProps) {
         margin: auto;
       `}
     >
+      <div
+        css={css`
+          text-align: center;
+        `}
+      >
+        <HistoryTitle />
+      </div>
       {rows.length > 0 ? (
         rows
       ) : (

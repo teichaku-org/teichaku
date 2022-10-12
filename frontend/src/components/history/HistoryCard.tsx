@@ -117,6 +117,10 @@ export function HistoryCard(props: HistoryCardProps) {
         weight={500}
         mt="md"
         color={theme.colorScheme === "dark" ? "white" : "black"}
+        css={css`
+          margin-right: 5px;
+          white-space: pre-wrap;
+        `}
       >
         {contributionText}
       </Text>
