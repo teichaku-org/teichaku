@@ -5,6 +5,7 @@ import "./DAOToken.sol";
 import "./HistoryNFT.sol";
 import "./DAOHistory.sol";
 
+//TODO: 実装
 contract HistoryNFTCreator is Ownable {
     mapping(address => bool) whitelist;
     address private _daoNftAddress;

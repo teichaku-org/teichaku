@@ -7,11 +7,11 @@ describe("DAOToken", function () {
     async function deployFixture() {
         const [owner, otherAccount, otherAccount2] = await ethers.getSigners();
 
-        const EnglisterToken = await ethers.getContractFactory("DAOToken");
-        const NAME = "Englister"
-        const SYMBOL = "ENG"
+        const Token = await ethers.getContractFactory("DAOToken");
+        const NAME = "Web3Hackathon";
+        const SYMBOL = "W3H"
         const INITIAL_SUPPLY = ethers.utils.parseEther("100");
-        const token = await EnglisterToken.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
+        const token = await Token.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
 
         return { token, owner, otherAccount, otherAccount2 };
     }
