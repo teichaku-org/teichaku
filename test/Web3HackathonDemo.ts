@@ -81,6 +81,18 @@ describe("Web3Hachathon Demo Scenario", function () {
         })
     });
 
+    describe("DAOの情報を取得", function () {
+        it("DAOの名前などを取得できる", async function () {
+            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
+            const daoInfo = await daoHistory.getDaoInfo("demo")
+            expect(daoInfo.name).to.equal("Web3HackathonデモDAO");
+            expect(daoInfo.description).equal("ハッカソンのために作ったDAOです");
+            expect(daoInfo.website).to.equal("");
+            expect(daoInfo.logo).equal("");
+            expect(daoInfo.projects).to.members(["season1"])
+        });
+    });
+
     describe("DAO Historyの操作紹介", function () {
         it("それぞれの貢献カードには、「貢献内容」「報酬」「ロール」「対象期間」「誰がやったか(address)」が記載されている", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()

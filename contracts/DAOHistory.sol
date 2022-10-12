@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract DAOHistory is AccessControl, Ownable {
     mapping(string => mapping(string => DAOHistoryItem[])) histories;
     mapping(string => mapping(string => Assessment[])) assessments;
+    mapping(string => DAOInfo) daoInfo;
 
     // Role to add DAO History
     bytes32 public constant ADD_HISTORY_ROLE = keccak256("ADD_HISTORY_ROLE");
@@ -17,6 +18,35 @@ contract DAOHistory is AccessControl, Ownable {
     {
         _setupRole(ADD_HISTORY_ROLE, contractAddress);
         return true;
+    }
+
+    function addDao(
+        string memory daoId,
+        string memory projectId,
+        string memory name,
+        string memory description,
+        string memory website,
+        string memory logo
+    ) public onlyOwner returns (bool) {
+        require(
+            keccak256(abi.encode(daoInfo[daoId].name)) !=
+                keccak256(abi.encode("")),
+            "DAOHistory: DAO already exists"
+        );
+        string[] memory projects = new string[](1);
+        projects[0] = projectId;
+        daoInfo[daoId] = DAOInfo(name, description, website, logo, projects);
+
+        //TODO: pollコントラクトを作成する
+        return true;
+    }
+
+    function getDaoInfo(string memory daoId)
+        public
+        view
+        returns (DAOInfo memory)
+    {
+        return daoInfo[daoId];
     }
 
     function getDaoHistory(string memory daoId, string memory projectId)

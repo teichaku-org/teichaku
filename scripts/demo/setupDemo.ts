@@ -16,10 +16,7 @@ async function setupDemo(
     await token.mint(owner.address, ethers.utils.parseEther("500"));
     await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
 
-    // Ownerなどに投票権を付与
-    // await daonft.safeMint(owner.address);
-    // await daonft.safeMint(otherAccount.address);
-    // await daonft.safeMint(otherAccount2.address);
+    await daoHistory.addDao("demo", "season1", "Web3HackathonデモDAO", "ハッカソンのために作ったDAOです", "", "")
 
     // DaoHistoryの追加
     await createDaoHistory(daoHistory)
