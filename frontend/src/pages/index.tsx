@@ -13,9 +13,9 @@ const Home: NextPage = () => {
       </div>
 
       <div>
-        <p>ランキング</p>
-        <Link href="/ranking" passHref>
-          <Button component="a">ランキング</Button>
+        <p>DAO history</p>
+        <Link href="/history" passHref>
+          <Button component="a">DAO history</Button>
         </Link>
       </div>
     </div>

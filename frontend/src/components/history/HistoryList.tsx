@@ -17,7 +17,8 @@ import {
   IconSearch,
 } from "@tabler/icons";
 import { css } from "@emotion/react";
-import { DAOHistoryItemStruct, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
+import { HistoryCard } from "./HistoryCard";
+import { HistoryTitle } from "./HistoryTitle";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -43,7 +44,13 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-type RowData = DAOHistoryItemStructOutput;
+interface RowData {
+  contributionText: string;
+  reward: number;
+  roles: string[];
+  timestamp: string;
+  contributor: string;
+}
 
 interface TableSortProps {
   data: RowData[];
@@ -125,7 +132,7 @@ function sortData(
   );
 }
 
-export function TableSort({ data }: TableSortProps) {
+export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
@@ -157,88 +164,46 @@ export function TableSort({ data }: TableSortProps) {
   }, []);
 
   const rows = sortedData.map((row, index) => (
-    <tr key={index}>
-      <td
-        css={css`
-          overflow-wrap: break-word;
-        `}
-      >
-        {row.contributionText}
-      </td>
-      <td>{row.reward.toString()}</td>
-      <td>{row.roles}</td>
-      <td>{row.timestamp.toString()}</td>
-      <td>{row.contributor}</td>
-    </tr>
+    <div
+      css={css`
+        margin: 20px;
+      `}
+    >
+      <HistoryCard
+        key={index}
+        contributionText={row.contributionText}
+        reward={String(Math.round(row.reward))}
+        roles={row.roles}
+        timestamp={row.timestamp}
+      />
+    </div>
   ));
 
   return (
-    <ScrollArea>
-      <TextInput
-        placeholder="Search by any field"
-        mb="md"
-        icon={<IconSearch size={14} stroke={1.5} />}
-        value={search}
-        onChange={handleSearchChange}
-      />
-      <Table
-        horizontalSpacing="md"
-        verticalSpacing="xs"
-        sx={{ tableLayout: "fixed", minWidth: 700 }}
+    <div
+      css={css`
+        width: 90%;
+        margin: auto;
+      `}
+    >
+      <div
+        css={css`
+          text-align: center;
+        `}
       >
-        <thead>
-          <tr>
-            <Th
-              sorted={sortBy === "contributionText"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("contributionText")}
-            >
-              貢献内容
-            </Th>
-            <Th
-              sorted={sortBy === "reward"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("reward")}
-            >
-              報酬
-            </Th>
-            <Th
-              sorted={sortBy === "roles"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("roles")}
-            >
-              ロール
-            </Th>
-            <Th
-              sorted={sortBy === "timestamp"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("timestamp")}
-            >
-              対象期間
-            </Th>
-            <Th
-              sorted={sortBy === "contributor"}
-              reversed={reverseSortDirection}
-              onSort={() => setSorting("contributor")}
-            >
-              貢献者
-            </Th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.length > 0 ? (
-            rows
-          ) : (
-            <tr>
-              <td colSpan={Object.keys(data[0]).length}>
-                <Text weight={500} align="center">
-                  Nothing found
-                </Text>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </Table>
-    </ScrollArea>
+        <HistoryTitle />
+      </div>
+      {rows.length > 0 ? (
+        rows
+      ) : (
+        <tr>
+          <td colSpan={Object.keys(data[0]).length}>
+            <Text weight={500} align="center">
+              Nothing found
+            </Text>
+          </td>
+        </tr>
+      )}
+    </div>
   );
 }
