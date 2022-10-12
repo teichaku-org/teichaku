@@ -2,7 +2,7 @@ pragma solidity ^0.8.9;
 
 struct Assessment {
     address voter;
-    address candidate;
+    address contributor;
     uint256[] points;
     string comment;
     uint256 perspectiveId;

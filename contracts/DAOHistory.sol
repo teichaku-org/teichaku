@@ -27,6 +27,14 @@ contract DAOHistory is AccessControl, Ownable {
         return histories[daoId][projectId];
     }
 
+    function getDaoAssessments(string memory daoId, string memory projectId)
+        public
+        view
+        returns (Assessment[] memory)
+    {
+        return assessments[daoId][projectId];
+    }
+
     function addDaoHistory(
         string memory daoId,
         string memory projectId,

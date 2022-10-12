@@ -207,6 +207,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             hasRole(POLL_ADMIN_ROLE, msg.sender),
             "Caller is not a poll admin"
         );
+        //TODO: pollIdごとにフラグを設定できるようにする
         votingEnabled = _votingEnabled;
         emit VotingEnabled(pollId, votingEnabled);
     }
@@ -384,14 +385,18 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         for (uint256 c = 0; c < _candidates.length; c++) {
             candidatesAssessments[c] = new Assessment[](_votes.length);
             for (uint256 v = 0; v < _votes.length; v++) {
+                //評価観点が最新でないものはスキップ
                 if (_votes[v].perspectiveId != activePerspective) {
-                    //評価観点が最新でないものはスキップ
+                    continue;
+                }
+                //自分の評価はスキップ
+                if (_votes[v].voter == _candidates[c]) {
                     continue;
                 }
 
                 candidatesAssessments[c][v] = Assessment({
                     voter: _votes[v].voter,
-                    candidate: _candidates[c],
+                    contributor: _candidates[c],
                     perspectiveId: activePerspective,
                     points: _votes[v].points[c],
                     comment: _votes[v].comments[c],

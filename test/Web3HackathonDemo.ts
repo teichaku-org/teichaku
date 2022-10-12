@@ -252,18 +252,22 @@ describe("Web3Hachathon Demo Scenario", function () {
 
             await poll.settleCurrentPollAndCreateNewPoll()
             const history = await daoHistory.getDaoHistory("demo", "season1")
+            const assessments = await daoHistory.getDaoAssessments("demo", "season1")
 
             // pollId = 6の投票結果を見る
             const otherAccount2History = history.filter((h) => h.contributor === otherAccount2.address && h.pollId.toNumber() == 6)
+            const otherAccount2Assessment = assessments.filter((h) => h.contributor === otherAccount2.address && h.pollId.toNumber() == 6)
+
+            // 貢献した回数は1件
             expect(otherAccount2History.length).to.equal(1);
             // どんな貢献をしたのか
             expect(otherAccount2History[0].contributionText).to.equal("遊んで暮らしてました😆");
 
-            // スコアがどうだったのか
-            expect(otherAccount2History[0].score.map(x => x.toString())).to.equal(["5", "5", "5"]);
+            // 評価は2人から受けている (自分の評価は含まれない)
+            expect(otherAccount2Assessment.length).to.equal(2);
 
             // コメントがどうだったか
-            //expect(otherAccount2History[0].comment).to.equal("コメント１");
+            expect(otherAccount2Assessment[0].comment).to.equal("もっと頑張れ");
 
         })
     });

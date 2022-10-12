@@ -321,11 +321,7 @@ export default async (daoHistory: DAOHistory) => {
             roles: [item.roles],
             timestamp: item.timestamp,
             contributor: item.contributor,
-            pollId: item.pollId,
-            score: {
-                scores: [createRandomScore(), createRandomScore(), createRandomScore()],
-                perspectiveId: 1
-            }
+            pollId: item.pollId
         };
         await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
 
