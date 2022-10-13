@@ -1,6 +1,6 @@
 import { Paper } from "@mantine/core"
 
-export default () => {
+export const MetaMaskLoginCard = () => {
 
     return <Paper shadow="xl" p="lg">
         テスト
