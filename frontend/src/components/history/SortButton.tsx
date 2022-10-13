@@ -12,7 +12,9 @@ export function SortButton() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Button>Toggle menu</Button>
+        <Button variant="subtle" color="gray" radius="lg">
+          Sort
+        </Button>
       </Menu.Target>
 
       <Menu.Dropdown>

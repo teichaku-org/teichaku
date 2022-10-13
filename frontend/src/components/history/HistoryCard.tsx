@@ -3,11 +3,13 @@ import {
   Badge,
   createStyles,
   Paper,
+  Spoiler,
   Text,
   ThemeIcon,
   useMantineTheme,
 } from "@mantine/core";
 import { IconCoin } from "@tabler/icons";
+import { MouseEventHandler, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -45,6 +47,7 @@ interface HistoryCardProps {
   reward: string;
   roles: string[];
   timestamp: string;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
 const jobColors: Record<string, string> = {
@@ -56,10 +59,11 @@ const jobColors: Record<string, string> = {
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
-  const { contributionText, reward, roles, timestamp } = props;
+  const { contributionText, reward, roles, timestamp, onClick } = props;
   const theme = useMantineTheme();
+
   return (
-    <Paper withBorder radius="md" className={classes.card}>
+    <Paper withBorder radius="md" className={classes.card} onClick={onClick}>
       <div
         css={css`
           display: flex;
@@ -77,8 +81,6 @@ export function HistoryCard(props: HistoryCardProps) {
           component="span"
           align="center"
           color={theme.colorScheme === "dark" ? "white" : "black"}
-          // variant="gradient"
-          // gradient={{ from: "blue", to: "grape", deg: 40 }}
           size="xl"
           weight={700}
           style={{ fontFamily: "Greycliff CF, sans-serif" }}
@@ -124,7 +126,25 @@ export function HistoryCard(props: HistoryCardProps) {
           overflow: hidden;
         `}
       >
-        {contributionText}
+        <Spoiler
+          maxHeight={30}
+          showLabel={
+            <Text size="md" mt="md" color="blue">
+              Show more
+            </Text>
+          }
+          hideLabel={
+            <Text size="md" mt="md" color="blue">
+              Hide
+            </Text>
+          }
+          transitionDuration={0}
+          onClick={() => {
+            return false;
+          }}
+        >
+          {contributionText}
+        </Spoiler>
       </Text>
       <Text
         size="sm"

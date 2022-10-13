@@ -12,6 +12,8 @@ import { HistoryCard } from "./HistoryCard";
 import { HistoryTitle } from "./HistoryTitle";
 import { IconMessageCircle, IconSettings } from "@tabler/icons";
 import { SortButton } from "./SortButton";
+import { HistoryDrawer } from "./HistoryDrawer";
+import { Filter } from "./Filter";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -101,6 +103,7 @@ export function HistoryList({ data }: TableSortProps) {
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -140,6 +143,7 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp}
+        onClick={() => setOpened(true)}
       />
     </div>
   ));
@@ -151,13 +155,14 @@ export function HistoryList({ data }: TableSortProps) {
         margin: auto;
       `}
     >
-      <div
+      <HistoryDrawer opened={opened} onClose={() => setOpened(false)} />
+      {/* <div
         css={css`
           text-align: center;
         `}
       >
         <HistoryTitle />
-      </div>
+      </div> */}
       <div
         css={css`
           display: flex;
@@ -173,6 +178,7 @@ export function HistoryList({ data }: TableSortProps) {
         >
           <span style={{ fontSize: "30px" }}>{rows.length}</span>件
         </Text>
+        <Filter />
         <SortButton />
       </div>
       {rows.length > 0 ? (
