@@ -1,5 +1,6 @@
 import { Button, Container, createStyles, Header, ThemeIcon } from '@mantine/core';
 import { IconCoin, IconLogout } from '@tabler/icons';
+import { AppMenu } from './AppMenu';
 
 const HEADER_HEIGHT = 84;
 
@@ -41,10 +42,7 @@ export function AppHeader() {
                     DAO History
                 </div>
 
-
-                <Button radius="xl" sx={{ height: 30 }}>
-                    Get early access
-                </Button>
+                <AppMenu />
             </Container>
         </Header>
     );

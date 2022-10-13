@@ -129,6 +129,7 @@ export function HistoryList({ data }: TableSortProps) {
 
   const rows = sortedData.map((row, index) => (
     <div
+      key={index}
       css={css`
         margin: 20px;
       `}
