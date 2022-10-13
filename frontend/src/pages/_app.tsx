@@ -39,14 +39,7 @@ const MyApp = ({ Component, pageProps }: any) => {
       >
         <AppShell
           padding="md"
-          navbar={<AppNavbar />}
-          aside={
-            <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-              <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-                <Text>Application sidebar</Text>
-              </Aside>
-            </MediaQuery>
-          }
+          navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
           header={<AppHeader />}
           styles={(theme) => ({
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },

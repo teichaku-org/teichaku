@@ -23,5 +23,5 @@ const Home = () => {
 };
 
 Home.noNeedWallet = true
-
+Home.noNavbar = true
 export default Home;
