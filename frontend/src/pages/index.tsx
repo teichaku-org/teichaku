@@ -2,7 +2,7 @@ import { Button } from "@mantine/core";
 import type { NextPage } from "next";
 import Link from "next/link";
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <div>
       <div>
@@ -21,5 +21,7 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+Home.noNeedWallet = true
 
 export default Home;
