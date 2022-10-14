@@ -82,7 +82,7 @@ export function HeroTitle() {
                 </h1>
 
                 <Text className={classes.description} color="dimmed">
-                    Decentrized evaluation and reward system that is friendly to newcomers and core members.
+                    Decentrized fully DAO systems that are friendly to newcomers and core members.
                 </Text>
 
                 <Group className={classes.controls}>
