@@ -45,12 +45,12 @@ export const Problems = () => {
     const problems = [
         {
             title: "WHAT THE FUCK IS THE DAO DOING?",
-            solutionTitle: "It records the contributions that DAO members have made so far and helps newcomers to understand DAO.",
-            solutionName: "DAO History is recorded on blockchain.",
+            solutionTitle: "All Contributions that DAO members have made so far is recorded and helps newcomers to understand DAO.",
+            solutionName: "The history of DAO is recorded on blockchain.",
         },
         {
-            title: "The hurdles are too high!",
-            solutionTitle: "Contributor rewards are determined by a 360-degree evaluation by DAO members.",
+            title: "The hurdle to join is too high!",
+            solutionTitle: "Rewards for contributors are determined by a 360-degree evaluation voting by DAO members and you can get rewards just by submitting the vote. It's very easy to participate in.",
             solutionName: "You can get rewards just by voting.",
         },
         {
