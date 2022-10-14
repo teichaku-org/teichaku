@@ -26,6 +26,7 @@ export const getContract = (contractAddress: string, abi: any) => {
 
 export default () => {
     const [address, setAddress] = useState("")
+
     const getSignerAddress = async () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum)
         const signer = provider.getSigner()
@@ -48,6 +49,10 @@ export default () => {
 
 
     useEffect(() => {
+        if (!("ethereum" in window)) {
+            console.warn("MetaMask Plugin not found");
+            return;
+        }
         getSignerAddress();
         (window as any).ethereum.on('accountsChanged', (accounts: any) => {
             // If user has locked/logout from MetaMask, this resets the accounts array to empty
