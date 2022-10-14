@@ -1,3 +1,4 @@
+import { AppInfo } from '@/constants/AppInfo';
 import { createStyles, Container, Group, ActionIcon, UnstyledButton, Button } from '@mantine/core';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons';
 import { AppLogo } from './AppLogo';
@@ -35,7 +36,7 @@ export function AppFooter() {
             <Container className={classes.inner}>
 
                 <Group spacing={0} className={classes.links} position="right" noWrap>
-                    <Button variant='subtle'>
+                    <Button variant='subtle' component="a" href={AppInfo.inqueryUrl}>
                         Contact us
                     </Button>
                     <ActionIcon size="lg" component="a" href="https://twitter.com/yuno_miyako2">

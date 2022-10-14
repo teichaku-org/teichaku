@@ -9,6 +9,5 @@ export const AppMenu = () => {
         <Menu.Dropdown>
             <NavbarLinks />
         </Menu.Dropdown>
-
     </Menu>
 }
