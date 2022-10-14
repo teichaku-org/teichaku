@@ -2,6 +2,9 @@ import { createStyles, Text, SimpleGrid, Container } from '@mantine/core';
 import { IconTruck, IconCertificate, IconCoin, TablerIcon } from '@tabler/icons';
 
 const useStyles = createStyles((theme) => ({
+    inner: {
+        paddingBottom: 120,
+    },
     feature: {
         position: 'relative',
         paddingTop: theme.spacing.xl,
@@ -80,13 +83,13 @@ const mockdata = [
 ];
 
 export function Features() {
+    const { classes, cx } = useStyles();
     const items = mockdata.map((item) => <Feature {...item} key={item.title} />);
 
     return (
-        <Container mt={30} mb={30} size="lg">
+        <Container mt={30} mb={30} size="lg" className={classes.inner}>
             <h2>
-
-                <Text variant='gradient' gradient={{ from: "blue", to: "grape" }} >DAO History System in a nutshell</Text>
+                <Text variant='gradient' gradient={{ from: "blue", to: "grape" }} >Features in a nutshell</Text>
             </h2>
             <SimpleGrid cols={3} breakpoints={[{ maxWidth: 'sm', cols: 1 }]} spacing={50}>
                 {items}

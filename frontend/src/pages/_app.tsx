@@ -1,7 +1,8 @@
+import { AppFooter } from "@/components/common/AppFooter";
 import { AppHeader } from "@/components/common/AppHeader";
 import { AppNavbar } from "@/components/common/AppNavbar";
 import { MetamaskCheck } from "@/components/web3/common/MetamaskCheck";
-import { AppShell, Aside, MantineProvider, MediaQuery, Text } from "@mantine/core";
+import { AppShell, Aside, Container, MantineProvider, MediaQuery, Text } from "@mantine/core";
 import dynamic from 'next/dynamic';
 import NetworkCheck from '../components/web3/common/NetworkCheck';
 
@@ -41,6 +42,7 @@ const MyApp = ({ Component, pageProps }: any) => {
           padding="md"
           navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
           header={<AppHeader />}
+          footer={<AppFooter />}
           styles={(theme) => ({
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
           })}
@@ -50,7 +52,10 @@ const MyApp = ({ Component, pageProps }: any) => {
             <MetamaskCheck />
             <NetworkCheck />
           </>}
-          <Component {...pageProps} />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+
         </AppShell>
       </MantineProvider>
     </div>
