@@ -41,7 +41,7 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
 
 export const NavbarLinks = () => {
     const data = [
-        { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'DAO overviews', path: "/overview" },
+        { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'DAO Overviews', path: "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: "/history" },
         { icon: <IconMessages size={16} />, color: 'violet', label: 'Poll', path: "/poll" },
         { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: "/assessments" },
