@@ -1,7 +1,7 @@
 import useMetaMask from '@/hooks/web3/useMetaMask';
 import { Button, Container, createStyles, Header, ThemeIcon } from '@mantine/core';
 import { IconCoin, IconLogout } from '@tabler/icons';
-import ConnectWallet from '../web3/login/ConnectWallet';
+import { ConnectWallet } from '../web3/login/ConnectWallet';
 import { AppLogo } from './AppLogo';
 import { AppMenu } from './AppMenu';
 
