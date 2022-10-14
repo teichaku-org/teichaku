@@ -22,7 +22,7 @@ export function SortButton() {
           color="gray"
           radius="lg"
         >
-          貢献度が高い
+          並び替え
         </Button>
       </Menu.Target>
 

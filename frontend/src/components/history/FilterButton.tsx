@@ -19,7 +19,7 @@ export function FilterButton() {
           color="gray"
           radius="lg"
         >
-          全てのロール
+          ロールで絞り込み
         </Button>
       </Menu.Target>
 

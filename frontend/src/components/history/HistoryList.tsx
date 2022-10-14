@@ -174,7 +174,7 @@ export function HistoryList({ data }: TableSortProps) {
           align="left"
           color={theme.colorScheme === "dark" ? "white" : "black"}
         >
-          <span style={{ fontSize: "30px" }}>{rows.length}</span>件
+          <span style={{ fontSize: "25px" }}>{rows.length}</span>件
         </Text>
         <div
           css={css`
@@ -182,8 +182,8 @@ export function HistoryList({ data }: TableSortProps) {
             display: flex;
           `}
         >
-          <FilterButton />
           <SortButton />
+          <FilterButton />
         </div>
       </div>
       {rows.length > 0 ? (
