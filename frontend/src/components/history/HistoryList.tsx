@@ -178,8 +178,15 @@ export function HistoryList({ data }: TableSortProps) {
         >
           <span style={{ fontSize: "30px" }}>{rows.length}</span>件
         </Text>
-        <Filter />
-        <SortButton />
+        <div
+          css={css`
+            margin-left: auto;
+            display: flex;
+          `}
+        >
+          <Filter />
+          <SortButton />
+        </div>
       </div>
       {rows.length > 0 ? (
         rows
