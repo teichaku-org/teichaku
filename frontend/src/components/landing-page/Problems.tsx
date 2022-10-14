@@ -49,7 +49,7 @@ export const Problems = () => {
             solutionName: "The history of DAO is recorded on blockchain.",
         },
         {
-            title: "The hurdle to join is too high!",
+            title: "The hurdle to get rewards is too high!",
             solutionTitle: "Rewards for contributors are determined by a 360-degree evaluation voting by DAO members and you can get rewards just by submitting the vote. It's very easy to participate in.",
             solutionName: "You can get rewards just by voting.",
         },
