@@ -1,3 +1,4 @@
+import { AppInfo } from '@/constants/AppInfo';
 import { createStyles, Container, Text, Button, Group } from '@mantine/core';
 
 const BREAKPOINT = '@media (max-width: 755px)';
@@ -101,6 +102,7 @@ export function HeroTitle() {
                         size="xl"
                         variant="default"
                         className={classes.control}
+                        href={AppInfo.inqueryUrl}
                     >
                         Contact Us
                     </Button>
