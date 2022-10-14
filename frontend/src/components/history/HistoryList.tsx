@@ -9,11 +9,9 @@ import {
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
-import { HistoryTitle } from "./HistoryTitle";
-import { IconMessageCircle, IconSettings } from "@tabler/icons";
 import { SortButton } from "./SortButton";
 import { HistoryDrawer } from "./HistoryDrawer";
-import { Filter } from "./Filter";
+import { FilterButton } from "./FilterButton";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -184,7 +182,7 @@ export function HistoryList({ data }: TableSortProps) {
             display: flex;
           `}
         >
-          <Filter />
+          <FilterButton />
           <SortButton />
         </div>
       </div>

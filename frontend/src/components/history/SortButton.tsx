@@ -6,21 +6,30 @@ import {
   IconMessageCircle,
   IconTrash,
   IconArrowsLeftRight,
+  IconSortAscending,
+  IconFilter,
+  IconSortAscending2,
+  IconArrowsSort,
 } from "@tabler/icons";
 
 export function SortButton() {
   return (
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Button variant="subtle" color="gray" radius="lg">
-          Sort
+        <Button
+          leftIcon={<IconArrowsSort />}
+          variant="subtle"
+          color="gray"
+          radius="lg"
+        >
+          貢献度が高い
         </Button>
       </Menu.Target>
 
       <Menu.Dropdown>
         <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
-        <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
+        <Menu.Item icon={<IconSettings size={14} />}>貢献度が高い</Menu.Item>
+        <Menu.Item icon={<IconMessageCircle size={14} />}>簡単な貢献</Menu.Item>
         <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>
         <Menu.Item
           icon={<IconSearch size={14} />}
@@ -36,10 +45,6 @@ export function SortButton() {
         <Menu.Label>Danger zone</Menu.Label>
         <Menu.Item icon={<IconArrowsLeftRight size={14} />}>
           Transfer my data
-        </Menu.Item>
-        ,
-        <Menu.Item color="red" icon={<IconTrash size={14} />}>
-          Delete my account
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
