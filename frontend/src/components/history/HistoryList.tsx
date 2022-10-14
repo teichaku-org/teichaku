@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import {
+  Button,
   createStyles,
-  Table,
-  ScrollArea,
-  UnstyledButton,
-  Group,
+  Menu,
   Text,
-  Center,
-  TextInput,
+  useMantineTheme,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
-import {
-  IconSelector,
-  IconChevronDown,
-  IconChevronUp,
-  IconSearch,
-} from "@tabler/icons";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
-import { HistoryTitle } from "./HistoryTitle";
+import { SortButton } from "./SortButton";
+import { HistoryDrawer } from "./HistoryDrawer";
+import { FilterButton } from "./FilterButton";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -54,36 +47,6 @@ interface RowData {
 
 interface TableSortProps {
   data: RowData[];
-}
-
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
-
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const { classes } = useStyles();
-  const Icon = sorted
-    ? reversed
-      ? IconChevronUp
-      : IconChevronDown
-    : IconSelector;
-  return (
-    <th className={classes.th}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-        <Group position="apart">
-          <Text weight={500} size="sm">
-            {children}
-          </Text>
-          <Center className={classes.icon}>
-            <Icon size={14} stroke={1.5} />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </th>
-  );
 }
 
 function filterData(data: RowData[], search: string) {
@@ -137,6 +100,8 @@ export function HistoryList({ data }: TableSortProps) {
   const [sortedData, setSortedData] = useState<RowData[]>([]);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const theme = useMantineTheme();
+  const [opened, setOpened] = useState(false);
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -176,6 +141,7 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp}
+        onClick={() => setOpened(true)}
       />
     </div>
   ));
@@ -187,12 +153,38 @@ export function HistoryList({ data }: TableSortProps) {
         margin: auto;
       `}
     >
-      <div
+      <HistoryDrawer opened={opened} onClose={() => setOpened(false)} />
+      {/* <div
         css={css`
           text-align: center;
         `}
       >
         <HistoryTitle />
+      </div> */}
+      <div
+        css={css`
+          display: flex;
+          justify-content: space-between;
+          margin-left: 20px;
+          margin-right: 20px;
+        `}
+      >
+        <Text
+          size="xl"
+          align="left"
+          color={theme.colorScheme === "dark" ? "white" : "black"}
+        >
+          <span style={{ fontSize: "25px" }}>{rows.length}</span>件
+        </Text>
+        <div
+          css={css`
+            margin-left: auto;
+            display: flex;
+          `}
+        >
+          <SortButton />
+          <FilterButton />
+        </div>
       </div>
       {rows.length > 0 ? (
         rows

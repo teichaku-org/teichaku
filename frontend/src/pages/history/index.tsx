@@ -13,7 +13,7 @@ const History: NextPage = () => {
   return (
     <div
       css={css`
-        margin: 32px 5%;
+        margin: 5px;
       `}
     >
       <HistoryList data={daoHistory} />
