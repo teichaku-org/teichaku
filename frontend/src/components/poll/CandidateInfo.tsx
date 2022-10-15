@@ -29,7 +29,7 @@ export const CandidateInfo = (props: Props) => {
         `}>{props.candidate.contributionText}</Text>
         <p>
             {props.candidate.evidences.map((evidence) =>
-                <a target="_blank" href={evidence}>{shortenUrl(evidence)}</a>)}
+                <a key={evidence} rel="noopener noreferrer" target="_blank" href={evidence}>{shortenUrl(evidence)}</a>)}
         </p>
     </div>
 }

@@ -12,6 +12,7 @@ export const RoleBadge = ({ roles }: { roles: string[] }) => {
     const theme = useMantineTheme();
     return <> {roles.map((role, index) => (
         <Badge
+            key={role}
             color={jobColors[role]}
             variant={theme.colorScheme === "dark" ? "light" : "outline"}
             size="lg"
