@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { IconCoin } from "@tabler/icons";
 import { MouseEventHandler, useState } from "react";
+import { RoleBadge } from "../common/RoleBadge";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -50,12 +51,7 @@ interface HistoryCardProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-const jobColors: Record<string, string> = {
-  開発者: "blue",
-  マーケター: "orange",
-  デザイナー: "green",
-  プロダクトマネージャー: "grape",
-};
+
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
@@ -100,20 +96,7 @@ export function HistoryCard(props: HistoryCardProps) {
           </span>
         </Text>
       </div>
-      {roles.map((role, index) => (
-        <>
-          <Badge
-            color={jobColors[role]}
-            variant={theme.colorScheme === "dark" ? "light" : "outline"}
-            size="lg"
-            css={css`
-              margin-right: 5px;
-            `}
-          >
-            {role}
-          </Badge>
-        </>
-      ))}
+      <RoleBadge roles={roles} />
       <Text
         size="xl"
         weight={500}
