@@ -63,7 +63,13 @@ export function HistoryCard(props: HistoryCardProps) {
   const theme = useMantineTheme();
 
   return (
-    <Paper withBorder radius="md" className={classes.card} onClick={onClick}>
+    <Paper
+      withBorder
+      radius="md"
+      p="lg"
+      className={classes.card}
+      onClick={onClick}
+    >
       <div
         css={css`
           display: flex;
@@ -115,36 +121,19 @@ export function HistoryCard(props: HistoryCardProps) {
         </>
       ))}
       <Text
-        size="xl"
+        size="lg"
         weight={500}
         mt="md"
         color={theme.colorScheme === "dark" ? "white" : "black"}
         css={css`
           margin-right: 5px;
-          white-space: pre-wrap;
+          max-height: 25px;
+          /* white-space: pre-wrap; */
           text-overflow: ellipsis;
           overflow: hidden;
         `}
       >
-        <Spoiler
-          maxHeight={30}
-          showLabel={
-            <Text size="md" mt="md" color="blue">
-              Show more
-            </Text>
-          }
-          hideLabel={
-            <Text size="md" mt="md" color="blue">
-              Hide
-            </Text>
-          }
-          transitionDuration={0}
-          onClick={() => {
-            return false;
-          }}
-        >
-          {contributionText}
-        </Spoiler>
+        {contributionText}
       </Text>
       <Text
         size="sm"
