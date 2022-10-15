@@ -1,20 +1,9 @@
 import { Menu, Button, Text } from "@mantine/core";
-import {
-  IconSettings,
-  IconSearch,
-  IconPhoto,
-  IconMessageCircle,
-  IconTrash,
-  IconArrowsLeftRight,
-  IconSortAscending,
-  IconFilter,
-  IconSortAscending2,
-  IconArrowsSort,
-} from "@tabler/icons";
+import { IconArrowsSort, IconCircleCheck } from "@tabler/icons";
 
 export function SortButton() {
   return (
-    <Menu shadow="md" width={200}>
+    <Menu shadow="md" width={200} withArrow>
       <Menu.Target>
         <Button
           leftIcon={<IconArrowsSort />}
@@ -27,25 +16,10 @@ export function SortButton() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>貢献度が高い</Menu.Item>
-        <Menu.Item icon={<IconMessageCircle size={14} />}>簡単な貢献</Menu.Item>
-        <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>
-        <Menu.Item
-          icon={<IconSearch size={14} />}
-          rightSection={
-            <Text size="xs" color="dimmed">
-              ⌘K
-            </Text>
-          }
-        >
-          Search
+        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
+          大きな貢献順
         </Menu.Item>
-        <Menu.Divider />
-        <Menu.Label>Danger zone</Menu.Label>
-        <Menu.Item icon={<IconArrowsLeftRight size={14} />}>
-          Transfer my data
-        </Menu.Item>
+        <Menu.Item>小さな貢献順</Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );
