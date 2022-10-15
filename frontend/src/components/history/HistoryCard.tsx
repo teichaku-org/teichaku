@@ -63,7 +63,13 @@ export function HistoryCard(props: HistoryCardProps) {
   const theme = useMantineTheme();
 
   return (
-    <Paper withBorder radius="md" className={classes.card} onClick={onClick}>
+    <Paper
+      withBorder
+      radius="md"
+      p="lg"
+      className={classes.card}
+      onClick={onClick}
+    >
       <div
         css={css`
           display: flex;
