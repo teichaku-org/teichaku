@@ -95,18 +95,21 @@ export type DetailPollItemStruct = {
   contributions: ContributionItemStruct[];
   voters: PromiseOrValue<string>[];
   startTimeStamp: PromiseOrValue<BigNumberish>;
+  perspectives: PromiseOrValue<string>[];
 };
 
 export type DetailPollItemStructOutput = [
   BigNumber,
   ContributionItemStructOutput[],
   string[],
-  BigNumber
+  BigNumber,
+  string[]
 ] & {
   pollId: BigNumber;
   contributions: ContributionItemStructOutput[];
   voters: string[];
   startTimeStamp: BigNumber;
+  perspectives: string[];
 };
 
 export interface PollInterface extends utils.Interface {

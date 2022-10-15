@@ -42,7 +42,7 @@ const MyApp = ({ Component, pageProps }: any) => {
           padding="md"
           navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
           header={<AppHeader />}
-          footer={<AppFooter />}
+          footer={Component.noNavbar ? <AppFooter /> : undefined}
           styles={(theme) => ({
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
           })}

@@ -69,7 +69,7 @@ export default async function setupDeploy() {
         [
             "ビジョンの実現に貢献している",
             "トークン価値の向上に寄与している",
-            "他の人を助けている"
+            "仕事量が多い"
         ]
     )
 

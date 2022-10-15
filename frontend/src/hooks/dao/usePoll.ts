@@ -1,3 +1,4 @@
+import { Candidate } from "@/domains/Candidate";
 import { DAOHistory, Poll } from "@/types";
 import { AssessmentStructOutput, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
 import { DetailPollItemStructOutput } from "@/types/Poll";
@@ -15,6 +16,10 @@ export default () => {
     const [activePollId, setActivePollId] = useState<number | undefined>(undefined);
     const [pollDetail, setPollDetail] = useState<DetailPollItemStructOutput | undefined>(undefined);
     const { address } = useMetaMask();
+    //TODO: ブロックチェーンから値を取る
+    const [contributorReward, setContributorReward] = useState<number>(7000);
+    const [voterReward, setVoterReward] = useState<number>(3000);
+    const [isEligibleToVote, setIsEligibleToVote] = useState(true);
 
     //TODO: DAOごとにPollのアドレスが違うので動的に取得する
     const contractAddress = process.env
@@ -59,7 +64,6 @@ export default () => {
         _loadPollDetail()
     }
 
-
     const _pollDetail = pollDetail ? {
         pollId: pollDetail.pollId.toNumber(),
         contributions: pollDetail.contributions.map((c) => {
@@ -69,13 +73,21 @@ export default () => {
                 evidences: c.evidences,
                 roles: c.roles,
             };
-        }),
+        }) as Candidate[],
         voters: pollDetail.voters,
+        alreadyVoted: pollDetail.voters.includes(address),
+        alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
         timestamp: new Date(Number(pollDetail.startTimeStamp) * 1000).toLocaleString(),
+        perspectives: pollDetail.perspectives
     } : undefined
 
     return {
         pollDetail: _pollDetail,
-        load
+        load,
+        contributorReward,
+        voterReward,
+        vote: contractWithSigner.functions.vote,
+        settleCurrentPollAndCreateNewPoll: contractWithSigner.functions.settleCurrentPollAndCreateNewPoll,
+        candidateToPoll: contractWithSigner.functions.candidateToCurrentPoll,
     };
 };
