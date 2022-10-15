@@ -19,7 +19,7 @@ export function FilterButton() {
 
       <Menu.Dropdown>
         <Menu.Item>
-          <Checkbox label="全てのロール" />
+          <Checkbox label="全て" checked />
         </Menu.Item>
         <Menu.Item>
           <Checkbox label="開発者" />
