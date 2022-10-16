@@ -12,7 +12,6 @@ import useMetaMask, {
 
 export default () => {
 
-    const [perspectives, setPerspectives] = useState<string[]>([]);
     const [activePollId, setActivePollId] = useState<number | undefined>(undefined);
     const [pollDetail, setPollDetail] = useState<DetailPollItemStructOutput | undefined>(undefined);
     const { address } = useMetaMask();
@@ -42,12 +41,6 @@ export default () => {
         }
     }, [activePollId]);
 
-    const _loadPerspective = async () => {
-        if (activePollId) {
-            const res = await contract.functions.getPerspectives(activePollId);
-            setPerspectives(res[0]);
-        }
-    }
 
     const _loadPollDetail = async () => {
         if (activePollId) {
@@ -60,7 +53,6 @@ export default () => {
     }
 
     const load = async () => {
-        _loadPerspective()
         _loadPollDetail()
     }
 
@@ -77,7 +69,8 @@ export default () => {
         voters: pollDetail.voters,
         alreadyVoted: pollDetail.voters.includes(address),
         alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
-        timestamp: new Date(Number(pollDetail.startTimeStamp) * 1000).toLocaleString(),
+        startTimeStamp: new Date(Number(pollDetail.startTimeStamp) * 1000),
+        endTimeStamp: new Date(Number(pollDetail.endTimeStamp) * 1000),
         perspectives: pollDetail.perspectives
     } : undefined
 
