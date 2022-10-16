@@ -13,6 +13,10 @@ import "./interface/DAOEvents.sol";
 import "./struct/PollItem.sol";
 import "./struct/DAOHistoryItem.sol";
 
+//for dev
+import "hardhat/console.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+
 struct Vote {
     address voter;
     address[] candidates;
@@ -52,6 +56,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // DAO History address
     address public daoHistoryAddress;
 
+    // TODO: 記法を統一する
     // 投票はDAO NFTをREQUIRED_TOKEN_FOR_VOTEよりも多く保持しているアドレスのみ可能
     // Voting is only possible for addresses that hold more than REQUIRED_TOKEN_FOR_VOTE DAO NFT
     uint256 public REQUIRED_TOKEN_FOR_VOTE = 0;
@@ -87,6 +92,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // 投票の開始時間
     // Start-time of polls
     mapping(int256 => uint256) public startTimeStamp;
+
+    // 投票期間
+    // Voting duration
+    uint256 public votingDuration = 7 days;
 
     // 投票の終了時間
     // End-time of polls
@@ -172,6 +181,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         CONTRIBUTOR_ASSIGNMENT_TOKEN = _contributorAssignmentToken;
     }
 
+    //TODO: supporterではなくvoterに変更する
     /**
      * @notice Set SUPPORTER_ASSIGNMENT_TOKEN
      * @dev only poll admin can set SUPPORTER_ASSIGNMENT_TOKEN
@@ -210,6 +220,21 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         //TODO: pollIdごとにフラグを設定できるようにする
         votingEnabled = _votingEnabled;
         emit VotingEnabled(pollId, votingEnabled);
+    }
+
+    /**
+     * @notice Set Voting Duration
+     * @dev only poll admin can set Voting Duration
+     */
+    function setVotingDuration(int256 pollId, uint256 _votingDuration)
+        external
+    {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Caller is not a poll admin"
+        );
+        votingDuration = _votingDuration;
+        endTimeStamp[pollId] = startTimeStamp[pollId] + _votingDuration;
     }
 
     /**
@@ -369,7 +394,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * @notice Settle the current poll and aggregate the result
      */
     function _settleContributionPoll() internal {
-        //FIX: 最新のpollIdではなく、指定したpollIdを使うようにする
+        // TODO: 最新のpollIdではなく、指定したpollIdを使うようにする
         // Add up votes for each candidate
         address[] memory _candidates = candidates[currentMexPollId];
         Vote[] memory _votes = votes[currentMexPollId];
@@ -476,6 +501,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     function _createContributionPoll() internal {
         currentMexPollId++;
         startTimeStamp[currentMexPollId] = block.timestamp;
+        endTimeStamp[currentMexPollId] = block.timestamp + votingDuration;
         emit CreatePoll(currentMexPollId);
     }
 
@@ -592,7 +618,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         //voters
         address[] memory _voters = getVoters(_pollId);
         //start time
-        uint256 timestamp = startTimeStamp[_pollId];
+        uint256 startTimeStamp = startTimeStamp[_pollId];
+        //start time
+        uint256 endTimeStamp = endTimeStamp[_pollId];
         //current perspectives
         string[] memory _perspectives = getCurrentPerspectives();
 
@@ -601,7 +629,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             _pollId,
             _contributions,
             _voters,
-            timestamp,
+            startTimeStamp,
+            endTimeStamp,
             _perspectives
         );
         return _detailPoll;
