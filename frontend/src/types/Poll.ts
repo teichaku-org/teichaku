@@ -95,18 +95,24 @@ export type DetailPollItemStruct = {
   contributions: ContributionItemStruct[];
   voters: PromiseOrValue<string>[];
   startTimeStamp: PromiseOrValue<BigNumberish>;
+  endTimeStamp: PromiseOrValue<BigNumberish>;
+  perspectives: PromiseOrValue<string>[];
 };
 
 export type DetailPollItemStructOutput = [
   BigNumber,
   ContributionItemStructOutput[],
   string[],
-  BigNumber
+  BigNumber,
+  BigNumber,
+  string[]
 ] & {
   pollId: BigNumber;
   contributions: ContributionItemStructOutput[];
   voters: string[];
   startTimeStamp: BigNumber;
+  endTimeStamp: BigNumber;
+  perspectives: string[];
 };
 
 export interface PollInterface extends utils.Interface {
@@ -156,6 +162,7 @@ export interface PollInterface extends utils.Interface {
     "setRequiredTokenForVote(uint256)": FunctionFragment;
     "setSupporterAssignmentToken(uint256)": FunctionFragment;
     "setVoteMaxPoint(uint256)": FunctionFragment;
+    "setVotingDuration(int256,uint256)": FunctionFragment;
     "setVotingEnabled(int256,bool)": FunctionFragment;
     "settleCurrentPollAndCreateNewPoll()": FunctionFragment;
     "startTimeStamp(int256)": FunctionFragment;
@@ -164,6 +171,7 @@ export interface PollInterface extends utils.Interface {
     "unpause()": FunctionFragment;
     "vote(int256,address[],uint256[][],string[])": FunctionFragment;
     "votes(int256,uint256)": FunctionFragment;
+    "votingDuration()": FunctionFragment;
     "votingEnabled()": FunctionFragment;
   };
 
@@ -214,6 +222,7 @@ export interface PollInterface extends utils.Interface {
       | "setRequiredTokenForVote"
       | "setSupporterAssignmentToken"
       | "setVoteMaxPoint"
+      | "setVotingDuration"
       | "setVotingEnabled"
       | "settleCurrentPollAndCreateNewPoll"
       | "startTimeStamp"
@@ -222,6 +231,7 @@ export interface PollInterface extends utils.Interface {
       | "unpause"
       | "vote"
       | "votes"
+      | "votingDuration"
       | "votingEnabled"
   ): FunctionFragment;
 
@@ -395,6 +405,10 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setVotingDuration",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVotingEnabled",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<boolean>]
   ): string;
@@ -427,6 +441,10 @@ export interface PollInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "votes",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "votingDuration",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "votingEnabled",
@@ -578,6 +596,10 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setVotingDuration",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setVotingEnabled",
     data: BytesLike
   ): Result;
@@ -600,6 +622,10 @@ export interface PollInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vote", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "votes", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "votingDuration",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "votingEnabled",
     data: BytesLike
@@ -977,6 +1003,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setVotingDuration(
+      pollId: PromiseOrValue<BigNumberish>,
+      _votingDuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setVotingEnabled(
       pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
@@ -1021,6 +1053,8 @@ export interface Poll extends BaseContract {
     ): Promise<
       [string, BigNumber] & { voter: string; perspectiveId: BigNumber }
     >;
+
+    votingDuration(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     votingEnabled(overrides?: CallOverrides): Promise<[boolean]>;
   };
@@ -1208,6 +1242,12 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setVotingDuration(
+    pollId: PromiseOrValue<BigNumberish>,
+    _votingDuration: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setVotingEnabled(
     pollId: PromiseOrValue<BigNumberish>,
     _votingEnabled: PromiseOrValue<boolean>,
@@ -1250,6 +1290,8 @@ export interface Poll extends BaseContract {
     arg1: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<[string, BigNumber] & { voter: string; perspectiveId: BigNumber }>;
+
+  votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
 
   votingEnabled(overrides?: CallOverrides): Promise<boolean>;
 
@@ -1433,6 +1475,12 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setVotingDuration(
+      pollId: PromiseOrValue<BigNumberish>,
+      _votingDuration: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setVotingEnabled(
       pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
@@ -1473,6 +1521,8 @@ export interface Poll extends BaseContract {
     ): Promise<
       [string, BigNumber] & { voter: string; perspectiveId: BigNumber }
     >;
+
+    votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
 
     votingEnabled(overrides?: CallOverrides): Promise<boolean>;
   };
@@ -1748,6 +1798,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setVotingDuration(
+      pollId: PromiseOrValue<BigNumberish>,
+      _votingDuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setVotingEnabled(
       pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
@@ -1790,6 +1846,8 @@ export interface Poll extends BaseContract {
       arg1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
 
     votingEnabled(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -1982,6 +2040,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setVotingDuration(
+      pollId: PromiseOrValue<BigNumberish>,
+      _votingDuration: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setVotingEnabled(
       pollId: PromiseOrValue<BigNumberish>,
       _votingEnabled: PromiseOrValue<boolean>,
@@ -2024,6 +2088,8 @@ export interface Poll extends BaseContract {
       arg1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    votingDuration(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     votingEnabled(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

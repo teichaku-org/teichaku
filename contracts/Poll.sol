@@ -593,13 +593,16 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         address[] memory _voters = getVoters(_pollId);
         //start time
         uint256 timestamp = startTimeStamp[_pollId];
+        //current perspectives
+        string[] memory _perspectives = getCurrentPerspectives();
 
         // DetailPollItemを作成
         DetailPollItem memory _detailPoll = DetailPollItem(
             _pollId,
             _contributions,
             _voters,
-            timestamp
+            timestamp,
+            _perspectives
         );
         return _detailPoll;
     }

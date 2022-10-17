@@ -1,3 +1,4 @@
+import { Candidate } from "@/domains/Candidate";
 import { DAOHistory, Poll } from "@/types";
 import { AssessmentStructOutput, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
 import { DetailPollItemStructOutput } from "@/types/Poll";
@@ -11,10 +12,13 @@ import useMetaMask, {
 
 export default () => {
 
-    const [perspectives, setPerspectives] = useState<string[]>([]);
     const [activePollId, setActivePollId] = useState<number | undefined>(undefined);
     const [pollDetail, setPollDetail] = useState<DetailPollItemStructOutput | undefined>(undefined);
     const { address } = useMetaMask();
+    //TODO: ブロックチェーンから値を取る
+    const [contributorReward, setContributorReward] = useState<number>(7000);
+    const [voterReward, setVoterReward] = useState<number>(3000);
+    const [isEligibleToVote, setIsEligibleToVote] = useState(true);
 
     //TODO: DAOごとにPollのアドレスが違うので動的に取得する
     const contractAddress = process.env
@@ -37,12 +41,6 @@ export default () => {
         }
     }, [activePollId]);
 
-    const _loadPerspective = async () => {
-        if (activePollId) {
-            const res = await contract.functions.getPerspectives(activePollId);
-            setPerspectives(res[0]);
-        }
-    }
 
     const _loadPollDetail = async () => {
         if (activePollId) {
@@ -55,10 +53,8 @@ export default () => {
     }
 
     const load = async () => {
-        _loadPerspective()
         _loadPollDetail()
     }
-
 
     const _pollDetail = pollDetail ? {
         pollId: pollDetail.pollId.toNumber(),
@@ -69,13 +65,22 @@ export default () => {
                 evidences: c.evidences,
                 roles: c.roles,
             };
-        }),
+        }) as Candidate[],
         voters: pollDetail.voters,
-        timestamp: new Date(Number(pollDetail.startTimeStamp) * 1000).toLocaleString(),
+        alreadyVoted: pollDetail.voters.includes(address),
+        alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
+        startTimeStamp: new Date(Number(pollDetail.startTimeStamp) * 1000),
+        endTimeStamp: new Date(Number(pollDetail.endTimeStamp) * 1000),
+        perspectives: pollDetail.perspectives
     } : undefined
 
     return {
         pollDetail: _pollDetail,
-        load
+        load,
+        contributorReward,
+        voterReward,
+        vote: contractWithSigner.functions.vote,
+        settleCurrentPollAndCreateNewPoll: contractWithSigner.functions.settleCurrentPollAndCreateNewPoll,
+        candidateToPoll: contractWithSigner.functions.candidateToCurrentPoll,
     };
 };
