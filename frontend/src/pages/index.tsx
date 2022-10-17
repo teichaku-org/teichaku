@@ -1,16 +1,19 @@
 import { Features } from "@/components/landing-page/Features";
 import { HeroTitle } from "@/components/landing-page/HeroTitle";
 import { Problems } from "@/components/landing-page/Problems";
+import { Container } from "@mantine/core";
 
 const Home = () => {
   return (
     <div>
-      <HeroTitle />
-      <Problems />
+      <Container>
+        <HeroTitle />
+        <Problems />
+      </Container>
     </div>
   );
 };
 
-Home.noNeedWallet = true
-Home.noNavbar = true
+Home.noNeedWallet = true;
+Home.noNavbar = true;
 export default Home;
