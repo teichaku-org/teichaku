@@ -18,12 +18,11 @@ export default async function setupDeploy() {
     await daoHistory.deployed();
     console.log("DAOHistory deployed to:", daoHistory.address);
 
-    // Pollのデプロイ
-    const Poll = await ethers.getContractFactory("Poll");
-    const poll = await Poll.deploy("demo", "season1");
-    await poll.deployed();
+    // Pollの取得
+    await daoHistory.addDao("demo", "season1", "demo season1", "demo season1 description", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
+    const pollAddress = await daoHistory.pollAddress("demo", "season1");
+    const poll = await ethers.getContractAt("Poll", pollAddress);
     console.log("Poll deployed to:", poll.address);
-
 
     // HistoryNFTのデプロイ
     const HistoryNFT = await ethers.getContractFactory("HistoryNFT");
@@ -52,10 +51,8 @@ export default async function setupDeploy() {
 
     // TODO: NFT化コントラクトが作成するNFTのアドレスを登録
 
-
     // Pollが利用するToken, DaoHistory, 投票のために必要なNFTの設定
     await poll.setDaoTokenAddress(token.address);
-    await poll.setDaoHistoryAddress(daoHistory.address);
     await poll.setNftAddress(daonft.address)
 
     // Pollの締め切りができる権限をownerに持たせる
@@ -72,10 +69,6 @@ export default async function setupDeploy() {
             "仕事量が多い"
         ]
     )
-
-    // DaoHistoryへのアクセス権を追加する
-    await daoHistory.setupAddHistoryRole(owner.address)
-    await daoHistory.setupAddHistoryRole(poll.address)
 
     // TODO: NFTのbaseURLを設定する
 

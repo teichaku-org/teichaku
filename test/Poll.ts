@@ -11,8 +11,17 @@ describe("Poll", function () {
         // Contracts are deployed using the first signer/account by default
         const [owner, otherAccount, otherAccount2, otherAccount3] = await ethers.getSigners();
 
-        const Poll = await ethers.getContractFactory("Poll");
-        const poll = await Poll.deploy("demo", "season1");
+        // DaoHistoryのデプロイ
+        const DaoHistory = await ethers.getContractFactory("DAOHistory");
+        const daoHistory = await DaoHistory.deploy();
+        await daoHistory.deployed();
+        console.log("DAOHistory deployed to:", daoHistory.address);
+
+        // Pollの取得
+        await daoHistory.addDao("demo", "season1", "demo season1", "demo season1 description", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
+        const pollAddress = await daoHistory.pollAddress("demo", "season1");
+        const poll = await ethers.getContractAt("Poll", pollAddress);
+        console.log("Poll deployed to:", poll.address);
 
         // Deploy Token
         const EnglisterToken = await ethers.getContractFactory("DAOToken");
@@ -25,17 +34,11 @@ describe("Poll", function () {
         const DaoNft = await ethers.getContractFactory("DAONFT");
         const nft = await DaoNft.deploy(NAME, SYMBOL);
 
-        // Deploy DAO History
-        const DaoHistory = await ethers.getContractFactory("DAOHistory");
-        const daoHistory = await DaoHistory.deploy();
-
-
         // 権限設定
         await poll.setPollAdminRole(owner.address);
         await token.setupMinterRole(poll.address);
         await poll.setDaoTokenAddress(token.address);
         await poll.setNftAddress(nft.address);
-        await poll.setDaoHistoryAddress(daoHistory.address);
         await daoHistory.setupAddHistoryRole(poll.address);
 
         //設定値

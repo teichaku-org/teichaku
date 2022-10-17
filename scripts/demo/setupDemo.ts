@@ -12,6 +12,11 @@ async function setupDemo(
     otherAccount2: SignerWithAddress,
     daoHistory: DAOHistory,
     poll: Poll) {
+
+    // テストデータ追加のためDaoHistoryへのアクセス権を追加する
+    await daoHistory.setupAddHistoryRole(owner.address)
+
+
     // Tokenの発行
     await token.mint(owner.address, ethers.utils.parseEther("500"));
     await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
