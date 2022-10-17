@@ -3,12 +3,7 @@ import { AppHeader } from "@/components/common/AppHeader";
 import { AppNavbar } from "@/components/common/AppNavbar";
 import { MetamaskCheck } from "@/components/web3/common/MetamaskCheck";
 import {
-  AppShell,
-  Aside,
-  Container,
-  MantineProvider,
-  MediaQuery,
-  Text,
+  AppShell, MantineProvider
 } from "@mantine/core";
 import dynamic from "next/dynamic";
 import NetworkCheck from "../components/web3/common/NetworkCheck";
@@ -55,32 +50,17 @@ const MyApp = ({ Component, pageProps }: any) => {
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
           })}
         >
-          <AppShell
-            padding="md"
-            navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
-            header={<AppHeader />}
-            footer={<AppFooter />}
-            styles={(theme) => ({
-              main: {
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[8]
-                    : theme.colors.gray[0],
-              },
-            })}
-          >
-            {/* パスが/である場合は表示する */}
-            {!Component.noNeedWallet && (
-              <>
-                <MetamaskCheck />
-                <NetworkCheck />
-              </>
-            )}
-            <Component {...pageProps} />
-          </AppShell>
-        </MantineProvider>
-      </div>
-    );
+          {/* パスが/である場合は表示する */}
+          {!Component.noNeedWallet && (
+            <>
+              <MetamaskCheck />
+              <NetworkCheck />
+            </>
+          )}
+          <Component {...pageProps} />
+        </AppShell>
+      </MantineProvider>
+    </div>
   };
 
   return (

@@ -2,6 +2,7 @@ pragma solidity ^0.8.9;
 import "./struct/DAOHistoryItem.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Poll.sol";
 
 contract DAOHistory is AccessControl, Ownable {
     mapping(string => mapping(string => DAOHistoryItem[])) histories;
@@ -37,7 +38,10 @@ contract DAOHistory is AccessControl, Ownable {
         projects[0] = projectId;
         daoInfo[daoId] = DAOInfo(name, description, website, logo, projects);
 
-        //TODO: pollコントラクトを作成する
+        //pollコントラクトを作成する
+        Poll poll = new Poll(daoId, projectId);
+        this.setupAddHistoryRole(address(poll));
+
         return true;
     }
 
