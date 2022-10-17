@@ -9,7 +9,6 @@ const History: NextPage = () => {
   if (!daoHistory) return <div>loading...</div>;
   if (daoHistory.length === 0) return <div>no data</div>;
 
-  console.log({ daoHistory });
   return (
     <div
       css={css`

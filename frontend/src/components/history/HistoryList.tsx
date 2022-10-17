@@ -135,7 +135,7 @@ export function HistoryList({ data }: TableSortProps) {
         contributionText={row.contributionText}
         reward={String(Math.round(row.reward))}
         roles={row.roles}
-        timestamp={row.timestamp.toString()}
+        timestamp={row.timestamp.toLocaleString()}
         onClick={() => setOpened(!opened)}
       />
     </div>
