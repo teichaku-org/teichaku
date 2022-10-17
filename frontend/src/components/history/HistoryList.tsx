@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import {
-  Button,
+  Container,
   createStyles,
-  Menu,
+  Divider,
+  Paper,
   Text,
   useMantineTheme,
 } from "@mantine/core";
@@ -10,7 +11,6 @@ import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
 import { SortButton } from "./SortButton";
-import { HistoryDrawer } from "./HistoryDrawer";
 import { FilterButton } from "./FilterButton";
 
 const useStyles = createStyles((theme) => ({
@@ -141,62 +141,77 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp}
-        onClick={() => setOpened(true)}
+        onClick={() => setOpened(!opened)}
       />
     </div>
   ));
 
   return (
+    // <Container>
     <div
       css={css`
-        width: 90%;
-        margin: auto;
+        width: 100%;
+        display: flex;
       `}
     >
-      <HistoryDrawer opened={opened} onClose={() => setOpened(false)} />
-      {/* <div
-        css={css`
-          text-align: center;
-        `}
-      >
-        <HistoryTitle />
-      </div> */}
       <div
-        css={css`
-          display: flex;
-          justify-content: space-between;
-          margin-left: 20px;
-          margin-right: 20px;
-        `}
+        css={
+          opened
+            ? css`
+                width: 60%;
+              `
+            : css`
+                max-width: 1000px;
+                margin: auto;
+              `
+        }
       >
-        <Text
-          size="xl"
-          align="left"
-          color={theme.colorScheme === "dark" ? "white" : "black"}
-        >
-          <span style={{ fontSize: "25px" }}>{rows.length}</span>件
-        </Text>
         <div
           css={css`
-            margin-left: auto;
             display: flex;
+            justify-content: space-between;
+            margin-left: 20px;
+            margin-right: 20px;
           `}
         >
-          <SortButton />
-          <FilterButton />
+          <Text
+            size="xl"
+            align="left"
+            color={theme.colorScheme === "dark" ? "white" : "black"}
+          >
+            <span style={{ fontSize: "25px" }}>{rows.length}</span>件
+          </Text>
+          <div
+            css={css`
+              margin-left: auto;
+              display: flex;
+            `}
+          >
+            <SortButton />
+            <FilterButton />
+          </div>
         </div>
+        {rows.length > 0 ? (
+          <div>{rows}</div>
+        ) : (
+          <tr>
+            <td colSpan={Object.keys(data[0]).length}>
+              <Text weight={500} align="center">
+                Nothing found
+              </Text>
+            </td>
+          </tr>
+        )}
       </div>
-      {rows.length > 0 ? (
-        rows
-      ) : (
-        <tr>
-          <td colSpan={Object.keys(data[0]).length}>
-            <Text weight={500} align="center">
-              Nothing found
-            </Text>
-          </td>
-        </tr>
+      {opened && (
+        <>
+          <Divider orientation="vertical" />
+          <Container>
+            <Paper>aaaaaa</Paper>
+          </Container>
+        </>
       )}
     </div>
+    // </Container>
   );
 }
