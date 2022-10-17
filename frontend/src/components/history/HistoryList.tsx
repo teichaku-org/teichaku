@@ -12,6 +12,8 @@ import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
 import { SortButton } from "./SortButton";
 import { FilterButton } from "./FilterButton";
+import { SingleAssessment } from "../assessment/SingleAssessment";
+import { DaoHistory } from "@/domains/DaoHistory";
 
 const useStyles = createStyles((theme) => ({
   th: {
@@ -37,14 +39,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface RowData {
-  contributionText: string;
-  reward: number;
-  roles: string[];
-  timestamp: string;
-  contributor: string;
-}
-
+type RowData = DaoHistory
 interface TableSortProps {
   data: RowData[];
 }
@@ -140,7 +135,7 @@ export function HistoryList({ data }: TableSortProps) {
         contributionText={row.contributionText}
         reward={String(Math.round(row.reward))}
         roles={row.roles}
-        timestamp={row.timestamp}
+        timestamp={row.timestamp.toString()}
         onClick={() => setOpened(!opened)}
       />
     </div>
@@ -207,7 +202,7 @@ export function HistoryList({ data }: TableSortProps) {
         <>
           <Divider orientation="vertical" />
           <Container>
-            <Paper>aaaaaa</Paper>
+            <SingleAssessment />
           </Container>
         </>
       )}
