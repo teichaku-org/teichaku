@@ -1,5 +1,5 @@
 import { DAOHistory } from "@/types";
-import { AssessmentStructOutput, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
+import { AssessmentStructOutput, DAOHistoryItemStructOutput, DAOInfoStructOutput } from "@/types/DAOHistory";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
@@ -15,6 +15,7 @@ export default () => {
   const [assessments, setAssessments] = useState<AssessmentStructOutput[]>(
     []
   );
+  const [daoInfo, setDaoInfo] = useState<DAOInfoStructOutput>();
   const { address } = useMetaMask();
 
   const contractAddress = process.env
@@ -32,6 +33,9 @@ export default () => {
     });
     contract.functions.getDaoAssessments("demo", "season1").then((res) => {
       setAssessments(res[0]);
+    });
+    contract.functions.getDaoInfo("demo").then((res) => {
+      setDaoInfo(res[0]);
     });
   }, [address]);
 
