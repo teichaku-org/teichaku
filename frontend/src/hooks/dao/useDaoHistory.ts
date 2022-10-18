@@ -29,7 +29,7 @@ export default () => {
     artifact.abi
   ) as DAOHistory;
 
-  useEffect(() => {
+  const load = async () => {
     contract.functions.getDaoHistory(daoId, projectId).then((res) => {
       const _daoHistory = res[0].map((d) => {
         return {
@@ -38,6 +38,7 @@ export default () => {
           roles: d.roles,
           timestamp: new Date(Number(d.timestamp) * 1000),
           contributor: d.contributor,
+          pollId: Number(d.pollId)
         };
       });
       setDaoHistory(_daoHistory);
@@ -58,11 +59,12 @@ export default () => {
     contract.functions.getDaoInfo(daoId).then((res) => {
       setDaoInfo(res[0]);
     });
-  }, [daoId, projectId]);
-
+  }
 
   return {
     daoHistory,
     assessments,
+    daoInfo,
+    load
   };
 };
