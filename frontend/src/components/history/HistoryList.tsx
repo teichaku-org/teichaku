@@ -104,6 +104,8 @@ export function HistoryList({ data }: TableSortProps) {
     pdm: true,
   });
 
+  const [filterObjRoles, setFilterObjRoles] = useState({});
+
   const handleFilterChecks = (role: string) => {
     switch (role) {
       case "開発者":
@@ -175,6 +177,16 @@ export function HistoryList({ data }: TableSortProps) {
         search: "",
       })
     );
+
+    //NOTE 型の付け方が分からなかったので一旦anyにした
+    const obj: any = { 全て: false };
+    data.forEach((dao) => {
+      dao.roles.forEach((role) => {
+        obj[role] = false;
+      });
+    });
+    console.log(obj);
+    setFilterObjRoles(obj);
   }, []);
 
   //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
@@ -269,9 +281,7 @@ export function HistoryList({ data }: TableSortProps) {
       {opened && (
         <>
           <Divider orientation="vertical" />
-          <Container>
-
-          </Container>
+          <Container></Container>
         </>
       )}
     </div>
