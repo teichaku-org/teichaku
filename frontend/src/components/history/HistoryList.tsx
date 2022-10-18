@@ -202,7 +202,7 @@ export function HistoryList({ data }: TableSortProps) {
         <>
           <Divider orientation="vertical" />
           <Container>
-            <SingleAssessment />
+
           </Container>
         </>
       )}
