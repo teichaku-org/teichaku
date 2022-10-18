@@ -73,6 +73,7 @@ function sortData(
   );
 }
 
+//TODO 不要になる
 export type FilterChecks = {
   all: boolean;
   dev: boolean;
@@ -80,6 +81,10 @@ export type FilterChecks = {
   marketer: boolean;
   pdm: boolean;
 };
+
+export interface DirectionArray {
+  [index: string]: boolean;
+}
 
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
@@ -94,6 +99,7 @@ export function HistoryList({ data }: TableSortProps) {
   const opened = selectedContribution !== undefined;
   const [filterRoles, setFilterRoles] = useState(Object.values(roles));
 
+  //TODO 不要になる
   const [filterChecks, setFilterChecks] = useState<FilterChecks>({
     all: true,
     dev: true,
@@ -102,7 +108,7 @@ export function HistoryList({ data }: TableSortProps) {
     pdm: true,
   });
 
-  const [filterObjRoles, setFilterObjRoles] = useState({});
+  const [filterObjRoles, setFilterObjRoles] = useState<DirectionArray>({});
 
   const handleFilterChecks = (role: string) => {
     switch (role) {
@@ -124,6 +130,7 @@ export function HistoryList({ data }: TableSortProps) {
   };
 
   const handleFilterRoles = (role: string) => {
+    setFilterObjRoles({ ...filterObjRoles, [role]: !filterObjRoles[role] });
     if (role === "全て") {
       //全てのチェックが選択されている時は全て外す
       if (Object.values(roles).length === filterRoles.length) {
@@ -177,14 +184,14 @@ export function HistoryList({ data }: TableSortProps) {
     );
 
     //NOTE 型の付け方が分からなかったので一旦anyにした
-    const obj: any = { 全て: false };
+    const roles: DirectionArray = { 全て: true };
     data.forEach((dao) => {
       dao.roles.forEach((role) => {
-        obj[role] = false;
+        roles[role] = true;
       });
     });
-    console.log(obj);
-    setFilterObjRoles(obj);
+    console.log(roles);
+    setFilterObjRoles(roles);
   }, []);
 
   //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
@@ -266,6 +273,7 @@ export function HistoryList({ data }: TableSortProps) {
             <FilterButton
               handleFilterRoles={handleFilterRoles}
               filterChecks={filterChecks}
+              roles={filterObjRoles}
             />
           </div>
         </div>

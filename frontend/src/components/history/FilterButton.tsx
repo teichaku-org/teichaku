@@ -1,11 +1,12 @@
 import { Menu, Button, Checkbox } from "@mantine/core";
 import { IconFilter } from "@tabler/icons";
 import { useState } from "react";
-import { FilterChecks } from "./HistoryList";
+import { DirectionArray, FilterChecks } from "./HistoryList";
 
 interface Props {
   handleFilterRoles: (role: string) => void;
   filterChecks: FilterChecks;
+  roles: DirectionArray;
 }
 
 export const roles = {
@@ -15,8 +16,8 @@ export const roles = {
   pdm: "プロダクトマネージャー",
 };
 
-export function FilterButton(prop: Props) {
-  const { handleFilterRoles, filterChecks } = prop;
+export function FilterButton(props: Props) {
+  const { handleFilterRoles, filterChecks, roles } = props;
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
@@ -36,21 +37,13 @@ export function FilterButton(prop: Props) {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item onClick={() => handleFilterRoles("全て")}>
-          <Checkbox label="全て" checked={filterChecks.all} />
-        </Menu.Item>
-        <Menu.Item onClick={() => handleFilterRoles(roles.dev)}>
-          <Checkbox label={roles.dev} checked={filterChecks.dev} />
-        </Menu.Item>
-        <Menu.Item onClick={() => handleFilterRoles(roles.designer)}>
-          <Checkbox label={roles.designer} checked={filterChecks.designer} />
-        </Menu.Item>
-        <Menu.Item onClick={() => handleFilterRoles(roles.marketer)}>
-          <Checkbox label={roles.marketer} checked={filterChecks.marketer} />
-        </Menu.Item>
-        <Menu.Item onClick={() => handleFilterRoles(roles.pdm)}>
-          <Checkbox label={roles.pdm} checked={filterChecks.pdm} />
-        </Menu.Item>
+        {Object.keys(roles).map((key) => {
+          return (
+            <Menu.Item key={key} onClick={() => handleFilterRoles(key)}>
+              <Checkbox label={key} checked={roles[key]} />
+            </Menu.Item>
+          );
+        })}
       </Menu.Dropdown>
     </Menu>
   );
