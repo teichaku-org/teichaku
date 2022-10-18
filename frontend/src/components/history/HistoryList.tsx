@@ -218,7 +218,7 @@ export function HistoryList({ data }: TableSortProps) {
         css={
           opened
             ? css`
-                width: 60%;
+                width: calc(100% - 300px);
               `
             : css`
                 width: 100%;

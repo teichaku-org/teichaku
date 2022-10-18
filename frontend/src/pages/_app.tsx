@@ -43,6 +43,7 @@ const MyApp = ({ Component, pageProps }: any) => {
       >
         <AppShell
           padding="md"
+          navbarOffsetBreakpoint={"lg"}
           navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
           header={<AppHeader />}
           footer={Component.noNavbar ? <AppFooter /> : undefined}
