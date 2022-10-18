@@ -317,7 +317,7 @@ export default async (daoHistory: DAOHistory) => {
     }
 
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
         const randomContributor = uniqueContributors[Math.floor(Math.random() * uniqueContributors.length)]
         const randomVoter = uniqueContributors[Math.floor(Math.random() * uniqueContributors.length)]
         const randomComment = "コメント" + i
