@@ -1,3 +1,5 @@
+import { Assessment } from "@/domains/Assessment";
+import { DaoHistory } from "@/domains/DaoHistory";
 import { DAOHistory } from "@/types";
 import { AssessmentStructOutput, DAOHistoryItemStructOutput, DAOInfoStructOutput } from "@/types/DAOHistory";
 import { ethers } from "ethers";
@@ -39,23 +41,23 @@ export default () => {
     });
   }, [address]);
 
-  const _daoHistory = daoHistory.map((d) => {
+  const _daoHistory: DaoHistory[] = daoHistory.map((d) => {
     return {
       contributionText: d.contributionText,
       reward: Number(ethers.utils.formatEther(d.reward)),
       roles: d.roles,
-      timestamp: new Date(Number(d.timestamp) * 1000).toLocaleString(),
+      timestamp: new Date(Number(d.timestamp) * 1000),
       contributor: d.contributor,
     };
   });
-  const _assessments = assessments.map((d) => {
+  const _assessments: Assessment[] = assessments.map((d) => {
     return {
       voter: d.voter,
       contributor: d.contributor,
       points: d.points.map(p => p.toNumber()),
       comment: d.comment,
-      perspectiveId: d.perspectiveId,
-      pollId: d.pollId
+      perspectiveId: d.perspectiveId.toNumber(),
+      pollId: d.pollId.toNumber()
     };
   });
   return {
