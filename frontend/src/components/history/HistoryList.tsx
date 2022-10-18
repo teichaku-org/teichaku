@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Container,
-  createStyles,
   Divider,
   Paper,
   Text,
@@ -11,37 +10,27 @@ import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
 import { SortButton } from "./SortButton";
-import { FilterButton } from "./FilterButton";
+import { FilterButton, roles } from "./FilterButton";
 import { SingleAssessment } from "../assessment/SingleAssessment";
 import { DaoHistory } from "@/domains/DaoHistory";
 
-const useStyles = createStyles((theme) => ({
-  th: {
-    padding: "0 !important",
-  },
-
-  control: {
-    width: "100%",
-    padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-  },
-
-  icon: {
-    width: 21,
-    height: 21,
-    borderRadius: 21,
-  },
-}));
-
-type RowData = DaoHistory
+type RowData = DaoHistory;
 interface TableSortProps {
   data: RowData[];
+}
+
+function getIsDuplicate(arr1: string[], arr2: string[]) {
+  return (
+    [...arr1, ...arr2].filter(
+      (item) => arr1.includes(item) && arr2.includes(item)
+    ).length > 0
+  );
+}
+
+function filterByRole(data: RowData[], filterRoles: string[]) {
+  return data.filter((item) => {
+    return getIsDuplicate(item.roles, filterRoles);
+  });
 }
 
 function filterData(data: RowData[], search: string) {
@@ -90,6 +79,14 @@ function sortData(
   );
 }
 
+export type FilterChecks = {
+  all: boolean;
+  dev: boolean;
+  designer: boolean;
+  marketer: boolean;
+  pdm: boolean;
+};
+
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
@@ -97,20 +94,76 @@ export function HistoryList({ data }: TableSortProps) {
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+  const [filterRoles, setFilterRoles] = useState(Object.values(roles));
+  const [filterChecks, setFilterChecks] = useState<FilterChecks>({
+    all: true,
+    dev: true,
+    designer: true,
+    marketer: true,
+    pdm: true,
+  });
+
+  const handleFilterChecks = (role: string) => {
+    switch (role) {
+      case "開発者":
+        setFilterChecks({ ...filterChecks, dev: !filterChecks.dev });
+        return;
+      case "デザイナー":
+        setFilterChecks({ ...filterChecks, designer: !filterChecks.designer });
+        return;
+      case "マーケター":
+        setFilterChecks({ ...filterChecks, marketer: !filterChecks.marketer });
+        return;
+      case "プロダクトマネージャー":
+        setFilterChecks({ ...filterChecks, pdm: !filterChecks.pdm });
+        return;
+      default:
+        console.error(`Sorry, we are out of ${role}.`);
+    }
+  };
+
+  const handleFilterRoles = (role: string) => {
+    if (role === "全て") {
+      //全てのチェックが選択されている時は全て外す
+      if (Object.values(roles).length === filterRoles.length) {
+        setFilterRoles([]);
+        setFilterChecks({
+          all: false,
+          dev: false,
+          designer: false,
+          marketer: false,
+          pdm: false,
+        });
+        return;
+      }
+      //全てのチェックが外れている時は全てチェックをつける
+      setFilterRoles(Object.values(roles));
+      setFilterChecks({
+        all: true,
+        dev: true,
+        designer: true,
+        marketer: true,
+        pdm: true,
+      });
+      return;
+    }
+    //フィルターにロールが含まれている時はそれを外す
+    if (filterRoles.includes(role)) {
+      const newFilterRoles = filterRoles.filter((item) => item !== role);
+      setFilterRoles(newFilterRoles);
+      handleFilterChecks(role);
+      return;
+    }
+    //フィルターにロールが含まれていない時は加える
+    setFilterRoles([...filterRoles, role]);
+    handleFilterChecks(role);
+  };
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
     setSortBy(field);
     setSortedData(sortData(data, { sortBy: field, reversed, search }));
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget;
-    setSearch(value);
-    setSortedData(
-      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
-    );
   };
 
   useEffect(() => {
@@ -122,6 +175,17 @@ export function HistoryList({ data }: TableSortProps) {
       })
     );
   }, []);
+
+  //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
+  useEffect(() => {
+    setSortedData(
+      sortData(filterByRole(data, filterRoles), {
+        sortBy: "reward",
+        reversed: true,
+        search: "",
+      })
+    );
+  }, [filterRoles]);
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -142,7 +206,6 @@ export function HistoryList({ data }: TableSortProps) {
   ));
 
   return (
-    // <Container>
     <div
       css={css`
         width: 100%;
@@ -156,6 +219,7 @@ export function HistoryList({ data }: TableSortProps) {
                 width: 60%;
               `
             : css`
+                width: 100%;
                 max-width: 1000px;
                 margin: auto;
               `
@@ -183,7 +247,10 @@ export function HistoryList({ data }: TableSortProps) {
             `}
           >
             <SortButton />
-            <FilterButton />
+            <FilterButton
+              handleFilterRoles={handleFilterRoles}
+              filterChecks={filterChecks}
+            />
           </div>
         </div>
         {rows.length > 0 ? (
@@ -201,12 +268,9 @@ export function HistoryList({ data }: TableSortProps) {
       {opened && (
         <>
           <Divider orientation="vertical" />
-          <Container>
-            <SingleAssessment />
-          </Container>
+          <Container>{/* <SingleAssessment /> */}</Container>
         </>
       )}
     </div>
-    // </Container>
   );
 }
