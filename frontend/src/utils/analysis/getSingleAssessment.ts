@@ -6,6 +6,7 @@ export const getSingleAssessment = (
     perspectives: string[],
     contributor: string,
     pollId: number) => {
+    console.log({ assessments })
     const assessment = assessments.find(a => a.contributor === contributor && a.pollId === pollId);
     const samePollAssessments = assessments.filter(a => a.pollId === pollId);
     let result = []
