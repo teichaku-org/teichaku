@@ -30,7 +30,7 @@ export default () => {
     ) as Poll;
 
     useEffect(() => {
-        contract.functions.currentMexPollId().then((res) => {
+        contract.functions.currentMaxPollId().then((res) => {
             setActivePollId(res[0].toNumber());
         });
     }, []);

@@ -2,16 +2,14 @@ import { Assessment } from "@/domains/Assessment";
 import { AssessmentListAtom } from "@/domains/atoms/AssessmentListAtom";
 import { DaoHistoryListAtom } from "@/domains/atoms/DaoHistoryListAtom";
 import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom";
-import { DaoHistory } from "@/domains/DaoHistory";
 import { DAOHistory } from "@/types";
-import { AssessmentStructOutput, DAOHistoryItemStructOutput, DAOInfoStructOutput } from "@/types/DAOHistory";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 import useMetaMask, {
   getContract,
-  getContractWithSigner,
+  getContractWithSigner
 } from "../web3/useMetaMask";
 
 export default () => {
