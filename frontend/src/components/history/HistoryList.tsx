@@ -183,7 +183,6 @@ export function HistoryList({ data }: TableSortProps) {
       })
     );
 
-    //NOTE 型の付け方が分からなかったので一旦anyにした
     const roles: DirectionArray = { 全て: true };
     data.forEach((dao) => {
       dao.roles.forEach((role) => {
