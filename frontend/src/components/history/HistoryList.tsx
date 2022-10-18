@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Container,
-  Divider,
-  Paper,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { Container, Divider, Text, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -93,7 +87,11 @@ export function HistoryList({ data }: TableSortProps) {
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
+  const [selectedContribution, setSelectedContribution] = useState<{
+    pollId: number;
+    contributor: string;
+  }>();
+  const opened = selectedContribution !== undefined;
   const [filterRoles, setFilterRoles] = useState(Object.values(roles));
 
   const [filterChecks, setFilterChecks] = useState<FilterChecks>({
@@ -213,7 +211,12 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() => setOpened(!opened)}
+        onClick={() =>
+          setSelectedContribution({
+            pollId: row.pollId,
+            contributor: row.contributor,
+          })
+        }
       />
     </div>
   ));
@@ -281,7 +284,12 @@ export function HistoryList({ data }: TableSortProps) {
       {opened && (
         <>
           <Divider orientation="vertical" />
-          <Container></Container>
+          <Container>
+            <SingleAssessment
+              pollId={selectedContribution.pollId}
+              contributor={selectedContribution.contributor}
+            />
+          </Container>
         </>
       )}
     </div>

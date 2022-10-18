@@ -1,19 +1,16 @@
+import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom";
 import { Candidate } from "@/domains/Candidate";
-import { DAOHistory, Poll } from "@/types";
-import { AssessmentStructOutput, DAOHistoryItemStructOutput } from "@/types/DAOHistory";
-import { DetailPollItemStructOutput } from "@/types/Poll";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { Poll } from "@/types";
+import { useAtom } from "jotai";
+import { useState } from "react";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import useMetaMask, {
     getContract,
-    getContractWithSigner,
+    getContractWithSigner
 } from "../web3/useMetaMask";
 
 export default () => {
-
-    const [activePollId, setActivePollId] = useState<number | undefined>(undefined);
-    const [pollDetail, setPollDetail] = useState<DetailPollItemStructOutput | undefined>(undefined);
+    const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
     const { address } = useMetaMask();
     //TODO: ブロックチェーンから値を取る
     const [contributorReward, setContributorReward] = useState<number>(7000);
@@ -29,54 +26,41 @@ export default () => {
         artifact.abi
     ) as Poll;
 
-    useEffect(() => {
-        contract.functions.currentMaxPollId().then((res) => {
-            setActivePollId(res[0].toNumber());
-        });
-    }, []);
-
-    useEffect(() => {
-        if (activePollId !== undefined) {
-            load();
-        }
-    }, [activePollId]);
-
-
-    const _loadPollDetail = async () => {
-        if (activePollId) {
-            const res = await contract.functions.getPollDetail(activePollId);
-            setPollDetail(res[0]);
-        } else {
-            throw new Error("activePollId is undefined");
-
-        }
+    const loadCurrentMaxPoll = async () => {
+        const currentMaxPollId = await contract.functions.currentMaxPollId()
+        const _pollDetail = await fetchPollDetail(currentMaxPollId[0].toNumber());
+        setPollDetail(_pollDetail);
     }
 
-    const load = async () => {
-        _loadPollDetail()
+
+    const fetchPollDetail = async (pollId: number) => {
+        const res = await contract.functions.getPollDetail(pollId);
+        const pollDetail = res[0];
+        const _pollDetail = {
+            pollId: pollDetail.pollId.toNumber(),
+            contributions: pollDetail.contributions.map((c) => {
+                return {
+                    contributor: c.contributor,
+                    contributionText: c.contributionText,
+                    evidences: c.evidences,
+                    roles: c.roles,
+                };
+            }) as Candidate[],
+            voters: pollDetail.voters,
+            alreadyVoted: pollDetail.voters.includes(address),
+            alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
+            startTimeStamp: new Date(Number(pollDetail.startTimeStamp) * 1000),
+            endTimeStamp: new Date(Number(pollDetail.endTimeStamp) * 1000),
+            perspectives: pollDetail.perspectives
+        }
+        return _pollDetail
     }
 
-    const _pollDetail = pollDetail ? {
-        pollId: pollDetail.pollId.toNumber(),
-        contributions: pollDetail.contributions.map((c) => {
-            return {
-                contributor: c.contributor,
-                contributionText: c.contributionText,
-                evidences: c.evidences,
-                roles: c.roles,
-            };
-        }) as Candidate[],
-        voters: pollDetail.voters,
-        alreadyVoted: pollDetail.voters.includes(address),
-        alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
-        startTimeStamp: new Date(Number(pollDetail.startTimeStamp) * 1000),
-        endTimeStamp: new Date(Number(pollDetail.endTimeStamp) * 1000),
-        perspectives: pollDetail.perspectives
-    } : undefined
 
     return {
-        pollDetail: _pollDetail,
-        load,
+        pollDetail,
+        loadCurrentMaxPoll,
+        fetchPollDetail,
         contributorReward,
         voterReward,
         vote: contractWithSigner.functions.vote,
