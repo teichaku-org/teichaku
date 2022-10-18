@@ -17,6 +17,12 @@ export function SortButton() {
 
       <Menu.Dropdown>
         <Menu.Item color="white" rightSection={<IconCircleCheck />}>
+          新しい順
+        </Menu.Item>
+        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
+          古い順
+        </Menu.Item>
+        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
           大きな貢献順
         </Menu.Item>
         <Menu.Item>小さな貢献順</Menu.Item>
