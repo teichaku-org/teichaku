@@ -42,7 +42,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
 
     // ContributionPoll Id
-    int256 public currentMexPollId = 0;
+    int256 public currentMaxPollId = 0;
 
     // 配布するDAOトークンのアドレス
     // DAO token address to distribute
@@ -248,10 +248,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         uint256 updateIndex = 999;
         for (
             uint256 index = 0;
-            index < candidates[currentMexPollId].length;
+            index < candidates[currentMaxPollId].length;
             index++
         ) {
-            if (candidates[currentMexPollId][index] == msg.sender) {
+            if (candidates[currentMaxPollId][index] == msg.sender) {
                 updateIndex = index;
             }
         }
@@ -259,24 +259,24 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         //TODO: get role info from NFT
 
         if (updateIndex == 999) {
-            candidates[currentMexPollId].push(msg.sender);
-            contributions[currentMexPollId].push(
+            candidates[currentMaxPollId].push(msg.sender);
+            contributions[currentMaxPollId].push(
                 ContributionItem(
                     contributionText,
                     evidences,
                     roles,
                     msg.sender,
-                    currentMexPollId
+                    currentMaxPollId
                 )
             );
         } else {
-            contributions[currentMexPollId][updateIndex]
+            contributions[currentMaxPollId][updateIndex]
                 .contributionText = contributionText;
-            contributions[currentMexPollId][updateIndex].evidences = evidences;
-            contributions[currentMexPollId][updateIndex].roles = roles;
+            contributions[currentMaxPollId][updateIndex].evidences = evidences;
+            contributions[currentMaxPollId][updateIndex].roles = roles;
         }
 
-        emit Candidated(currentMexPollId, msg.sender);
+        emit Candidated(currentMaxPollId, msg.sender);
     }
 
     /**
@@ -396,8 +396,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     function _settleContributionPoll() internal {
         // TODO: 最新のpollIdではなく、指定したpollIdを使うようにする
         // Add up votes for each candidate
-        address[] memory _candidates = candidates[currentMexPollId];
-        Vote[] memory _votes = votes[currentMexPollId];
+        address[] memory _candidates = candidates[currentMaxPollId];
+        Vote[] memory _votes = votes[currentMaxPollId];
         string[] memory _perspectives = perspectives[activePerspective];
 
         // candidateごとの集計データ
@@ -425,7 +425,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                     perspectiveId: activePerspective,
                     points: _votes[v].points[c],
                     comment: _votes[v].comments[c],
-                    pollId: currentMexPollId
+                    pollId: currentMaxPollId
                 });
 
                 for (uint256 p = 0; p < _perspectives.length; p++) {
@@ -444,7 +444,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         }
 
         uint256[] memory assignmentToken = new uint256[](
-            candidates[currentMexPollId].length
+            candidates[currentMaxPollId].length
         );
         if (totalPoints > 0) {
             for (uint256 index = 0; index < _candidates.length; index++) {
@@ -458,7 +458,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         }
 
         // Decide how much to distribute to Supporters
-        address[] memory _voters = getVoters(currentMexPollId);
+        address[] memory _voters = getVoters(currentMaxPollId);
         uint256 totalVoterCount = _voters.length;
         if (totalVoterCount > 0) {
             uint256 voterAssignmentToken = SafeMath.div(
@@ -468,13 +468,13 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             _mintTokenForSupporter(_voters, voterAssignmentToken);
         }
 
-        endTimeStamp[currentMexPollId] = block.timestamp;
+        endTimeStamp[currentMaxPollId] = block.timestamp;
 
         //集計結果をDAO Historyに保存する
         DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
         for (uint256 c = 0; c < _candidates.length; c++) {
             ContributionItem memory contributionItem = contributions[
-                currentMexPollId
+                currentMaxPollId
             ][c];
             DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
                 contributionText: contributionItem.contributionText,
@@ -482,7 +482,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 roles: contributionItem.roles,
                 timestamp: block.timestamp,
                 contributor: _candidates[c],
-                pollId: currentMexPollId
+                pollId: currentMaxPollId
             });
             daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
             daoHistory.addAssessment(
@@ -492,17 +492,17 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             );
         }
 
-        emit SettlePoll(currentMexPollId);
+        emit SettlePoll(currentMaxPollId);
     }
 
     /**
      * @notice start new poll
      */
     function _createContributionPoll() internal {
-        currentMexPollId++;
-        startTimeStamp[currentMexPollId] = block.timestamp;
-        endTimeStamp[currentMexPollId] = block.timestamp + votingDuration;
-        emit CreatePoll(currentMexPollId);
+        currentMaxPollId++;
+        startTimeStamp[currentMaxPollId] = block.timestamp;
+        endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
+        emit CreatePoll(currentMaxPollId);
     }
 
     /**
@@ -538,14 +538,14 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * @notice get the current poll's candidates
      */
     function getCurrentCandidates() public view returns (address[] memory) {
-        return candidates[currentMexPollId];
+        return candidates[currentMaxPollId];
     }
 
     /**
      * @notice get the current poll's votes
      */
     function getCurrentVotes() public view returns (Vote[] memory) {
-        return votes[currentMexPollId];
+        return votes[currentMaxPollId];
     }
 
     /**
@@ -589,11 +589,11 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
      * @notice get the current active poll information list
      */
     function getActivePolls() public view returns (AbstractPollItem[] memory) {
-        Vote[] memory _votes = votes[currentMexPollId];
-        address[] memory _candidates = candidates[currentMexPollId];
-        uint256 timestamp = startTimeStamp[currentMexPollId];
+        Vote[] memory _votes = votes[currentMaxPollId];
+        address[] memory _candidates = candidates[currentMaxPollId];
+        uint256 timestamp = startTimeStamp[currentMaxPollId];
         AbstractPollItem memory _polls = AbstractPollItem(
-            currentMexPollId,
+            currentMaxPollId,
             _votes.length,
             _candidates.length,
             timestamp

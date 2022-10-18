@@ -51,7 +51,7 @@ describe("Poll", function () {
     describe("Deployment", function () {
         it("poll Idの初期値は0", async function () {
             const { poll } = await loadFixture(deploy);
-            expect(await poll.currentMexPollId()).to.equal(0);
+            expect(await poll.currentMaxPollId()).to.equal(0);
         });
     });
 
@@ -59,7 +59,7 @@ describe("Poll", function () {
         it("Pollを終了すると、pollIdがインクリメントされる", async function () {
             const { poll } = await loadFixture(deploy);
             await poll.settleCurrentPollAndCreateNewPoll();
-            expect(await poll.currentMexPollId()).to.equal(1);
+            expect(await poll.currentMaxPollId()).to.equal(1);
         });
     });
 

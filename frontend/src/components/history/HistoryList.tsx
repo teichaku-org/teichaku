@@ -95,6 +95,7 @@ export function HistoryList({ data }: TableSortProps) {
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   const [filterRoles, setFilterRoles] = useState(Object.values(roles));
+
   const [filterChecks, setFilterChecks] = useState<FilterChecks>({
     all: true,
     dev: true,
@@ -268,7 +269,9 @@ export function HistoryList({ data }: TableSortProps) {
       {opened && (
         <>
           <Divider orientation="vertical" />
-          <Container>{/* <SingleAssessment /> */}</Container>
+          <Container>
+
+          </Container>
         </>
       )}
     </div>
