@@ -24,7 +24,7 @@ export const SingleAssessment = (props: Props) => {
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     return <div>
         {/* TODO: heightとwidthをウィンドウサイズから設定 */}
-        <div style={{ display: "flex", height: 400, width: 400 }}>
+        <div style={{ display: "flex", height: 300, width: 300 }}>
             <AssessmentRadar data={data} />
         </div>
     </div>
