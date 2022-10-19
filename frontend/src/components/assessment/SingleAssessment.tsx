@@ -46,7 +46,7 @@ export const SingleAssessment = (props: Props) => {
 
         {/* 貢献内容 */}
         <Paper p="md">
-            <Text size="xs" style={{ whiteSpace: "pre-wrap" }}>
+            <Text size="xs" style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
                 {contribution?.contributionText}
             </Text>
         </Paper>
