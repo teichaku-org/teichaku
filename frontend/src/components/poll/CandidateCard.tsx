@@ -1,4 +1,5 @@
 import { Candidate } from "@/domains/Candidate"
+import useDaoToken from "@/hooks/dao/useDaoToken"
 import { css } from "@emotion/react"
 import { Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
 import { IconCoin } from "@tabler/icons"
@@ -16,7 +17,7 @@ interface Props {
 }
 
 export const CandidateCard = (props: Props) => {
-
+    const { tokenSymbol } = useDaoToken()
     const options = [
         { value: "0", label: "🤔Umm...(0)" },
         { value: "1", label: "🙂OK(1)" },
@@ -84,7 +85,7 @@ export const CandidateCard = (props: Props) => {
                             margin-left: 5px;
                             `}
                         >
-                            coin
+                            {tokenSymbol}
                         </span>
                     </Text>
                 </Center>

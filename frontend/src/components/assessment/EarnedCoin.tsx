@@ -1,3 +1,4 @@
+import useDaoToken from "@/hooks/dao/useDaoToken"
 import { css } from "@emotion/react"
 import { ThemeIcon, Text, useMantineTheme } from "@mantine/core"
 import { IconCoin } from "@tabler/icons"
@@ -8,6 +9,7 @@ interface Props {
 
 export const EarnedCoin = (props: Props) => {
     const theme = useMantineTheme();
+    const { tokenSymbol } = useDaoToken()
     return <div
         css={css`
       display: flex;
@@ -40,7 +42,7 @@ export const EarnedCoin = (props: Props) => {
           margin-left: 5px;
         `}
             >
-                coin
+                {tokenSymbol}
             </span>
         </Text>
     </div>
