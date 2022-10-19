@@ -73,16 +73,7 @@ function sortData(
   );
 }
 
-//TODO 不要になる
-export type FilterChecks = {
-  all: boolean;
-  dev: boolean;
-  designer: boolean;
-  marketer: boolean;
-  pdm: boolean;
-};
-
-export interface DirectionArray {
+export interface FilterRoles {
   [index: string]: boolean;
 }
 
@@ -98,11 +89,11 @@ export function HistoryList({ data }: TableSortProps) {
   }>();
   const opened = selectedContribution !== undefined;
 
-  const [filterObjRoles, setFilterObjRoles] = useState<DirectionArray>({});
+  const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
 
   const handleFilterRoles = (role: string) => {
     if (role === "全て") {
-      const roles: DirectionArray = {};
+      const roles: FilterRoles = {};
       if (filterObjRoles["全て"]) {
         Object.keys(filterObjRoles).forEach((key) => {
           roles[key] = false;
@@ -138,7 +129,7 @@ export function HistoryList({ data }: TableSortProps) {
     );
 
     //ロールを抽出
-    const roles: DirectionArray = { 全て: true };
+    const roles: FilterRoles = { 全て: true };
     data.forEach((dao) => {
       dao.roles.forEach((role) => {
         roles[role] = true;

@@ -1,11 +1,11 @@
 import { Menu, Button, Checkbox } from "@mantine/core";
 import { IconFilter } from "@tabler/icons";
 import { useState } from "react";
-import { DirectionArray, FilterChecks } from "./HistoryList";
+import { FilterRoles } from "./HistoryList";
 
 interface Props {
   handleFilterRoles: (role: string) => void;
-  roles: DirectionArray;
+  roles: FilterRoles;
 }
 
 export const roles = {
