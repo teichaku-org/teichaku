@@ -268,7 +268,6 @@ export function HistoryList({ data }: TableSortProps) {
           </ScrollArea>
         )}
       </Drawer>
-
     </div>
   );
 }
