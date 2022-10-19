@@ -314,13 +314,20 @@ export default async (daoHistory: DAOHistory) => {
     }
 
     for (const item of data) {
+        const randomUrlList = []
+        for (let i = 0; i < 5; i++) {
+            if (Math.random() > 0.8) {
+                randomUrlList.push("https://" + Math.random().toString(36).slice(-8) + ".com")
+            }
+        }
         const daoHistoryItem: DAOHistoryItemStruct = {
             contributionText: item.contributionText,
             reward: ethers.utils.parseEther(item.reward.toString()),
             roles: [item.roles],
             timestamp: item.timestamp,
             contributor: item.contributor,
-            pollId: item.pollId
+            pollId: item.pollId,
+            evidences: randomUrlList,
         };
         await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
     }

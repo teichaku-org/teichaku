@@ -5,4 +5,5 @@ export type DaoHistory = {
     timestamp: Date
     contributor: string
     pollId: number
+    evidences: string[]
 }

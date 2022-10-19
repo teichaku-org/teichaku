@@ -59,6 +59,7 @@ export type DAOHistoryItemStruct = {
   timestamp: PromiseOrValue<BigNumberish>;
   contributor: PromiseOrValue<string>;
   pollId: PromiseOrValue<BigNumberish>;
+  evidences: PromiseOrValue<string>[];
 };
 
 export type DAOHistoryItemStructOutput = [
@@ -67,7 +68,8 @@ export type DAOHistoryItemStructOutput = [
   string[],
   BigNumber,
   string,
-  BigNumber
+  BigNumber,
+  string[]
 ] & {
   contributionText: string;
   reward: BigNumber;
@@ -75,6 +77,7 @@ export type DAOHistoryItemStructOutput = [
   timestamp: BigNumber;
   contributor: string;
   pollId: BigNumber;
+  evidences: string[];
 };
 
 export type DAOInfoStruct = {
@@ -99,7 +102,7 @@ export interface DAOHistoryInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "addAssessment(string,string,(address,address,uint256[],string,uint256,int256)[])": FunctionFragment;
     "addDao(string,string,string,string,string,string)": FunctionFragment;
-    "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256))": FunctionFragment;
+    "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256,string[]))": FunctionFragment;
     "assessments(string,string,uint256)": FunctionFragment;
     "daoInfo(string)": FunctionFragment;
     "getDaoAssessments(string,string)": FunctionFragment;

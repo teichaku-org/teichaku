@@ -482,7 +482,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 roles: contributionItem.roles,
                 timestamp: block.timestamp,
                 contributor: _candidates[c],
-                pollId: currentMaxPollId
+                pollId: currentMaxPollId,
+                evidences: contributionItem.evidences
             });
             daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
             daoHistory.addAssessment(

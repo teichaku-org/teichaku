@@ -2,7 +2,7 @@ import { Candidate } from "@/domains/Candidate"
 import { shortenAddress } from "@/utils/shortenAddress"
 import { shortenUrl } from "@/utils/shortenUrl"
 import { css } from "@emotion/react"
-import { Text } from "@mantine/core"
+import { Anchor, Text } from "@mantine/core"
 import Link from "next/link"
 import { RoleBadge } from "../common/RoleBadge"
 
@@ -29,7 +29,7 @@ export const CandidateInfo = (props: Props) => {
         `}>{props.candidate.contributionText}</Text>
         <p>
             {props.candidate.evidences.map((evidence) =>
-                <a key={evidence} rel="noopener noreferrer" target="_blank" href={evidence}>{shortenUrl(evidence)}</a>)}
+                <Anchor key={evidence} rel="noopener noreferrer" target="_blank" href={evidence}>{shortenUrl(evidence)}</Anchor>)}
         </p>
     </div>
 }

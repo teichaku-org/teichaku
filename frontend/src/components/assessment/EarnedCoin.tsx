@@ -23,6 +23,7 @@ export const EarnedCoin = (props: Props) => {
         >
             <IconCoin size={28} stroke={1.5} />
         </ThemeIcon>
+
         <Text
             component="span"
             align="center"
