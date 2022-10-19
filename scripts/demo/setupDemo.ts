@@ -2,6 +2,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "ethers";
 import { DAOToken, DAONFT, DAOHistory, Poll } from "../../typechain-types";
 import { DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
+import createAssessment from "./createAssessment";
 import createDaoHistory from "./createDaoHistory";
 
 async function setupDemo(
@@ -25,6 +26,7 @@ async function setupDemo(
 
     // DaoHistoryの追加
     await createDaoHistory(daoHistory)
+    await createAssessment(daoHistory)
 
     // 辻褄を合わせるためにpollIdが6になるまでインクリメントする
     await poll.settleCurrentPollAndCreateNewPoll()

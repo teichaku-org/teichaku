@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import {
   Container,
   Divider,
+  Drawer,
   Paper,
+  ScrollArea,
   Text,
   useMantineTheme,
 } from "@mantine/core";
@@ -10,7 +12,7 @@ import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
 import { SortButton } from "./SortButton";
-import { FilterButton, roles } from "./FilterButton";
+import { FilterButton } from "./FilterButton";
 import { SingleAssessment } from "../assessment/SingleAssessment";
 import { DaoHistory } from "@/domains/DaoHistory";
 
@@ -79,13 +81,9 @@ function sortData(
   );
 }
 
-export type FilterChecks = {
-  all: boolean;
-  dev: boolean;
-  designer: boolean;
-  marketer: boolean;
-  pdm: boolean;
-};
+export interface FilterRoles {
+  [index: string]: boolean;
+}
 
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
@@ -93,70 +91,44 @@ export function HistoryList({ data }: TableSortProps) {
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
-  const [filterRoles, setFilterRoles] = useState(Object.values(roles));
-  const [filterChecks, setFilterChecks] = useState<FilterChecks>({
-    all: true,
-    dev: true,
-    designer: true,
-    marketer: true,
-    pdm: true,
-  });
+  const [selectedContribution, setSelectedContribution] = useState<{
+    pollId: number;
+    contributor: string;
+  }>();
+  const opened = selectedContribution !== undefined;
 
-  const handleFilterChecks = (role: string) => {
-    switch (role) {
-      case "開発者":
-        setFilterChecks({ ...filterChecks, dev: !filterChecks.dev });
-        return;
-      case "デザイナー":
-        setFilterChecks({ ...filterChecks, designer: !filterChecks.designer });
-        return;
-      case "マーケター":
-        setFilterChecks({ ...filterChecks, marketer: !filterChecks.marketer });
-        return;
-      case "プロダクトマネージャー":
-        setFilterChecks({ ...filterChecks, pdm: !filterChecks.pdm });
-        return;
-      default:
-        console.error(`Sorry, we are out of ${role}.`);
-    }
-  };
+  const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
 
   const handleFilterRoles = (role: string) => {
     if (role === "全て") {
-      //全てのチェックが選択されている時は全て外す
-      if (Object.values(roles).length === filterRoles.length) {
-        setFilterRoles([]);
-        setFilterChecks({
-          all: false,
-          dev: false,
-          designer: false,
-          marketer: false,
-          pdm: false,
+      const roles: FilterRoles = {};
+      if (filterObjRoles["全て"]) {
+        Object.keys(filterObjRoles).forEach((key) => {
+          roles[key] = false;
         });
+        setFilterObjRoles(roles);
         return;
       }
-      //全てのチェックが外れている時は全てチェックをつける
-      setFilterRoles(Object.values(roles));
-      setFilterChecks({
-        all: true,
-        dev: true,
-        designer: true,
-        marketer: true,
-        pdm: true,
+      Object.keys(filterObjRoles).forEach((key) => {
+        roles[key] = true;
       });
+      setFilterObjRoles(roles);
       return;
     }
-    //フィルターにロールが含まれている時はそれを外す
-    if (filterRoles.includes(role)) {
-      const newFilterRoles = filterRoles.filter((item) => item !== role);
-      setFilterRoles(newFilterRoles);
-      handleFilterChecks(role);
-      return;
+
+    setFilterObjRoles({ ...filterObjRoles, [role]: !filterObjRoles[role] });
+    return;
+  };
+
+  const onClickCard = (row: { pollId: number, contributor: string }) => {
+    if (
+      selectedContribution?.pollId === row.pollId
+      && selectedContribution?.contributor === row.contributor) {
+      setSelectedContribution(undefined);
+      return
     }
-    //フィルターにロールが含まれていない時は加える
-    setFilterRoles([...filterRoles, role]);
-    handleFilterChecks(role);
+    setSelectedContribution({ pollId: row.pollId, contributor: row.contributor });
+
   };
 
   const setSorting = (field: keyof RowData) => {
@@ -174,10 +146,22 @@ export function HistoryList({ data }: TableSortProps) {
         search: "",
       })
     );
+
+    //ロールを抽出
+    const roles: FilterRoles = { 全て: true };
+    data.forEach((dao) => {
+      dao.roles.forEach((role) => {
+        roles[role] = true;
+      });
+    });
+    setFilterObjRoles(roles);
   }, []);
 
   //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
   useEffect(() => {
+    const filterRoles = Object.keys(filterObjRoles).filter(
+      (key) => filterObjRoles[key]
+    );
     setSortedData(
       sortData(filterByRole(data, filterRoles), {
         sortBy: "reward",
@@ -185,7 +169,7 @@ export function HistoryList({ data }: TableSortProps) {
         search: "",
       })
     );
-  }, [filterRoles]);
+  }, [filterObjRoles]);
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -200,7 +184,7 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() => setOpened(!opened)}
+        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
       />
     </div>
   ));
@@ -216,7 +200,7 @@ export function HistoryList({ data }: TableSortProps) {
         css={
           opened
             ? css`
-                width: 60%;
+                width: calc(100% - 400px);
               `
             : css`
                 width: 100%;
@@ -249,7 +233,7 @@ export function HistoryList({ data }: TableSortProps) {
             <SortButton />
             <FilterButton
               handleFilterRoles={handleFilterRoles}
-              filterChecks={filterChecks}
+              roles={filterObjRoles}
             />
           </div>
         </div>
@@ -265,12 +249,21 @@ export function HistoryList({ data }: TableSortProps) {
           </tr>
         )}
       </div>
-      {opened && (
-        <>
-          <Divider orientation="vertical" />
-          <Container>{/* <SingleAssessment /> */}</Container>
-        </>
-      )}
+      <Drawer
+        opened={opened}
+        onClose={() => setSelectedContribution(undefined)}
+        position="right"
+        size={400}
+        lockScroll={false}
+        withOverlay={false}
+        closeOnClickOutside
+      >
+        {selectedContribution && (
+          <ScrollArea style={{ height: "100%" }} p="lg" >
+            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
+          </ScrollArea>
+        )}
+      </Drawer>
     </div>
   );
 }

@@ -6,11 +6,15 @@ import { useInterval } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 const Poll = () => {
-  const { pollDetail, voterReward, contributorReward, vote, candidateToPoll } =
+  const { pollDetail, voterReward, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll } =
     usePoll();
   const [leftTimeStr, setLeftTimeStr] = useState("");
+
+  useEffect(() => {
+    loadCurrentMaxPoll();
+  }, [])
+
   const interval = useInterval(() => {
-    console.log("call");
     if (endTimeStamp) setLeftTimeStr(getLeftTime(endTimeStamp));
   }, 1000);
   useEffect(() => {

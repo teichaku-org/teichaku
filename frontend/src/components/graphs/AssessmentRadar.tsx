@@ -18,12 +18,26 @@ export const AssessmentRadar = ({ data }: Props) => {
         data={data}
         keys={["You", "Average"]}
         indexBy="perspective"
-        theme={{ textColor: "white", fontSize: 16 }}
+        theme={{
+            textColor: "white", fontSize: 12,
+            tooltip: { container: { background: "black" } }
+        }}
         margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
         dotSize={10}
         dotColor={{ theme: 'background' }}
         dotBorderWidth={2}
         colors={{ scheme: 'nivo' }}
         motionConfig="wobbly"
+        legends={[
+            {
+                anchor: 'top',
+                translateY: -50,
+                translateX: -80,
+                direction: 'row',
+                itemWidth: 80,
+                itemHeight: 20,
+                symbolShape: 'circle',
+            }
+        ]}
     />
 }

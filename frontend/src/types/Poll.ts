@@ -128,7 +128,7 @@ export interface PollInterface extends utils.Interface {
     "candidates(int256,uint256)": FunctionFragment;
     "changePerspective(string[])": FunctionFragment;
     "contributions(int256,uint256)": FunctionFragment;
-    "currentMexPollId()": FunctionFragment;
+    "currentMaxPollId()": FunctionFragment;
     "daoHistoryAddress()": FunctionFragment;
     "daoId()": FunctionFragment;
     "daoTokenAddress()": FunctionFragment;
@@ -188,7 +188,7 @@ export interface PollInterface extends utils.Interface {
       | "candidates"
       | "changePerspective"
       | "contributions"
-      | "currentMexPollId"
+      | "currentMaxPollId"
       | "daoHistoryAddress"
       | "daoId"
       | "daoTokenAddress"
@@ -284,7 +284,7 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "currentMexPollId",
+    functionFragment: "currentMaxPollId",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -493,7 +493,7 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "currentMexPollId",
+    functionFragment: "currentMaxPollId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -864,7 +864,7 @@ export interface Poll extends BaseContract {
       }
     >;
 
-    currentMexPollId(overrides?: CallOverrides): Promise<[BigNumber]>;
+    currentMaxPollId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     daoHistoryAddress(overrides?: CallOverrides): Promise<[string]>;
 
@@ -1103,7 +1103,7 @@ export interface Poll extends BaseContract {
     }
   >;
 
-  currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+  currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
   daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -1340,7 +1340,7 @@ export interface Poll extends BaseContract {
       }
     >;
 
-    currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+    currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
     daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -1661,7 +1661,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    currentMexPollId(overrides?: CallOverrides): Promise<BigNumber>;
+    currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
     daoHistoryAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1899,7 +1899,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    currentMexPollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    currentMaxPollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     daoHistoryAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

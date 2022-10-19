@@ -4,4 +4,5 @@ export type DaoHistory = {
     roles: string[]
     timestamp: Date
     contributor: string
+    pollId: number
 }

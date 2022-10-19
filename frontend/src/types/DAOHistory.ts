@@ -100,13 +100,17 @@ export interface DAOHistoryInterface extends utils.Interface {
     "addAssessment(string,string,(address,address,uint256[],string,uint256,int256)[])": FunctionFragment;
     "addDao(string,string,string,string,string,string)": FunctionFragment;
     "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256))": FunctionFragment;
+    "assessments(string,string,uint256)": FunctionFragment;
+    "daoInfo(string)": FunctionFragment;
     "getDaoAssessments(string,string)": FunctionFragment;
     "getDaoHistory(string,string)": FunctionFragment;
     "getDaoInfo(string)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
+    "histories(string,string,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
+    "pollAddress(string,string)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
@@ -122,13 +126,17 @@ export interface DAOHistoryInterface extends utils.Interface {
       | "addAssessment"
       | "addDao"
       | "addDaoHistory"
+      | "assessments"
+      | "daoInfo"
       | "getDaoAssessments"
       | "getDaoHistory"
       | "getDaoInfo"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
+      | "histories"
       | "owner"
+      | "pollAddress"
       | "renounceOwnership"
       | "renounceRole"
       | "revokeRole"
@@ -169,6 +177,18 @@ export interface DAOHistoryInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "assessments",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "daoInfo",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getDaoAssessments",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
@@ -192,7 +212,19 @@ export interface DAOHistoryInterface extends utils.Interface {
     functionFragment: "hasRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "histories",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "pollAddress",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -236,6 +268,11 @@ export interface DAOHistoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "assessments",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "daoInfo", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "getDaoAssessments",
     data: BytesLike
   ): Result;
@@ -250,7 +287,12 @@ export interface DAOHistoryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "histories", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "pollAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -390,6 +432,33 @@ export interface DAOHistory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    assessments(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, BigNumber, BigNumber] & {
+        voter: string;
+        contributor: string;
+        comment: string;
+        perspectiveId: BigNumber;
+        pollId: BigNumber;
+      }
+    >;
+
+    daoInfo(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, string] & {
+        name: string;
+        description: string;
+        website: string;
+        logo: string;
+      }
+    >;
+
     getDaoAssessments(
       daoId: PromiseOrValue<string>,
       projectId: PromiseOrValue<string>,
@@ -424,7 +493,28 @@ export interface DAOHistory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    histories(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, string, BigNumber] & {
+        contributionText: string;
+        reward: BigNumber;
+        timestamp: BigNumber;
+        contributor: string;
+        pollId: BigNumber;
+      }
+    >;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    pollAddress(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -486,6 +576,33 @@ export interface DAOHistory extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  assessments(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    arg2: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, string, BigNumber, BigNumber] & {
+      voter: string;
+      contributor: string;
+      comment: string;
+      perspectiveId: BigNumber;
+      pollId: BigNumber;
+    }
+  >;
+
+  daoInfo(
+    arg0: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, string, string, string] & {
+      name: string;
+      description: string;
+      website: string;
+      logo: string;
+    }
+  >;
+
   getDaoAssessments(
     daoId: PromiseOrValue<string>,
     projectId: PromiseOrValue<string>,
@@ -520,7 +637,28 @@ export interface DAOHistory extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  histories(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    arg2: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, BigNumber, string, BigNumber] & {
+      contributionText: string;
+      reward: BigNumber;
+      timestamp: BigNumber;
+      contributor: string;
+      pollId: BigNumber;
+    }
+  >;
+
   owner(overrides?: CallOverrides): Promise<string>;
+
+  pollAddress(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -573,7 +711,7 @@ export interface DAOHistory extends BaseContract {
       website: PromiseOrValue<string>,
       logo: PromiseOrValue<string>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<string>;
 
     addDaoHistory(
       daoId: PromiseOrValue<string>,
@@ -581,6 +719,33 @@ export interface DAOHistory extends BaseContract {
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    assessments(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, BigNumber, BigNumber] & {
+        voter: string;
+        contributor: string;
+        comment: string;
+        perspectiveId: BigNumber;
+        pollId: BigNumber;
+      }
+    >;
+
+    daoInfo(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, string, string, string] & {
+        name: string;
+        description: string;
+        website: string;
+        logo: string;
+      }
+    >;
 
     getDaoAssessments(
       daoId: PromiseOrValue<string>,
@@ -616,7 +781,28 @@ export interface DAOHistory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    histories(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, string, BigNumber] & {
+        contributionText: string;
+        reward: BigNumber;
+        timestamp: BigNumber;
+        contributor: string;
+        pollId: BigNumber;
+      }
+    >;
+
     owner(overrides?: CallOverrides): Promise<string>;
+
+    pollAddress(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -721,6 +907,18 @@ export interface DAOHistory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    assessments(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    daoInfo(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getDaoAssessments(
       daoId: PromiseOrValue<string>,
       projectId: PromiseOrValue<string>,
@@ -755,7 +953,20 @@ export interface DAOHistory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    histories(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pollAddress(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -820,6 +1031,18 @@ export interface DAOHistory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    assessments(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    daoInfo(
+      arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getDaoAssessments(
       daoId: PromiseOrValue<string>,
       projectId: PromiseOrValue<string>,
@@ -854,7 +1077,20 @@ export interface DAOHistory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    histories(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      arg2: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pollAddress(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
