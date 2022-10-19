@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Container,
-  Divider,
-  Drawer,
-  Paper,
-  ScrollArea,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { Drawer, ScrollArea, Text, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -50,6 +42,20 @@ function sortData(
 
   if (!sortBy) {
     return filterData(data, payload.search);
+  }
+
+  if (sortBy === "timestamp") {
+    return filterData(
+      data.sort((x, y) => {
+        const firstDate = new Date(x.timestamp);
+        const SecondDate = new Date(y.timestamp);
+
+        if (firstDate < SecondDate) return payload.reversed ? -1 : 1;
+        if (firstDate > SecondDate) return payload.reversed ? 1 : -1;
+        return 0;
+      }),
+      payload.search
+    );
   }
 
   if (sortBy === "reward") {
@@ -120,15 +126,18 @@ export function HistoryList({ data }: TableSortProps) {
     return;
   };
 
-  const onClickCard = (row: { pollId: number, contributor: string }) => {
+  const onClickCard = (row: { pollId: number; contributor: string }) => {
     if (
-      selectedContribution?.pollId === row.pollId
-      && selectedContribution?.contributor === row.contributor) {
+      selectedContribution?.pollId === row.pollId &&
+      selectedContribution?.contributor === row.contributor
+    ) {
       setSelectedContribution(undefined);
-      return
+      return;
     }
-    setSelectedContribution({ pollId: row.pollId, contributor: row.contributor });
-
+    setSelectedContribution({
+      pollId: row.pollId,
+      contributor: row.contributor,
+    });
   };
 
   const setSorting = (field: keyof RowData) => {
@@ -139,14 +148,6 @@ export function HistoryList({ data }: TableSortProps) {
   };
 
   useEffect(() => {
-    setSortedData(
-      sortData(data, {
-        sortBy: "reward",
-        reversed: true,
-        search: "",
-      })
-    );
-
     //ロールを抽出
     const roles: FilterRoles = { 全て: true };
     data.forEach((dao) => {
@@ -164,8 +165,8 @@ export function HistoryList({ data }: TableSortProps) {
     );
     setSortedData(
       sortData(filterByRole(data, filterRoles), {
-        sortBy: "reward",
-        reversed: true,
+        sortBy: "timestamp",
+        reversed: false,
         search: "",
       })
     );
@@ -184,7 +185,9 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
+        onClick={() =>
+          onClickCard({ pollId: row.pollId, contributor: row.contributor })
+        }
       />
     </div>
   ));
@@ -259,8 +262,11 @@ export function HistoryList({ data }: TableSortProps) {
         closeOnClickOutside
       >
         {selectedContribution && (
-          <ScrollArea style={{ height: "100%" }} p="lg" >
-            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
+          <ScrollArea style={{ height: "100%" }} p="lg">
+            <SingleAssessment
+              pollId={selectedContribution.pollId}
+              contributor={selectedContribution.contributor}
+            />
           </ScrollArea>
         )}
       </Drawer>
