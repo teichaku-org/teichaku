@@ -5,7 +5,6 @@ import { DirectionArray, FilterChecks } from "./HistoryList";
 
 interface Props {
   handleFilterRoles: (role: string) => void;
-  filterChecks: FilterChecks;
   roles: DirectionArray;
 }
 
@@ -17,7 +16,7 @@ export const roles = {
 };
 
 export function FilterButton(props: Props) {
-  const { handleFilterRoles, filterChecks, roles } = props;
+  const { handleFilterRoles, roles } = props;
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
