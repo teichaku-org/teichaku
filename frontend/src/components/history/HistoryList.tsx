@@ -91,6 +91,10 @@ export interface FilterRoles {
   [index: string]: boolean;
 }
 
+export interface SortKeys {
+  [index: string]: boolean;
+}
+
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
@@ -104,6 +108,13 @@ export function HistoryList({ data }: TableSortProps) {
   const opened = selectedContribution !== undefined;
 
   const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
+
+  const [sortKeys, setSortKeys] = useState<SortKeys>({
+    新しい順: true,
+    古い順: false,
+    大きな貢献順: false,
+    小さな貢献順: false,
+  });
 
   const handleFilterRoles = (role: string) => {
     if (role === "全て") {
@@ -233,7 +244,7 @@ export function HistoryList({ data }: TableSortProps) {
               display: flex;
             `}
           >
-            <SortButton />
+            <SortButton sortKeys={sortKeys} />
             <FilterButton
               handleFilterRoles={handleFilterRoles}
               roles={filterObjRoles}

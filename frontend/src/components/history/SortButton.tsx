@@ -1,7 +1,13 @@
 import { Menu, Button, Text } from "@mantine/core";
 import { IconArrowsSort, IconCircleCheck } from "@tabler/icons";
+import { SortKeys } from "./HistoryList";
 
-export function SortButton() {
+interface Props {
+  sortKeys: SortKeys;
+}
+
+export function SortButton(props: Props) {
+  const { sortKeys } = props;
   return (
     <Menu shadow="md" width={200} withArrow>
       <Menu.Target>
@@ -16,16 +22,18 @@ export function SortButton() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
-          新しい順
-        </Menu.Item>
-        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
-          古い順
-        </Menu.Item>
-        <Menu.Item color="white" rightSection={<IconCircleCheck />}>
-          大きな貢献順
-        </Menu.Item>
-        <Menu.Item>小さな貢献順</Menu.Item>
+        {Object.keys(sortKeys).map((key) => {
+          return (
+            <Menu.Item
+              color="white"
+              rightSection={<IconCircleCheck />}
+              key={key}
+              onClick={() => {}}
+            >
+              {key}
+            </Menu.Item>
+          );
+        })}
       </Menu.Dropdown>
     </Menu>
   );
