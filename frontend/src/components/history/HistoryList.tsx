@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import {
   Container,
   Divider,
+  Drawer,
   Paper,
+  ScrollArea,
   Text,
   useMantineTheme,
 } from "@mantine/core";
@@ -161,6 +163,15 @@ export function HistoryList({ data }: TableSortProps) {
     handleFilterChecks(role);
   };
 
+  const onClickCard = (row: { pollId: number, contributor: string }) => {
+    if (selectedContribution?.pollId === row.pollId && selectedContribution?.contributor === row.contributor) {
+      setSelectedContribution(undefined);
+      return
+    }
+    setSelectedContribution({ pollId: row.pollId, contributor: row.contributor });
+
+  };
+
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
@@ -202,7 +213,7 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() => setSelectedContribution({ pollId: row.pollId, contributor: row.contributor })}
+        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
       />
     </div>
   ));
@@ -267,14 +278,22 @@ export function HistoryList({ data }: TableSortProps) {
           </tr>
         )}
       </div>
-      {opened && (
-        <>
-          <Divider orientation="vertical" />
-          <Container>
+      <Drawer
+        opened={opened}
+        onClose={() => setSelectedContribution(undefined)}
+        position="right"
+        size={400}
+        lockScroll={false}
+        withOverlay={false}
+        closeOnClickOutside
+      >
+        {selectedContribution && (
+          <ScrollArea style={{ height: "100%" }} p="lg">
             <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
-          </Container>
-        </>
-      )}
+          </ScrollArea>
+        )}
+      </Drawer>
+
     </div>
   );
 }

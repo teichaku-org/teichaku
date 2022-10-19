@@ -1,10 +1,11 @@
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import usePoll from "@/hooks/dao/usePoll"
 import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment"
-import { Paper, Text } from "@mantine/core"
+import { Center, Container, Paper, Text } from "@mantine/core"
 import { useEffect, useState } from "react"
 import { AssessmentRadar } from "../graphs/AssessmentRadar"
 import { Comments } from "./Comments"
+import { EarnedCoin } from "./EarnedCoin"
 
 interface Props {
     contributor: string
@@ -35,9 +36,13 @@ export const SingleAssessment = (props: Props) => {
 
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     return <div >
-        <div style={{ height: 300, width: 300 }}>
+
+        <Container>
+            <EarnedCoin reward={String(Math.round(contribution?.reward || 0))} />
+        </Container>
+        <Container style={{ height: 330, width: 330 }}>
             <AssessmentRadar data={data} />
-        </div>
+        </Container>
 
         {/* 貢献内容 */}
         <Paper p="md">
@@ -50,5 +55,6 @@ export const SingleAssessment = (props: Props) => {
         <Comments comments={comments} />
 
         {/* 自分のだったらNFT化 */}
+        <div style={{ height: 300 }} />
     </div>
 }
