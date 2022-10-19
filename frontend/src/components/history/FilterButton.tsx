@@ -1,6 +1,6 @@
 import { Menu, Button, Checkbox } from "@mantine/core";
 import { IconFilter } from "@tabler/icons";
-import { useState } from "react";
+
 import { FilterRoles } from "./HistoryList";
 
 interface Props {
@@ -8,28 +8,17 @@ interface Props {
   roles: FilterRoles;
 }
 
-export const roles = {
-  dev: "開発者",
-  designer: "デザイナー",
-  marketer: "マーケター",
-  pdm: "プロダクトマネージャー",
-};
-
 export function FilterButton(props: Props) {
   const { handleFilterRoles, roles } = props;
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   return (
-    <Menu opened={isOpenMenu} shadow="md" width={200} withArrow>
+    <Menu closeOnItemClick={false} shadow="md" width={200} withArrow>
       <Menu.Target>
         <Button
           leftIcon={<IconFilter />}
           variant="subtle"
           color="gray"
           radius="lg"
-          onClick={() => {
-            setIsOpenMenu(!isOpenMenu);
-          }}
         >
           ロールで絞り込み
         </Button>

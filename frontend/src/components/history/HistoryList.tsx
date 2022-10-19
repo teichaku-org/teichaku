@@ -4,7 +4,7 @@ import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
 import { SortButton } from "./SortButton";
-import { FilterButton, roles } from "./FilterButton";
+import { FilterButton } from "./FilterButton";
 import { SingleAssessment } from "../assessment/SingleAssessment";
 import { DaoHistory } from "@/domains/DaoHistory";
 
