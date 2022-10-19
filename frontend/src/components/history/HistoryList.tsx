@@ -259,7 +259,7 @@ export function HistoryList({ data }: TableSortProps) {
         closeOnClickOutside
       >
         {selectedContribution && (
-          <ScrollArea style={{ height: "100%" }} p="lg">
+          <ScrollArea style={{ height: "100%" }} p="lg" >
             <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
           </ScrollArea>
         )}

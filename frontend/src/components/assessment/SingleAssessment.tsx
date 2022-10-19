@@ -40,9 +40,9 @@ export const SingleAssessment = (props: Props) => {
         <Container>
             <EarnedCoin reward={String(Math.round(contribution?.reward || 0))} />
         </Container>
-        <Container style={{ height: 330, width: 330 }}>
+        <div style={{ height: 330, width: 330 }}>
             <AssessmentRadar data={data} />
-        </Container>
+        </div>
 
         {/* 貢献内容 */}
         <Paper p="md">
