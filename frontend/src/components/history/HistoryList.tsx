@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Container, Divider, Text, useMantineTheme } from "@mantine/core";
+import {
+  Container,
+  Divider,
+  Drawer,
+  Paper,
+  ScrollArea,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -112,6 +120,20 @@ export function HistoryList({ data }: TableSortProps) {
     return;
   };
 
+  const onClickCard = (row: { pollId: number, contributor: string }) => {
+    console.log("clicked!!")
+    console.log(selectedContribution);
+    console.log(row);
+    if (
+      selectedContribution?.pollId === row.pollId
+      && selectedContribution?.contributor === row.contributor) {
+      setSelectedContribution(undefined);
+      return
+    }
+    setSelectedContribution({ pollId: row.pollId, contributor: row.contributor });
+
+  };
+
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
@@ -166,12 +188,7 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() =>
-          setSelectedContribution({
-            pollId: row.pollId,
-            contributor: row.contributor,
-          })
-        }
+        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
       />
     </div>
   ));
@@ -236,17 +253,21 @@ export function HistoryList({ data }: TableSortProps) {
           </tr>
         )}
       </div>
-      {opened && (
-        <>
-          <Divider orientation="vertical" />
-          <Container>
-            <SingleAssessment
-              pollId={selectedContribution.pollId}
-              contributor={selectedContribution.contributor}
-            />
-          </Container>
-        </>
-      )}
+      <Drawer
+        opened={opened}
+        onClose={() => setSelectedContribution(undefined)}
+        position="right"
+        size={400}
+        lockScroll={false}
+        withOverlay={false}
+        closeOnClickOutside
+      >
+        {selectedContribution && (
+          <ScrollArea style={{ height: "100%" }} p="lg">
+            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
+          </ScrollArea>
+        )}
+      </Drawer>
     </div>
   );
 }

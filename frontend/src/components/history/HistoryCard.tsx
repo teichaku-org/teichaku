@@ -1,15 +1,10 @@
 import { css } from "@emotion/react";
 import {
-  Badge,
   createStyles,
-  Paper,
-  Spoiler,
-  Text,
-  ThemeIcon,
-  useMantineTheme,
+  Paper, Text, useMantineTheme
 } from "@mantine/core";
-import { IconCoin } from "@tabler/icons";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler } from "react";
+import { EarnedCoin } from "../assessment/EarnedCoin";
 import { RoleBadge } from "../common/RoleBadge";
 
 const useStyles = createStyles((theme) => ({
@@ -66,42 +61,7 @@ export function HistoryCard(props: HistoryCardProps) {
       className={classes.card}
       onClick={onClick}
     >
-      <div
-        css={css`
-          display: flex;
-        `}
-      >
-        <ThemeIcon
-          size="xl"
-          radius="md"
-          variant="gradient"
-          gradient={{ deg: 0, from: "blue", to: "grape" }}
-        >
-          <IconCoin size={28} stroke={1.5} />
-        </ThemeIcon>
-        <Text
-          component="span"
-          align="center"
-          color={theme.colorScheme === "dark" ? "white" : "black"}
-          size="xl"
-          weight={700}
-          style={{ fontFamily: "Greycliff CF, sans-serif" }}
-          css={css`
-            font-size: 30px;
-            margin-left: 5px;
-          `}
-        >
-          {reward}
-          <span
-            css={css`
-              font-size: 20px;
-              margin-left: 5px;
-            `}
-          >
-            coin
-          </span>
-        </Text>
-      </div>
+      <EarnedCoin reward={reward} />
       <RoleBadge roles={roles} />
       <Text
         size="lg"

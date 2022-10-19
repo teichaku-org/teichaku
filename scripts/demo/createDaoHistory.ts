@@ -16,7 +16,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 1051.7379457012855,
             "roles": "プロダクトマネージャー",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
             "pollId": 0
         },
         {
@@ -24,7 +24,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 302.0729900997783,
             "roles": "マーケター",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
             "pollId": 0
         },
         {
@@ -32,7 +32,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 517.7756937185795,
             "roles": "デザイナー",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
             "pollId": 0
         },
         {
@@ -40,7 +40,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 511.2434734645023,
             "roles": "開発者",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
             "pollId": 0
         },
         {
@@ -48,7 +48,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 326.22186396829017,
             "roles": "マーケター",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
             "pollId": 0
         },
         {
@@ -56,7 +56,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 289.3254104716373,
             "roles": "開発者",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
             "pollId": 0
         },
         {
@@ -64,7 +64,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 662.8712148751883,
             "roles": "デザイナー",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
             "pollId": 0
         },
         {
@@ -72,7 +72,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 669.7316290640024,
             "roles": "マーケター",
             "timestamp": 1657274544,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
             "pollId": 0
         },
         {
@@ -88,7 +88,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 757.0325408121033,
             "roles": "開発者",
             "timestamp": 1658484144,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
             "pollId": 1
         },
         {
@@ -96,7 +96,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 1330.8788139127669,
             "roles": "開発者",
             "timestamp": 1658484144,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
             "pollId": 1
         },
         {
@@ -104,7 +104,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 689.4887543098212,
             "roles": "マーケター",
             "timestamp": 1658484144,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
             "pollId": 1
         },
         {
@@ -112,7 +112,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 769.7408203841935,
             "roles": "開発者",
             "timestamp": 1658484144,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
             "pollId": 1
         },
         {
@@ -128,7 +128,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 898.5138082848403,
             "roles": "デザイナー",
             "timestamp": 1659693744,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
             "pollId": 2
         },
         {
@@ -136,7 +136,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 1136.5170825996595,
             "roles": "マーケター",
             "timestamp": 1659693744,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
             "pollId": 2
         },
         {
@@ -144,7 +144,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 874.5764217146902,
             "roles": "プロダクトマネージャー",
             "timestamp": 1659693744,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
             "pollId": 2
         },
         {
@@ -152,7 +152,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 662.1225326045302,
             "roles": "プロダクトマネージャー",
             "timestamp": 1659693744,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955",
             "pollId": 2
         },
         {
@@ -168,7 +168,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 538.678776399921,
             "roles": "開発者",
             "timestamp": 1660903344,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f",
             "pollId": 3
         },
         {
@@ -176,7 +176,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 955.018525192086,
             "roles": "プロダクトマネージャー",
             "timestamp": 1660903344,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xa0Ee7A142d267C1f36714E4a8F75612F20a79720",
             "pollId": 3
         },
         {
@@ -184,7 +184,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 799.0097444820166,
             "roles": "開発者",
             "timestamp": 1660903344,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xBcd4042DE499D14e55001CcbB24a551F3b954096",
             "pollId": 3
         },
         {
@@ -192,7 +192,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 649.6432134932163,
             "roles": "デザイナー",
             "timestamp": 1660903344,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x71bE63f3384f5fb98995898A86B02Fb2426c5788",
             "pollId": 3
         },
         {
@@ -200,7 +200,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 798.0251030906824,
             "roles": "マーケター",
             "timestamp": 1660903344,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xFABB0ac9d68B0B445fB7357272Ff202C5651694a",
             "pollId": 3
         },
         {
@@ -216,7 +216,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 325.6654672558563,
             "roles": "プロダクトマネージャー",
             "timestamp": 1662112944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec",
             "pollId": 4
         },
         {
@@ -224,7 +224,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 987.5580083532029,
             "roles": "マーケター",
             "timestamp": 1662112944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
             "pollId": 4
         },
         {
@@ -232,7 +232,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 482.1766810611204,
             "roles": "デザイナー",
             "timestamp": 1662112944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
             "pollId": 4
         },
         {
@@ -240,7 +240,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 1125.3218463458738,
             "roles": "マーケター",
             "timestamp": 1662112944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
             "pollId": 4
         },
         {
@@ -248,7 +248,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 434.6938435325162,
             "roles": "デザイナー",
             "timestamp": 1662112944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
             "pollId": 4
         },
         {
@@ -264,7 +264,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 720.0642332261681,
             "roles": "開発者",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
             "pollId": 5
         },
         {
@@ -272,7 +272,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 1078.947913632067,
             "roles": "開発者",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
             "pollId": 5
         },
         {
@@ -280,7 +280,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 630.8185918851631,
             "roles": "開発者",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xBcd4042DE499D14e55001CcbB24a551F3b954096",
             "pollId": 5
         },
         {
@@ -288,7 +288,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 189.39485139303116,
             "roles": "デザイナー",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec",
             "pollId": 5
         },
         {
@@ -296,7 +296,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 581.4644281109368,
             "roles": "開発者",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0xbDA5747bFD65F08deb54cb465eB87D40e51B197E",
             "pollId": 5
         },
         {
@@ -304,7 +304,7 @@ export default async (daoHistory: DAOHistory) => {
             "reward": 557.1601762435388,
             "roles": "プロダクトマネージャー",
             "timestamp": 1663408944,
-            "contributor": "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
+            "contributor": "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
             "pollId": 5
         }]
 

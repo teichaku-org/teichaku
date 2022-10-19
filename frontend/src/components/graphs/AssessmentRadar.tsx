@@ -19,7 +19,7 @@ export const AssessmentRadar = ({ data }: Props) => {
         keys={["You", "Average"]}
         indexBy="perspective"
         theme={{
-            textColor: "white", fontSize: 16,
+            textColor: "white", fontSize: 12,
             tooltip: { container: { background: "black" } }
         }}
         margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
