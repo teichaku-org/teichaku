@@ -164,7 +164,12 @@ export function HistoryList({ data }: TableSortProps) {
   };
 
   const onClickCard = (row: { pollId: number, contributor: string }) => {
-    if (selectedContribution?.pollId === row.pollId && selectedContribution?.contributor === row.contributor) {
+    console.log("clicked!!")
+    console.log(selectedContribution);
+    console.log(row);
+    if (
+      selectedContribution?.pollId === row.pollId
+      && selectedContribution?.contributor === row.contributor) {
       setSelectedContribution(undefined);
       return
     }
