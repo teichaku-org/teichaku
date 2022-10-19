@@ -1,8 +1,5 @@
 import { css } from "@emotion/react";
-import {
-  createStyles,
-  Paper, Text, useMantineTheme
-} from "@mantine/core";
+import { createStyles, Paper, Text, useMantineTheme } from "@mantine/core";
 import { MouseEventHandler } from "react";
 import { EarnedCoin } from "../assessment/EarnedCoin";
 import { RoleBadge } from "../common/RoleBadge";
@@ -20,7 +17,6 @@ const useStyles = createStyles((theme) => ({
       boxShadow: theme.shadows.md,
       transform: "scale(1.02)",
     },
-
   },
   reward: {},
 }));
@@ -32,8 +28,6 @@ interface HistoryCardProps {
   timestamp: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
-
-
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
@@ -58,9 +52,9 @@ export function HistoryCard(props: HistoryCardProps) {
         css={css`
           margin-right: 5px;
           max-height: 25px;
-          /* white-space: pre-wrap; */
           text-overflow: ellipsis;
           overflow: hidden;
+          white-space: nowrap;
         `}
       >
         {contributionText}
