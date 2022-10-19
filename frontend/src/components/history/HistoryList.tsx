@@ -178,7 +178,6 @@ export function HistoryList({ data }: TableSortProps) {
         margin: 20px;
       `}
     >
-      {JSON.stringify(row)}
       <HistoryCard
         key={index}
         contributionText={row.contributionText}
