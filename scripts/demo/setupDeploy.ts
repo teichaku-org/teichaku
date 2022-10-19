@@ -53,22 +53,28 @@ export default async function setupDeploy() {
 
     // Pollが利用するToken, DaoHistory, 投票のために必要なNFTの設定
     await poll.setDaoTokenAddress(token.address);
+    console.log("Poll.setDaoTokenAddress");
     await poll.setNftAddress(daonft.address)
+    console.log("Poll.setNftAddress");
+
 
     // Pollの締め切りができる権限をownerに持たせる
     await poll.setPollAdminRole(owner.address);
+    console.log("Poll.setPollAdminRole");
 
     // PollはTokenをmintする権限を持つ
     await token.setupMinterRole(poll.address);
+    console.log("Token.setupMinterRole");
 
     // Perspectiveの設定
     await poll.changePerspective(
         [
-            "ビジョンの実現に貢献している",
-            "トークン価値の向上に寄与している",
-            "仕事量が多い"
+            "技術的難易度",
+            "DAOへの影響",
+            "仕事量"
         ]
     )
+    console.log("Poll.changePerspective");
 
     // TODO: NFTのbaseURLを設定する
 

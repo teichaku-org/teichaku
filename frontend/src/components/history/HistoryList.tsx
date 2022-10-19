@@ -200,7 +200,7 @@ export function HistoryList({ data }: TableSortProps) {
         css={
           opened
             ? css`
-                width: calc(100% - 400px);
+                width: calc(100% - 600px);
               `
             : css`
                 width: 100%;
@@ -253,7 +253,7 @@ export function HistoryList({ data }: TableSortProps) {
         opened={opened}
         onClose={() => setSelectedContribution(undefined)}
         position="right"
-        size={400}
+        size={600}
         lockScroll={false}
         withOverlay={false}
         closeOnClickOutside

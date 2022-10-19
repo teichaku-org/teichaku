@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { AssessmentRadar } from "../graphs/AssessmentRadar"
 import { Comments } from "./Comments"
 import { EarnedCoin } from "./EarnedCoin"
+import { Evidences } from "./Evidences"
 
 interface Props {
     contributor: string
@@ -27,6 +28,7 @@ export const SingleAssessment = (props: Props) => {
             timestamp: contribution?.timestamp || new Date()
         }
     })
+    const evidences = contribution?.evidences
     useEffect(() => {
         fetchPollDetail(props.pollId).then(res => {
             setPerspectives(res.perspectives)
@@ -40,16 +42,19 @@ export const SingleAssessment = (props: Props) => {
         <Container>
             <EarnedCoin reward={String(Math.round(contribution?.reward || 0))} />
         </Container>
-        <div style={{ height: 330, width: 330 }}>
+        <Container style={{ height: 330, width: 330 }}>
             <AssessmentRadar data={data} />
-        </div>
+        </Container>
 
         {/* 貢献内容 */}
-        <Paper p="md">
-            <Text size="xs" style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
+        <Paper p="md" withBorder mb="sm">
+            <Text size="md" style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
                 {contribution?.contributionText}
             </Text>
         </Paper>
+
+        {/* エビデンス */}
+        <Evidences evidences={evidences || []} />
 
         {/* コメント */}
         <Comments comments={comments} />

@@ -24,5 +24,6 @@ struct DAOHistoryItem {
     uint256 timestamp;
     address contributor;
     int256 pollId;
+    string[] evidences;
     //WARN: Assessment[] assessments;を定義できない
 }

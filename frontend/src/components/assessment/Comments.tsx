@@ -13,7 +13,7 @@ interface Props {
 
 export const Comments = (props: Props) => {
     const { classes } = useStyles();
-    return <Spoiler maxHeight={500} showLabel="Show more" hideLabel="Hide">
+    return <Spoiler maxHeight={400} showLabel="Show more" hideLabel="Hide">
         {props.comments.map(c => {
             return <Paper key={c.comment} withBorder radius="md" p="md" my="md">
                 <Group>

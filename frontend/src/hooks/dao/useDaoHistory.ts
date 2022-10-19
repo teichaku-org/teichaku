@@ -38,7 +38,8 @@ export default () => {
           roles: d.roles,
           timestamp: new Date(Number(d.timestamp) * 1000),
           contributor: d.contributor,
-          pollId: Number(d.pollId)
+          pollId: Number(d.pollId),
+          evidences: d.evidences
         };
       });
       setDaoHistory(_daoHistory);
