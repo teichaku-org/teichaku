@@ -121,9 +121,6 @@ export function HistoryList({ data }: TableSortProps) {
   };
 
   const onClickCard = (row: { pollId: number, contributor: string }) => {
-    console.log("clicked!!")
-    console.log(selectedContribution);
-    console.log(row);
     if (
       selectedContribution?.pollId === row.pollId
       && selectedContribution?.contributor === row.contributor) {
@@ -157,7 +154,6 @@ export function HistoryList({ data }: TableSortProps) {
         roles[role] = true;
       });
     });
-    console.log(roles);
     setFilterObjRoles(roles);
   }, []);
 

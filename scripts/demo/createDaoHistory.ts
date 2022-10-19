@@ -314,7 +314,6 @@ export default async (daoHistory: DAOHistory) => {
     }
 
     for (const item of data) {
-        const scoreMax = 5
         const daoHistoryItem: DAOHistoryItemStruct = {
             contributionText: item.contributionText,
             reward: ethers.utils.parseEther(item.reward.toString()),
@@ -324,8 +323,6 @@ export default async (daoHistory: DAOHistory) => {
             pollId: item.pollId
         };
         await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
-
-
     }
 
 
