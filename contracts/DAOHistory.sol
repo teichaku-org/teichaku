@@ -68,6 +68,10 @@ contract DAOHistory is AccessControl, Ownable {
         returns (address)
     {
         require(
+            daoInfo[daoId].projects.length != 0,
+            "DAOHistory: DAO does not exist"
+        );
+        require(
             pollAddress[daoId][projectId] == address(0),
             "DAOHistory: Project already exists"
         );
