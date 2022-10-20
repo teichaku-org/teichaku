@@ -160,10 +160,6 @@ export function HistoryList({ data }: TableSortProps) {
     });
     setSortKeys(newSortKeys);
     return;
-
-    // setReverseSortDirection(reversed);
-    // setSortBy(field);
-    // setSortedData(sortData(data, { sortBy: field, reversed, search }));
   };
 
   useEffect(() => {
