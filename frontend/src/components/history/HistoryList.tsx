@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Container,
-  Divider,
-  Drawer,
-  Paper,
-  ScrollArea,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
+import { Drawer, ScrollArea, Text, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -52,6 +44,20 @@ function sortData(
     return filterData(data, payload.search);
   }
 
+  if (sortBy === "timestamp") {
+    return filterData(
+      data.sort((x, y) => {
+        const firstDate = new Date(x.timestamp);
+        const SecondDate = new Date(y.timestamp);
+
+        if (firstDate < SecondDate) return payload.reversed ? -1 : 1;
+        if (firstDate > SecondDate) return payload.reversed ? 1 : -1;
+        return 0;
+      }),
+      payload.search
+    );
+  }
+
   if (sortBy === "reward") {
     return filterData(
       [...data].sort((a, b) => {
@@ -85,11 +91,13 @@ export interface FilterRoles {
   [index: string]: boolean;
 }
 
+export interface SortKeys {
+  [index: string]: boolean;
+}
+
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
-  const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
   const [selectedContribution, setSelectedContribution] = useState<{
     pollId: number;
@@ -98,6 +106,13 @@ export function HistoryList({ data }: TableSortProps) {
   const opened = selectedContribution !== undefined;
 
   const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
+
+  const [sortKeys, setSortKeys] = useState<SortKeys>({
+    新しい順: true,
+    古い順: false,
+    大きな貢献順: false,
+    小さな貢献順: false,
+  });
 
   const handleFilterRoles = (role: string) => {
     if (role === "全て") {
@@ -120,33 +135,34 @@ export function HistoryList({ data }: TableSortProps) {
     return;
   };
 
-  const onClickCard = (row: { pollId: number, contributor: string }) => {
+  const onClickCard = (row: { pollId: number; contributor: string }) => {
     if (
-      selectedContribution?.pollId === row.pollId
-      && selectedContribution?.contributor === row.contributor) {
+      selectedContribution?.pollId === row.pollId &&
+      selectedContribution?.contributor === row.contributor
+    ) {
       setSelectedContribution(undefined);
-      return
+      return;
     }
-    setSelectedContribution({ pollId: row.pollId, contributor: row.contributor });
-
+    setSelectedContribution({
+      pollId: row.pollId,
+      contributor: row.contributor,
+    });
   };
 
-  const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
+  const handleSortKeys = (selectedKey: string) => {
+    const newSortKeys: FilterRoles = {};
+    Object.keys(sortKeys).forEach((key) => {
+      if (selectedKey === key) {
+        newSortKeys[key] = true;
+        return;
+      }
+      newSortKeys[key] = false;
+    });
+    setSortKeys(newSortKeys);
+    return;
   };
 
   useEffect(() => {
-    setSortedData(
-      sortData(data, {
-        sortBy: "reward",
-        reversed: true,
-        search: "",
-      })
-    );
-
     //ロールを抽出
     const roles: FilterRoles = { 全て: true };
     data.forEach((dao) => {
@@ -157,19 +173,32 @@ export function HistoryList({ data }: TableSortProps) {
     setFilterObjRoles(roles);
   }, []);
 
-  //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
+  const sortBy = (): keyof DaoHistory | null => {
+    if (sortKeys["新しい順"] || sortKeys["古い順"]) {
+      return "timestamp";
+    }
+    return "reward";
+  };
+
+  const reversed = (): boolean => {
+    if (sortKeys["新しい順"] || sortKeys["小さな貢献順"]) {
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     const filterRoles = Object.keys(filterObjRoles).filter(
       (key) => filterObjRoles[key]
     );
     setSortedData(
       sortData(filterByRole(data, filterRoles), {
-        sortBy: "reward",
-        reversed: true,
+        sortBy: sortBy(),
+        reversed: reversed(),
         search: "",
       })
     );
-  }, [filterObjRoles]);
+  }, [filterObjRoles, sortKeys]);
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -184,7 +213,9 @@ export function HistoryList({ data }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
+        onClick={() =>
+          onClickCard({ pollId: row.pollId, contributor: row.contributor })
+        }
       />
     </div>
   ));
@@ -230,7 +261,7 @@ export function HistoryList({ data }: TableSortProps) {
               display: flex;
             `}
           >
-            <SortButton />
+            <SortButton sortKeys={sortKeys} handleSortKeys={handleSortKeys} />
             <FilterButton
               handleFilterRoles={handleFilterRoles}
               roles={filterObjRoles}
@@ -259,8 +290,11 @@ export function HistoryList({ data }: TableSortProps) {
         closeOnClickOutside
       >
         {selectedContribution && (
-          <ScrollArea style={{ height: "100%" }} p="lg" >
-            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
+          <ScrollArea style={{ height: "100%" }} p="lg">
+            <SingleAssessment
+              pollId={selectedContribution.pollId}
+              contributor={selectedContribution.contributor}
+            />
           </ScrollArea>
         )}
       </Drawer>
