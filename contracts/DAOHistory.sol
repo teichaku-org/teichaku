@@ -39,13 +39,13 @@ contract DAOHistory is AccessControl, Ownable {
         projects[0] = projectId;
         daoInfo[daoId] = DAOInfo(name, description, website, logo, projects);
 
-        //pollコントラクトを作成する
+        // Create a poll contract
         Poll poll = new Poll(daoId, projectId);
         setupAddHistoryRole(address(poll));
         pollAddress[daoId][projectId] = address(poll);
         poll.setDaoHistoryAddress(address(this));
 
-        //　権限を付与する
+        // grant permission
         poll.setPollAdminRole(msg.sender);
         poll.transferOwnership(msg.sender);
 
@@ -83,7 +83,7 @@ contract DAOHistory is AccessControl, Ownable {
     ) public {
         require(
             hasRole(ADD_HISTORY_ROLE, msg.sender),
-            "Caller is not a add history role"
+            "Caller has no permission to add history"
         );
         histories[daoId][projectId].push(daoHistoryItem);
     }
@@ -95,7 +95,7 @@ contract DAOHistory is AccessControl, Ownable {
     ) public {
         require(
             hasRole(ADD_HISTORY_ROLE, msg.sender),
-            "Caller is not a add assessment role"
+            "Caller has no permission to add assessment"
         );
         for (uint256 i = 0; i < _assessments.length; i++) {
             assessments[daoId][projectId].push(_assessments[i]);
