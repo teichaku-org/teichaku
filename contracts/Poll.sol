@@ -59,6 +59,10 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // maximum number of points that can be voted
     uint256 public VOTE_MAX_POINT = 20;
 
+    // 投票時に参加できる人数
+    // maximum number of people who can participate in voting
+    uint256 public VOTE_MAX_PARTICIPANT = 100;
+
     // 投票可能かどうかの制御を行うフラグ
     // flag to control voting
     bool public votingEnabled = true;
@@ -189,6 +193,18 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
+     * @notice Set VOTE_MAX_PARTICIPANT
+     * @dev only poll admin can set VOTE_MAX_PARTICIPANT
+     */
+    function setVoteMaxParticipant(uint256 _voteMaxParticipant) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Caller is not a poll admin"
+        );
+        VOTE_MAX_PARTICIPANT = _voteMaxParticipant;
+    }
+
+    /**
      * @notice Set VOTE_MAX_POINT
      * @dev only poll admin can set VOTE_MAX_POINT
      */
@@ -222,9 +238,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     function candidateToCurrentPoll(
         string memory contributionText,
         string[] memory evidences,
-        string[] memory roles // TODO: NFTから取得する
+        string[] memory roles
     ) external whenNotPaused {
-        uint256 updateIndex = 999;
+        uint256 updateIndex = VOTE_MAX_PARTICIPANT + 1;
         for (
             uint256 index = 0;
             index < candidates[currentMaxPollId].length;
@@ -235,9 +251,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             }
         }
 
-        //TODO: get role info from NFT
-
-        if (updateIndex == 999) {
+        if (updateIndex == (VOTE_MAX_PARTICIPANT + 1)) {
             candidates[currentMaxPollId].push(msg.sender);
             contributions[currentMaxPollId].push(
                 ContributionItem(
@@ -327,8 +341,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         }
 
         // Check if the voter has already voted
-        //FIX: 999を止める。もしくは投票の最大数をチェックする
-        uint256 voterIndex = 999;
+        uint256 voterIndex = VOTE_MAX_PARTICIPANT + 1;
         for (uint256 index = 0; index < voters.length; index++) {
             if (voters[index] == msg.sender) {
                 voterIndex = index;
@@ -343,7 +356,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             perspectiveId: activePerspective
         });
 
-        if (voterIndex == 999) {
+        if (voterIndex == VOTE_MAX_PARTICIPANT + 1) {
             // save the vote to the list of votes
             votes[_pollId].push(_vote);
         } else {
@@ -374,27 +387,26 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
      * @notice Settle the current poll and aggregate the result
      */
     function _settlePoll() internal {
-        // TODO: 最新のpollIdではなく、指定したpollIdを使うようにする
         // Add up votes for each candidate
         address[] memory _candidates = candidates[currentMaxPollId];
         Vote[] memory _votes = votes[currentMaxPollId];
         string[] memory _perspectives = perspectives[activePerspective];
 
-        // candidateごとの集計データ
+        // Aggregated data for each candidate
         Assessment[][] memory candidatesAssessments = new Assessment[][](
             _candidates.length
         );
-        // スコアの集計データ(各観点を集計したスコアの合計)
+        // Aggregate score data (total score for each viewpoint)
         uint256[] memory summedPoints = new uint256[](_candidates.length);
 
         for (uint256 c = 0; c < _candidates.length; c++) {
             candidatesAssessments[c] = new Assessment[](_votes.length);
             for (uint256 v = 0; v < _votes.length; v++) {
-                //評価観点が最新でないものはスキップ
+                //Skip vote whose perspective is not the latest
                 if (_votes[v].perspectiveId != activePerspective) {
                     continue;
                 }
-                //自分の評価はスキップ
+                //Skip vote for oneself
                 if (_votes[v].voter == _candidates[c]) {
                     continue;
                 }
@@ -434,7 +446,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
                     totalPoints
                 );
             }
-            _mintTokenForContributor(_candidates, assignmentToken);
+            _transferTokenForContributor(_candidates, assignmentToken);
         }
 
         // Decide how much to distribute to Voters
@@ -445,12 +457,12 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
                 VOTER_ASSIGNMENT_TOKEN,
                 totalVoterCount
             );
-            _mintTokenForVoter(_voters, voterAssignmentToken);
+            _transferTokenForVoter(_voters, voterAssignmentToken);
         }
 
         endTimeStamp[currentMaxPollId] = block.timestamp;
 
-        //集計結果をDAO Historyに保存する
+        //Save aggregation results in DAO History
         DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
         for (uint256 c = 0; c < _candidates.length; c++) {
             ContributionItem memory contributionItem = contributions[
@@ -484,9 +496,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @notice Mint dao token for contributors
+     * @notice Transfer dao token for contributors
      */
-    function _mintTokenForContributor(
+    function _transferTokenForContributor(
         address[] memory to,
         uint256[] memory amount
     ) internal {
@@ -505,9 +517,11 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @notice Mint dao token for voters
+     * @notice transfer dao token for voters
      */
-    function _mintTokenForVoter(address[] memory to, uint256 amount) internal {
+    function _transferTokenForVoter(address[] memory to, uint256 amount)
+        internal
+    {
         if (daoTokenAddress == address(0)) {
             // If the token address to be distributed is not registered, the token will not be distributed
             return;
@@ -583,7 +597,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             timestamp
         );
 
-        //TODO: 複数のアクティブなPollがある場合に対応する
+        // WARN: Only one poll is active in the current implementation
         AbstractPollItem[] memory _pollsArray = new AbstractPollItem[](1);
         _pollsArray[0] = _polls;
         return _pollsArray;
@@ -602,9 +616,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         //voters
         address[] memory _voters = getVoters(_pollId);
         //start time
-        uint256 startTimeStamp = startTimeStamp[_pollId];
+        uint256 _startTimeStamp = startTimeStamp[_pollId];
         //start time
-        uint256 endTimeStamp = endTimeStamp[_pollId];
+        uint256 _endTimeStamp = endTimeStamp[_pollId];
         //current perspectives
         string[] memory _perspectives = getCurrentPerspectives();
 
@@ -613,8 +627,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             _pollId,
             _contributions,
             _voters,
-            startTimeStamp,
-            endTimeStamp,
+            _startTimeStamp,
+            _endTimeStamp,
             _perspectives
         );
         return _detailPoll;
