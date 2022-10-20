@@ -7,7 +7,8 @@
     "node": "npx hardhat node",
     "test": "npx hardhat test",
     "dev": "npx hardhat run scripts/deploy.ts --network localhost",
-    "generate": "cp -rp ./artifacts/contracts/. ./frontend/src/abi/ && rm -rf ./frontend/src/abi/*/*.dbg.json && npx typechain --target=ethers-v5 --out-dir ./frontend/src/types ./frontend/src/abi/*/*.json "
+    "generate": "cp -rp ./artifacts/contracts/. ./frontend/src/abi/ && rm -rf ./frontend/src/abi/*/*.dbg.json && npx typechain --target=ethers-v5 --out-dir ./frontend/src/types ./frontend/src/abi/*/*.json ",
+    "coverage": "npx hardhat coverage"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "solidity-coverage": "^0.7.22"
   }
 }

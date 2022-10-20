@@ -27,7 +27,7 @@ describe("Poll", function () {
         const EnglisterToken = await ethers.getContractFactory("DAOToken");
         const NAME = "DAOTOKEN"
         const SYMBOL = "DAO"
-        const INITIAL_SUPPLY = ethers.utils.parseEther("100");
+        const INITIAL_SUPPLY = ethers.utils.parseEther("10100");
         const token = await EnglisterToken.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
 
         // Deploy NFT
@@ -35,15 +35,16 @@ describe("Poll", function () {
         const nft = await DaoNft.deploy(NAME, SYMBOL);
 
         // 権限設定
-        await poll.setPollAdminRole(owner.address);
         await token.setupMinterRole(poll.address);
         await poll.setDaoTokenAddress(token.address);
-        await poll.setNftAddress(nft.address);
         await daoHistory.setupAddHistoryRole(poll.address);
+
+        // Pollに入金する
+        await token.transfer(poll.address, ethers.utils.parseEther("10000"));
 
         //設定値
         await poll.setContributorAssignmentToken(ethers.utils.parseEther("5000"));
-        await poll.setSupporterAssignmentToken(ethers.utils.parseEther("3000"));
+        await poll.setVoterAssignmentToken(ethers.utils.parseEther("3000"));
         await poll.changePerspective(["p1", "p2", "p3"])
         return { token, poll, nft, owner, otherAccount, otherAccount2, otherAccount3 };
     }
@@ -276,10 +277,10 @@ describe("Poll", function () {
     });
 
     describe("投票の権利", function () {
-        it("投票に必要なNFTを持っていないと投票できない", async function () {
+        it("NFTを設定している場合、投票に必要なNFTを持っていないと投票できない", async function () {
             const { owner, token, nft, poll, otherAccount, otherAccount2 } = await loadFixture(deploy);
 
-            await poll.setRequiredTokenForVote(1);
+            await poll.setNftAddress(nft.address);
             await poll.candidateToCurrentPoll("test1", [], [])
 
             // 投票権を持っているotherAccountとそうでないotherAccount2で投票を行う
@@ -288,5 +289,6 @@ describe("Poll", function () {
             await poll.connect(otherAccount).vote(0, [owner.address], [[1, 2, 3]], ["test"])
             await expect(poll.connect(otherAccount2).vote(0, [owner.address], [[1, 2, 3]], ["test"])).to.be.revertedWith("You are not eligible to vote.");
         });
+
     })
 });

@@ -103,6 +103,7 @@ export interface DAOHistoryInterface extends utils.Interface {
     "addAssessment(string,string,(address,address,uint256[],string,uint256,int256)[])": FunctionFragment;
     "addDao(string,string,string,string,string,string)": FunctionFragment;
     "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256,string[]))": FunctionFragment;
+    "addProject(string,string)": FunctionFragment;
     "assessments(string,string,uint256)": FunctionFragment;
     "daoInfo(string)": FunctionFragment;
     "getDaoAssessments(string,string)": FunctionFragment;
@@ -129,6 +130,7 @@ export interface DAOHistoryInterface extends utils.Interface {
       | "addAssessment"
       | "addDao"
       | "addDaoHistory"
+      | "addProject"
       | "assessments"
       | "daoInfo"
       | "getDaoAssessments"
@@ -178,6 +180,10 @@ export interface DAOHistoryInterface extends utils.Interface {
       PromiseOrValue<string>,
       DAOHistoryItemStruct
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addProject",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "assessments",
@@ -270,6 +276,7 @@ export interface DAOHistoryInterface extends utils.Interface {
     functionFragment: "addDaoHistory",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "addProject", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "assessments",
     data: BytesLike
@@ -435,6 +442,12 @@ export interface DAOHistory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    addProject(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     assessments(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
@@ -576,6 +589,12 @@ export interface DAOHistory extends BaseContract {
     daoId: PromiseOrValue<string>,
     projectId: PromiseOrValue<string>,
     daoHistoryItem: DAOHistoryItemStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  addProject(
+    daoId: PromiseOrValue<string>,
+    projectId: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -722,6 +741,12 @@ export interface DAOHistory extends BaseContract {
       daoHistoryItem: DAOHistoryItemStruct,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    addProject(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     assessments(
       arg0: PromiseOrValue<string>,
@@ -910,6 +935,12 @@ export interface DAOHistory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    addProject(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     assessments(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
@@ -1031,6 +1062,12 @@ export interface DAOHistory extends BaseContract {
       daoId: PromiseOrValue<string>,
       projectId: PromiseOrValue<string>,
       daoHistoryItem: DAOHistoryItemStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addProject(
+      daoId: PromiseOrValue<string>,
+      projectId: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

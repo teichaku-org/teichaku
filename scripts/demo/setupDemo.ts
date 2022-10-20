@@ -17,12 +17,12 @@ async function setupDemo(
     // テストデータ追加のためDaoHistoryへのアクセス権を追加する
     await daoHistory.setupAddHistoryRole(owner.address)
 
-
     // Tokenの発行
-    await token.mint(owner.address, ethers.utils.parseEther("500"));
+    await token.mint(owner.address, ethers.utils.parseEther("100500"));
     await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
 
-    await daoHistory.addDao("demo", "season1", "Web3HackathonデモDAO", "ハッカソンのために作ったDAOです", "", "")
+    // Pollに送金する
+    await token.transfer(poll.address, ethers.utils.parseEther("100000"));
 
     // DaoHistoryの追加
     await createDaoHistory(daoHistory)
@@ -35,9 +35,6 @@ async function setupDemo(
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()
-
-    // 投票にNFTが必要でないようにする
-    await poll.setRequiredTokenForVote(0)
 
 
     // 投票に立候補している状態にする

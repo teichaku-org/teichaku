@@ -4,28 +4,19 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
-import "./DAOToken.sol";
-import "./DAONFT.sol";
 import "./DAOHistory.sol";
 import "./lib/SafeMath.sol";
-import "./interface/DAOEvents.sol";
-import "./struct/PollItem.sol";
-import "./struct/DAOHistoryItem.sol";
+import "./struct/poll/ContributionItem.sol";
+import "./struct/poll/AbstractPollItem.sol";
+import "./struct/poll/Vote.sol";
+import "./struct/poll/DetailPollItem.sol";
+import "./struct/assessment/Assessment.sol";
+import "./struct/dao/DAOHistoryItem.sol";
 
-//for dev
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
-
-struct Vote {
-    address voter;
-    address[] candidates;
-    uint256[][] points;
-    string[] comments;
-    uint256 perspectiveId;
-}
-
-contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
+contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // DAO ID
     string public daoId;
     // Project Id
@@ -37,18 +28,18 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         projectId = _projectId;
     }
 
-    // ContributionPollを開始したり終了する権限
-    // Role to start and end a ContributionPoll
+    // Pollを開始したり終了するなどの権限
+    // Role to start and end a Poll etc
     bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
 
-    // ContributionPoll Id
+    // Poll Id
     int256 public currentMaxPollId = 0;
 
     // 配布するDAOトークンのアドレス
     // DAO token address to distribute
     address public daoTokenAddress;
 
-    // 投票するのに必要なNFTのアドレス
+    // 投票するのに必要なNFT(SBT)のアドレス
     // NFT address required to vote
     address public nftAddress;
 
@@ -56,22 +47,21 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     // DAO History address
     address public daoHistoryAddress;
 
-    // TODO: 記法を統一する
-    // 投票はDAO NFTをREQUIRED_TOKEN_FOR_VOTEよりも多く保持しているアドレスのみ可能
-    // Voting is only possible for addresses that hold more than REQUIRED_TOKEN_FOR_VOTE DAO NFT
-    uint256 public REQUIRED_TOKEN_FOR_VOTE = 0;
-
     // 立候補者(貢献者)に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to candidates(contributors)
     uint256 public CONTRIBUTOR_ASSIGNMENT_TOKEN = 7000 * (10**18);
 
     // 投票者に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to voters
-    uint256 public SUPPORTER_ASSIGNMENT_TOKEN = 3000 * (10**18);
+    uint256 public VOTER_ASSIGNMENT_TOKEN = 3000 * (10**18);
 
     // 投票時に指定できる最大点数
     // maximum number of points that can be voted
     uint256 public VOTE_MAX_POINT = 20;
+
+    // 投票時に参加できる人数
+    // maximum number of people who can participate in voting
+    uint256 public VOTE_MAX_PARTICIPANT = 100;
 
     // 投票可能かどうかの制御を行うフラグ
     // flag to control voting
@@ -83,7 +73,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
 
     // 立候補者の貢献リスト
     // list of candidates
-    mapping(int256 => ContributionItem[]) public contributions;
+    mapping(int256 => ContributionItem[]) public contributions; // pollId => [contribution1, contribution2, ...]
 
     // 投票のリスト
     // list of vote
@@ -91,7 +81,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
 
     // 投票の開始時間
     // Start-time of polls
-    mapping(int256 => uint256) public startTimeStamp;
+    mapping(int256 => uint256) public startTimeStamp; // pollId => Timestamp for the beginning
 
     // 投票期間
     // Voting duration
@@ -99,42 +89,15 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
 
     // 投票の終了時間
     // End-time of polls
-    mapping(int256 => uint256) public endTimeStamp;
+    mapping(int256 => uint256) public endTimeStamp; //pollId => Timestamp for the deadline
 
     // 投票観点
     // perspective
-    mapping(uint256 => string[]) public perspectives;
+    mapping(uint256 => string[]) public perspectives; // perspectiveId => [perspective1, perspective2, ...]
 
     // アクティブな投票観点
     // active perspective
     uint256 public activePerspective = 0;
-
-    /**
-     * @notice Change Perspective
-     * @dev only owner can change Perspective
-     */
-    function changePerspective(string[] memory perspectiveTexts)
-        external
-        onlyOwner
-    {
-        perspectives[++activePerspective] = perspectiveTexts;
-    }
-
-    /**
-     * @notice Set DAO Token Address
-     * @dev only owner can set DAO Token Address
-     */
-    function setDaoTokenAddress(address _daoTokenAddress) external onlyOwner {
-        daoTokenAddress = _daoTokenAddress;
-    }
-
-    /**
-     * @notice Set NFT Address
-     * @dev only owner can set NFT Address
-     */
-    function setNftAddress(address _nftAddress) external onlyOwner {
-        nftAddress = _nftAddress;
-    }
 
     /**
      * @notice Set DAO History Address
@@ -156,15 +119,39 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     }
 
     /**
-     * @notice Set REQUIRED_TOKEN_FOR_VOTE
-     * @dev only poll admin can set REQUIRED_TOKEN_FOR_VOTE
+     * @notice Change Perspective
+     * @dev only admin can change Perspective
      */
-    function setRequiredTokenForVote(uint256 _rankForVote) external {
+    function changePerspective(string[] memory perspectiveTexts) external {
         require(
             hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
+            "Poll::changePerspective: only POLL_ADMIN_ROLE can add perspective"
         );
-        REQUIRED_TOKEN_FOR_VOTE = _rankForVote;
+        perspectives[++activePerspective] = perspectiveTexts;
+    }
+
+    /**
+     * @notice Set DAO Token Address
+     * @dev only admin can set DAO Token Address
+     */
+    function setDaoTokenAddress(address _daoTokenAddress) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Poll::setDaoTokenAddress: only POLL_ADMIN_ROLE"
+        );
+        daoTokenAddress = _daoTokenAddress;
+    }
+
+    /**
+     * @notice Set NFT Address
+     * @dev only admin can set NFT Address
+     */
+    function setNftAddress(address _nftAddress) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Poll::setNftAddress: only POLL_ADMIN_ROLE"
+        );
+        nftAddress = _nftAddress;
     }
 
     /**
@@ -181,19 +168,16 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         CONTRIBUTOR_ASSIGNMENT_TOKEN = _contributorAssignmentToken;
     }
 
-    //TODO: supporterではなくvoterに変更する
     /**
-     * @notice Set SUPPORTER_ASSIGNMENT_TOKEN
-     * @dev only poll admin can set SUPPORTER_ASSIGNMENT_TOKEN
+     * @notice Set VOTER_ASSIGNMENT_TOKEN
+     * @dev only poll admin can set VOTER_ASSIGNMENT_TOKEN
      */
-    function setSupporterAssignmentToken(uint256 _supporterAssignmentToken)
-        external
-    {
+    function setVoterAssignmentToken(uint256 _voterAssignmentToken) external {
         require(
             hasRole(POLL_ADMIN_ROLE, msg.sender),
             "Caller is not a poll admin"
         );
-        SUPPORTER_ASSIGNMENT_TOKEN = _supporterAssignmentToken;
+        VOTER_ASSIGNMENT_TOKEN = _voterAssignmentToken;
     }
 
     /**
@@ -209,6 +193,18 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     }
 
     /**
+     * @notice Set VOTE_MAX_PARTICIPANT
+     * @dev only poll admin can set VOTE_MAX_PARTICIPANT
+     */
+    function setVoteMaxParticipant(uint256 _voteMaxParticipant) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Caller is not a poll admin"
+        );
+        VOTE_MAX_PARTICIPANT = _voteMaxParticipant;
+    }
+
+    /**
      * @notice Set VOTE_MAX_POINT
      * @dev only poll admin can set VOTE_MAX_POINT
      */
@@ -219,7 +215,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         );
         //TODO: pollIdごとにフラグを設定できるようにする
         votingEnabled = _votingEnabled;
-        emit VotingEnabled(pollId, votingEnabled);
     }
 
     /**
@@ -243,9 +238,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     function candidateToCurrentPoll(
         string memory contributionText,
         string[] memory evidences,
-        string[] memory roles // TODO: NFTから取得する
+        string[] memory roles
     ) external whenNotPaused {
-        uint256 updateIndex = 999;
+        uint256 updateIndex = VOTE_MAX_PARTICIPANT + 1;
         for (
             uint256 index = 0;
             index < candidates[currentMaxPollId].length;
@@ -256,9 +251,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             }
         }
 
-        //TODO: get role info from NFT
-
-        if (updateIndex == 999) {
+        if (updateIndex == (VOTE_MAX_PARTICIPANT + 1)) {
             candidates[currentMaxPollId].push(msg.sender);
             contributions[currentMaxPollId].push(
                 ContributionItem(
@@ -275,16 +268,18 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             contributions[currentMaxPollId][updateIndex].evidences = evidences;
             contributions[currentMaxPollId][updateIndex].roles = roles;
         }
-
-        emit Candidated(currentMaxPollId, msg.sender);
     }
 
     /**
-     * @notice check if the voter has enough DAO NFT to vote
+     * @notice check if the voter has right(DAO NFT) to vote
      */
     function isEligibleToVote(address _address) public view returns (bool) {
-        DAONFT daoToken = DAONFT(nftAddress);
-        return daoToken.balanceOf(_address) >= REQUIRED_TOKEN_FOR_VOTE;
+        if (nftAddress == address(0)) {
+            // Anyone can vote if no NFT address is set
+            return true;
+        }
+        IERC721 daoToken = IERC721(nftAddress);
+        return daoToken.balanceOf(_address) >= 1;
     }
 
     /**
@@ -346,8 +341,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         }
 
         // Check if the voter has already voted
-        //FIX: 999を止める。もしくは投票の最大数をチェックする
-        uint256 voterIndex = 999;
+        uint256 voterIndex = VOTE_MAX_PARTICIPANT + 1;
         for (uint256 index = 0; index < voters.length; index++) {
             if (voters[index] == msg.sender) {
                 voterIndex = index;
@@ -362,14 +356,13 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             perspectiveId: activePerspective
         });
 
-        if (voterIndex == 999) {
+        if (voterIndex == VOTE_MAX_PARTICIPANT + 1) {
             // save the vote to the list of votes
             votes[_pollId].push(_vote);
         } else {
             // update the vote to the list of votes
             votes[_pollId][voterIndex] = _vote;
         }
-        emit Voted(_pollId, msg.sender);
         return true;
     }
 
@@ -386,35 +379,34 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             hasRole(POLL_ADMIN_ROLE, msg.sender),
             "Caller is not a poll admin"
         );
-        _settleContributionPoll();
-        _createContributionPoll();
+        _settlePoll();
+        _createPoll();
     }
 
     /**
      * @notice Settle the current poll and aggregate the result
      */
-    function _settleContributionPoll() internal {
-        // TODO: 最新のpollIdではなく、指定したpollIdを使うようにする
+    function _settlePoll() internal {
         // Add up votes for each candidate
         address[] memory _candidates = candidates[currentMaxPollId];
         Vote[] memory _votes = votes[currentMaxPollId];
         string[] memory _perspectives = perspectives[activePerspective];
 
-        // candidateごとの集計データ
+        // Aggregated data for each candidate
         Assessment[][] memory candidatesAssessments = new Assessment[][](
             _candidates.length
         );
-        // スコアの集計データ(各観点を集計したスコアの合計)
+        // Aggregate score data (total score for each viewpoint)
         uint256[] memory summedPoints = new uint256[](_candidates.length);
 
         for (uint256 c = 0; c < _candidates.length; c++) {
             candidatesAssessments[c] = new Assessment[](_votes.length);
             for (uint256 v = 0; v < _votes.length; v++) {
-                //評価観点が最新でないものはスキップ
+                //Skip vote whose perspective is not the latest
                 if (_votes[v].perspectiveId != activePerspective) {
                     continue;
                 }
-                //自分の評価はスキップ
+                //Skip vote for oneself
                 if (_votes[v].voter == _candidates[c]) {
                     continue;
                 }
@@ -454,23 +446,23 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                     totalPoints
                 );
             }
-            _mintTokenForContributor(_candidates, assignmentToken);
+            _transferTokenForContributor(_candidates, assignmentToken);
         }
 
-        // Decide how much to distribute to Supporters
+        // Decide how much to distribute to Voters
         address[] memory _voters = getVoters(currentMaxPollId);
         uint256 totalVoterCount = _voters.length;
         if (totalVoterCount > 0) {
             uint256 voterAssignmentToken = SafeMath.div(
-                SUPPORTER_ASSIGNMENT_TOKEN,
+                VOTER_ASSIGNMENT_TOKEN,
                 totalVoterCount
             );
-            _mintTokenForSupporter(_voters, voterAssignmentToken);
+            _transferTokenForVoter(_voters, voterAssignmentToken);
         }
 
         endTimeStamp[currentMaxPollId] = block.timestamp;
 
-        //集計結果をDAO Historyに保存する
+        //Save aggregation results in DAO History
         DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
         for (uint256 c = 0; c < _candidates.length; c++) {
             ContributionItem memory contributionItem = contributions[
@@ -492,46 +484,51 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 candidatesAssessments[c]
             );
         }
-
-        emit SettlePoll(currentMaxPollId);
     }
 
     /**
      * @notice start new poll
      */
-    function _createContributionPoll() internal {
+    function _createPoll() internal {
         currentMaxPollId++;
         startTimeStamp[currentMaxPollId] = block.timestamp;
         endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
-        emit CreatePoll(currentMaxPollId);
     }
 
     /**
-     * @notice Mint dao token for contributors
+     * @notice Transfer dao token for contributors
      */
-    function _mintTokenForContributor(
+    function _transferTokenForContributor(
         address[] memory to,
         uint256[] memory amount
     ) internal {
+        if (daoTokenAddress == address(0)) {
+            // If the token address to be distributed is not registered, the token will not be distributed
+            return;
+        }
         require(
             to.length == amount.length,
             "to and amount must be same length"
         );
-        DAOToken daoToken = DAOToken(daoTokenAddress);
+        IERC20 daoToken = IERC20(daoTokenAddress);
         for (uint256 index = 0; index < to.length; index++) {
-            daoToken.mint(to[index], amount[index]);
+            daoToken.transfer(to[index], amount[index]);
         }
     }
 
     /**
-     * @notice Mint dao token for supporters
+     * @notice transfer dao token for voters
      */
-    function _mintTokenForSupporter(address[] memory to, uint256 amount)
+    function _transferTokenForVoter(address[] memory to, uint256 amount)
         internal
     {
-        DAOToken daoToken = DAOToken(daoTokenAddress);
+        if (daoTokenAddress == address(0)) {
+            // If the token address to be distributed is not registered, the token will not be distributed
+            return;
+        }
+        IERC20 daoToken = IERC20(daoTokenAddress);
         for (uint256 index = 0; index < to.length; index++) {
-            daoToken.mint(to[index], amount);
+            daoToken.transfer(to[index], amount);
         }
     }
 
@@ -600,7 +597,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             timestamp
         );
 
-        //TODO: 複数のアクティブなPollがある場合に対応する
+        // WARN: Only one poll is active in the current implementation
         AbstractPollItem[] memory _pollsArray = new AbstractPollItem[](1);
         _pollsArray[0] = _polls;
         return _pollsArray;
@@ -619,9 +616,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         //voters
         address[] memory _voters = getVoters(_pollId);
         //start time
-        uint256 startTimeStamp = startTimeStamp[_pollId];
+        uint256 _startTimeStamp = startTimeStamp[_pollId];
         //start time
-        uint256 endTimeStamp = endTimeStamp[_pollId];
+        uint256 _endTimeStamp = endTimeStamp[_pollId];
         //current perspectives
         string[] memory _perspectives = getCurrentPerspectives();
 
@@ -630,8 +627,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             _pollId,
             _contributions,
             _voters,
-            startTimeStamp,
-            endTimeStamp,
+            _startTimeStamp,
+            _endTimeStamp,
             _perspectives
         );
         return _detailPoll;

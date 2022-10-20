@@ -5,7 +5,7 @@ import setupDeploy from "./demo/setupDeploy";
 async function main() {
   const {
     owner, otherAccount, otherAccount2,
-    token, daoHistory, poll, historyNFT, nftCreator, daonft
+    token, daoHistory, poll, daonft
   } = await setupDeploy()
   await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
 
