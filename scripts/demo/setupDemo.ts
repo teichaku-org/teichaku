@@ -21,8 +21,6 @@ async function setupDemo(
     await token.mint(owner.address, ethers.utils.parseEther("100500"));
     await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
 
-    await daoHistory.addDao("demo", "season1", "Web3HackathonデモDAO", "ハッカソンのために作ったDAOです", "", "")
-
     // Pollに送金する
     await token.transfer(poll.address, ethers.utils.parseEther("100000"));
 

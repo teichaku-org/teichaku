@@ -28,8 +28,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         projectId = _projectId;
     }
 
-    // Pollを開始したり終了する権限
-    // Role to start and end a Poll
+    // Pollを開始したり終了するなどの権限
+    // Role to start and end a Poll etc
     bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
 
     // Poll Id
@@ -39,7 +39,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // DAO token address to distribute
     address public daoTokenAddress;
 
-    // 投票するのに必要なNFTのアドレス
+    // 投票するのに必要なNFT(SBT)のアドレス
     // NFT address required to vote
     address public nftAddress;
 

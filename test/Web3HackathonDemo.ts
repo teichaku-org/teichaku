@@ -85,10 +85,10 @@ describe("Web3Hachathon Demo Scenario", function () {
         it("DAOの名前などを取得できる", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
             const daoInfo = await daoHistory.getDaoInfo("demo")
-            expect(daoInfo.name).to.equal("Web3HackathonデモDAO");
-            expect(daoInfo.description).equal("ハッカソンのために作ったDAOです");
-            expect(daoInfo.website).to.equal("");
-            expect(daoInfo.logo).equal("");
+            expect(daoInfo.name).to.equal("demo season1");
+            expect(daoInfo.description).equal("demo season1 description");
+            expect(daoInfo.website).to.equal("https://englister.yunomy.com");
+            expect(daoInfo.logo).equal("https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
             expect(daoInfo.projects).to.members(["season1"])
         });
     });

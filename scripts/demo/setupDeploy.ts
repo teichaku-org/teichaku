@@ -38,13 +38,6 @@ export default async function setupDeploy() {
     await poll.setDaoTokenAddress(token.address);
     console.log("Poll.setDaoTokenAddress");
 
-    // Pollの締め切りができる権限をownerに持たせる
-    await poll.setPollAdminRole(owner.address);
-    console.log("Poll.setPollAdminRole");
-
-    // PollはTokenをmintする権限を持つ
-    await token.setupMinterRole(poll.address);
-    console.log("Token.setupMinterRole");
 
     // Perspectiveの設定
     await poll.changePerspective(
@@ -56,7 +49,6 @@ export default async function setupDeploy() {
     )
     console.log("Poll.changePerspective");
 
-    // TODO: NFTのbaseURLを設定する
 
     return {
         owner, otherAccount, otherAccount2,

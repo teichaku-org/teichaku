@@ -4,15 +4,29 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Poll.sol";
 import "./struct/dao/DAOInfo.sol";
 
+// dev
+import "hardhat/console.sol";
+
 contract DAOHistory is AccessControl, Ownable {
+    // daoId => projectId => [DAOHistoryItem, ...]
     mapping(string => mapping(string => DAOHistoryItem[])) public histories;
+
+    // daoId => projectId => [Assessment, ...]
     mapping(string => mapping(string => Assessment[])) public assessments;
+
+    // daoId => projectId => [Poll, ...]
     mapping(string => mapping(string => address)) public pollAddress;
+
+    // daoId => [DAOInfo, ...]
     mapping(string => DAOInfo) public daoInfo;
 
-    // Role to add DAO History
+    // Role to interact with DAO History
     bytes32 public constant ADD_HISTORY_ROLE = keccak256("ADD_HISTORY_ROLE");
 
+    /**
+     * @notice Setup role for other contract to interact with DAO History
+     * @dev only owner can set DAO History Address
+     */
     function setupAddHistoryRole(address contractAddress)
         public
         onlyOwner
@@ -22,6 +36,9 @@ contract DAOHistory is AccessControl, Ownable {
         return true;
     }
 
+    /**
+     * @notice Add DAO and create a poll contract
+     */
     function addDao(
         string memory daoId,
         string memory projectId,
@@ -29,16 +46,31 @@ contract DAOHistory is AccessControl, Ownable {
         string memory description,
         string memory website,
         string memory logo
-    ) public onlyOwner returns (address) {
+    ) public returns (address) {
         require(
-            keccak256(abi.encode(daoInfo[daoId].name)) !=
-                keccak256(abi.encode("")),
+            daoInfo[daoId].projects.length == 0,
             "DAOHistory: DAO already exists"
         );
         string[] memory projects = new string[](1);
         projects[0] = projectId;
         daoInfo[daoId] = DAOInfo(name, description, website, logo, projects);
 
+        // add initial project
+        address _pollAddress = addProject(daoId, projectId);
+        return _pollAddress;
+    }
+
+    /**
+     * @notice Add Project and create a poll contract
+     */
+    function addProject(string memory daoId, string memory projectId)
+        public
+        returns (address)
+    {
+        require(
+            pollAddress[daoId][projectId] == address(0),
+            "DAOHistory: Project already exists"
+        );
         // Create a poll contract
         Poll poll = new Poll(daoId, projectId);
         setupAddHistoryRole(address(poll));
@@ -50,30 +82,6 @@ contract DAOHistory is AccessControl, Ownable {
         poll.transferOwnership(msg.sender);
 
         return address(poll);
-    }
-
-    function getDaoInfo(string memory daoId)
-        public
-        view
-        returns (DAOInfo memory)
-    {
-        return daoInfo[daoId];
-    }
-
-    function getDaoHistory(string memory daoId, string memory projectId)
-        public
-        view
-        returns (DAOHistoryItem[] memory)
-    {
-        return histories[daoId][projectId];
-    }
-
-    function getDaoAssessments(string memory daoId, string memory projectId)
-        public
-        view
-        returns (Assessment[] memory)
-    {
-        return assessments[daoId][projectId];
     }
 
     function addDaoHistory(
@@ -100,5 +108,29 @@ contract DAOHistory is AccessControl, Ownable {
         for (uint256 i = 0; i < _assessments.length; i++) {
             assessments[daoId][projectId].push(_assessments[i]);
         }
+    }
+
+    function getDaoInfo(string memory daoId)
+        public
+        view
+        returns (DAOInfo memory)
+    {
+        return daoInfo[daoId];
+    }
+
+    function getDaoHistory(string memory daoId, string memory projectId)
+        public
+        view
+        returns (DAOHistoryItem[] memory)
+    {
+        return histories[daoId][projectId];
+    }
+
+    function getDaoAssessments(string memory daoId, string memory projectId)
+        public
+        view
+        returns (Assessment[] memory)
+    {
+        return assessments[daoId][projectId];
     }
 }
