@@ -632,64 +632,21 @@ export interface PollInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "Candidated(int256,address)": EventFragment;
-    "CreatePoll(int256)": EventFragment;
-    "Deposited(address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
-    "SettlePoll(int256)": EventFragment;
     "Unpaused(address)": EventFragment;
-    "Voted(int256,address)": EventFragment;
-    "VotingEnabled(int256,bool)": EventFragment;
-    "WithdrawEth(uint256,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Candidated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CreatePoll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Deposited"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "SettlePoll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Voted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "VotingEnabled"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "WithdrawEth"): EventFragment;
 }
-
-export interface CandidatedEventObject {
-  pollId: BigNumber;
-  candidate: string;
-}
-export type CandidatedEvent = TypedEvent<
-  [BigNumber, string],
-  CandidatedEventObject
->;
-
-export type CandidatedEventFilter = TypedEventFilter<CandidatedEvent>;
-
-export interface CreatePollEventObject {
-  pollId: BigNumber;
-}
-export type CreatePollEvent = TypedEvent<[BigNumber], CreatePollEventObject>;
-
-export type CreatePollEventFilter = TypedEventFilter<CreatePollEvent>;
-
-export interface DepositedEventObject {
-  sender: string;
-  amount: BigNumber;
-}
-export type DepositedEvent = TypedEvent<
-  [string, BigNumber],
-  DepositedEventObject
->;
-
-export type DepositedEventFilter = TypedEventFilter<DepositedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -747,49 +704,12 @@ export type RoleRevokedEvent = TypedEvent<
 
 export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
 
-export interface SettlePollEventObject {
-  pollId: BigNumber;
-}
-export type SettlePollEvent = TypedEvent<[BigNumber], SettlePollEventObject>;
-
-export type SettlePollEventFilter = TypedEventFilter<SettlePollEvent>;
-
 export interface UnpausedEventObject {
   account: string;
 }
 export type UnpausedEvent = TypedEvent<[string], UnpausedEventObject>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
-
-export interface VotedEventObject {
-  pollId: BigNumber;
-  voter: string;
-}
-export type VotedEvent = TypedEvent<[BigNumber, string], VotedEventObject>;
-
-export type VotedEventFilter = TypedEventFilter<VotedEvent>;
-
-export interface VotingEnabledEventObject {
-  pollId: BigNumber;
-  enabled: boolean;
-}
-export type VotingEnabledEvent = TypedEvent<
-  [BigNumber, boolean],
-  VotingEnabledEventObject
->;
-
-export type VotingEnabledEventFilter = TypedEventFilter<VotingEnabledEvent>;
-
-export interface WithdrawEthEventObject {
-  amount: BigNumber;
-  payedAmount: BigNumber;
-}
-export type WithdrawEthEvent = TypedEvent<
-  [BigNumber, BigNumber],
-  WithdrawEthEventObject
->;
-
-export type WithdrawEthEventFilter = TypedEventFilter<WithdrawEthEvent>;
 
 export interface Poll extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -1528,27 +1448,6 @@ export interface Poll extends BaseContract {
   };
 
   filters: {
-    "Candidated(int256,address)"(
-      pollId?: null,
-      candidate?: PromiseOrValue<string> | null
-    ): CandidatedEventFilter;
-    Candidated(
-      pollId?: null,
-      candidate?: PromiseOrValue<string> | null
-    ): CandidatedEventFilter;
-
-    "CreatePoll(int256)"(pollId?: null): CreatePollEventFilter;
-    CreatePoll(pollId?: null): CreatePollEventFilter;
-
-    "Deposited(address,uint256)"(
-      sender?: PromiseOrValue<string> | null,
-      amount?: null
-    ): DepositedEventFilter;
-    Deposited(
-      sender?: PromiseOrValue<string> | null,
-      amount?: null
-    ): DepositedEventFilter;
-
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
@@ -1594,32 +1493,8 @@ export interface Poll extends BaseContract {
       sender?: PromiseOrValue<string> | null
     ): RoleRevokedEventFilter;
 
-    "SettlePoll(int256)"(pollId?: null): SettlePollEventFilter;
-    SettlePoll(pollId?: null): SettlePollEventFilter;
-
     "Unpaused(address)"(account?: null): UnpausedEventFilter;
     Unpaused(account?: null): UnpausedEventFilter;
-
-    "Voted(int256,address)"(
-      pollId?: null,
-      voter?: PromiseOrValue<string> | null
-    ): VotedEventFilter;
-    Voted(
-      pollId?: null,
-      voter?: PromiseOrValue<string> | null
-    ): VotedEventFilter;
-
-    "VotingEnabled(int256,bool)"(
-      pollId?: null,
-      enabled?: null
-    ): VotingEnabledEventFilter;
-    VotingEnabled(pollId?: null, enabled?: null): VotingEnabledEventFilter;
-
-    "WithdrawEth(uint256,uint256)"(
-      amount?: null,
-      payedAmount?: null
-    ): WithdrawEthEventFilter;
-    WithdrawEth(amount?: null, payedAmount?: null): WithdrawEthEventFilter;
   };
 
   estimateGas: {

@@ -9,16 +9,12 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
 import "./DAOHistory.sol";
 import "./lib/SafeMath.sol";
-import "./struct/PollItem.sol";
-import "./struct/DAOHistoryItem.sol";
-
-struct Vote {
-    address voter;
-    address[] candidates;
-    uint256[][] points;
-    string[] comments;
-    uint256 perspectiveId;
-}
+import "./struct/poll/ContributionItem.sol";
+import "./struct/poll/AbstractPollItem.sol";
+import "./struct/poll/Vote.sol";
+import "./struct/poll/DetailPollItem.sol";
+import "./struct/assessment/Assessment.sol";
+import "./struct/dao/DAOHistoryItem.sol";
 
 contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // DAO ID
