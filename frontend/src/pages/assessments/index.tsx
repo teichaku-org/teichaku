@@ -5,6 +5,7 @@ import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
 import { LoadingOverlay } from "@mantine/core";
+import AssessmentTab from "@/components/assessment/Tab";
 
 const Assessment: NextPage = () => {
   const { daoHistory, load } = useDaoHistory();
@@ -23,7 +24,7 @@ const Assessment: NextPage = () => {
         margin: 5px;
       `}
     >
-      <HistoryList data={daoHistory} />
+      <AssessmentTab daoHistory={daoHistory} />
     </div>
   );
 };
