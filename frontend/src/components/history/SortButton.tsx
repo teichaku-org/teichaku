@@ -4,10 +4,11 @@ import { SortKeys } from "./HistoryList";
 
 interface Props {
   sortKeys: SortKeys;
+  handleSortKeys: (field: string) => void;
 }
 
 export function SortButton(props: Props) {
-  const { sortKeys } = props;
+  const { sortKeys, handleSortKeys } = props;
   return (
     <Menu shadow="md" width={200} withArrow>
       <Menu.Target>
@@ -25,10 +26,10 @@ export function SortButton(props: Props) {
         {Object.keys(sortKeys).map((key) => {
           return (
             <Menu.Item
-              color="white"
-              rightSection={<IconCircleCheck />}
+              color={sortKeys[key] ? "white" : ""}
+              rightSection={sortKeys[key] && <IconCircleCheck />}
               key={key}
-              onClick={() => {}}
+              onClick={() => handleSortKeys(key)}
             >
               {key}
             </Menu.Item>

@@ -98,8 +98,6 @@ export interface SortKeys {
 export function HistoryList({ data }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
-  const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
-  const [reverseSortDirection, setReverseSortDirection] = useState(false);
   const theme = useMantineTheme();
   const [selectedContribution, setSelectedContribution] = useState<{
     pollId: number;
@@ -151,11 +149,21 @@ export function HistoryList({ data }: TableSortProps) {
     });
   };
 
-  const setSorting = (field: keyof RowData) => {
-    const reversed = field === sortBy ? !reverseSortDirection : false;
-    setReverseSortDirection(reversed);
-    setSortBy(field);
-    setSortedData(sortData(data, { sortBy: field, reversed, search }));
+  const handleSortKeys = (selectedKey: string) => {
+    const newSortKeys: FilterRoles = {};
+    Object.keys(sortKeys).forEach((key) => {
+      if (selectedKey === key) {
+        newSortKeys[key] = true;
+        return;
+      }
+      newSortKeys[key] = false;
+    });
+    setSortKeys(newSortKeys);
+    return;
+
+    // setReverseSortDirection(reversed);
+    // setSortBy(field);
+    // setSortedData(sortData(data, { sortBy: field, reversed, search }));
   };
 
   useEffect(() => {
@@ -169,19 +177,32 @@ export function HistoryList({ data }: TableSortProps) {
     setFilterObjRoles(roles);
   }, []);
 
-  //TODO フィルターした後にソートしないといけないので現在のソートキーを状態で持つ必要がありそう
+  const sortBy = (): keyof DaoHistory | null => {
+    if (sortKeys["新しい順"] || sortKeys["古い順"]) {
+      return "timestamp";
+    }
+    return "reward";
+  };
+
+  const reversed = (): boolean => {
+    if (sortKeys["新しい順"] || sortKeys["小さな貢献順"]) {
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     const filterRoles = Object.keys(filterObjRoles).filter(
       (key) => filterObjRoles[key]
     );
     setSortedData(
       sortData(filterByRole(data, filterRoles), {
-        sortBy: "timestamp",
-        reversed: false,
+        sortBy: sortBy(),
+        reversed: reversed(),
         search: "",
       })
     );
-  }, [filterObjRoles]);
+  }, [filterObjRoles, sortKeys]);
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -244,7 +265,7 @@ export function HistoryList({ data }: TableSortProps) {
               display: flex;
             `}
           >
-            <SortButton sortKeys={sortKeys} />
+            <SortButton sortKeys={sortKeys} handleSortKeys={handleSortKeys} />
             <FilterButton
               handleFilterRoles={handleFilterRoles}
               roles={filterObjRoles}
