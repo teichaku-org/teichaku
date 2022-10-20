@@ -38,9 +38,6 @@ async function setupDemo(
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()
 
-    // 投票にNFTが必要でないようにする
-    await poll.setRequiredTokenForVote(0)
-
 
     // 投票に立候補している状態にする
     await poll.connect(otherAccount).candidateToCurrentPoll("① DAO Historyを生み出すまでの議論のファシリテートを行いました。\n② DAO Historyを設計し、プロダクトロードマップを作成しました。\n③ DAO Historyのスマートコントラクトを開発しています。", [], ["エンジニア", "PM"])

@@ -34,14 +34,9 @@ export default async function setupDeploy() {
     console.log("DAONFT deployed to:", daonft.address);
 
 
-    // TODO: NFT化コントラクトが作成するNFTのアドレスを登録
-
     // Pollが利用するToken, DaoHistory, 投票のために必要なNFTの設定
     await poll.setDaoTokenAddress(token.address);
     console.log("Poll.setDaoTokenAddress");
-    await poll.setNftAddress(daonft.address)
-    console.log("Poll.setNftAddress");
-
 
     // Pollの締め切りができる権限をownerに持たせる
     await poll.setPollAdminRole(owner.address);

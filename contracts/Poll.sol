@@ -28,11 +28,11 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         projectId = _projectId;
     }
 
-    // ContributionPollを開始したり終了する権限
-    // Role to start and end a ContributionPoll
+    // Pollを開始したり終了する権限
+    // Role to start and end a Poll
     bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
 
-    // ContributionPoll Id
+    // Poll Id
     int256 public currentMaxPollId = 0;
 
     // 配布するDAOトークンのアドレス
@@ -47,18 +47,13 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // DAO History address
     address public daoHistoryAddress;
 
-    // TODO: 記法を統一する
-    // 投票はDAO NFTをREQUIRED_TOKEN_FOR_VOTEよりも多く保持しているアドレスのみ可能
-    // Voting is only possible for addresses that hold more than REQUIRED_TOKEN_FOR_VOTE DAO NFT
-    uint256 public REQUIRED_TOKEN_FOR_VOTE = 0;
-
     // 立候補者(貢献者)に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to candidates(contributors)
     uint256 public CONTRIBUTOR_ASSIGNMENT_TOKEN = 7000 * (10**18);
 
     // 投票者に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to voters
-    uint256 public SUPPORTER_ASSIGNMENT_TOKEN = 3000 * (10**18);
+    uint256 public VOTER_ASSIGNMENT_TOKEN = 3000 * (10**18);
 
     // 投票時に指定できる最大点数
     // maximum number of points that can be voted
@@ -74,7 +69,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // 立候補者の貢献リスト
     // list of candidates
-    mapping(int256 => ContributionItem[]) public contributions;
+    mapping(int256 => ContributionItem[]) public contributions; // pollId => [contribution1, contribution2, ...]
 
     // 投票のリスト
     // list of vote
@@ -82,7 +77,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // 投票の開始時間
     // Start-time of polls
-    mapping(int256 => uint256) public startTimeStamp;
+    mapping(int256 => uint256) public startTimeStamp; // pollId => Timestamp for the beginning
 
     // 投票期間
     // Voting duration
@@ -90,42 +85,15 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // 投票の終了時間
     // End-time of polls
-    mapping(int256 => uint256) public endTimeStamp;
+    mapping(int256 => uint256) public endTimeStamp; //pollId => Timestamp for the deadline
 
     // 投票観点
     // perspective
-    mapping(uint256 => string[]) public perspectives;
+    mapping(uint256 => string[]) public perspectives; // perspectiveId => [perspective1, perspective2, ...]
 
     // アクティブな投票観点
     // active perspective
     uint256 public activePerspective = 0;
-
-    /**
-     * @notice Change Perspective
-     * @dev only owner can change Perspective
-     */
-    function changePerspective(string[] memory perspectiveTexts)
-        external
-        onlyOwner
-    {
-        perspectives[++activePerspective] = perspectiveTexts;
-    }
-
-    /**
-     * @notice Set DAO Token Address
-     * @dev only owner can set DAO Token Address
-     */
-    function setDaoTokenAddress(address _daoTokenAddress) external onlyOwner {
-        daoTokenAddress = _daoTokenAddress;
-    }
-
-    /**
-     * @notice Set NFT Address
-     * @dev only owner can set NFT Address
-     */
-    function setNftAddress(address _nftAddress) external onlyOwner {
-        nftAddress = _nftAddress;
-    }
 
     /**
      * @notice Set DAO History Address
@@ -147,15 +115,39 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @notice Set REQUIRED_TOKEN_FOR_VOTE
-     * @dev only poll admin can set REQUIRED_TOKEN_FOR_VOTE
+     * @notice Change Perspective
+     * @dev only admin can change Perspective
      */
-    function setRequiredTokenForVote(uint256 _rankForVote) external {
+    function changePerspective(string[] memory perspectiveTexts) external {
         require(
             hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
+            "Poll::changePerspective: only POLL_ADMIN_ROLE can add perspective"
         );
-        REQUIRED_TOKEN_FOR_VOTE = _rankForVote;
+        perspectives[++activePerspective] = perspectiveTexts;
+    }
+
+    /**
+     * @notice Set DAO Token Address
+     * @dev only admin can set DAO Token Address
+     */
+    function setDaoTokenAddress(address _daoTokenAddress) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Poll::setDaoTokenAddress: only POLL_ADMIN_ROLE"
+        );
+        daoTokenAddress = _daoTokenAddress;
+    }
+
+    /**
+     * @notice Set NFT Address
+     * @dev only admin can set NFT Address
+     */
+    function setNftAddress(address _nftAddress) external {
+        require(
+            hasRole(POLL_ADMIN_ROLE, msg.sender),
+            "Poll::setNftAddress: only POLL_ADMIN_ROLE"
+        );
+        nftAddress = _nftAddress;
     }
 
     /**
@@ -172,19 +164,16 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         CONTRIBUTOR_ASSIGNMENT_TOKEN = _contributorAssignmentToken;
     }
 
-    //TODO: supporterではなくvoterに変更する
     /**
-     * @notice Set SUPPORTER_ASSIGNMENT_TOKEN
-     * @dev only poll admin can set SUPPORTER_ASSIGNMENT_TOKEN
+     * @notice Set VOTER_ASSIGNMENT_TOKEN
+     * @dev only poll admin can set VOTER_ASSIGNMENT_TOKEN
      */
-    function setSupporterAssignmentToken(uint256 _supporterAssignmentToken)
-        external
-    {
+    function setVoterAssignmentToken(uint256 _voterAssignmentToken) external {
         require(
             hasRole(POLL_ADMIN_ROLE, msg.sender),
             "Caller is not a poll admin"
         );
-        SUPPORTER_ASSIGNMENT_TOKEN = _supporterAssignmentToken;
+        VOTER_ASSIGNMENT_TOKEN = _voterAssignmentToken;
     }
 
     /**
@@ -276,7 +265,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             return true;
         }
         IERC721 daoToken = IERC721(nftAddress);
-        return daoToken.balanceOf(_address) >= REQUIRED_TOKEN_FOR_VOTE;
+        return daoToken.balanceOf(_address) >= 1;
     }
 
     /**
@@ -377,14 +366,14 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             hasRole(POLL_ADMIN_ROLE, msg.sender),
             "Caller is not a poll admin"
         );
-        _settleContributionPoll();
-        _createContributionPoll();
+        _settlePoll();
+        _createPoll();
     }
 
     /**
      * @notice Settle the current poll and aggregate the result
      */
-    function _settleContributionPoll() internal {
+    function _settlePoll() internal {
         // TODO: 最新のpollIdではなく、指定したpollIdを使うようにする
         // Add up votes for each candidate
         address[] memory _candidates = candidates[currentMaxPollId];
@@ -448,15 +437,15 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             _mintTokenForContributor(_candidates, assignmentToken);
         }
 
-        // Decide how much to distribute to Supporters
+        // Decide how much to distribute to Voters
         address[] memory _voters = getVoters(currentMaxPollId);
         uint256 totalVoterCount = _voters.length;
         if (totalVoterCount > 0) {
             uint256 voterAssignmentToken = SafeMath.div(
-                SUPPORTER_ASSIGNMENT_TOKEN,
+                VOTER_ASSIGNMENT_TOKEN,
                 totalVoterCount
             );
-            _mintTokenForSupporter(_voters, voterAssignmentToken);
+            _mintTokenForVoter(_voters, voterAssignmentToken);
         }
 
         endTimeStamp[currentMaxPollId] = block.timestamp;
@@ -488,7 +477,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     /**
      * @notice start new poll
      */
-    function _createContributionPoll() internal {
+    function _createPoll() internal {
         currentMaxPollId++;
         startTimeStamp[currentMaxPollId] = block.timestamp;
         endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
@@ -516,11 +505,9 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @notice Mint dao token for supporters
+     * @notice Mint dao token for voters
      */
-    function _mintTokenForSupporter(address[] memory to, uint256 amount)
-        internal
-    {
+    function _mintTokenForVoter(address[] memory to, uint256 amount) internal {
         if (daoTokenAddress == address(0)) {
             // If the token address to be distributed is not registered, the token will not be distributed
             return;

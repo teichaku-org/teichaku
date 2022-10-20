@@ -44,7 +44,11 @@ contract DAOHistory is AccessControl, Ownable {
         setupAddHistoryRole(address(poll));
         pollAddress[daoId][projectId] = address(poll);
         poll.setDaoHistoryAddress(address(this));
+
+        //　権限を付与する
+        poll.setPollAdminRole(msg.sender);
         poll.transferOwnership(msg.sender);
+
         return address(poll);
     }
 
