@@ -17,12 +17,14 @@ async function setupDemo(
     // テストデータ追加のためDaoHistoryへのアクセス権を追加する
     await daoHistory.setupAddHistoryRole(owner.address)
 
-
     // Tokenの発行
-    await token.mint(owner.address, ethers.utils.parseEther("500"));
+    await token.mint(owner.address, ethers.utils.parseEther("100500"));
     await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
 
     await daoHistory.addDao("demo", "season1", "Web3HackathonデモDAO", "ハッカソンのために作ったDAOです", "", "")
+
+    // Pollに送金する
+    await token.transfer(poll.address, ethers.utils.parseEther("100000"));
 
     // DaoHistoryの追加
     await createDaoHistory(daoHistory)

@@ -27,7 +27,7 @@ describe("Poll", function () {
         const EnglisterToken = await ethers.getContractFactory("DAOToken");
         const NAME = "DAOTOKEN"
         const SYMBOL = "DAO"
-        const INITIAL_SUPPLY = ethers.utils.parseEther("100");
+        const INITIAL_SUPPLY = ethers.utils.parseEther("10100");
         const token = await EnglisterToken.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
 
         // Deploy NFT
@@ -40,6 +40,9 @@ describe("Poll", function () {
         await poll.setDaoTokenAddress(token.address);
         await poll.setNftAddress(nft.address);
         await daoHistory.setupAddHistoryRole(poll.address);
+
+        // Pollに入金する
+        await token.transfer(poll.address, ethers.utils.parseEther("10000"));
 
         //設定値
         await poll.setContributorAssignmentToken(ethers.utils.parseEther("5000"));

@@ -4,18 +4,13 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
-import "./DAOToken.sol";
-import "./DAONFT.sol";
 import "./DAOHistory.sol";
 import "./lib/SafeMath.sol";
-import "./interface/DAOEvents.sol";
 import "./struct/PollItem.sol";
 import "./struct/DAOHistoryItem.sol";
-
-//for dev
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 
 struct Vote {
     address voter;
@@ -25,7 +20,7 @@ struct Vote {
     uint256 perspectiveId;
 }
 
-contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
+contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     // DAO ID
     string public daoId;
     // Project Id
@@ -219,7 +214,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         );
         //TODO: pollIdごとにフラグを設定できるようにする
         votingEnabled = _votingEnabled;
-        emit VotingEnabled(pollId, votingEnabled);
     }
 
     /**
@@ -275,15 +269,17 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             contributions[currentMaxPollId][updateIndex].evidences = evidences;
             contributions[currentMaxPollId][updateIndex].roles = roles;
         }
-
-        emit Candidated(currentMaxPollId, msg.sender);
     }
 
     /**
-     * @notice check if the voter has enough DAO NFT to vote
+     * @notice check if the voter has right(DAO NFT) to vote
      */
     function isEligibleToVote(address _address) public view returns (bool) {
-        DAONFT daoToken = DAONFT(nftAddress);
+        if (nftAddress == address(0)) {
+            // Anyone can vote if no NFT address is set
+            return true;
+        }
+        IERC721 daoToken = IERC721(nftAddress);
         return daoToken.balanceOf(_address) >= REQUIRED_TOKEN_FOR_VOTE;
     }
 
@@ -369,7 +365,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
             // update the vote to the list of votes
             votes[_pollId][voterIndex] = _vote;
         }
-        emit Voted(_pollId, msg.sender);
         return true;
     }
 
@@ -492,8 +487,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
                 candidatesAssessments[c]
             );
         }
-
-        emit SettlePoll(currentMaxPollId);
     }
 
     /**
@@ -503,7 +496,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         currentMaxPollId++;
         startTimeStamp[currentMaxPollId] = block.timestamp;
         endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
-        emit CreatePoll(currentMaxPollId);
     }
 
     /**
@@ -513,13 +505,17 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
         address[] memory to,
         uint256[] memory amount
     ) internal {
+        if (daoTokenAddress == address(0)) {
+            // If the token address to be distributed is not registered, the token will not be distributed
+            return;
+        }
         require(
             to.length == amount.length,
             "to and amount must be same length"
         );
-        DAOToken daoToken = DAOToken(daoTokenAddress);
+        IERC20 daoToken = IERC20(daoTokenAddress);
         for (uint256 index = 0; index < to.length; index++) {
-            daoToken.mint(to[index], amount[index]);
+            daoToken.transfer(to[index], amount[index]);
         }
     }
 
@@ -529,9 +525,13 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard, DAOEvents {
     function _mintTokenForSupporter(address[] memory to, uint256 amount)
         internal
     {
-        DAOToken daoToken = DAOToken(daoTokenAddress);
+        if (daoTokenAddress == address(0)) {
+            // If the token address to be distributed is not registered, the token will not be distributed
+            return;
+        }
+        IERC20 daoToken = IERC20(daoTokenAddress);
         for (uint256 index = 0; index < to.length; index++) {
-            daoToken.mint(to[index], amount);
+            daoToken.transfer(to[index], amount);
         }
     }
 

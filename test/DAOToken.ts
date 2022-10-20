@@ -30,19 +30,6 @@ describe("DAOToken", function () {
         });
     });
 
-    describe("Send", function () {
-        it("複数のアカウントに対して1度に送金することができる", async function () {
-            const { token, owner, otherAccount, otherAccount2 } = await loadFixture(deployFixture);
-
-            await token.connect(owner).transfer(otherAccount.address, ethers.utils.parseEther("10"));
-            await token.connect(owner).transfer(otherAccount2.address, ethers.utils.parseEther("20"));
-
-            expect(await token.balanceOf(otherAccount.address)).to.equal(ethers.utils.parseEther("10"));
-            expect(await token.balanceOf(otherAccount2.address)).to.equal(ethers.utils.parseEther("20"));
-        });
-
-    });
-
 
     describe("Role Setting", function () {
         it("ownerでなければロールをつけることはできない", async function () {

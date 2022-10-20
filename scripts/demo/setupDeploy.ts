@@ -24,21 +24,6 @@ export default async function setupDeploy() {
     const poll = await ethers.getContractAt("Poll", pollAddress);
     console.log("Poll deployed to:", poll.address);
 
-    // HistoryNFTのデプロイ
-    const HistoryNFT = await ethers.getContractFactory("HistoryNFT");
-    const NFT_NAME = "DaoHistoryNFT"
-    const NFT_SYMBOL = "DH"
-    const historyNFT = await HistoryNFT.deploy(NFT_NAME, NFT_SYMBOL);
-    await historyNFT.deployed();
-    console.log("HistoryNFT deployed to:", historyNFT.address);
-
-
-    // NFT化コントラクトのデプロイ
-    const NFTCreator = await ethers.getContractFactory("HistoryNFTCreator");
-    const nftCreator = await NFTCreator.deploy();
-    await nftCreator.deployed();
-    console.log("NFTCreator deployed to:", nftCreator.address);
-
 
     // DAONFTのデプロイ
     const DAONFT = await ethers.getContractFactory("DAONFT");
@@ -80,6 +65,6 @@ export default async function setupDeploy() {
 
     return {
         owner, otherAccount, otherAccount2,
-        token, daoHistory, poll, historyNFT, nftCreator, daonft
+        token, daoHistory, poll, daonft
     };
 }
