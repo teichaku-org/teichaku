@@ -121,6 +121,7 @@ export interface PollInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "POLL_ADMIN_ROLE()": FunctionFragment;
     "VOTER_ASSIGNMENT_TOKEN()": FunctionFragment;
+    "VOTE_MAX_PARTICIPANT()": FunctionFragment;
     "VOTE_MAX_POINT()": FunctionFragment;
     "activePerspective()": FunctionFragment;
     "candidateToCurrentPoll(string,string[],string[])": FunctionFragment;
@@ -158,6 +159,7 @@ export interface PollInterface extends utils.Interface {
     "setDaoTokenAddress(address)": FunctionFragment;
     "setNftAddress(address)": FunctionFragment;
     "setPollAdminRole(address)": FunctionFragment;
+    "setVoteMaxParticipant(uint256)": FunctionFragment;
     "setVoteMaxPoint(uint256)": FunctionFragment;
     "setVoterAssignmentToken(uint256)": FunctionFragment;
     "setVotingDuration(int256,uint256)": FunctionFragment;
@@ -179,6 +181,7 @@ export interface PollInterface extends utils.Interface {
       | "DEFAULT_ADMIN_ROLE"
       | "POLL_ADMIN_ROLE"
       | "VOTER_ASSIGNMENT_TOKEN"
+      | "VOTE_MAX_PARTICIPANT"
       | "VOTE_MAX_POINT"
       | "activePerspective"
       | "candidateToCurrentPoll"
@@ -216,6 +219,7 @@ export interface PollInterface extends utils.Interface {
       | "setDaoTokenAddress"
       | "setNftAddress"
       | "setPollAdminRole"
+      | "setVoteMaxParticipant"
       | "setVoteMaxPoint"
       | "setVoterAssignmentToken"
       | "setVotingDuration"
@@ -245,6 +249,10 @@ export interface PollInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "VOTER_ASSIGNMENT_TOKEN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "VOTE_MAX_PARTICIPANT",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -385,6 +393,10 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setVoteMaxParticipant",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVoteMaxPoint",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -453,6 +465,10 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "VOTER_ASSIGNMENT_TOKEN",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "VOTE_MAX_PARTICIPANT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -565,6 +581,10 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setPollAdminRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setVoteMaxParticipant",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -728,6 +748,8 @@ export interface Poll extends BaseContract {
 
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     VOTE_MAX_POINT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     activePerspective(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -886,6 +908,11 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setVoteMaxParticipant(
+      _voteMaxParticipant: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setVoteMaxPoint(
       _voteMaxPoint: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -959,6 +986,8 @@ export interface Poll extends BaseContract {
   POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
   VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+
+  VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
 
   VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1118,6 +1147,11 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setVoteMaxParticipant(
+    _voteMaxParticipant: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setVoteMaxPoint(
     _voteMaxPoint: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1189,6 +1223,8 @@ export interface Poll extends BaseContract {
     POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
 
     VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1344,6 +1380,11 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setVoteMaxParticipant(
+      _voteMaxParticipant: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setVoteMaxPoint(
       _voteMaxPoint: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1464,6 +1505,8 @@ export interface Poll extends BaseContract {
     POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
+
+    VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
 
     VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1615,6 +1658,11 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setVoteMaxParticipant(
+      _voteMaxParticipant: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setVoteMaxPoint(
       _voteMaxPoint: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1691,6 +1739,10 @@ export interface Poll extends BaseContract {
     POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     VOTER_ASSIGNMENT_TOKEN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    VOTE_MAX_PARTICIPANT(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1845,6 +1897,11 @@ export interface Poll extends BaseContract {
 
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setVoteMaxParticipant(
+      _voteMaxParticipant: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
