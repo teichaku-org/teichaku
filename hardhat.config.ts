@@ -2,6 +2,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-gas-reporter";
 import 'solidity-coverage'
+import "hardhat-contract-sizer"
 import { INFURA_PROJECT_ID, POLIGONSCAN_API_TOKEN } from "./secrets";
 
 
@@ -13,6 +14,7 @@ if (PRIVATE_KEY?.length !== 66) {
 
 const config: HardhatUserConfig = {
   solidity: "0.8.9",
+
   defaultNetwork: "hardhat",
   networks: {
     hardhat: {

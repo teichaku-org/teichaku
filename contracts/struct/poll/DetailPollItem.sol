@@ -1,5 +1,12 @@
 pragma solidity ^0.8.9;
-import "./ContributionItem.sol";
+
+struct ContributionItem {
+    string contributionText;
+    string[] evidences;
+    string[] roles;
+    address contributor;
+    int256 pollId;
+}
 
 struct DetailPollItem {
     int256 pollId;
