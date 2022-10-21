@@ -20,26 +20,25 @@ const NetworkCheck = () => {
             });
             window.location.reload();
         } catch (e: any) {
-            if (e.code === 4902) {
-                await (window as any).ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            chainId: expectedNetworkChainId,
-                            rpcUrl: (() => {
-                                if (expectedNetwork === "Mumbai") {
-                                    return "https://rpc-mumbai.maticvigil.com/";
-                                } else if (expectedNetwork === "Polygon Mainnet") {
-                                    return "https://polygon-rpc.com/";
-                                } else if (expectedNetwork === "Local") {
-                                    return "http://localhost:8545";
-                                }
-                            })(),
-                        },
-                    ],
-                });
-                window.location.reload();
-            }
+            await (window as any).ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                    {
+                        chainId: expectedNetworkChainId,
+                        rpcUrl: (() => {
+                            if (expectedNetwork === "Mumbai") {
+                                return "https://rpc-mumbai.maticvigil.com/";
+                            } else if (expectedNetwork === "Polygon Mainnet") {
+                                return "https://polygon-rpc.com/";
+                            } else if (expectedNetwork === "Local") {
+                                return "http://localhost:8545";
+                            }
+                        })(),
+                    },
+                ],
+            });
+            window.location.reload();
+
         }
     }
 
