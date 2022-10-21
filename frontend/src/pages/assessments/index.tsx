@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
-import { LoadingOverlay } from "@mantine/core";
+import { Container, Loader } from "@mantine/core";
 import AssessmentTab from "@/components/assessment/AssessmentTab";
 
 const Assessment: NextPage = () => {
@@ -13,9 +13,18 @@ const Assessment: NextPage = () => {
     load();
   }, []);
 
-  if (!daoHistory) return <LoadingOverlay visible overlayBlur={2} />;
+  if (!daoHistory)
+    return (
+      <Container>
+        <Loader size="lg" variant="dots" />
+      </Container>
+    );
   if (daoHistory.length === 0)
-    return <LoadingOverlay visible overlayBlur={2} />;
+    return (
+      <Container>
+        <Loader size="lg" variant="dots" />
+      </Container>
+    );
 
   return (
     <div
