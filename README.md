@@ -40,3 +40,12 @@ $ npm run test
 ```
 npm run generate
 ```
+
+## Mumbaiテストネットへのデプロイ
+前提条件: secrets.tsを準備する
+
+以下コマンドを実行する
+```
+export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
+npx hardhat run scripts/deploy.ts --network maticmum
+```

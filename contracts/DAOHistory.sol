@@ -3,6 +3,8 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./Poll.sol";
 import "./struct/dao/DAOInfo.sol";
+import "./struct/dao/DAOHistoryItem.sol";
+import "./struct/assessment/Assessment.sol";
 
 // dev
 import "hardhat/console.sol";
