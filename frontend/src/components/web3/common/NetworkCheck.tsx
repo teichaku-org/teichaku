@@ -25,7 +25,7 @@ const NetworkCheck = () => {
                 params: [
                     {
                         chainId: expectedNetworkChainId,
-                        rpcUrl: (() => {
+                        rpcUrls: [(() => {
                             if (expectedNetwork === "Mumbai") {
                                 return "https://rpc-mumbai.maticvigil.com/";
                             } else if (expectedNetwork === "Polygon Mainnet") {
@@ -33,7 +33,7 @@ const NetworkCheck = () => {
                             } else if (expectedNetwork === "Local") {
                                 return "http://localhost:8545";
                             }
-                        })(),
+                        })()],
                     },
                 ],
             });
