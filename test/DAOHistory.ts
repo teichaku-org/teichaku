@@ -3,14 +3,20 @@ import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
 import { expect } from "chai";
 import { ethers } from "hardhat";
 
-describe("DAOToken", function () {
+describe("DAO History", function () {
     async function deployFixture() {
         // Contracts are deployed using the first signer/account by default
         const [owner, otherAccount, otherAccount2, otherAccount3] = await ethers.getSigners();
 
+        // PollCreatorのデプロイ
+        const PollCreator = await ethers.getContractFactory("PollCreator");
+        const pollCreator = await PollCreator.deploy();
+        await pollCreator.deployed();
+
+
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");
-        const daoHistory = await DaoHistory.deploy();
+        const daoHistory = await DaoHistory.deploy(pollCreator.address);
         await daoHistory.deployed();
         console.log("DAOHistory deployed to:", daoHistory.address);
 
@@ -28,7 +34,7 @@ describe("DAOToken", function () {
         it("同じdaoIdのDAOを追加することはできない", async function () {
             const { daoHistory } = await loadFixture(deployFixture);
             await daoHistory.addDao("test", "projectId", "name", "description", "url", "image");
-            await expect(daoHistory.addDao("test", "projectId", "name", "description", "url", "image")).to.be.revertedWith("DAOHistory: DAO already exists");
+            await expect(daoHistory.addDao("test", "projectId", "name", "description", "url", "image")).to.be.revertedWith("DAO already exists");
         });
     });
 
@@ -50,7 +56,7 @@ describe("DAOToken", function () {
             expect(daoInfo.projects.length).to.equal(1);
 
             // Projectを追加
-            await expect(daoHistory.addProject("test", "projectId")).to.be.revertedWith("DAOHistory: Project already exists");
+            await expect(daoHistory.addProject("test", "projectId")).to.be.revertedWith("Project already exists");
         });
     });
 });

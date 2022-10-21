@@ -28,7 +28,10 @@ async function setupDemo(
     await createDaoHistory(daoHistory)
     await createAssessment(daoHistory)
 
-    // 辻褄を合わせるためにpollIdが6になるまでインクリメントする
+    // 投票者と貢献者に配布するトークンの量を決定する
+    await poll.setAssignmentToken(ethers.utils.parseEther("7000"), ethers.utils.parseEther("3000"))
+
+    // 辻褄を合わせるためにpollIdをインクリメントする
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()
@@ -41,9 +44,10 @@ async function setupDemo(
     await poll.connect(otherAccount).candidateToCurrentPoll("① DAO Historyを生み出すまでの議論のファシリテートを行いました。\n② DAO Historyを設計し、プロダクトロードマップを作成しました。\n③ DAO Historyのスマートコントラクトを開発しています。", [], ["エンジニア", "PM"])
     await poll.connect(otherAccount2).candidateToCurrentPoll("遊んで暮らしてました😆", ["https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Sunset_in_the_Carribean.jpg/700px-Sunset_in_the_Carribean.jpg"], ["遊び人"])
 
+    const pollId = await poll.currentMaxPollId()
     // すでに2人は投票している状態にする
-    await poll.connect(otherAccount).vote(6, [otherAccount.address, otherAccount2.address], [[1, 2, 3], [2, 3, 4]], ["すごい！！", "もっと頑張れ"])
-    await poll.connect(otherAccount2).vote(6, [otherAccount.address, otherAccount2.address], [[5, 5, 5], [5, 5, 5]], ["やるやん", "俺すごい"])
+    await poll.connect(otherAccount).vote(pollId, [otherAccount.address, otherAccount2.address], [[1, 2, 3], [2, 3, 4]], ["すごい！！", "もっと頑張れ"])
+    await poll.connect(otherAccount2).vote(pollId, [otherAccount.address, otherAccount2.address], [[5, 5, 5], [5, 5, 5]], ["やるやん", "俺すごい"])
 
 }
 

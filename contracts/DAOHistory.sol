@@ -1,11 +1,17 @@
 pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./Poll.sol";
 import "./struct/dao/DAOInfo.sol";
+import "./struct/dao/DAOHistoryItem.sol";
+import "./struct/assessment/Assessment.sol";
 
-// dev
-import "hardhat/console.sol";
+interface IPollCreator {
+    function createPoll(
+        string memory daoId,
+        string memory projectId,
+        address sender
+    ) external returns (address);
+}
 
 contract DAOHistory is AccessControl, Ownable {
     // daoId => projectId => [DAOHistoryItem, ...]
@@ -22,6 +28,12 @@ contract DAOHistory is AccessControl, Ownable {
 
     // Role to interact with DAO History
     bytes32 public constant ADD_HISTORY_ROLE = keccak256("ADD_HISTORY_ROLE");
+
+    address private pollCreatorAddress;
+
+    constructor(address _pollCreatorAddress) public {
+        pollCreatorAddress = _pollCreatorAddress;
+    }
 
     /**
      * @notice Setup role for other contract to interact with DAO History
@@ -47,10 +59,7 @@ contract DAOHistory is AccessControl, Ownable {
         string memory website,
         string memory logo
     ) public returns (address) {
-        require(
-            daoInfo[daoId].projects.length == 0,
-            "DAOHistory: DAO already exists"
-        );
+        require(daoInfo[daoId].projects.length == 0, "DAO already exists");
         string[] memory projects = new string[](1);
         projects[0] = projectId;
         daoInfo[daoId] = DAOInfo(name, description, website, logo, projects);
@@ -67,25 +76,20 @@ contract DAOHistory is AccessControl, Ownable {
         public
         returns (address)
     {
-        require(
-            daoInfo[daoId].projects.length != 0,
-            "DAOHistory: DAO does not exist"
-        );
+        require(daoInfo[daoId].projects.length != 0, "DAO not exist");
         require(
             pollAddress[daoId][projectId] == address(0),
-            "DAOHistory: Project already exists"
+            "Project already exists"
         );
-        // Create a poll contract
-        Poll poll = new Poll(daoId, projectId);
-        setupAddHistoryRole(address(poll));
-        pollAddress[daoId][projectId] = address(poll);
-        poll.setDaoHistoryAddress(address(this));
 
-        // grant permission
-        poll.setPollAdminRole(msg.sender);
-        poll.transferOwnership(msg.sender);
-
-        return address(poll);
+        address _pollAddress = IPollCreator(pollCreatorAddress).createPoll(
+            daoId,
+            projectId,
+            msg.sender
+        );
+        setupAddHistoryRole(_pollAddress);
+        pollAddress[daoId][projectId] = _pollAddress;
+        return _pollAddress;
     }
 
     function addDaoHistory(
@@ -93,10 +97,7 @@ contract DAOHistory is AccessControl, Ownable {
         string memory projectId,
         DAOHistoryItem memory daoHistoryItem
     ) public {
-        require(
-            hasRole(ADD_HISTORY_ROLE, msg.sender),
-            "Caller has no permission to add history"
-        );
+        require(hasRole(ADD_HISTORY_ROLE, msg.sender), "No Permission");
         histories[daoId][projectId].push(daoHistoryItem);
     }
 
@@ -105,10 +106,7 @@ contract DAOHistory is AccessControl, Ownable {
         string memory projectId,
         Assessment[] memory _assessments
     ) public {
-        require(
-            hasRole(ADD_HISTORY_ROLE, msg.sender),
-            "Caller has no permission to add assessment"
-        );
+        require(hasRole(ADD_HISTORY_ROLE, msg.sender), "No Permission");
         for (uint256 i = 0; i < _assessments.length; i++) {
             assessments[daoId][projectId].push(_assessments[i]);
         }
