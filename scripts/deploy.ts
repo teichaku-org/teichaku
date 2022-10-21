@@ -1,13 +1,14 @@
 import { ethers } from "hardhat";
 import setupDemo from "./demo/setupDemo";
 import setupDeploy from "./demo/setupDeploy";
+import setupEmptyDemo from "./demo/setupEmptyDemo";
 
 async function main() {
   const {
     owner, otherAccount, otherAccount2,
     token, daoHistory, poll, daonft
   } = await setupDeploy()
-  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
+  await setupEmptyDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
 
 }
 
