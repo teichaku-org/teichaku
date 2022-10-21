@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
-import { LoadingOverlay } from "@mantine/core";
+import { Container, Loader } from "@mantine/core";
 
 const History: NextPage = () => {
   const { daoHistory, load } = useDaoHistory();
@@ -13,9 +13,18 @@ const History: NextPage = () => {
     load();
   }, []);
 
-  if (!daoHistory) return <LoadingOverlay visible overlayBlur={2} />;
+  if (!daoHistory)
+    return (
+      <Container>
+        <Loader size="lg" variant="dots" />
+      </Container>
+    );
   if (daoHistory.length === 0)
-    return <LoadingOverlay visible overlayBlur={2} />;
+    return (
+      <Container>
+        <Loader size="lg" variant="dots" />
+      </Container>
+    );
 
   return (
     <div
