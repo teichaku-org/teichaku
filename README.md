@@ -49,4 +49,5 @@ npm run generate
 export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
 npx hardhat run scripts/deploy-test1.ts --network maticmum
 npx hardhat run scripts/deploy-test2.ts --network maticmum
+npx hardhat run scripts/demo-test.ts --network maticmum
 ```
