@@ -25,8 +25,9 @@ const NetworkCheck = () => {
                 params: [
                     {
                         chainId: expectedNetworkChainId,
+                        chainName: expectedNetwork,
                         rpcUrls: [(() => {
-                            if (expectedNetwork === "Mumbai") {
+                            if (expectedNetwork === "Polygon Mumbai") {
                                 return "https://rpc-mumbai.maticvigil.com/";
                             } else if (expectedNetwork === "Polygon Mainnet") {
                                 return "https://polygon-rpc.com/";
