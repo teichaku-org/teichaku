@@ -11,9 +11,15 @@ describe("Poll", function () {
         // Contracts are deployed using the first signer/account by default
         const [owner, otherAccount, otherAccount2, otherAccount3] = await ethers.getSigners();
 
+        // PollCreatorのデプロイ
+        const PollCreator = await ethers.getContractFactory("PollCreator");
+        const pollCreator = await PollCreator.deploy();
+        await pollCreator.deployed();
+        console.log("PollCreator deployed to:", pollCreator.address);
+
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");
-        const daoHistory = await DaoHistory.deploy();
+        const daoHistory = await DaoHistory.deploy(pollCreator.address);
         await daoHistory.deployed();
         console.log("DAOHistory deployed to:", daoHistory.address);
 
@@ -36,15 +42,14 @@ describe("Poll", function () {
 
         // 権限設定
         await token.setupMinterRole(poll.address);
-        await poll.setDaoTokenAddress(token.address);
+        await poll.setTokenAddress(token.address, "0x0000000000000000000000000000000000000000");
         await daoHistory.setupAddHistoryRole(poll.address);
 
         // Pollに入金する
         await token.transfer(poll.address, ethers.utils.parseEther("10000"));
 
         //設定値
-        await poll.setContributorAssignmentToken(ethers.utils.parseEther("5000"));
-        await poll.setVoterAssignmentToken(ethers.utils.parseEther("3000"));
+        await poll.setAssignmentToken(ethers.utils.parseEther("5000"), ethers.utils.parseEther("3000"));
         await poll.changePerspective(["p1", "p2", "p3"])
         return { token, poll, nft, owner, otherAccount, otherAccount2, otherAccount3 };
     }
@@ -92,13 +97,13 @@ describe("Poll", function () {
         it("候補者がいない状況で投票することはできない", async function () {
             const { poll, owner, token } = await loadFixture(deploy);
 
-            await expect(poll.vote(0, [owner.address], [[1]], [])).to.be.revertedWith("The candidate is not in the current poll.");
+            await expect(poll.vote(0, [owner.address], [[1]], [])).to.be.revertedWith("Invalid candidate");
         });
 
         it("ゼロ投票はできない", async function () {
             const { poll, token } = await loadFixture(deploy);
 
-            await expect(poll.vote(0, [], [], [])).to.be.revertedWith("Candidates must not be empty.");
+            await expect(poll.vote(0, [], [], [])).to.be.revertedWith("Candidates empty.");
         });
 
         it("候補者がいれば投票をすることができる", async function () {
@@ -115,7 +120,7 @@ describe("Poll", function () {
 
             await poll.connect(otherAccount).candidateToCurrentPoll("test1", [], [])
 
-            await expect(poll.vote(0, [otherAccount.address], [[1, 2, 3], [1, 2, 3]], [])).to.be.revertedWith("The number of points is not valid.");
+            await expect(poll.vote(0, [otherAccount.address], [[1, 2, 3], [1, 2, 3]], [])).to.be.revertedWith("invalid points");
         });
 
         it("投票がされれば投票結果が保存される(1件)", async function () {
@@ -145,17 +150,6 @@ describe("Poll", function () {
             expect(votes).to.lengthOf(2);
         });
 
-
-
-        it("投票の受付可否をownerが制御することができ、受付拒否している場合は投票できない", async function () {
-            const { poll, otherAccount, token } = await loadFixture(deploy);
-
-
-            await poll.connect(otherAccount).candidateToCurrentPoll("test1", [], [])
-            await poll.setVotingEnabled(0, false);
-
-            await expect(poll.vote(0, [otherAccount.address], [[1, 2, 3]], ["test"])).to.be.revertedWith("Voting is not enabled right now. Contact the admin to start voting.");
-        });
     });
 
     describe("Settlement", function () {
@@ -280,14 +274,14 @@ describe("Poll", function () {
         it("NFTを設定している場合、投票に必要なNFTを持っていないと投票できない", async function () {
             const { owner, token, nft, poll, otherAccount, otherAccount2 } = await loadFixture(deploy);
 
-            await poll.setNftAddress(nft.address);
+            await poll.setTokenAddress(token.address, nft.address);
             await poll.candidateToCurrentPoll("test1", [], [])
 
             // 投票権を持っているotherAccountとそうでないotherAccount2で投票を行う
             await nft.safeMint(otherAccount.address);
 
             await poll.connect(otherAccount).vote(0, [owner.address], [[1, 2, 3]], ["test"])
-            await expect(poll.connect(otherAccount2).vote(0, [owner.address], [[1, 2, 3]], ["test"])).to.be.revertedWith("You are not eligible to vote.");
+            await expect(poll.connect(otherAccount2).vote(0, [owner.address], [[1, 2, 3]], ["test"])).to.be.revertedWith("not eligible to vote.");
         });
 
     })

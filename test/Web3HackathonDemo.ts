@@ -48,20 +48,6 @@ describe("Web3Hachathon Demo Scenario", function () {
             expect(demoHistory.length).to.equal(expected);
         });
 
-        it("アクティブな投票の一覧を取得したときに基本的な情報は全て０", async function () {
-            const { owner, token, daoHistory, poll } = await loadFixture(deployFixture);
-            const activePolls = await poll.getActivePolls()
-            const activePoll = activePolls[0]
-
-            //投票開始日
-            expect(activePoll.startTimeStamp).to.equal(0);
-            //投票者の数
-            expect(activePoll.votersCount).to.equal(0);
-            //立候補者の数
-            expect(activePoll.candidatesCount).to.equal(0);
-            //pollId
-            expect(activePoll.pollId).to.equal(0);
-        })
     });
 
     describe("デモデータをセットした後の状態について確認", function () {
@@ -78,14 +64,6 @@ describe("Web3Hachathon Demo Scenario", function () {
         });
 
 
-        it("pollIdが6になっている", async function () {
-            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const activePolls = await poll.getActivePolls()
-            const activePoll = activePolls[0]
-
-            //pollId
-            expect(activePoll.pollId).to.equal(6);
-        })
     });
 
     describe("DAOの情報を取得", function () {
@@ -110,28 +88,6 @@ describe("Web3Hachathon Demo Scenario", function () {
 
 
     describe("投票部分の操作紹介", function () {
-        it("現在アクティブな投票の一覧を取得することができる", async function () {
-            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const activePolls = await poll.getActivePolls()
-
-            //デモでは常にアクティブな投票が１つ存在している
-            expect(activePolls.length).to.equal(1);
-        })
-
-        it("投票の一覧では、基本的な情報を取得できる", async function () {
-            const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const activePolls = await poll.getActivePolls()
-            const activePoll = activePolls[0]
-
-            //投票開始日
-            expect(activePoll.startTimeStamp).to.not.equal(0);
-            //投票者の数
-            expect(activePoll.votersCount).to.equal(2);
-            //立候補者の数
-            expect(activePoll.candidatesCount).to.equal(2);
-            //pollId
-            expect(activePoll.pollId).to.equal(6);
-        })
 
         it("pollIdを指定して詳細を取得することができる", async function () {
             const { owner, token, daoHistory, poll, otherAccount, otherAccount2 } = await deployAndSetupDemoData()
@@ -210,9 +166,9 @@ describe("Web3Hachathon Demo Scenario", function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
             await poll.candidateToCurrentPoll("テスト", ["https://yahoo.co.jp"], ["エンジニア", "PM"])
 
-            const activePolls = await poll.getActivePolls()
-            const activePoll = activePolls[0]
-            expect(activePoll.candidatesCount).to.equal(3);
+            const currentMaxPollId = await poll.currentMaxPollId()
+            const activePoll = await poll.getPollDetail(currentMaxPollId)
+            expect(activePoll.contributions.length).to.equal(3);
         })
 
         it("上書きをすることもできる", async function () {
@@ -239,6 +195,7 @@ describe("Web3Hachathon Demo Scenario", function () {
             const beforeBalance2 = await token.balanceOf(otherAccount.address)
             const beforeBalance3 = await token.balanceOf(otherAccount2.address)
             await poll.settleCurrentPollAndCreateNewPoll()
+
             const afterBalance1 = await token.balanceOf(owner.address)
             const afterBalance2 = await token.balanceOf(otherAccount.address)
             const afterBalance3 = await token.balanceOf(otherAccount2.address)

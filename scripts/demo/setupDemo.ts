@@ -28,6 +28,9 @@ async function setupDemo(
     await createDaoHistory(daoHistory)
     await createAssessment(daoHistory)
 
+    // 投票者と貢献者に配布するトークンの量を決定する
+    await poll.setAssignmentToken(ethers.utils.parseEther("7000"), ethers.utils.parseEther("3000"))
+
     // 辻褄を合わせるためにpollIdをインクリメントする
     await poll.settleCurrentPollAndCreateNewPoll()
     await poll.settleCurrentPollAndCreateNewPoll()

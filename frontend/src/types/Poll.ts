@@ -27,25 +27,6 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export type AbstractPollItemStruct = {
-  pollId: PromiseOrValue<BigNumberish>;
-  votersCount: PromiseOrValue<BigNumberish>;
-  candidatesCount: PromiseOrValue<BigNumberish>;
-  startTimeStamp: PromiseOrValue<BigNumberish>;
-};
-
-export type AbstractPollItemStructOutput = [
-  BigNumber,
-  BigNumber,
-  BigNumber,
-  BigNumber
-] & {
-  pollId: BigNumber;
-  votersCount: BigNumber;
-  candidatesCount: BigNumber;
-  startTimeStamp: BigNumber;
-};
-
 export type VoteStruct = {
   voter: PromiseOrValue<string>;
   candidates: PromiseOrValue<string>[];
@@ -119,21 +100,14 @@ export interface PollInterface extends utils.Interface {
   functions: {
     "CONTRIBUTOR_ASSIGNMENT_TOKEN()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "POLL_ADMIN_ROLE()": FunctionFragment;
     "VOTER_ASSIGNMENT_TOKEN()": FunctionFragment;
     "VOTE_MAX_PARTICIPANT()": FunctionFragment;
-    "VOTE_MAX_POINT()": FunctionFragment;
     "activePerspective()": FunctionFragment;
     "candidateToCurrentPoll(string,string[],string[])": FunctionFragment;
-    "candidates(int256,uint256)": FunctionFragment;
     "changePerspective(string[])": FunctionFragment;
-    "contributions(int256,uint256)": FunctionFragment;
     "currentMaxPollId()": FunctionFragment;
-    "daoHistoryAddress()": FunctionFragment;
-    "daoId()": FunctionFragment;
     "daoTokenAddress()": FunctionFragment;
     "endTimeStamp(int256)": FunctionFragment;
-    "getActivePolls()": FunctionFragment;
     "getCurrentCandidates()": FunctionFragment;
     "getCurrentPerspectives()": FunctionFragment;
     "getCurrentVotes()": FunctionFragment;
@@ -149,51 +123,36 @@ export interface PollInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "pause()": FunctionFragment;
     "paused()": FunctionFragment;
-    "perspectives(uint256,uint256)": FunctionFragment;
-    "projectId()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "setContributorAssignmentToken(uint256)": FunctionFragment;
+    "setAssignmentToken(uint256,uint256)": FunctionFragment;
     "setDaoHistoryAddress(address)": FunctionFragment;
-    "setDaoTokenAddress(address)": FunctionFragment;
-    "setNftAddress(address)": FunctionFragment;
     "setPollAdminRole(address)": FunctionFragment;
+    "setTokenAddress(address,address)": FunctionFragment;
     "setVoteMaxParticipant(uint256)": FunctionFragment;
-    "setVoteMaxPoint(uint256)": FunctionFragment;
-    "setVoterAssignmentToken(uint256)": FunctionFragment;
     "setVotingDuration(int256,uint256)": FunctionFragment;
-    "setVotingEnabled(int256,bool)": FunctionFragment;
     "settleCurrentPollAndCreateNewPoll()": FunctionFragment;
     "startTimeStamp(int256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "unpause()": FunctionFragment;
     "vote(int256,address[],uint256[][],string[])": FunctionFragment;
-    "votes(int256,uint256)": FunctionFragment;
     "votingDuration()": FunctionFragment;
-    "votingEnabled()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "CONTRIBUTOR_ASSIGNMENT_TOKEN"
       | "DEFAULT_ADMIN_ROLE"
-      | "POLL_ADMIN_ROLE"
       | "VOTER_ASSIGNMENT_TOKEN"
       | "VOTE_MAX_PARTICIPANT"
-      | "VOTE_MAX_POINT"
       | "activePerspective"
       | "candidateToCurrentPoll"
-      | "candidates"
       | "changePerspective"
-      | "contributions"
       | "currentMaxPollId"
-      | "daoHistoryAddress"
-      | "daoId"
       | "daoTokenAddress"
       | "endTimeStamp"
-      | "getActivePolls"
       | "getCurrentCandidates"
       | "getCurrentPerspectives"
       | "getCurrentVotes"
@@ -209,30 +168,22 @@ export interface PollInterface extends utils.Interface {
       | "owner"
       | "pause"
       | "paused"
-      | "perspectives"
-      | "projectId"
       | "renounceOwnership"
       | "renounceRole"
       | "revokeRole"
-      | "setContributorAssignmentToken"
+      | "setAssignmentToken"
       | "setDaoHistoryAddress"
-      | "setDaoTokenAddress"
-      | "setNftAddress"
       | "setPollAdminRole"
+      | "setTokenAddress"
       | "setVoteMaxParticipant"
-      | "setVoteMaxPoint"
-      | "setVoterAssignmentToken"
       | "setVotingDuration"
-      | "setVotingEnabled"
       | "settleCurrentPollAndCreateNewPoll"
       | "startTimeStamp"
       | "supportsInterface"
       | "transferOwnership"
       | "unpause"
       | "vote"
-      | "votes"
       | "votingDuration"
-      | "votingEnabled"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -244,19 +195,11 @@ export interface PollInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "POLL_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "VOTER_ASSIGNMENT_TOKEN",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "VOTE_MAX_PARTICIPANT",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "VOTE_MAX_POINT",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -272,26 +215,13 @@ export interface PollInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "candidates",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "changePerspective",
     values: [PromiseOrValue<string>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "contributions",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "currentMaxPollId",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "daoHistoryAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "daoId", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "daoTokenAddress",
     values?: undefined
@@ -299,10 +229,6 @@ export interface PollInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "endTimeStamp",
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getActivePolls",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getCurrentCandidates",
@@ -356,11 +282,6 @@ export interface PollInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "pause", values?: undefined): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "perspectives",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(functionFragment: "projectId", values?: undefined): string;
-  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
@@ -373,19 +294,11 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setContributorAssignmentToken",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "setAssignmentToken",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setDaoHistoryAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDaoTokenAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setNftAddress",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -393,24 +306,16 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setTokenAddress",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVoteMaxParticipant",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setVoteMaxPoint",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setVoterAssignmentToken",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setVotingDuration",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setVotingEnabled",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
     functionFragment: "settleCurrentPollAndCreateNewPoll",
@@ -439,15 +344,7 @@ export interface PollInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "votes",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "votingDuration",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "votingEnabled",
     values?: undefined
   ): string;
 
@@ -460,19 +357,11 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "POLL_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "VOTER_ASSIGNMENT_TOKEN",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "VOTE_MAX_PARTICIPANT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "VOTE_MAX_POINT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -483,13 +372,8 @@ export interface PollInterface extends utils.Interface {
     functionFragment: "candidateToCurrentPoll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "candidates", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "changePerspective",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "contributions",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -497,20 +381,11 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "daoHistoryAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "daoId", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "daoTokenAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "endTimeStamp",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getActivePolls",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -550,11 +425,6 @@ export interface PollInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "perspectives",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "projectId", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -564,7 +434,7 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setContributorAssignmentToken",
+    functionFragment: "setAssignmentToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -572,15 +442,11 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setDaoTokenAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setNftAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "setPollAdminRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -588,19 +454,7 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setVoteMaxPoint",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setVoterAssignmentToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "setVotingDuration",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setVotingEnabled",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -621,13 +475,8 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "vote", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "votes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "votingDuration",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "votingEnabled",
     data: BytesLike
   ): Result;
 
@@ -744,13 +593,9 @@ export interface Poll extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
-
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    VOTE_MAX_POINT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     activePerspective(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -761,34 +606,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    candidates(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     changePerspective(
       perspectiveTexts: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    contributions(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, string, BigNumber] & {
-        contributionText: string;
-        contributor: string;
-        pollId: BigNumber;
-      }
-    >;
-
     currentMaxPollId(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    daoHistoryAddress(overrides?: CallOverrides): Promise<[string]>;
-
-    daoId(overrides?: CallOverrides): Promise<[string]>;
 
     daoTokenAddress(overrides?: CallOverrides): Promise<[string]>;
 
@@ -797,10 +620,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getActivePolls(
-      overrides?: CallOverrides
-    ): Promise<[AbstractPollItemStructOutput[]]>;
-
     getCurrentCandidates(overrides?: CallOverrides): Promise<[string[]]>;
 
     getCurrentPerspectives(overrides?: CallOverrides): Promise<[string[]]>;
@@ -808,7 +627,7 @@ export interface Poll extends BaseContract {
     getCurrentVotes(overrides?: CallOverrides): Promise<[VoteStructOutput[]]>;
 
     getPerspectives(
-      _perspectiveId: PromiseOrValue<BigNumberish>,
+      _pollId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string[]]>;
 
@@ -859,14 +678,6 @@ export interface Poll extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<[boolean]>;
 
-    perspectives(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    projectId(overrides?: CallOverrides): Promise<[string]>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -883,8 +694,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setContributorAssignmentToken(
-      _contributorAssignmentToken: PromiseOrValue<BigNumberish>,
+    setAssignmentToken(
+      _contributorToken: PromiseOrValue<BigNumberish>,
+      _voterToken: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -893,18 +705,14 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setNftAddress(
-      _nftAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenAddress(
+      _daoTokenAddress: PromiseOrValue<string>,
+      _nftAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -913,25 +721,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setVoteMaxPoint(
-      _voteMaxPoint: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setVoterAssignmentToken(
-      _voterAssignmentToken: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setVotingDuration(
       pollId: PromiseOrValue<BigNumberish>,
       _votingDuration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setVotingEnabled(
-      pollId: PromiseOrValue<BigNumberish>,
-      _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -966,30 +758,16 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    votes(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber] & { voter: string; perspectiveId: BigNumber }
-    >;
-
     votingDuration(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    votingEnabled(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   CONTRIBUTOR_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
   VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
   VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
-
-  VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
   activePerspective(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1000,34 +778,12 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  candidates(
-    arg0: PromiseOrValue<BigNumberish>,
-    arg1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   changePerspective(
     perspectiveTexts: PromiseOrValue<string>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  contributions(
-    arg0: PromiseOrValue<BigNumberish>,
-    arg1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<
-    [string, string, BigNumber] & {
-      contributionText: string;
-      contributor: string;
-      pollId: BigNumber;
-    }
-  >;
-
   currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
-
-  daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
-
-  daoId(overrides?: CallOverrides): Promise<string>;
 
   daoTokenAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -1036,10 +792,6 @@ export interface Poll extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getActivePolls(
-    overrides?: CallOverrides
-  ): Promise<AbstractPollItemStructOutput[]>;
-
   getCurrentCandidates(overrides?: CallOverrides): Promise<string[]>;
 
   getCurrentPerspectives(overrides?: CallOverrides): Promise<string[]>;
@@ -1047,7 +799,7 @@ export interface Poll extends BaseContract {
   getCurrentVotes(overrides?: CallOverrides): Promise<VoteStructOutput[]>;
 
   getPerspectives(
-    _perspectiveId: PromiseOrValue<BigNumberish>,
+    _pollId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string[]>;
 
@@ -1098,14 +850,6 @@ export interface Poll extends BaseContract {
 
   paused(overrides?: CallOverrides): Promise<boolean>;
 
-  perspectives(
-    arg0: PromiseOrValue<BigNumberish>,
-    arg1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  projectId(overrides?: CallOverrides): Promise<string>;
-
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -1122,8 +866,9 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setContributorAssignmentToken(
-    _contributorAssignmentToken: PromiseOrValue<BigNumberish>,
+  setAssignmentToken(
+    _contributorToken: PromiseOrValue<BigNumberish>,
+    _voterToken: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1132,18 +877,14 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setDaoTokenAddress(
-    _daoTokenAddress: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setNftAddress(
-    _nftAddress: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setPollAdminRole(
     _address: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenAddress(
+    _daoTokenAddress: PromiseOrValue<string>,
+    _nftAddress: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1152,25 +893,9 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setVoteMaxPoint(
-    _voteMaxPoint: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setVoterAssignmentToken(
-    _voterAssignmentToken: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setVotingDuration(
     pollId: PromiseOrValue<BigNumberish>,
     _votingDuration: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setVotingEnabled(
-    pollId: PromiseOrValue<BigNumberish>,
-    _votingEnabled: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1205,28 +930,16 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  votes(
-    arg0: PromiseOrValue<BigNumberish>,
-    arg1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<[string, BigNumber] & { voter: string; perspectiveId: BigNumber }>;
-
   votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
-
-  votingEnabled(overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
     CONTRIBUTOR_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
-
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
     VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
     activePerspective(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1237,34 +950,12 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    candidates(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     changePerspective(
       perspectiveTexts: PromiseOrValue<string>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
-    contributions(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, string, BigNumber] & {
-        contributionText: string;
-        contributor: string;
-        pollId: BigNumber;
-      }
-    >;
-
     currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    daoHistoryAddress(overrides?: CallOverrides): Promise<string>;
-
-    daoId(overrides?: CallOverrides): Promise<string>;
 
     daoTokenAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -1273,10 +964,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getActivePolls(
-      overrides?: CallOverrides
-    ): Promise<AbstractPollItemStructOutput[]>;
-
     getCurrentCandidates(overrides?: CallOverrides): Promise<string[]>;
 
     getCurrentPerspectives(overrides?: CallOverrides): Promise<string[]>;
@@ -1284,7 +971,7 @@ export interface Poll extends BaseContract {
     getCurrentVotes(overrides?: CallOverrides): Promise<VoteStructOutput[]>;
 
     getPerspectives(
-      _perspectiveId: PromiseOrValue<BigNumberish>,
+      _pollId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string[]>;
 
@@ -1333,14 +1020,6 @@ export interface Poll extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<boolean>;
 
-    perspectives(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    projectId(overrides?: CallOverrides): Promise<string>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     renounceRole(
@@ -1355,8 +1034,9 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setContributorAssignmentToken(
-      _contributorAssignmentToken: PromiseOrValue<BigNumberish>,
+    setAssignmentToken(
+      _contributorToken: PromiseOrValue<BigNumberish>,
+      _voterToken: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1365,18 +1045,14 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setNftAddress(
-      _nftAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTokenAddress(
+      _daoTokenAddress: PromiseOrValue<string>,
+      _nftAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1385,25 +1061,9 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setVoteMaxPoint(
-      _voteMaxPoint: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setVoterAssignmentToken(
-      _voterAssignmentToken: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setVotingDuration(
       pollId: PromiseOrValue<BigNumberish>,
       _votingDuration: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setVotingEnabled(
-      pollId: PromiseOrValue<BigNumberish>,
-      _votingEnabled: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1434,17 +1094,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    votes(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [string, BigNumber] & { voter: string; perspectiveId: BigNumber }
-    >;
-
     votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
-
-    votingEnabled(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {
@@ -1502,13 +1152,9 @@ export interface Poll extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
-
     VOTER_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
     VOTE_MAX_PARTICIPANT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    VOTE_MAX_POINT(overrides?: CallOverrides): Promise<BigNumber>;
 
     activePerspective(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1519,28 +1165,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    candidates(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     changePerspective(
       perspectiveTexts: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    contributions(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    daoHistoryAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    daoId(overrides?: CallOverrides): Promise<BigNumber>;
 
     daoTokenAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1549,8 +1179,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getActivePolls(overrides?: CallOverrides): Promise<BigNumber>;
-
     getCurrentCandidates(overrides?: CallOverrides): Promise<BigNumber>;
 
     getCurrentPerspectives(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1558,7 +1186,7 @@ export interface Poll extends BaseContract {
     getCurrentVotes(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPerspectives(
-      _perspectiveId: PromiseOrValue<BigNumberish>,
+      _pollId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1609,14 +1237,6 @@ export interface Poll extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<BigNumber>;
 
-    perspectives(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    projectId(overrides?: CallOverrides): Promise<BigNumber>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1633,8 +1253,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setContributorAssignmentToken(
-      _contributorAssignmentToken: PromiseOrValue<BigNumberish>,
+    setAssignmentToken(
+      _contributorToken: PromiseOrValue<BigNumberish>,
+      _voterToken: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1643,18 +1264,14 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setNftAddress(
-      _nftAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setTokenAddress(
+      _daoTokenAddress: PromiseOrValue<string>,
+      _nftAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1663,25 +1280,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setVoteMaxPoint(
-      _voteMaxPoint: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setVoterAssignmentToken(
-      _voterAssignmentToken: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     setVotingDuration(
       pollId: PromiseOrValue<BigNumberish>,
       _votingDuration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setVotingEnabled(
-      pollId: PromiseOrValue<BigNumberish>,
-      _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1716,15 +1317,7 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    votes(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
-
-    votingEnabled(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1736,8 +1329,6 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    POLL_ADMIN_ROLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     VOTER_ASSIGNMENT_TOKEN(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1745,8 +1336,6 @@ export interface Poll extends BaseContract {
     VOTE_MAX_PARTICIPANT(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    VOTE_MAX_POINT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     activePerspective(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1757,28 +1346,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    candidates(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     changePerspective(
       perspectiveTexts: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    contributions(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     currentMaxPollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    daoHistoryAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    daoId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     daoTokenAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1786,8 +1359,6 @@ export interface Poll extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    getActivePolls(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getCurrentCandidates(
       overrides?: CallOverrides
@@ -1800,7 +1371,7 @@ export interface Poll extends BaseContract {
     getCurrentVotes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPerspectives(
-      _perspectiveId: PromiseOrValue<BigNumberish>,
+      _pollId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1851,14 +1422,6 @@ export interface Poll extends BaseContract {
 
     paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    perspectives(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    projectId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1875,8 +1438,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setContributorAssignmentToken(
-      _contributorAssignmentToken: PromiseOrValue<BigNumberish>,
+    setAssignmentToken(
+      _contributorToken: PromiseOrValue<BigNumberish>,
+      _voterToken: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1885,18 +1449,14 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setNftAddress(
-      _nftAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenAddress(
+      _daoTokenAddress: PromiseOrValue<string>,
+      _nftAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1905,25 +1465,9 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setVoteMaxPoint(
-      _voteMaxPoint: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setVoterAssignmentToken(
-      _voterAssignmentToken: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     setVotingDuration(
       pollId: PromiseOrValue<BigNumberish>,
       _votingDuration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setVotingEnabled(
-      pollId: PromiseOrValue<BigNumberish>,
-      _votingEnabled: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1958,14 +1502,6 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    votes(
-      arg0: PromiseOrValue<BigNumberish>,
-      arg1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     votingDuration(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    votingEnabled(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

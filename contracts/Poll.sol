@@ -3,7 +3,6 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
@@ -15,11 +14,14 @@ import "./struct/poll/Vote.sol";
 import "./struct/assessment/Assessment.sol";
 import "./struct/dao/DAOHistoryItem.sol";
 
-contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
+//dev
+// import "hardhat/console.sol";
+
+contract Poll is AccessControl, Ownable, Pausable {
     // DAO ID
-    string public daoId;
+    string private daoId;
     // Project Id
-    string public projectId;
+    string private projectId;
 
     // Constructor
     constructor(string memory _daoId, string memory _projectId) {
@@ -29,7 +31,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // Pollを開始したり終了するなどの権限
     // Role to start and end a Poll etc
-    bytes32 public constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
+    bytes32 private constant POLL_ADMIN_ROLE = keccak256("POLL_ADMIN_ROLE");
 
     // Poll Id
     int256 public currentMaxPollId = 0;
@@ -44,39 +46,31 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // 投票結果等を保存するDAO履歴のアドレス
     // DAO History address
-    address public daoHistoryAddress;
+    address private daoHistoryAddress;
 
     // 立候補者(貢献者)に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to candidates(contributors)
-    uint256 public CONTRIBUTOR_ASSIGNMENT_TOKEN = 7000 * (10**18);
+    uint256 public CONTRIBUTOR_ASSIGNMENT_TOKEN = 0 * (10**18);
 
     // 投票者に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to voters
-    uint256 public VOTER_ASSIGNMENT_TOKEN = 3000 * (10**18);
-
-    // 投票時に指定できる最大点数
-    // maximum number of points that can be voted
-    uint256 public VOTE_MAX_POINT = 20;
+    uint256 public VOTER_ASSIGNMENT_TOKEN = 0 * (10**18);
 
     // 投票時に参加できる人数
     // maximum number of people who can participate in voting
     uint256 public VOTE_MAX_PARTICIPANT = 100;
 
-    // 投票可能かどうかの制御を行うフラグ
-    // flag to control voting
-    bool public votingEnabled = true;
-
     // 立候補者のリスト
     // list of candidates
-    mapping(int256 => address[]) public candidates; // pollId => [candidate1, candidate2, ...]
+    mapping(int256 => address[]) private candidates; // pollId => [candidate1, candidate2, ...]
 
     // 立候補者の貢献リスト
     // list of candidates
-    mapping(int256 => ContributionItem[]) public contributions; // pollId => [contribution1, contribution2, ...]
+    mapping(int256 => ContributionItem[]) private contributions; // pollId => [contribution1, contribution2, ...]
 
     // 投票のリスト
     // list of vote
-    mapping(int256 => Vote[]) public votes; // pollId => [vote1, vote2, ...]
+    mapping(int256 => Vote[]) private votes; // pollId => [vote1, vote2, ...]
 
     // 投票の開始時間
     // Start-time of polls
@@ -92,7 +86,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
 
     // 投票観点
     // perspective
-    mapping(uint256 => string[]) public perspectives; // perspectiveId => [perspective1, perspective2, ...]
+    mapping(uint256 => string[]) private perspectives; // perspectiveId => [perspective1, perspective2, ...]
 
     // アクティブな投票観点
     // active perspective
@@ -122,34 +116,19 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
      * @dev only admin can change Perspective
      */
     function changePerspective(string[] memory perspectiveTexts) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Poll::changePerspective: only POLL_ADMIN_ROLE can add perspective"
-        );
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         perspectives[++activePerspective] = perspectiveTexts;
     }
 
     /**
-     * @notice Set DAO Token Address
-     * @dev only admin can set DAO Token Address
+     * @notice Set Token AND NFT Address
+     * @dev only admin can set Token AND NFT Address
      */
-    function setDaoTokenAddress(address _daoTokenAddress) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Poll::setDaoTokenAddress: only POLL_ADMIN_ROLE"
-        );
+    function setTokenAddress(address _daoTokenAddress, address _nftAddress)
+        external
+    {
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         daoTokenAddress = _daoTokenAddress;
-    }
-
-    /**
-     * @notice Set NFT Address
-     * @dev only admin can set NFT Address
-     */
-    function setNftAddress(address _nftAddress) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Poll::setNftAddress: only POLL_ADMIN_ROLE"
-        );
         nftAddress = _nftAddress;
     }
 
@@ -157,38 +136,12 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
      * @notice Set CONTRIBUTOR_ASSIGNMENT_TOKEN
      * @dev only poll admin can set CONTRIBUTOR_ASSIGNMENT_TOKEN
      */
-    function setContributorAssignmentToken(uint256 _contributorAssignmentToken)
+    function setAssignmentToken(uint256 _contributorToken, uint256 _voterToken)
         external
     {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
-        CONTRIBUTOR_ASSIGNMENT_TOKEN = _contributorAssignmentToken;
-    }
-
-    /**
-     * @notice Set VOTER_ASSIGNMENT_TOKEN
-     * @dev only poll admin can set VOTER_ASSIGNMENT_TOKEN
-     */
-    function setVoterAssignmentToken(uint256 _voterAssignmentToken) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
-        VOTER_ASSIGNMENT_TOKEN = _voterAssignmentToken;
-    }
-
-    /**
-     * @notice Set VOTE_MAX_POINT
-     * @dev only poll admin can set VOTE_MAX_POINT
-     */
-    function setVoteMaxPoint(uint256 _voteMaxPoint) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
-        VOTE_MAX_POINT = _voteMaxPoint;
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
+        CONTRIBUTOR_ASSIGNMENT_TOKEN = _contributorToken;
+        VOTER_ASSIGNMENT_TOKEN = _voterToken;
     }
 
     /**
@@ -196,24 +149,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
      * @dev only poll admin can set VOTE_MAX_PARTICIPANT
      */
     function setVoteMaxParticipant(uint256 _voteMaxParticipant) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         VOTE_MAX_PARTICIPANT = _voteMaxParticipant;
-    }
-
-    /**
-     * @notice Set VOTE_MAX_POINT
-     * @dev only poll admin can set VOTE_MAX_POINT
-     */
-    function setVotingEnabled(int256 pollId, bool _votingEnabled) external {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
-        //TODO: pollIdごとにフラグを設定できるようにする
-        votingEnabled = _votingEnabled;
     }
 
     /**
@@ -223,10 +160,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     function setVotingDuration(int256 pollId, uint256 _votingDuration)
         external
     {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         votingDuration = _votingDuration;
         endTimeStamp[pollId] = startTimeStamp[pollId] + _votingDuration;
     }
@@ -293,44 +227,28 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
         uint256[][] memory _points,
         string[] memory _comments
     ) external whenNotPaused returns (bool) {
-        // Check if votig is enabled
-        require(
-            votingEnabled,
-            "Voting is not enabled right now. Contact the admin to start voting."
-        );
-
         address[] memory voters = getVoters(_pollId);
 
         // Check if the voter is eligible to vote
-        require(isEligibleToVote(msg.sender), "You are not eligible to vote.");
+        require(isEligibleToVote(msg.sender), "not eligible to vote.");
 
         // Check if the candidate is not empty
-        require(_candidates.length != 0, "Candidates must not be empty.");
+        require(_candidates.length != 0, "Candidates empty.");
 
         // Check if the points and candidates are the same length
-        require(
-            _points.length == _candidates.length,
-            "The number of points is not valid."
-        );
+        require(_points.length == _candidates.length, "invalid points");
 
         string[] memory _perspectives = perspectives[activePerspective];
         for (uint256 index = 0; index < _candidates.length; index++) {
             // Check if the candidate is in the current poll
             require(
                 Array.contains(candidates[_pollId], _candidates[index]),
-                "The candidate is not in the current poll."
+                "Invalid candidate"
             );
 
             // Check if the points are valid
             for (uint256 i = 0; i < _perspectives.length; i++) {
-                require(
-                    _points[index][i] >= 0,
-                    "The points are not valid. (0 <= points)"
-                );
-                require(
-                    _points[index][i] <= VOTE_MAX_POINT,
-                    "The points are not valid. (points < VOTE_MAX_POINT)"
-                );
+                require(_points[index][i] >= 0, "Invalid points");
 
                 // A voted point for oneself will always be 0.
                 if (_candidates[index] == msg.sender) {
@@ -369,15 +287,8 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
      * @notice Settle the current poll, and start new poll
      * @dev only poll admin can execute this function and it is expected that external cron system calls this function weekly or bi-weekly.
      */
-    function settleCurrentPollAndCreateNewPoll()
-        external
-        whenNotPaused
-        nonReentrant
-    {
-        require(
-            hasRole(POLL_ADMIN_ROLE, msg.sender),
-            "Caller is not a poll admin"
-        );
+    function settleCurrentPollAndCreateNewPoll() external whenNotPaused {
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         _settlePoll();
         _createPoll();
     }
@@ -505,10 +416,7 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             // If the token address to be distributed is not registered, the token will not be distributed
             return;
         }
-        require(
-            to.length == amount.length,
-            "to and amount must be same length"
-        );
+        require(to.length == amount.length, "to != amount");
         IERC20 daoToken = IERC20(daoTokenAddress);
         for (uint256 index = 0; index < to.length; index++) {
             daoToken.transfer(to[index], amount[index]);
@@ -560,17 +468,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
     }
 
     /**
-     * @notice get the poll's perspective
-     */
-    function getPerspectives(uint256 _perspectiveId)
-        public
-        view
-        returns (string[] memory)
-    {
-        return perspectives[_perspectiveId];
-    }
-
-    /**
      * @notice get the current poll's voters
      */
     function getVoters(int256 _pollId) public view returns (address[] memory) {
@@ -580,26 +477,6 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             _voters[index] = _votes[index].voter;
         }
         return _voters;
-    }
-
-    /**
-     * @notice get the current active poll information list
-     */
-    function getActivePolls() public view returns (AbstractPollItem[] memory) {
-        Vote[] memory _votes = votes[currentMaxPollId];
-        address[] memory _candidates = candidates[currentMaxPollId];
-        uint256 timestamp = startTimeStamp[currentMaxPollId];
-        AbstractPollItem memory _polls = AbstractPollItem(
-            currentMaxPollId,
-            _votes.length,
-            _candidates.length,
-            timestamp
-        );
-
-        // WARN: Only one poll is active in the current implementation
-        AbstractPollItem[] memory _pollsArray = new AbstractPollItem[](1);
-        _pollsArray[0] = _polls;
-        return _pollsArray;
     }
 
     /**
@@ -631,6 +508,14 @@ contract Poll is AccessControl, Ownable, Pausable, ReentrancyGuard {
             _perspectives
         );
         return _detailPoll;
+    }
+
+    function getPerspectives(uint256 _pollId)
+        public
+        view
+        returns (string[] memory)
+    {
+        return perspectives[_pollId];
     }
 
     /**

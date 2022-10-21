@@ -12,9 +12,15 @@ export default async function setupDeploy() {
     await token.deployed();
     console.log("DAOToken deployed to:", token.address);
 
+    // PollCreatorのデプロイ
+    const PollCreator = await ethers.getContractFactory("PollCreator");
+    const pollCreator = await PollCreator.deploy();
+    await pollCreator.deployed();
+    console.log("PollCreator deployed to:", pollCreator.address);
+
     // DaoHistoryのデプロイ
     const DaoHistory = await ethers.getContractFactory("DAOHistory");
-    const daoHistory = await DaoHistory.deploy();
+    const daoHistory = await DaoHistory.deploy(pollCreator.address);
     await daoHistory.deployed();
     console.log("DAOHistory deployed to:", daoHistory.address);
 
@@ -35,7 +41,7 @@ export default async function setupDeploy() {
 
 
     // Pollが利用するToken, DaoHistory, 投票のために必要なNFTの設定
-    await poll.setDaoTokenAddress(token.address);
+    await poll.setTokenAddress(token.address, "0x0000000000000000000000000000000000000000");
     console.log("Poll.setDaoTokenAddress");
 
 

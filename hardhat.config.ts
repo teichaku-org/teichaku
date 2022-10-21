@@ -13,7 +13,15 @@ if (PRIVATE_KEY?.length !== 66) {
 }
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.9",
+  solidity: {
+    version: "0.8.9",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
 
   defaultNetwork: "hardhat",
   networks: {

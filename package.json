@@ -8,7 +8,8 @@
     "test": "npx hardhat test",
     "dev": "npx hardhat run scripts/deploy.ts --network localhost",
     "generate": "cp -rp ./artifacts/contracts/. ./frontend/src/abi/ && rm -rf ./frontend/src/abi/*/*.dbg.json && npx typechain --target=ethers-v5 --out-dir ./frontend/src/types ./frontend/src/abi/*/*.json ",
-    "coverage": "npx hardhat coverage"
+    "coverage": "npx hardhat coverage",
+    "size-check": "npx hardhat size-contracts"
   },
   "keywords": [],
   "author": "",
