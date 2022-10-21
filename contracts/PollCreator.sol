@@ -14,11 +14,13 @@ contract PollCreator is AccessControl, Ownable {
     ) public returns (address) {
         // Create a poll contract
         Poll poll = new Poll(daoId, projectId);
+        address pollAddress = address(poll);
+        require(pollAddress != address(0), "Poll address is invalid");
         poll.setDaoHistoryAddress(msg.sender);
 
         // grant permission
         poll.setPollAdminRole(sender);
         poll.transferOwnership(sender);
-        return address(poll);
+        return pollAddress;
     }
 }
