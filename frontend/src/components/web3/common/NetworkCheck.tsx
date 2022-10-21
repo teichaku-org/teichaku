@@ -23,12 +23,13 @@ const NetworkCheck = () => {
             //TODO: rpcUrlの環境変数化
             let rpcUrl = ""
             if (expectedNetwork === "Polygon Mumbai") {
-                rpcUrl = "https://rpc-mumbai.maticvigil.com/";
+                rpcUrl = "https://rpc-mumbai.maticvigil.com";
             } else if (expectedNetwork === "Polygon Mainnet") {
-                rpcUrl = "https://polygon-rpc.com/";
+                rpcUrl = "https://polygon-rpc.com";
             } else if (expectedNetwork === "Local") {
                 rpcUrl = "http://localhost:8545";
             }
+            console.log({ rpcUrl })
 
             await (window as any).ethereum.request({
                 method: 'wallet_addEthereumChain',
