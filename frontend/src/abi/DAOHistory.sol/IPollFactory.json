@@ -1,6 +1,6 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "IPollCreator",
+  "contractName": "IPollFactory",
   "sourceName": "contracts/DAOHistory.sol",
   "abi": [
     {

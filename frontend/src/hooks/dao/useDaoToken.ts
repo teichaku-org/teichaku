@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react"
 import { ethers } from "ethers";
 import useMetaMask, { getContract } from "../web3/useMetaMask";
-import { DAOToken } from "@/types";
-import artifact from "../../abi/DAOToken.sol/DAOToken.json";
+import artifact from "../../abi/token/DAOToken.sol/DAOToken.json";
 import { useAtom } from "jotai";
 import { TokenNameAtom, TokenSymbolAtom, TokenTotalSupplyAtom, YourBalanceAtom } from "@/domains/atoms/TokenAtom";
 export default () => {
@@ -12,8 +11,8 @@ export default () => {
     const [yourBalance, setYourBalance] = useAtom(YourBalanceAtom);
 
     const { address, login } = useMetaMask()
-    const contractAddress = process.env.NEXT_PUBLIC_DAOTOKEN_CONTRACT_ADDRESS as string
-    const contract = getContract(contractAddress, artifact.abi) as DAOToken
+    const contractAddress = process.env.NEXT_PUBLIC_DAOTOKEN_CONTRACT_ADDRESS as string //TODO: ユーザがコントラクトアドレスを設定できるようにする
+    const contract = getContract(contractAddress, artifact.abi)  //TODO: ERC20のinterfaceを作る
 
     const load = async () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum)

@@ -5,7 +5,7 @@ import "./struct/dao/DAOInfo.sol";
 import "./struct/dao/DAOHistoryItem.sol";
 import "./struct/assessment/Assessment.sol";
 
-interface IPollCreator {
+interface IPollFactory {
     function createPoll(
         string memory daoId,
         string memory projectId,
@@ -29,10 +29,10 @@ contract DAOHistory is AccessControl, Ownable {
     // Role to interact with DAO History
     bytes32 public constant ADD_HISTORY_ROLE = keccak256("ADD_HISTORY_ROLE");
 
-    address private pollCreatorAddress;
+    address private pollFactoryAddress;
 
-    constructor(address _pollCreatorAddress) public {
-        pollCreatorAddress = _pollCreatorAddress;
+    constructor(address _pollFactoryAddress) public {
+        pollFactoryAddress = _pollFactoryAddress;
     }
 
     /**
@@ -82,7 +82,7 @@ contract DAOHistory is AccessControl, Ownable {
             "Project already exists"
         );
 
-        address _pollAddress = IPollCreator(pollCreatorAddress).createPoll(
+        address _pollAddress = IPollFactory(pollFactoryAddress).createPoll(
             daoId,
             projectId,
             msg.sender

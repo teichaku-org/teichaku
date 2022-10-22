@@ -8,15 +8,15 @@ describe("DAO History", function () {
         // Contracts are deployed using the first signer/account by default
         const [owner, otherAccount, otherAccount2, otherAccount3] = await ethers.getSigners();
 
-        // PollCreatorのデプロイ
-        const PollCreator = await ethers.getContractFactory("PollCreator");
-        const pollCreator = await PollCreator.deploy();
-        await pollCreator.deployed();
+        // PollFactoryのデプロイ
+        const PollFactory = await ethers.getContractFactory("PollFactory");
+        const pollFactory = await PollFactory.deploy();
+        await pollFactory.deployed();
 
 
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");
-        const daoHistory = await DaoHistory.deploy(pollCreator.address);
+        const daoHistory = await DaoHistory.deploy(pollFactory.address);
         await daoHistory.deployed();
         console.log("DAOHistory deployed to:", daoHistory.address);
 
