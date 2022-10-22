@@ -5,6 +5,7 @@ import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
 import { Container, Loader } from "@mantine/core";
+import NodataMessage from "@/components/common/NodataMsg";
 
 const History: NextPage = () => {
   const { daoHistory, load } = useDaoHistory();
@@ -19,12 +20,7 @@ const History: NextPage = () => {
         <Loader size="lg" variant="dots" />
       </Container>
     );
-  if (daoHistory.length === 0)
-    return (
-      <Container>
-        <Loader size="lg" variant="dots" />
-      </Container>
-    );
+  if (daoHistory.length === 0) return <NodataMessage />;
 
   return (
     <div
