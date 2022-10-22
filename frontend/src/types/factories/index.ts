@@ -2,13 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as daoHistorySol from "./DAOHistory.sol";
-export { ContributionPoll__factory } from "./ContributionPoll__factory";
-export { DAONFT__factory } from "./DAONFT__factory";
-export { DAONFTCrowdSale__factory } from "./DAONFTCrowdSale__factory";
-export { DAOToken__factory } from "./DAOToken__factory";
-export { DAOTreasury__factory } from "./DAOTreasury__factory";
-export { HistoryNFT__factory } from "./HistoryNFT__factory";
-export { HistoryNFTCreator__factory } from "./HistoryNFTCreator__factory";
+export * as pollCreatorSol from "./PollCreator.sol";
 export { Poll__factory } from "./Poll__factory";
-export { PollCreator__factory } from "./PollCreator__factory";
-export { TokenSupplySystem__factory } from "./TokenSupplySystem__factory";

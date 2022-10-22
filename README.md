@@ -1,4 +1,34 @@
 # tokyo-web3-hackathon
+
+# 基本情報
+## 使用したtech stacks
+### Backend
+フルオンチェーン！
+* Solidity
+* Hardhat
+* OpenZeppelin
+* Polygon(Mumbai Testnet)
+### Frontend
+* Next.js
+* Ethers.js
+* Mantine UI
+* nivo (Chart tool)
+
+## deployしたContract
+
+| コントラクト名  | 概略 | コントラクトアドレス | 
+| ------------- | ------------- | ------------- |
+| DAOHistory  | DAOにおける活動(貢献・投票)の情報を保持する。  | Content Cell  |
+| Content Cell  | Content Cell  | Content Cell  |
+
+・application codeやその他のfile
+・テスト手順を含むリポジトリへのリンク
+・審査やテストのためにプロジェクトにアクセスする方法など
+
+
+
+
+
 # ローカル開発の手順
 ノードを立ち上げコントラクトをデプロイする。
 

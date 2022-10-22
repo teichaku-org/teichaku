@@ -1,5 +1,4 @@
 import { Assessment } from "@/domains/Assessment";
-import { AssessmentStructOutput } from "@/types/DAOHistory";
 
 export const getSingleAssessment = (
     assessments: Assessment[],
