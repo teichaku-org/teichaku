@@ -74,15 +74,15 @@ export function HeroTitle() {
         <div className={classes.wrapper}>
             <Container size={700} className={classes.inner}>
                 <h1 className={classes.title}>
-                    {' '}
+                    New DAO Framework to{' '}
                     <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'grape' }} inherit>
-                        No More Centrized DAO.
+                        Make a Lasting Impact
                     </Text>{' '}
-                    The most friendly DAO system for everyone
+                    and Retain members.
                 </h1>
 
                 <Text className={classes.description} color="dimmed">
-                    Decentrized fully DAO systems that are friendly to newcomers and core members.
+                    Fully on-chain and decentrized token distribution systems that are friendly to newcomers and core members.
                 </Text>
 
                 <Group className={classes.controls}>

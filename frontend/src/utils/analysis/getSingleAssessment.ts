@@ -14,7 +14,7 @@ export const getSingleAssessment = (
         const averagePoint = samePollAssessments.reduce((acc, cur) => acc + cur.points[perspectives.indexOf(perspective)], 0) / samePollAssessments.length;
         result.push({
             perspective,
-            You: yourPoint,
+            Point: yourPoint,
             Average: averagePoint
         })
     }
