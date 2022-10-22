@@ -1,7 +1,7 @@
 import { PollSystem } from "@/components/poll/PollSystem";
 import usePoll from "@/hooks/dao/usePoll";
 import { getLeftTime } from "@/utils/calculateLeftTime";
-import { Container, Text } from "@mantine/core";
+import { Center, Container, Text, Title } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
@@ -45,9 +45,12 @@ const Poll = () => {
   //TODO: NFTを持っている場合のみ投票できるようにする
   return (
     <Container>
-      <h1>Evaluate the contributions achieved by DAO members this week!</h1>
+      <Center>
+        <Title size="h1">Contribution Poll</Title>
+      </Center>
+
       <Text mb="lg">
-        The poll will end in{" "}
+        This poll end in{"  "}
         <Text
           size="xl"
           span
@@ -56,10 +59,6 @@ const Poll = () => {
         >
           {leftTimeStr}
         </Text>
-      </Text>
-      <Text mb="lg">
-        You'll gain preliminary {voterReward / voters.length} Coins just by
-        voting!{" "}
       </Text>
       <PollSystem
         candidates={candidates}

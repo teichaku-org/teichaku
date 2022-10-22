@@ -16,7 +16,7 @@ export const AssessmentRadar = ({ data }: Props) => {
 
     return <ResponsiveRadar
         data={data}
-        keys={["You", "Average"]}
+        keys={["Point", "Average"]}
         indexBy="perspective"
         theme={{
             textColor: "white", fontSize: 12,

@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
-import { Container, Loader } from "@mantine/core";
+import { Center, Container, Loader } from "@mantine/core";
 import NodataMessage from "@/components/common/NodataMsg";
 
 const History: NextPage = () => {
@@ -24,11 +24,8 @@ const History: NextPage = () => {
 
   return (
     <div
-      css={css`
-        margin: 5px;
-      `}
     >
-      <HistoryList data={daoHistory} />
+      <HistoryList data={daoHistory} title="The History of DAO" />
     </div>
   );
 };

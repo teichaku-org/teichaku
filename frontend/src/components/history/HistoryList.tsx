@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Drawer, ScrollArea, Text, useMantineTheme } from "@mantine/core";
+import { Center, Drawer, ScrollArea, Text, useInputProps, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -11,6 +11,7 @@ import { DaoHistory } from "@/domains/DaoHistory";
 type RowData = DaoHistory;
 interface TableSortProps {
   data: RowData[];
+  title?: string;
 }
 
 function getIsDuplicate(arr1: string[], arr2: string[]) {
@@ -95,7 +96,7 @@ export interface SortKeys {
   [index: string]: boolean;
 }
 
-export function HistoryList({ data }: TableSortProps) {
+export function HistoryList({ data, title }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
   const theme = useMantineTheme();
@@ -240,6 +241,9 @@ export function HistoryList({ data }: TableSortProps) {
               `
         }
       >
+        <Center>
+          <h1>{title}</h1>
+        </Center>
         <div
           css={css`
             display: flex;
