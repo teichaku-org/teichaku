@@ -8,7 +8,7 @@ async function main() {
     owner, otherAccount, otherAccount2,
     token, daoHistory, poll, daonft
   } = await setupDeploy()
-  await setupEmptyDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
+  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
 
 }
 
