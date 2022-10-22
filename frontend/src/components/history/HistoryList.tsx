@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Center, Drawer, ScrollArea, Text, useInputProps, useMantineTheme } from "@mantine/core";
+import { Center, Drawer, ScrollArea, Text, Title, useInputProps, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -242,7 +242,7 @@ export function HistoryList({ data, title }: TableSortProps) {
         }
       >
         <Center>
-          <h1>{title}</h1>
+          <Title size="h1">{title}</Title>
         </Center>
         <div
           css={css`

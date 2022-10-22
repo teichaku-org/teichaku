@@ -42,13 +42,12 @@ export function SolutionCard({ image, title, category }: ArticleCardImageProps) 
             <Card.Section>
                 <Image
                     src={image}
-                    height={160}
+                    fit="contain"
                 />
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>{category}</Text>
-
             </Group>
 
             <Text size="sm" color="dimmed">
