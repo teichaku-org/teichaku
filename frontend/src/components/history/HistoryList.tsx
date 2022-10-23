@@ -12,6 +12,7 @@ type RowData = DaoHistory;
 interface TableSortProps {
   data: RowData[];
   title?: string;
+  subTitle?: string;
 }
 
 function getIsDuplicate(arr1: string[], arr2: string[]) {
@@ -96,7 +97,7 @@ export interface SortKeys {
   [index: string]: boolean;
 }
 
-export function HistoryList({ data, title }: TableSortProps) {
+export function HistoryList({ data, title, subTitle }: TableSortProps) {
   const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState<RowData[]>([]);
   const theme = useMantineTheme();
@@ -241,9 +242,14 @@ export function HistoryList({ data, title }: TableSortProps) {
               `
         }
       >
-        <Center>
+        <Center >
           <Title size="h1">{title}</Title>
         </Center>
+
+        <Center mb="md">
+          <Text color="dimmed">{subTitle}</Text>
+        </Center>
+
         <div
           css={css`
             display: flex;
