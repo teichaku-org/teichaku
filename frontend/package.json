@@ -17,6 +17,7 @@
     "@mantine/next": "^5.5.4",
     "@nivo/bar": "^0.80.0",
     "@nivo/core": "^0.80.0",
+    "@nivo/line": "^0.80.0",
     "@nivo/radar": "^0.80.0",
     "@tabler/icons": "^1.101.0",
     "ethers": "^5.7.1",

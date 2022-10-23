@@ -17,6 +17,10 @@ import { DaoHistory } from "@/domains/DaoHistory";
 import { HistoryList } from "../history/HistoryList";
 import { AssessmentBar } from "../graphs/AssessmentBar";
 import { CumulativeReward, RewardHistory } from "../graphs/barTestData";
+import { AssessmentLine } from "../graphs/AssessmentLine";
+import { data } from "../graphs/lineTestData";
+import { AssessmentRadar } from "../graphs/AssessmentRadar";
+import { EarnedCoin } from "./EarnedCoin";
 
 interface Props {
   daoHistory: DaoHistory[];
@@ -54,13 +58,13 @@ const AssessmentTab = (props: Props) => {
           <div>
             <Title size="h2">合計報酬</Title>
             <Paper mb="xl" style={{ height: 310 }}>
-              <AssessmentBar data={CumulativeReward} />
+              <EarnedCoin reward={"20000"} />
             </Paper>
           </div>
           <div>
             <Title size="h2">累積報酬</Title>
             <Paper mb="xl" style={{ height: 310 }}>
-              <AssessmentBar data={CumulativeReward} />
+              <AssessmentLine data={data} />
             </Paper>
           </div>
           <div>
@@ -72,7 +76,7 @@ const AssessmentTab = (props: Props) => {
           <div>
             <Title size="h2">評価集計</Title>
             <Paper style={{ height: 310 }}>
-              <AssessmentBar data={RewardHistory} />
+              <AssessmentRadar data={[]} />
             </Paper>
           </div>
         </SimpleGrid>
