@@ -6,7 +6,7 @@ import "./struct/dao/DAOInfo.sol";
 import "./struct/dao/DAOHistoryItem.sol";
 import "./struct/assessment/Assessment.sol";
 
-contract PollCreator is AccessControl, Ownable {
+contract PollFactory is AccessControl, Ownable {
     function createPoll(
         string memory daoId,
         string memory projectId,

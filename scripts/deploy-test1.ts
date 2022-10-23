@@ -13,20 +13,20 @@ async function main() {
   await token.deployed();
   console.log("DAOToken deployed to:", token.address);
 
-  // PollCreatorのデプロイ
-  const PollCreator = await ethers.getContractFactory("PollCreator");
-  const pollCreator = await PollCreator.deploy();
-  await pollCreator.deployed();
-  console.log("PollCreator deployed to:", pollCreator.address);
+  // PollFactoryのデプロイ
+  const PollFactory = await ethers.getContractFactory("PollFactory");
+  const pollFactory = await PollFactory.deploy();
+  await pollFactory.deployed();
+  console.log("PollFactory deployed to:", pollFactory.address);
 
   // DaoHistoryのデプロイ
   const DaoHistory = await ethers.getContractFactory("DAOHistory");
-  const daoHistory = await DaoHistory.deploy(pollCreator.address);
+  const daoHistory = await DaoHistory.deploy(pollFactory.address);
   await daoHistory.deployed();
   console.log("DAOHistory deployed to:", daoHistory.address);
 
   // Pollの取得
-  await daoHistory.addDao("demo", "season1", "demo season1", "demo season1 description", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
+  await daoHistory.addDao("demo", "season1", "Web3Hackathon DAO", "This is a demo for this app.", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
 
 }
 

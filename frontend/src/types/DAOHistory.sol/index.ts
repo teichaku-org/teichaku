@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { DAOHistory } from "./DAOHistory";
-export type { IPollCreator } from "./IPollCreator";
+export type { IPollFactory } from "./IPollFactory";

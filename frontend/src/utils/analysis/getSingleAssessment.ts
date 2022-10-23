@@ -1,5 +1,4 @@
 import { Assessment } from "@/domains/Assessment";
-import { AssessmentStructOutput } from "@/types/DAOHistory";
 
 export const getSingleAssessment = (
     assessments: Assessment[],
@@ -14,7 +13,7 @@ export const getSingleAssessment = (
         const averagePoint = samePollAssessments.reduce((acc, cur) => acc + cur.points[perspectives.indexOf(perspective)], 0) / samePollAssessments.length;
         result.push({
             perspective,
-            You: yourPoint,
+            Point: yourPoint,
             Average: averagePoint
         })
     }

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
-import { Center, Container, Loader } from "@mantine/core";
+import { Center, Container, Loader, Title } from "@mantine/core";
 import AssessmentTab from "@/components/assessment/AssessmentTab";
 import NodataMessage from "@/components/common/NodataMsg";
 
@@ -27,7 +27,7 @@ const Assessment: NextPage = () => {
 
     >
       <Center>
-        <h1>Your Assessments</h1>
+        <Title size="h1">Your Assessment</Title>
       </Center>
       <AssessmentTab daoHistory={daoHistory} />
     </div>

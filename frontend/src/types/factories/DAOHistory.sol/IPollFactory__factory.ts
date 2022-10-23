@@ -5,9 +5,9 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  IPollCreator,
-  IPollCreatorInterface,
-} from "../../DAOHistory.sol/IPollCreator";
+  IPollFactory,
+  IPollFactoryInterface,
+} from "../../DAOHistory.sol/IPollFactory";
 
 const _abi = [
   {
@@ -41,15 +41,15 @@ const _abi = [
   },
 ];
 
-export class IPollCreator__factory {
+export class IPollFactory__factory {
   static readonly abi = _abi;
-  static createInterface(): IPollCreatorInterface {
-    return new utils.Interface(_abi) as IPollCreatorInterface;
+  static createInterface(): IPollFactoryInterface {
+    return new utils.Interface(_abi) as IPollFactoryInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IPollCreator {
-    return new Contract(address, _abi, signerOrProvider) as IPollCreator;
+  ): IPollFactory {
+    return new Contract(address, _abi, signerOrProvider) as IPollFactory;
   }
 }

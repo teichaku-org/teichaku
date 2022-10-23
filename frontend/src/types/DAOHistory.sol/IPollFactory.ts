@@ -22,7 +22,7 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface IPollCreatorInterface extends utils.Interface {
+export interface IPollFactoryInterface extends utils.Interface {
   functions: {
     "createPoll(string,string,address)": FunctionFragment;
   };
@@ -43,12 +43,12 @@ export interface IPollCreatorInterface extends utils.Interface {
   events: {};
 }
 
-export interface IPollCreator extends BaseContract {
+export interface IPollFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IPollCreatorInterface;
+  interface: IPollFactoryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

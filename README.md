@@ -1,41 +1,64 @@
 # tokyo-web3-hackathon
-# ローカル開発の手順
-ノードを立ち上げコントラクトをデプロイする。
 
-## メタマスクに以下のアドレスを追加する
-名前: Hardhat Account#0
-Account #0: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
-Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+# 基本情報
+## URL
+https://tokyo-web3.vercel.app/
 
-※ このアカウントのメインネットにETHを送ったりすると、他の人もアクセスできるので、注意してください。あくまでもローカル開発の時のみ使ってください。
+### 前提条件
+- MetaMaskがインストールされているChrome(PC)もしくはMetamaskの内蔵ブラウザ(Smartphone)
 
-## ノードの立ち上げ
+## 使用したtech stacks
+### Backend
+フルオンチェーン！
+* Solidity
+* Hardhat
+* OpenZeppelin
+* Polygon(Mumbai Testnet)
+### Frontend
+* Next.js
+* Ethers.js
+* Mantine UI
+* nivo (Chart tool)
+
+## deployしたContract
+
+| コントラクト名  | 概略 | コントラクトアドレス(Mumbai) | 
+| ------------- | ------------- | ------------- |
+| DAOHistory  | DAOにおける活動(貢献・投票)の情報を保持する。  |  TBD |
+| PollFactory  | Pollコントラクトを作成する。DAOHistoryから呼び出す。  | TBD  |
+| Poll  | 投票・集計・トークン分配を行う。  | TBD  |
+| DAOToken  | 分配するERC20のトークン(デモ用)  | TBD  |
+| DAONFT  | 複数アカウントによる不正投票を防止するためのSBT(デモ用)  | TBD  |
+
+## テスト手順
 
 ```
-$ npm run node
+npm run test
 ```
 
-## ローカルへコントラクトをデプロイ
+## application codeやその他のfile
 
+### blockchainのローカル起動
 ```
-$ npm run dev
+npm ci
+npm run node
 ```
 
-## フロントエンドの立ち上げ
-
+### コントラクトのローカルデプロイ
+```
+npm run dev
+```
+### frontendのローカル起動
 ```
 cd frontend
+npm ci
 npm run dev
 ```
 
-メタマスクの接続先がローカルになっていることを確認する。
+## デモ
+(予定) 新しくDAOを作る方法の掲載
 
-## コントラクトの単体テスト
-
-```
-$ npm run test
-```
-
+# 開発用ドキュメント
 ## 型の自動生成
 ```
 npm run generate
