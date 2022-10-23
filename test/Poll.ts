@@ -24,7 +24,7 @@ describe("Poll", function () {
         console.log("DAOHistory deployed to:", daoHistory.address);
 
         // Pollの取得
-        await daoHistory.addDao("demo", "season1", "demo season1", "demo season1 description", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
+        await daoHistory.addDao("demo", "season1", "Web3 Hackathon DAO", "demo season1 description", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership/DAOmember_0000.png");
         const pollAddress = await daoHistory.pollAddress("demo", "season1");
         const poll = await ethers.getContractAt("Poll", pollAddress);
         console.log("Poll deployed to:", poll.address);

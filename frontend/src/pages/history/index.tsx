@@ -8,7 +8,9 @@ import { Center, Container, Loader } from "@mantine/core";
 import NodataMessage from "@/components/common/NodataMsg";
 
 const History: NextPage = () => {
-  const { daoHistory, load } = useDaoHistory();
+  const { daoHistory, daoInfo, load } = useDaoHistory();
+  const title = `The History of ${daoInfo?.name || "DAO"}`
+  const subTitle = `A list of contributions of the ${daoInfo?.name || "DAO"} member`
 
   useEffect(() => {
     load();
@@ -25,7 +27,7 @@ const History: NextPage = () => {
   return (
     <div
     >
-      <HistoryList data={daoHistory} title="The History of DAO" />
+      <HistoryList data={daoHistory} title={title} subTitle={subTitle} />
     </div>
   );
 };

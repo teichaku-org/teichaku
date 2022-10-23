@@ -39,14 +39,19 @@ export const SingleAssessment = (props: Props) => {
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     return <div >
 
+        <Text mt="lg" mb="xs" color="dimmed">Earned tokens</Text>
+
         <Container>
             <EarnedCoin reward={String(Math.round(contribution?.reward || 0))} />
         </Container>
+
+        <Text mt="lg" mb="xs" color="dimmed">Assessments</Text>
         <Container style={{ height: 330, width: 330 }}>
             <AssessmentRadar data={data} />
         </Container>
 
         {/* 貢献内容 */}
+        <Text mt="lg" mb="xs" color="dimmed">Contribution</Text>
         <Paper p="md" withBorder mb="sm">
             <Text size="md" style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
                 {contribution?.contributionText}
@@ -54,9 +59,11 @@ export const SingleAssessment = (props: Props) => {
         </Paper>
 
         {/* エビデンス */}
+        <Text mt="lg" mb="xs" color="dimmed">Evidences</Text>
         <Evidences evidences={evidences || []} />
 
         {/* コメント */}
+        <Text mt="lg" mb="xs" color="dimmed">Comments</Text>
         <Comments comments={comments} />
 
         {/* 自分のだったらNFT化 */}
