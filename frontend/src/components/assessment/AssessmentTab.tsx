@@ -1,4 +1,11 @@
-import { Container, Paper, Tabs, Title } from "@mantine/core";
+import {
+  Container,
+  Paper,
+  ScrollArea,
+  SimpleGrid,
+  Tabs,
+  Title,
+} from "@mantine/core";
 import {
   IconPhoto,
   IconMessageCircle,
@@ -25,13 +32,13 @@ const AssessmentTab = (props: Props) => {
     );
   };
   return (
-    <Tabs defaultValue="individual">
+    <Tabs defaultValue="total">
       <Tabs.List>
-        <Tabs.Tab value="individual" icon={<IconChartPie3 size={14} />}>
-          個別
-        </Tabs.Tab>
         <Tabs.Tab value="total" icon={<IconChartLine size={14} />}>
           集計
+        </Tabs.Tab>
+        <Tabs.Tab value="individual" icon={<IconChartPie3 size={14} />}>
+          個別
         </Tabs.Tab>
       </Tabs.List>
 
@@ -40,16 +47,35 @@ const AssessmentTab = (props: Props) => {
       </Tabs.Panel>
 
       <Tabs.Panel value="total" pt="xs">
-        <Container>
-          <Title size="h2">累積報酬</Title>
-          <Paper mb="xl" style={{ height: 350 }}>
-            <AssessmentBar data={CumulativeReward} />
-          </Paper>
-          <Title size="h2">報酬履歴</Title>
-          <Paper style={{ height: 350 }}>
-            <AssessmentBar data={RewardHistory} />
-          </Paper>
-        </Container>
+        <SimpleGrid
+          cols={2}
+          breakpoints={[{ maxWidth: 755, cols: 1, spacing: "sm" }]}
+        >
+          <div>
+            <Title size="h2">合計報酬</Title>
+            <Paper mb="xl" style={{ height: 310 }}>
+              <AssessmentBar data={CumulativeReward} />
+            </Paper>
+          </div>
+          <div>
+            <Title size="h2">累積報酬</Title>
+            <Paper mb="xl" style={{ height: 310 }}>
+              <AssessmentBar data={CumulativeReward} />
+            </Paper>
+          </div>
+          <div>
+            <Title size="h2">報酬履歴</Title>
+            <Paper style={{ height: 310 }}>
+              <AssessmentBar data={RewardHistory} />
+            </Paper>
+          </div>
+          <div>
+            <Title size="h2">評価集計</Title>
+            <Paper style={{ height: 310 }}>
+              <AssessmentBar data={RewardHistory} />
+            </Paper>
+          </div>
+        </SimpleGrid>
       </Tabs.Panel>
     </Tabs>
   );
