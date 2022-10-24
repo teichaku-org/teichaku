@@ -1,7 +1,9 @@
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import usePoll from "@/hooks/dao/usePoll"
+import useMetaMask from "@/hooks/web3/useMetaMask"
 import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment"
-import { Center, Container, Paper, Text } from "@mantine/core"
+import { Button, Center, Container, Paper, Text } from "@mantine/core"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { AssessmentRadar } from "../graphs/AssessmentRadar"
 import { Comments } from "./Comments"
@@ -14,9 +16,11 @@ interface Props {
 
 }
 export const SingleAssessment = (props: Props) => {
+    const router = useRouter()
+    const { daoId, projectId } = router.query
     const { fetchPollDetail } = usePoll()
-    const { daoHistory } = useDaoHistory()
-    const { assessments } = useDaoHistory()
+    const { address } = useMetaMask()
+    const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string })
     const [perspectives, setPerspectives] = useState<string[]>([])
 
     const contribution = daoHistory.find((item) => item.contributor === props.contributor && item.pollId === props.pollId)
@@ -37,6 +41,7 @@ export const SingleAssessment = (props: Props) => {
 
 
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
+    const isYourContribution = props.contributor === address
     return <div >
 
         <Text mt="lg" mb="xs" color="dimmed">Earned tokens</Text>
@@ -67,6 +72,12 @@ export const SingleAssessment = (props: Props) => {
         <Comments comments={comments} />
 
         {/* 自分のだったらNFT化 */}
+        <Center>
+            <Button size="lg" disabled={!isYourContribution} variant="gradient" gradient={{ from: "blue", to: "grape" }}>
+                Mint NFT
+            </Button>
+        </Center>
+
         <div style={{ height: 300 }} />
     </div>
 }

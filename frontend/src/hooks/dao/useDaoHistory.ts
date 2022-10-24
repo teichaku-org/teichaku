@@ -12,10 +12,14 @@ import useMetaMask, {
   getContractWithSigner
 } from "../web3/useMetaMask";
 
-export default () => {
-  //TODO: daoIdとprojectIdをURLなど外部から取得する
-  const daoId = "demo";
-  const projectId = "season1";
+interface Props {
+  daoId: string
+  projectId: string
+}
+
+export default (props: Props) => {
+  const daoId = props.daoId
+  const projectId = props.projectId
   const [daoHistory, setDaoHistory] = useAtom(DaoHistoryListAtom);
   const [assessments, setAssessments] = useAtom(AssessmentListAtom);
   const [daoInfo, setDaoInfo] = useAtom(DaoInfoAtom);

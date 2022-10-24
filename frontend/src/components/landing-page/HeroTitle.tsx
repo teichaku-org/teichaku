@@ -92,7 +92,7 @@ export function HeroTitle() {
                         variant="gradient"
                         gradient={{ from: 'blue', to: 'grape' }}
                         component="a"
-                        href="/history"
+                        href="/demo/season1/history"
                     >
                         Demo
                     </Button>
