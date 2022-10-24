@@ -60,7 +60,7 @@ export const Problems = () => {
         },
         {
             title: "Unclear benefits of participation",
-            solutionTitle: "The evaluation will be the token reward directly as it is. And evaluations and comments on your contributions are recorded on blockchain and can be taken out as NFT.",
+            solutionTitle: "The evaluation will be the token reward directly as it is. And evaluations and comments on your contributions are recorded on blockchain and can be exported as NFT.",
             solutionName: "Token and NFT are issued for your contribution.",
             image: "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/assessment.png"
         }

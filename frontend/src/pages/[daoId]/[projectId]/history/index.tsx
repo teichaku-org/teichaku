@@ -6,9 +6,12 @@ import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
 import { Center, Container, Loader } from "@mantine/core";
 import NodataMessage from "@/components/common/NodataMsg";
+import { useRouter } from "next/router";
 
 const History: NextPage = () => {
-  const { daoHistory, daoInfo, load } = useDaoHistory();
+  const router = useRouter()
+  const { daoId, projectId } = router.query
+  const { daoHistory, daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const title = `The History of ${daoInfo?.name || "DAO"}`
   const subTitle = `A list of contributions of the ${daoInfo?.name || "DAO"} member`
 
