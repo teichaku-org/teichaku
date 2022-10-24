@@ -64,6 +64,11 @@ npm run dev
 npm run generate
 ```
 
+## DAOをローカルに追加する
+```
+npx hardhat run scripts/create-dao/0_create-new-dao-demo.ts --network localhost
+```
+
 ## Mumbaiテストネットへのデプロイ
 前提条件: secrets.tsを準備する
 
@@ -73,4 +78,11 @@ export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
 npx hardhat run scripts/deploy-test1.ts --network maticmum
 npx hardhat run scripts/deploy-test2.ts --network maticmum
 npx hardhat run scripts/demo-test.ts --network maticmum
+```
+
+## MumbaiテストネットでDAOを作る
+以下コマンドを実行する
+```
+export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
+npx hardhat run scripts/create-dao/0_create-new-dao-demo.ts --network maticmum
 ```

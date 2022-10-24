@@ -13,6 +13,8 @@ interface Props {
     vote: (points: number[][], comments: string[]) => void
     candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void
     perspectives: string[]
+    isAdmin: boolean
+    settle: () => void
 }
 export const PollSystem = (props: Props) => {
     const { address } = useMetaMask()
@@ -112,5 +114,8 @@ export const PollSystem = (props: Props) => {
             <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
         </Group>
 
+        {props.isAdmin ? <Group position="center" my="xl">
+            <Button size="xl" color="red" radius="md" onClick={props.settle}>Settle This Poll(Only Admin Can Do it)</Button>
+        </Group> : <div />}
     </div>
 }

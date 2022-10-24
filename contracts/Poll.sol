@@ -27,6 +27,7 @@ contract Poll is AccessControl, Ownable, Pausable {
     constructor(string memory _daoId, string memory _projectId) {
         daoId = _daoId;
         projectId = _projectId;
+        endTimeStamp[0] = block.timestamp + 7 days;
     }
 
     // Pollを開始したり終了するなどの権限
