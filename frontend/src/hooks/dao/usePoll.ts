@@ -1,6 +1,7 @@
 import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom";
 import { Candidate } from "@/domains/Candidate";
 import { Poll } from "@/types";
+import { ethers } from "ethers";
 import { useAtom } from "jotai";
 import { useState } from "react";
 import artifact from "../../abi/Poll.sol/Poll.json";
@@ -11,6 +12,7 @@ import useMetaMask, {
 
 export default () => {
     const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
+    const [isAdmin, setIsAdmin] = useState(false)
     const { address } = useMetaMask();
     //TODO: ブロックチェーンから値を取る
     const [contributorReward, setContributorReward] = useState<number>(7000);
@@ -30,6 +32,12 @@ export default () => {
         const currentMaxPollId = await contract.functions.currentMaxPollId()
         const _pollDetail = await fetchPollDetail(currentMaxPollId[0].toNumber());
         setPollDetail(_pollDetail);
+    }
+
+    const checkIsAdmin = async () => {
+        contract.functions.hasRole(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("POLL_ADMIN_ROLE")), address).then((res) => {
+            setIsAdmin(res[0]);
+        });
     }
 
 
@@ -58,6 +66,7 @@ export default () => {
 
 
     return {
+        isAdmin, checkIsAdmin,
         pollDetail,
         loadCurrentMaxPoll,
         fetchPollDetail,
