@@ -5,7 +5,6 @@ import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom";
 import { DAOHistory } from "@/types";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 import useMetaMask, {
   getContract,
@@ -32,6 +31,7 @@ export default (props: Props) => {
     contractAddress,
     artifact.abi
   ) as DAOHistory;
+
 
   const load = async () => {
     contract.functions.getDaoHistory(daoId, projectId).then((res) => {

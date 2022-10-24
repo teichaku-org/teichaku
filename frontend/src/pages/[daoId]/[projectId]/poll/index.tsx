@@ -1,4 +1,5 @@
 import { PollSystem } from "@/components/poll/PollSystem";
+import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import usePoll from "@/hooks/dao/usePoll";
 import { getLeftTime } from "@/utils/calculateLeftTime";
 import { Center, Container, Text, Title } from "@mantine/core";
@@ -6,6 +7,8 @@ import { useInterval } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 const Poll = () => {
+  useDaoExistCheck()
+
   const { pollDetail, voterReward, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll } =
     usePoll();
   const [leftTimeStr, setLeftTimeStr] = useState("");
