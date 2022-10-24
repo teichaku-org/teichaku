@@ -1,4 +1,3 @@
-import { Features } from "@/components/landing-page/Features";
 import { HeroTitle } from "@/components/landing-page/HeroTitle";
 import { Problems } from "@/components/landing-page/Problems";
 import { Container } from "@mantine/core";

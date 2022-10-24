@@ -5,17 +5,20 @@ import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom";
 import { DAOHistory } from "@/types";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 import useMetaMask, {
   getContract,
   getContractWithSigner
 } from "../web3/useMetaMask";
 
-export default () => {
-  //TODO: daoIdとprojectIdをURLなど外部から取得する
-  const daoId = "demo";
-  const projectId = "season1";
+interface Props {
+  daoId: string
+  projectId: string
+}
+
+export default (props: Props) => {
+  const daoId = props.daoId
+  const projectId = props.projectId
   const [daoHistory, setDaoHistory] = useAtom(DaoHistoryListAtom);
   const [assessments, setAssessments] = useAtom(AssessmentListAtom);
   const [daoInfo, setDaoInfo] = useAtom(DaoInfoAtom);
@@ -28,6 +31,7 @@ export default () => {
     contractAddress,
     artifact.abi
   ) as DAOHistory;
+
 
   const load = async () => {
     contract.functions.getDaoHistory(daoId, projectId).then((res) => {

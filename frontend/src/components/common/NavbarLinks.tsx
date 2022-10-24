@@ -1,6 +1,7 @@
 import { UnstyledButton, Group, ThemeIcon, Text } from "@mantine/core";
 import { IconGitPullRequest, IconAlertCircle, IconMessages, IconDatabase, IconInfoSquare, IconBackhoe, IconCoin, IconSettings } from "@tabler/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface MainLinkProps {
     icon: React.ReactNode;
@@ -40,12 +41,15 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
 }
 
 export const NavbarLinks = () => {
+    const router = useRouter()
+    const { daoId, projectId } = router.query
+    const commonPath = `/${daoId}/${projectId}`
     const data = [
-        { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'DAO Overviews', path: "/overview" },
-        { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: "/history" },
-        { icon: <IconMessages size={16} />, color: 'violet', label: 'Poll', path: "/poll" },
-        { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: "/assessments" },
-        { icon: <IconSettings size={16} />, color: 'grape', label: 'Settings', path: "/settings" },
+        { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'Overviews', path: commonPath + "/overview" },
+        { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },
+        { icon: <IconMessages size={16} />, color: 'violet', label: 'Poll', path: commonPath + "/poll" },
+        { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: commonPath + "/assessments" },
+        { icon: <IconSettings size={16} />, color: 'grape', label: 'Settings', path: commonPath + "/settings" },
     ];
 
     const links = data.map((link) => <MainLink {...link} key={link.label} />);

@@ -53,7 +53,7 @@ export const CandidateCard = (props: Props) => {
         </Paper>
     }
 
-    return <Paper p="lg" radius="lg" withBorder mb="sm">
+    return <Paper p="lg" radius="lg" withBorder mb="lg">
         <CandidateInfo candidate={props.candidate} />
         <Grid align="center">
             <Grid.Col xs={12} md={8}>{selects()}</Grid.Col>
