@@ -16,8 +16,10 @@ const Assessment: NextPage = () => {
   const { daoHistory, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
 
   useEffect(() => {
-    load();
-  }, []);
+    if (daoId && projectId) {
+      load();
+    }
+  }, [daoId, projectId]);
 
   if (!daoHistory)
     return (
