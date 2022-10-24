@@ -7,8 +7,11 @@ import { useEffect } from "react";
 import { Center, Container, Loader } from "@mantine/core";
 import NodataMessage from "@/components/common/NodataMsg";
 import { useRouter } from "next/router";
+import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 
 const History: NextPage = () => {
+  useDaoExistCheck()
+
   const router = useRouter()
   const { daoId, projectId } = router.query
   const { daoHistory, daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
