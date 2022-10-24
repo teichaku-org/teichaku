@@ -19,8 +19,10 @@ const History: NextPage = () => {
   const subTitle = `A list of contributions of the ${daoInfo?.name || "DAO"} member`
 
   useEffect(() => {
-    load();
-  }, []);
+    if (daoId && projectId) {
+      load();
+    }
+  }, [daoId, projectId]);
 
   if (!daoHistory)
     return (

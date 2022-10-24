@@ -17,6 +17,7 @@ const Poll = () => {
     loadCurrentMaxPoll();
   }, [])
 
+
   const interval = useInterval(() => {
     if (endTimeStamp) setLeftTimeStr(getLeftTime(endTimeStamp));
   }, 1000);
