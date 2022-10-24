@@ -17,7 +17,7 @@ export const AssessmentLine = ({ data }: Props) => {
     <ResponsiveLine
       theme={theme}
       data={data}
-      yScale={{ type: "linear", stacked: false, min: -200 }}
+      yScale={{ type: "linear", stacked: false, min: 0 }}
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       animate={true}
       colors={["#a5d8ff"]}

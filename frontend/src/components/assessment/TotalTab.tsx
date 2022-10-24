@@ -1,5 +1,4 @@
 import { Grid, Paper, ThemeIcon, Title } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 
 import { AssessmentBar } from "../graphs/AssessmentBar";
 import { RewardHistory } from "../graphs/barTestData";
@@ -15,8 +14,6 @@ import {
 } from "@tabler/icons";
 
 const TotalTab = () => {
-  const matches = useMediaQuery("(min-width: 900px)");
-
   const TotalRewardCol = () => {
     return (
       <>
@@ -108,31 +105,20 @@ const TotalTab = () => {
   };
 
   return (
-    <>
-      {matches ? (
-        <Grid>
-          <Grid.Col span={4}>
-            <TotalRewardCol />
-          </Grid.Col>
-          <Grid.Col span={8}>
-            <CumulativeReward />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <AverageAssessment />
-          </Grid.Col>
-          <Grid.Col span={8}>
-            <RewardHistoryCol />
-          </Grid.Col>
-        </Grid>
-      ) : (
-        <>
-          <TotalRewardCol />
-          <CumulativeReward />
-          <AverageAssessment />
-          <RewardHistoryCol />
-        </>
-      )}
-    </>
+    <Grid>
+      <Grid.Col md={12} lg={4}>
+        <TotalRewardCol />
+      </Grid.Col>
+      <Grid.Col md={12} lg={8}>
+        <CumulativeReward />
+      </Grid.Col>
+      <Grid.Col md={12} lg={4}>
+        <AverageAssessment />
+      </Grid.Col>
+      <Grid.Col md={12} lg={8}>
+        <RewardHistoryCol />
+      </Grid.Col>
+    </Grid>
   );
 };
 
