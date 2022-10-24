@@ -1,6 +1,7 @@
 import { PollSystem } from "@/components/poll/PollSystem";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import usePoll from "@/hooks/dao/usePoll";
+import useMetaMask from "@/hooks/web3/useMetaMask";
 import { getLeftTime } from "@/utils/calculateLeftTime";
 import { Center, Container, Text, Title } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
@@ -8,14 +9,18 @@ import { useEffect, useState } from "react";
 
 const Poll = () => {
   useDaoExistCheck()
-
-  const { pollDetail, voterReward, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll } =
+  const { address } = useMetaMask()
+  const { isAdmin, checkIsAdmin, pollDetail, voterReward, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll, settleCurrentPollAndCreateNewPoll } =
     usePoll();
   const [leftTimeStr, setLeftTimeStr] = useState("");
 
   useEffect(() => {
     loadCurrentMaxPoll();
   }, [])
+
+  useEffect(() => {
+    if (address) checkIsAdmin()
+  }, [address])
 
 
   const interval = useInterval(() => {
@@ -45,6 +50,10 @@ const Poll = () => {
     await candidateToPoll(contributionText, evidences, roles);
   };
 
+  const _settle = async () => {
+    await settleCurrentPollAndCreateNewPoll();
+  };
+
   if (!pollDetail) return <div>Loading</div>;
   //TODO: NFTを持っている場合のみ投票できるようにする
   return (
@@ -71,6 +80,8 @@ const Poll = () => {
         vote={_vote}
         perspectives={pollDetail.perspectives}
         candidateToPoll={_candidateToPoll}
+        isAdmin={isAdmin}
+        settle={_settle}
       />
     </Container>
   );
