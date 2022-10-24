@@ -1,6 +1,8 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/radar
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
+import { linearGradientDef } from "@nivo/core";
+import { theme } from "./theme";
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -14,6 +16,7 @@ interface Props {
 export const AssessmentBar = ({ data }: Props) => {
   return (
     <ResponsiveBar
+      theme={theme}
       data={data}
       keys={["burger"]}
       indexBy="country"
@@ -21,24 +24,22 @@ export const AssessmentBar = ({ data }: Props) => {
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: "nivo" }}
-      fill={[
+      // 1. defining gradients
+      defs={[
         {
-          match: {
-            id: "fries",
-          },
-          id: "dots",
-        },
-        {
-          match: {
-            id: "sandwich",
-          },
-          id: "lines",
+          id: "gradientA",
+          type: "linearGradient",
+          colors: [{ offset: 100, color: "#1971c2", opacity: 0.6 }],
         },
       ]}
+      // 2. defining rules to apply those gradients
+      fill={[
+        // match using object query
+        { match: { id: "burger" }, id: "gradientA" },
+      ]}
+      colors={["white"]}
       borderColor={{
         from: "color",
-        modifiers: [["darker", 1.6]],
       }}
       axisTop={null}
       axisRight={null}
@@ -46,7 +47,7 @@ export const AssessmentBar = ({ data }: Props) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "country",
+        legend: "date",
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -54,7 +55,7 @@ export const AssessmentBar = ({ data }: Props) => {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food",
+        legend: "reward",
         legendPosition: "middle",
         legendOffset: -40,
       }}
@@ -62,7 +63,6 @@ export const AssessmentBar = ({ data }: Props) => {
       labelSkipHeight={12}
       labelTextColor={{
         from: "color",
-        modifiers: [["darker", 1.6]],
       }}
       legends={[
         {
