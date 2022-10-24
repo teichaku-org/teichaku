@@ -22,11 +22,12 @@ export const CandidateInfo = (props: Props) => {
 
         <Text
             my="xl"
+            weight={700}
             css={css`
           white-space: pre-wrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        `}>{props.candidate.contributionText}</Text>
+        `}>
+            {props.candidate.contributionText}
+        </Text>
         <p>
             {props.candidate.evidences.map((evidence) =>
                 <Anchor key={evidence} rel="noopener noreferrer" target="_blank" href={evidence}>{shortenUrl(evidence)}</Anchor>)}

@@ -18,7 +18,7 @@ export function SortButton(props: Props) {
           color="gray"
           radius="lg"
         >
-          並び替え
+          Sort by
         </Button>
       </Menu.Target>
 

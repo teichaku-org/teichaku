@@ -109,17 +109,18 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
 
   const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
 
+  //TODO: viewとkeyは分ける
   const [sortKeys, setSortKeys] = useState<SortKeys>({
-    新しい順: true,
-    古い順: false,
-    大きな貢献順: false,
-    小さな貢献順: false,
+    Newest: true,
+    Oldest: false,
+    Largest: false,
+    Smallest: false,
   });
 
   const handleFilterRoles = (role: string) => {
-    if (role === "全て") {
+    if (role === "all") {
       const roles: FilterRoles = {};
-      if (filterObjRoles["全て"]) {
+      if (filterObjRoles["all"]) {
         Object.keys(filterObjRoles).forEach((key) => {
           roles[key] = false;
         });
@@ -166,7 +167,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
 
   useEffect(() => {
     //ロールを抽出
-    const roles: FilterRoles = { 全て: true };
+    const roles: FilterRoles = { all: true };
     data.forEach((dao) => {
       dao.roles.forEach((role) => {
         roles[role] = true;
@@ -176,14 +177,14 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
   }, []);
 
   const sortBy = (): keyof DaoHistory | null => {
-    if (sortKeys["新しい順"] || sortKeys["古い順"]) {
+    if (sortKeys["Newest"] || sortKeys["Oldest"]) {
       return "timestamp";
     }
     return "reward";
   };
 
   const reversed = (): boolean => {
-    if (sortKeys["新しい順"] || sortKeys["小さな貢献順"]) {
+    if (sortKeys["Newest"] || sortKeys["Smallest"]) {
       return false;
     }
     return true;
@@ -263,7 +264,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
             align="left"
             color={theme.colorScheme === "dark" ? "white" : "black"}
           >
-            <span style={{ fontSize: "25px" }}>{rows.length}</span>件
+            <span style={{ fontSize: "25px", marginRight: 5 }}>{rows.length}</span>Contributions
           </Text>
           <div
             css={css`

@@ -20,7 +20,7 @@ export function FilterButton(props: Props) {
           color="gray"
           radius="lg"
         >
-          ロールで絞り込み
+          Filter by role
         </Button>
       </Menu.Target>
 
