@@ -13,7 +13,7 @@ const Assessment: NextPage = () => {
   useDaoExistCheck();
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { daoHistory, load } = useDaoHistory({
+  const { daoHistory, assessments, load } = useDaoHistory({
     daoId: daoId as string,
     projectId: projectId as string,
   });
@@ -24,7 +24,7 @@ const Assessment: NextPage = () => {
     }
   }, [daoId, projectId]);
 
-  if (!daoHistory)
+  if (!daoHistory && !assessments)
     return (
       <Container>
         <Loader size="lg" variant="dots" />
@@ -37,7 +37,7 @@ const Assessment: NextPage = () => {
       <Center>
         <Title size="h1">Your Assessments</Title>
       </Center>
-      <AssessmentTab daoHistory={daoHistory} />
+      <AssessmentTab daoHistory={daoHistory} assessments={assessments} />
     </div>
   );
 };

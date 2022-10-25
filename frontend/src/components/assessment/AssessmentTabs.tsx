@@ -5,13 +5,15 @@ import { DaoHistory } from "@/domains/DaoHistory";
 import IndivisualTab from "./IndivisualTab";
 import TotalTab from "./TotalTab";
 import useMetaMask from "@/hooks/web3/useMetaMask";
+import { Assessment } from "@/domains/Assessment";
 
 interface Props {
   daoHistory: DaoHistory[];
+  assessments: Assessment[];
 }
 
 const AssessmentTabs = (props: Props) => {
-  const { daoHistory } = props;
+  const { daoHistory, assessments } = props;
   const { address } = useMetaMask();
   if (!address) {
     return (
@@ -37,7 +39,7 @@ const AssessmentTabs = (props: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value="total" pt="xs">
-        <TotalTab myDaoHistory={myDaoHistory()} />
+        <TotalTab myDaoHistory={myDaoHistory()} assessments={assessments} address={address} />
       </Tabs.Panel>
 
       <Tabs.Panel value="individual" pt="xs">

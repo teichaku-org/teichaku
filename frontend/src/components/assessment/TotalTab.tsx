@@ -6,36 +6,42 @@ import { AssessmentLine } from "../graphs/AssessmentLine";
 import { data } from "../graphs/lineTestData";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 import { TotalReward } from "./TotalReward";
-import {
-  IconChartBar,
-  IconChartLine,
-  IconChartRadar,
-  IconCoin,
-} from "@tabler/icons";
+import { IconChartBar, IconChartLine, IconChartRadar, IconCoin } from "@tabler/icons";
 import { DaoHistory } from "@/domains/DaoHistory";
+import { Assessment } from "@/domains/Assessment";
+import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
+import { useEffect, useState } from "react";
+import usePoll from "@/hooks/dao/usePoll";
 
 interface Props {
   myDaoHistory: DaoHistory[];
+  assessments: Assessment[];
+  address: string;
 }
 
 const TotalTab = (props: Props) => {
-  const { myDaoHistory } = props;
+  const { myDaoHistory, assessments, address } = props;
+  const { fetchPollDetail } = usePoll();
+  const [perspectives, setPerspectives] = useState<string[]>([]);
+
+  useEffect(() => {
+    //TODO pollIdごとにperspectivesが変わることがある？？
+    fetchPollDetail(myDaoHistory[0].pollId).then((res) => {
+      setPerspectives(res.perspectives);
+    });
+  }, []);
 
   const totalReward = myDaoHistory.reduce(function (sum, element) {
     return sum + element.reward;
   }, 0);
 
+  const averageAccessment = getAverageAssessment(assessments, perspectives, address);
+
   const TotalRewardCol = () => {
     return (
       <>
         <Title mt="md" size="h3">
-          <ThemeIcon
-            size="md"
-            radius="md"
-            variant="light"
-            color="violet"
-            mr="xs"
-          >
+          <ThemeIcon size="md" radius="md" variant="light" color="violet" mr="xs">
             <IconCoin size={16} stroke={1.5} />
           </ThemeIcon>
           Total Reward
@@ -75,19 +81,13 @@ const TotalTab = (props: Props) => {
     return (
       <>
         <Title mt="md" size="h3">
-          <ThemeIcon
-            size="md"
-            radius="md"
-            variant="light"
-            color="green"
-            mr="xs"
-          >
+          <ThemeIcon size="md" radius="md" variant="light" color="green" mr="xs">
             <IconChartRadar size={16} stroke={1.5} />
           </ThemeIcon>
           Average Assessment
         </Title>
         <Paper mt="xs" style={{ height: 310 }}>
-          <AssessmentRadar data={[]} />
+          <AssessmentRadar data={averageAccessment} />
         </Paper>
       </>
     );
@@ -97,13 +97,7 @@ const TotalTab = (props: Props) => {
     return (
       <>
         <Title mt="md" size="h3">
-          <ThemeIcon
-            size="md"
-            radius="md"
-            variant="light"
-            color="grape"
-            mr="xs"
-          >
+          <ThemeIcon size="md" radius="md" variant="light" color="grape" mr="xs">
             <IconChartBar size={16} stroke={1.5} />
           </ThemeIcon>
           Reward History
