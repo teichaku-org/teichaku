@@ -1,7 +1,11 @@
 import { Button, Container, Group, Title } from "@mantine/core";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NodataMessage = () => {
+  const router = useRouter()
+  const { daoId, projectId } = router.query
+  const commonPath = `/${daoId}/${projectId}`
   return (
     <Container>
       <Title
@@ -13,14 +17,14 @@ const NodataMessage = () => {
       >
         Let's Start Contributing!
       </Title>
-      <Link href={"/poll"}>
+      <Link href={commonPath + "/poll"}>
         <Group position="center" my="xl">
           <Button
             radius="md"
             variant="gradient"
             gradient={{ from: "blue", to: "grape" }}
           >
-            Sart From Here
+            Start From Here
           </Button>
         </Group>
       </Link>

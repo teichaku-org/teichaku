@@ -1,5 +1,6 @@
+import { AppInfo } from "@/constants/AppInfo";
 import { createStyles, Text, ThemeIcon } from "@mantine/core";
-import { IconCoin } from "@tabler/icons";
+import { IconLetterT, IconSquareLetterT } from "@tabler/icons";
 
 const useStyles = createStyles((theme) => ({
   logo: {
@@ -26,9 +27,9 @@ export const AppLogo = () => {
         style={{ marginRight: 10 }}
         gradient={{ deg: 0, from: "blue", to: "grape" }}
       >
-        <IconCoin size={28} stroke={1.5} />
+        <IconLetterT size={28} stroke={1.5} />
       </ThemeIcon>
-      <Text>DAO History</Text>
+      <Text>{AppInfo.name}</Text>
     </div>
   );
 };
