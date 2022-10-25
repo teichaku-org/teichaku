@@ -43,22 +43,6 @@ export const AssessmentBar = ({ data }: Props) => {
       }}
       axisTop={null}
       axisRight={null}
-      axisBottom={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "date",
-        legendPosition: "middle",
-        legendOffset: 32,
-      }}
-      axisLeft={{
-        tickSize: 5,
-        tickPadding: 5,
-        tickRotation: 0,
-        legend: "reward",
-        legendPosition: "middle",
-        legendOffset: -40,
-      }}
       labelSkipWidth={12}
       labelSkipHeight={12}
       labelTextColor={{
@@ -90,9 +74,6 @@ export const AssessmentBar = ({ data }: Props) => {
       ]}
       role="application"
       ariaLabel="Nivo bar chart demo"
-      barAriaLabel={function (e) {
-        return e.id + ": " + e.formattedValue + " in country: " + e.indexValue;
-      }}
     />
   );
 };
