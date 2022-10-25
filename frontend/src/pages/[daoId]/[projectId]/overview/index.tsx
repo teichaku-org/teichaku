@@ -10,7 +10,10 @@ const Overview = () => {
     useDaoExistCheck()
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const { daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
+    const { daoInfo, load, daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
+    const contributionCount = daoHistory.length
+    const contributorCount = new Set(daoHistory.map((history) => history.contributor)).size
+    const voterCount = new Set(assessments.map((history) => history.voter)).size
     useEffect(() => {
         if (daoId && projectId) {
             load();
@@ -25,6 +28,9 @@ const Overview = () => {
                     avatar={daoInfo?.logo || ""}
                     name={daoInfo?.name || ""}
                     description={daoInfo?.description || ""}
+                    contributionCount={contributionCount || 0}
+                    contributorCount={contributorCount || 0}
+                    voterCount={voterCount || 0}
                 />
             </Grid.Col>
             <Grid.Col sm={12} md={6}>

@@ -1,16 +1,36 @@
+import useDaoHistory from '@/hooks/dao/useDaoHistory';
 import { useFollowDao } from '@/hooks/useFollowDao';
-import { Avatar, Text, Button, Paper } from '@mantine/core';
+import { Avatar, Text, Button, Paper, Group } from '@mantine/core';
 
 interface Props {
     daoId: string;
     avatar: string;
     name: string;
     description: string;
+    contributionCount: number;
+    contributorCount: number;
+    voterCount: number;
 }
 
-export function OrganizationCard({ daoId, avatar, name, description }: Props) {
-
+export function OrganizationCard(props: Props) {
+    const { daoId, avatar, name, description } = props;
     const { follow, isFollowed, unfollow } = useFollowDao();
+
+    const stats = [
+        { label: 'Contributions', value: props.contributionCount },
+        { label: 'Contributors', value: props.contributorCount },
+        { label: 'Voters', value: props.voterCount },
+    ]
+    const items = stats.map((stat) => (
+        <div key={stat.label}>
+            <Text align="center" size="lg" weight={500}>
+                {stat.value}
+            </Text>
+            <Text align="center" size="sm" color="dimmed">
+                {stat.label}
+            </Text>
+        </div>
+    ));
 
     return (
         <Paper
@@ -28,7 +48,9 @@ export function OrganizationCard({ daoId, avatar, name, description }: Props) {
             <Text align="center" color="dimmed" size="sm">
                 {description}
             </Text>
-
+            <Group mt="md" position="center" spacing={50}>
+                {items}
+            </Group>
             <Button
                 fullWidth
                 radius="md"
