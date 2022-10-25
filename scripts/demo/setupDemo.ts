@@ -50,7 +50,7 @@ async function setupDemo(
 
     // 投票に立候補している状態にする
     if (otherAccount) {
-        await poll.connect(otherAccount).candidateToCurrentPoll("① DAO Historyを生み出すまでの議論のファシリテートを行いました。\n② DAO Historyを設計し、プロダクトロードマップを作成しました。\n③ DAO Historyのスマートコントラクトを開発しています。", [], ["エンジニア", "PM"])
+        await poll.connect(otherAccount).candidateToCurrentPoll("① Teichakuを生み出すまでの議論のファシリテートを行いました。\n② Teichakuを設計し、プロダクトロードマップを作成しました。\n③ Teichakuのスマートコントラクトを開発しています。", [], ["エンジニア", "PM"])
         await poll.connect(otherAccount2).candidateToCurrentPoll("遊んで暮らしてました😆", ["https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Sunset_in_the_Carribean.jpg/700px-Sunset_in_the_Carribean.jpg"], ["遊び人"])
         console.log("poll.connect(otherAccount).candidateToCurrentPoll() done")
 

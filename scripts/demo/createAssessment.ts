@@ -312,7 +312,7 @@ export default async (daoHistory: DAOHistory) => {
 
     function createRandomScore() {
         //スコアは少数がつけられないことに注意
-        return BigNumber.from(Math.floor(Math.random() * 500));
+        return BigNumber.from(Math.floor(Math.random() * 10));
     }
 
 

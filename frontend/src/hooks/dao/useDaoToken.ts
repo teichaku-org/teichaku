@@ -31,5 +31,5 @@ export default () => {
     }, [address])
 
 
-    return { load, tokenName, tokenSymbol, tokenTotalSupply, yourBalance, contractAddress };
+    return { load, tokenName, tokenSymbol: tokenSymbol, tokenTotalSupply, yourBalance, contractAddress };
 }
