@@ -1,9 +1,10 @@
-import { Tabs } from "@mantine/core";
+import { Container, Loader, Tabs } from "@mantine/core";
 import { IconChartLine, IconChartPie3 } from "@tabler/icons";
 
 import { DaoHistory } from "@/domains/DaoHistory";
 import IndivisualTab from "./IndivisualTab";
 import TotalTab from "./TotalTab";
+import useMetaMask from "@/hooks/web3/useMetaMask";
 
 interface Props {
   daoHistory: DaoHistory[];
@@ -11,6 +12,18 @@ interface Props {
 
 const AssessmentTabs = (props: Props) => {
   const { daoHistory } = props;
+  const { address } = useMetaMask();
+  if (!address) {
+    return (
+      <Container>
+        <Loader size="lg" variant="dots" />
+      </Container>
+    );
+  }
+
+  const myDaoHistory = () => {
+    return daoHistory.filter((dao) => dao.contributor === address);
+  };
 
   return (
     <Tabs defaultValue="total">
@@ -24,11 +37,11 @@ const AssessmentTabs = (props: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value="total" pt="xs">
-        <TotalTab />
+        <TotalTab myDaoHistory={myDaoHistory()} />
       </Tabs.Panel>
 
       <Tabs.Panel value="individual" pt="xs">
-        <IndivisualTab daoHistory={daoHistory} />
+        <IndivisualTab myDaoHistory={myDaoHistory()} />
       </Tabs.Panel>
     </Tabs>
   );

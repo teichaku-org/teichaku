@@ -12,8 +12,19 @@ import {
   IconChartRadar,
   IconCoin,
 } from "@tabler/icons";
+import { DaoHistory } from "@/domains/DaoHistory";
 
-const TotalTab = () => {
+interface Props {
+  myDaoHistory: DaoHistory[];
+}
+
+const TotalTab = (props: Props) => {
+  const { myDaoHistory } = props;
+
+  const totalReward = myDaoHistory.reduce(function (sum, element) {
+    return sum + element.reward;
+  }, 0);
+
   const TotalRewardCol = () => {
     return (
       <>
@@ -38,7 +49,7 @@ const TotalTab = () => {
             alignItems: "center",
           }}
         >
-          <TotalReward reward={"20000"} />
+          <TotalReward reward={String(Math.round(totalReward))} />
         </Paper>
       </>
     );
