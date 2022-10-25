@@ -18,9 +18,9 @@ export const AssessmentBar = ({ data }: Props) => {
     <ResponsiveBar
       theme={theme}
       data={data}
-      keys={["burger"]}
-      indexBy="country"
-      margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+      keys={["reward"]}
+      indexBy="date"
+      margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -35,7 +35,7 @@ export const AssessmentBar = ({ data }: Props) => {
       // 2. defining rules to apply those gradients
       fill={[
         // match using object query
-        { match: { id: "burger" }, id: "gradientA" },
+        { match: { id: "reward" }, id: "gradientA" },
       ]}
       colors={["white"]}
       borderColor={{
@@ -48,30 +48,30 @@ export const AssessmentBar = ({ data }: Props) => {
       labelTextColor={{
         from: "color",
       }}
-      legends={[
-        {
-          dataFrom: "keys",
-          anchor: "bottom-right",
-          direction: "column",
-          justify: false,
-          translateX: 120,
-          translateY: 0,
-          itemsSpacing: 2,
-          itemWidth: 100,
-          itemHeight: 20,
-          itemDirection: "left-to-right",
-          itemOpacity: 0.85,
-          symbolSize: 20,
-          effects: [
-            {
-              on: "hover",
-              style: {
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
+      // legends={[
+      //   {
+      //     dataFrom: "keys",
+      //     anchor: "bottom-right",
+      //     direction: "column",
+      //     justify: false,
+      //     translateX: 120,
+      //     translateY: 0,
+      //     itemsSpacing: 2,
+      //     itemWidth: 100,
+      //     itemHeight: 20,
+      //     itemDirection: "left-to-right",
+      //     itemOpacity: 0.85,
+      //     symbolSize: 20,
+      //     effects: [
+      //       {
+      //         on: "hover",
+      //         style: {
+      //           itemOpacity: 1,
+      //         },
+      //       },
+      //     ],
+      //   },
+      // ]}
       role="application"
       ariaLabel="Nivo bar chart demo"
     />

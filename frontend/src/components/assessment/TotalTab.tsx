@@ -12,6 +12,10 @@ import { Assessment } from "@/domains/Assessment";
 import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
 import { useEffect, useState } from "react";
 import usePoll from "@/hooks/dao/usePoll";
+import { getContract } from "@/hooks/web3/useMetaMask";
+import { Poll } from "@/types";
+import artifact from "../../abi/Poll.sol/Poll.json";
+import { getRewardHistory } from "@/utils/analysis/getRewardHistory";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -23,13 +27,26 @@ const TotalTab = (props: Props) => {
   const { myDaoHistory, assessments, address } = props;
   const { fetchPollDetail } = usePoll();
   const [perspectives, setPerspectives] = useState<string[]>([]);
+  const [currentMaxPollId, setCurrentMaxPollId] = useState<number>(0);
+
+  const loadCurrentMaxPollId = async () => {
+    const contractAddress = process.env.NEXT_PUBLIC_POLL_CONTRACT_ADDRESS as string;
+    const contract = getContract(contractAddress, artifact.abi) as Poll;
+    const currentMaxPollId = await contract.functions.currentMaxPollId();
+    console.log(currentMaxPollId[0].toNumber());
+    setCurrentMaxPollId(currentMaxPollId[0].toNumber());
+  };
 
   useEffect(() => {
-    //TODO pollIdごとにperspectivesが変わることがある？？
+    //NOTE pollIdごとにperspectivesが変わるが一旦これで良い
     fetchPollDetail(myDaoHistory[0].pollId).then((res) => {
       setPerspectives(res.perspectives);
     });
+    loadCurrentMaxPollId();
   }, []);
+
+  //NOTE currentMaxPollIdは開催中のpollIdなので過去の最新のものは-1したものになる
+  const rewardHistory = getRewardHistory(myDaoHistory, currentMaxPollId - 1);
 
   const totalReward = myDaoHistory.reduce(function (sum, element) {
     return sum + element.reward;
@@ -103,7 +120,7 @@ const TotalTab = (props: Props) => {
           Reward History
         </Title>
         <Paper mt="xs" style={{ height: 310 }}>
-          <AssessmentBar data={RewardHistory} />
+          <AssessmentBar data={rewardHistory} />
         </Paper>
       </>
     );
