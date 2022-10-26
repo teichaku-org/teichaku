@@ -18,7 +18,7 @@ interface Props {
 export const SingleAssessment = (props: Props) => {
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const { fetchPollDetail } = usePoll()
+    const { fetchPollDetail } = usePoll({ daoId: daoId as string, projectId: projectId as string })
     const { address } = useMetaMask()
     const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string })
     const [perspectives, setPerspectives] = useState<string[]>([])
@@ -35,7 +35,7 @@ export const SingleAssessment = (props: Props) => {
     const evidences = contribution?.evidences
     useEffect(() => {
         fetchPollDetail(props.pollId).then(res => {
-            setPerspectives(res.perspectives)
+            setPerspectives(res?.perspectives || [])
         })
     }, [])
 

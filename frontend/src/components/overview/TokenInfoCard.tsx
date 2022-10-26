@@ -1,9 +1,7 @@
-import useDaoToken from "@/hooks/dao/useDaoToken"
-import usePoll from "@/hooks/dao/usePoll"
 import { shortenAddress } from "@/utils/shortenAddress";
-import { Paper, Progress } from "@mantine/core"
+import { Paper, Progress } from "@mantine/core";
 
-import { createStyles, Text, Card, RingProgress, Group } from '@mantine/core';
+import { Card, createStyles, Group, Text } from '@mantine/core';
 import { IconCopyButton } from "../common/CopyButton";
 
 const useStyles = createStyles((theme) => ({
@@ -23,11 +21,19 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-export function TokenInfoCard() {
+interface Props {
+    tokenTotalSupply: number
+    tokenSymbol: string
+    tokenName: string
+    contractAddress: string
+    contributorReward: number
+    voterReward: number
+}
+export function TokenInfoCard(props: Props) {
     const { classes, theme } = useStyles();
 
-    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = useDaoToken()
-    const { contributorReward, voterReward } = usePoll()
+    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = props
+    const { contributorReward, voterReward } = props
 
     const contributorRewardPercent = contributorReward / (contributorReward + voterReward) * 100
     const voterRewardPercent = voterReward / (contributorReward + voterReward) * 100
