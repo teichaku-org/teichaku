@@ -12,7 +12,9 @@ async function setupDemo(
     daonft: DAONFT,
     otherAccount2: SignerWithAddress,
     daoHistory: DAOHistory,
-    poll: Poll) {
+    poll: Poll,
+    daoId: string,
+    projectId: string) {
 
     // テストデータ追加のためDaoHistoryへのアクセス権を追加する
     await daoHistory.setupAddHistoryRole(owner.address)
@@ -29,9 +31,9 @@ async function setupDemo(
     console.log("token.transfer(poll.address, ethers.utils.parseEther(\"100000\")) done")
 
     // DaoHistoryの追加
-    await createDaoHistory(daoHistory)
+    await createDaoHistory(daoHistory, daoId, projectId)
     console.log("createDaoHistory(daoHistory) done")
-    await createAssessment(daoHistory)
+    await createAssessment(daoHistory, daoId, projectId)
     console.log("createAssessment(daoHistory) done")
 
     // 投票者と貢献者に配布するトークンの量を決定する

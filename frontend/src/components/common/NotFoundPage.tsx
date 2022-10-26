@@ -54,7 +54,7 @@ export const NotFoundPage = () => {
                 variant="gradient"
                 gradient={{ from: 'blue', to: 'grape' }}
                 component="a"
-                href="/demo/season1/history"
+                href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/history`}
             >
                 Try Demo
             </Button>
