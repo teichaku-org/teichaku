@@ -55,7 +55,6 @@ const Poll = () => {
   };
 
   if (!pollDetail) return <div>Loading</div>;
-  //TODO: NFTを持っている場合のみ投票できるようにする
   return (
     <Container>
       <Center>
