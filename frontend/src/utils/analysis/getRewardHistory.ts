@@ -14,7 +14,7 @@ export const getRewardHistory = (myDaoHistory: DaoHistory[], latestPollId: numbe
     if (foundDao) {
       data.unshift({
         date: format(foundDao.timestamp, "yyyy/MM/dd"),
-        reward: String(Math.round(foundDao.reward)),
+        reward: Math.round(foundDao.reward),
       });
     } else {
       data.unshift({

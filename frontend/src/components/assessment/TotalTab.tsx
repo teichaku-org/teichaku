@@ -16,6 +16,8 @@ import { getContract } from "@/hooks/web3/useMetaMask";
 import { Poll } from "@/types";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import { getRewardHistory } from "@/utils/analysis/getRewardHistory";
+import { getCumulativeReward } from "@/utils/analysis/getCumulativeReward";
+import { Serie } from "@nivo/line";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -47,6 +49,8 @@ const TotalTab = (props: Props) => {
 
   //NOTE currentMaxPollIdは開催中のpollIdなので過去の最新のものは-1したものになる
   const rewardHistory = getRewardHistory(myDaoHistory, currentMaxPollId - 1);
+
+  const cumulativeReward = getCumulativeReward(rewardHistory);
 
   const totalReward = myDaoHistory.reduce(function (sum, element) {
     return sum + element.reward;
@@ -88,7 +92,7 @@ const TotalTab = (props: Props) => {
           Cumulative Reward
         </Title>
         <Paper mt="xs" style={{ height: 310 }}>
-          <AssessmentLine data={data} />
+          <AssessmentLine data={cumulativeReward} />
         </Paper>
       </>
     );
