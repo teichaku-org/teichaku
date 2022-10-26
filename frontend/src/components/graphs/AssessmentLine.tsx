@@ -21,6 +21,13 @@ export const AssessmentLine = ({ data }: Props) => {
       margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
       animate={true}
       colors={["#a5d8ff"]}
+      pointSize={10}
+      pointColor={{ theme: "background" }}
+      pointBorderWidth={2}
+      pointBorderColor={{ from: "serieColor" }}
+      pointLabelYOffset={-17}
+      useMesh={true}
+      enableArea={true}
     />
   );
 };

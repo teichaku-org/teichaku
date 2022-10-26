@@ -1,7 +1,6 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/radar
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
-import { linearGradientDef } from "@nivo/core";
 import { theme } from "./theme";
 
 // make sure parent container have a defined height when using
@@ -48,30 +47,6 @@ export const AssessmentBar = ({ data }: Props) => {
       labelTextColor={{
         from: "color",
       }}
-      // legends={[
-      //   {
-      //     dataFrom: "keys",
-      //     anchor: "bottom-right",
-      //     direction: "column",
-      //     justify: false,
-      //     translateX: 120,
-      //     translateY: 0,
-      //     itemsSpacing: 2,
-      //     itemWidth: 100,
-      //     itemHeight: 20,
-      //     itemDirection: "left-to-right",
-      //     itemOpacity: 0.85,
-      //     symbolSize: 20,
-      //     effects: [
-      //       {
-      //         on: "hover",
-      //         style: {
-      //           itemOpacity: 1,
-      //         },
-      //       },
-      //     ],
-      //   },
-      // ]}
       role="application"
       ariaLabel="Nivo bar chart demo"
     />

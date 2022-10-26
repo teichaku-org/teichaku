@@ -1,12 +1,10 @@
-import { Grid, Paper, ThemeIcon, Title } from "@mantine/core";
+import { Grid, Paper, ThemeIcon, Title, Text, Stack, Group } from "@mantine/core";
 
 import { AssessmentBar } from "../graphs/AssessmentBar";
-import { RewardHistory } from "../graphs/barTestData";
 import { AssessmentLine } from "../graphs/AssessmentLine";
-import { data } from "../graphs/lineTestData";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 import { TotalReward } from "./TotalReward";
-import { IconChartBar, IconChartLine, IconChartRadar, IconCoin } from "@tabler/icons";
+import { IconArrowUpRight, IconChartBar, IconChartLine, IconChartRadar, IconCoin } from "@tabler/icons";
 import { DaoHistory } from "@/domains/DaoHistory";
 import { Assessment } from "@/domains/Assessment";
 import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
@@ -17,7 +15,6 @@ import { Poll } from "@/types";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import { getRewardHistory } from "@/utils/analysis/getRewardHistory";
 import { getCumulativeReward } from "@/utils/analysis/getCumulativeReward";
-import { Serie } from "@nivo/line";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -41,24 +38,38 @@ const TotalTab = (props: Props) => {
 
   useEffect(() => {
     //NOTE pollIdごとにperspectivesが変わるが一旦これで良い
-    fetchPollDetail(myDaoHistory[0].pollId).then((res) => {
-      setPerspectives(res.perspectives);
-    });
+    if (fetchPollDetail) {
+      fetchPollDetail(myDaoHistory[0].pollId).then((res) => {
+        setPerspectives(res?.perspectives || []);
+      });
+    }
     loadCurrentMaxPollId();
-  }, []);
+  }, [fetchPollDetail]);
 
   //NOTE currentMaxPollIdは開催中のpollIdなので過去の最新のものは-1したものになる
   const rewardHistory = getRewardHistory(myDaoHistory, currentMaxPollId - 1);
 
   const cumulativeReward = getCumulativeReward(rewardHistory);
 
-  const totalReward = myDaoHistory.reduce(function (sum, element) {
-    return sum + element.reward;
-  }, 0);
-
   const averageAccessment = getAverageAssessment(assessments, perspectives, address);
 
   const TotalRewardCol = () => {
+    const totalReward = myDaoHistory.reduce(function (sum, element) {
+      return sum + element.reward;
+    }, 0);
+
+    const getLatestReward = () => {
+      for (let pollId = currentMaxPollId - 1; pollId >= 0; pollId--) {
+        const foundDao = myDaoHistory.find((mydao) => mydao.pollId === pollId);
+        if (foundDao) {
+          return foundDao.reward;
+        }
+      }
+      return 0;
+    };
+
+    const previousTotalReward = totalReward - getLatestReward();
+
     return (
       <>
         <Title mt="md" size="h3">
@@ -76,7 +87,18 @@ const TotalTab = (props: Props) => {
             alignItems: "center",
           }}
         >
-          <TotalReward reward={String(Math.round(totalReward))} />
+          <Stack spacing={0}>
+            <TotalReward reward={String(Math.round(totalReward))} />
+            <Group>
+              <Text size="xs" color="dimmed" mt={7}>
+                Compared to previous reward
+              </Text>
+              <Text color="teal" size="xl" weight={500}>
+                <span>+{Math.round((totalReward / previousTotalReward) * 100) - 100}%</span>
+                <IconArrowUpRight size={23} stroke={1.5} />
+              </Text>
+            </Group>
+          </Stack>
         </Paper>
       </>
     );
