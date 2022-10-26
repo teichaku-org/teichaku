@@ -27,7 +27,6 @@ export default (props: Props) => {
 
     useEffect(() => {
         if (contractAddress) {
-            console.log({ contractAddress })
             setContract(getContract(contractAddress, artifact.abi) as Contract)
             setContractWithSigner(getContractWithSigner(contractAddress, artifact.abi) as Contract)
         }
