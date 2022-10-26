@@ -29,6 +29,7 @@ export default (props: Props) => {
     const [tokenContractAddress, setTokenContractAddress] = useAtom(TokenContractAddress)
     const [isEligibleToVote, setIsEligibleToVote] = useState(true);
 
+
     const [contractAddress] = useAtom(PollContractAddress)
 
     const [contract, setContract] = useState<Poll | null>(null)
@@ -106,7 +107,7 @@ export default (props: Props) => {
         checkIsAdmin,
         pollDetail,
         loadCurrentMaxPoll,
-        fetchPollDetail,
+        fetchPollDetail: contract ? fetchPollDetail : undefined,
         contributorReward,
         voterReward,
         vote: contractWithSigner?.functions.vote,
