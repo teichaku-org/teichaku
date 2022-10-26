@@ -14,11 +14,8 @@ async function setupEmptyDemo(
     daoHistory: DAOHistory,
     poll: Poll) {
 
-    // Tokenの発行
-    await token.mint(owner.address, ethers.utils.parseEther("100500"));
-
-    // Pollに送金する
-    await token.transfer(poll.address, ethers.utils.parseEther("100000"));
+    // Tokenを発行しPollに送金
+    await token.mint(poll.address, ethers.utils.parseEther("100500"));
 
     // 投票者と貢献者に配布するトークンの量を決定する
     await poll.setAssignmentToken(ethers.utils.parseEther("7000"), ethers.utils.parseEther("3000"))

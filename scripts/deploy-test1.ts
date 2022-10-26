@@ -28,7 +28,7 @@ async function main() {
   await daoHistory.deployed();
   console.log("DAOHistory deployed to:", daoHistory.address);
 
-  // Pollの取得
+  // DAOの追加
   await daoHistory.addDao(daoId, projectId, "Web3 Hackathon DAO", "The Web3 Hackathon DAO is a DAO that was created for the Hackathon and aims to create this product.", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg");
 }
 
