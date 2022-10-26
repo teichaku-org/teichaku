@@ -34,10 +34,12 @@ export const SingleAssessment = (props: Props) => {
     })
     const evidences = contribution?.evidences
     useEffect(() => {
-        fetchPollDetail(props.pollId).then(res => {
-            setPerspectives(res?.perspectives || [])
-        })
-    }, [])
+        if (fetchPollDetail) {
+            fetchPollDetail(props.pollId).then(res => {
+                setPerspectives(res?.perspectives || [])
+            })
+        }
+    }, [fetchPollDetail])
 
 
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
