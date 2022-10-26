@@ -78,7 +78,7 @@ describe("Web3Hachathon Demo Scenario", function () {
         });
     });
 
-    describe("DAO Historyの操作紹介", function () {
+    describe("Teichakuの操作紹介", function () {
         it("それぞれの貢献カードが複数存在する", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
             const demoHistoryList = await daoHistory.getDaoHistory("demo", "season1")

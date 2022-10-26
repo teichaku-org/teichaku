@@ -1,3 +1,4 @@
+import { AppInfo } from "@/constants/AppInfo";
 import { Box, Button, Modal, Text } from "@mantine/core";
 import useEth from "../../../hooks/web3/useEth";
 import useMetaMask from "../../../hooks/web3/useMetaMask";
@@ -60,7 +61,7 @@ const NetworkCheck = () => {
             title="The currently connected network is not supported."
         >
             <Text>
-                DAO History is running on {expectedNetwork}!<br />
+                {AppInfo.name} is running on {expectedNetwork}!<br />
             </Text>
             <Box my="lg" />
             <Button onClick={chengeNetworkRequest}>

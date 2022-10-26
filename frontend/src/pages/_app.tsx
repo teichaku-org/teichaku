@@ -2,6 +2,7 @@ import { AppFooter } from "@/components/common/AppFooter";
 import { AppHeader } from "@/components/common/AppHeader";
 import { AppNavbar } from "@/components/common/AppNavbar";
 import { MetamaskCheck } from "@/components/web3/common/MetamaskCheck";
+import { AppInfo } from "@/constants/AppInfo";
 import { AppShell, MantineProvider } from "@mantine/core";
 import dynamic from "next/dynamic";
 import NetworkCheck from "../components/web3/common/NetworkCheck";
@@ -77,7 +78,7 @@ const MyApp = ({ Component, pageProps }: any) => {
 
   return (
     <SafeHydrate>
-      <title>DAO History</title>
+      <title>{AppInfo.name}</title>
       {typeof window === "undefined" ? windowErrorRender() : render()}
     </SafeHydrate>
   );
