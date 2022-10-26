@@ -38,12 +38,6 @@ const MyApp = ({ Component, pageProps }: any) => {
               lg: "-5px 5px 10px 3px #BE4BDB, 5px -5px 10px  3px #228BE6",
               xl: "-8px 8px 70px 5px #BE4BDB, 8px -8px 70px 5px #228BE6",
             },
-            globalStyles: (theme) => ({
-              body: {
-                ...theme.fn.fontStyles(),
-                color: theme.colorScheme === "dark" ? "white" : theme.black,
-              },
-            }),
             components: {
               Text: {
                 defaultProps: {

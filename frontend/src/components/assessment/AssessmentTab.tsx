@@ -1,4 +1,4 @@
-import { Tabs } from "@mantine/core";
+import { Container, Paper, Tabs, Title } from "@mantine/core";
 import {
   IconPhoto,
   IconMessageCircle,
@@ -8,6 +8,8 @@ import {
 
 import { DaoHistory } from "@/domains/DaoHistory";
 import { HistoryList } from "../history/HistoryList";
+import { AssessmentBar } from "../graphs/AssessmentBar";
+import { CumulativeReward, RewardHistory } from "../graphs/barTestData";
 
 interface Props {
   daoHistory: DaoHistory[];
@@ -38,7 +40,16 @@ const AssessmentTab = (props: Props) => {
       </Tabs.Panel>
 
       <Tabs.Panel value="total" pt="xs">
-        集計
+        <Container>
+          <Title size="h2">累積報酬</Title>
+          <Paper mb="xl" style={{ height: 350 }}>
+            <AssessmentBar data={CumulativeReward} />
+          </Paper>
+          <Title size="h2">報酬履歴</Title>
+          <Paper style={{ height: 350 }}>
+            <AssessmentBar data={RewardHistory} />
+          </Paper>
+        </Container>
       </Tabs.Panel>
     </Tabs>
   );
