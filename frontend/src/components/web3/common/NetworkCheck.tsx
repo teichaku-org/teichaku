@@ -30,7 +30,6 @@ const NetworkCheck = () => {
             } else if (expectedNetwork === "Local") {
                 rpcUrl = "http://localhost:8545";
             }
-            console.log({ rpcUrl })
 
             await (window as any).ethereum.request({
                 method: 'wallet_addEthereumChain',

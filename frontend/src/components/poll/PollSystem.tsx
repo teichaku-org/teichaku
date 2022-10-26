@@ -14,6 +14,7 @@ interface Props {
     candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void
     perspectives: string[]
     isAdmin: boolean
+    tokenSymbol: string
     settle: () => void
 }
 export const PollSystem = (props: Props) => {
@@ -85,6 +86,7 @@ export const PollSystem = (props: Props) => {
                     perspectives={props.perspectives}
                     point={point}
                     comment={comment}
+                    tokenSymbol={props.tokenSymbol}
                     distribution={distribution}
                     disabled={isYou}
                     onChangePoint={(point) => {

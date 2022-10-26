@@ -21,7 +21,6 @@ const MyApp = ({ Component, pageProps }: any) => {
   };
 
   const render = () => {
-    console.log(pageProps.path);
     return (
       <div>
         <MantineProvider
