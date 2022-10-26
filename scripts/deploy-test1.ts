@@ -4,6 +4,9 @@ import setupDeploy from "./demo/setupDeploy";
 import setupEmptyDemo from "./demo/setupEmptyDemo";
 
 async function main() {
+  const daoId = "demo"
+  const projectId = "season1"
+
   // tokenの発行
   const Token = await ethers.getContractFactory("DAOToken");
   const NAME = "Web3HachathonCoin"
@@ -26,8 +29,7 @@ async function main() {
   console.log("DAOHistory deployed to:", daoHistory.address);
 
   // Pollの取得
-  await daoHistory.addDao("demo", "season1", "Web3 Hackathon DAO", "The Web3 Hackathon DAO is a DAO that was created for the Hackathon and aims to create this product.", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg");
-
+  await daoHistory.addDao(daoId, projectId, "Web3 Hackathon DAO", "The Web3 Hackathon DAO is a DAO that was created for the Hackathon and aims to create this product.", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

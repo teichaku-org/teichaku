@@ -1,4 +1,4 @@
-import { Candidate } from "@/domains/Candidate"
+import { Contribution } from "@/domains/Contribution"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import { css } from "@emotion/react"
 import { Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
@@ -6,7 +6,7 @@ import { IconCoin } from "@tabler/icons"
 import { CandidateInfo } from "./CandidateInfo"
 
 interface Props {
-    candidate: Candidate
+    candidate: Contribution
     perspectives: string[]
     point: number[]
     comment: string

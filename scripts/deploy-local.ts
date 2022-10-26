@@ -8,8 +8,9 @@ async function main() {
     owner, otherAccount, otherAccount2,
     token, daoHistory, poll, daonft
   } = await setupDeploy()
-  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
-
+  const daoId = "demo"
+  const projectId = "season1"
+  await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll, daoId, projectId);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

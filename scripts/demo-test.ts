@@ -11,7 +11,9 @@ async function main() {
     const poll = await ethers.getContractAt("Poll", "0xDcdCcc9b6bDd061c6E89133933d8699E3d13D8E1");
     const daonft = await ethers.getContractAt("DAONFT", "0x38C5218D54B3Bb8836713A77610C3eD2C1fc0ec2");
 
-    await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
+    const daoId = "demo"
+    const projectId = "season1"
+    await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll, daoId, projectId);
 
 }
 

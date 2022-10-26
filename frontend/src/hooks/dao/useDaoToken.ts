@@ -47,10 +47,9 @@ export default (props: Props) => {
         }
     }
 
-    //TODO: DAOが変化したら再読み込みをするようにする
     useEffect(() => {
         load()
-    }, [address])
+    }, [address, props.daoId, props.projectId])
 
 
     return { load, tokenName, tokenSymbol: tokenSymbol, tokenTotalSupply, yourBalance, contractAddress };

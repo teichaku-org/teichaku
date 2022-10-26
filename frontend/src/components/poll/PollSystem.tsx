@@ -1,4 +1,4 @@
-import { Candidate } from "@/domains/Candidate"
+import { Contribution } from "@/domains/Contribution"
 import useMetaMask from "@/hooks/web3/useMetaMask"
 import { Alert, Button, Group } from "@mantine/core"
 import { IconAlertCircle, IconPlus } from "@tabler/icons"
@@ -7,7 +7,7 @@ import { AddYourContribution } from "./AddYourContribution"
 import { CandidateCard } from "./CandidateCard"
 
 interface Props {
-    candidates: Candidate[]
+    candidates: Contribution[]
     alreadyVoted: boolean
     contributorReward: number
     vote: (points: number[][], comments: string[]) => void
