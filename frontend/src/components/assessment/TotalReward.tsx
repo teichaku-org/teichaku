@@ -1,14 +1,17 @@
 import useDaoToken from "@/hooks/dao/useDaoToken";
 import { css } from "@emotion/react";
 import { Text, useMantineTheme } from "@mantine/core";
+import { useRouter } from "next/router"
 
 interface Props {
   reward: string;
 }
 
 export const TotalReward = (props: Props) => {
+  const router = useRouter()
+  const { daoId, projectId } = router.query
   const theme = useMantineTheme();
-  const { tokenSymbol } = useDaoToken();
+  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string })
   return (
     <Text
       component="span"

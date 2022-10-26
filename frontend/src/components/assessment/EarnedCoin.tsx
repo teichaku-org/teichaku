@@ -1,20 +1,22 @@
-import useDaoToken from "@/hooks/dao/useDaoToken";
-import { css } from "@emotion/react";
-import { ThemeIcon, Text, useMantineTheme } from "@mantine/core";
-import { IconCoin } from "@tabler/icons";
+import useDaoToken from "@/hooks/dao/useDaoToken"
+import { css } from "@emotion/react"
+import { ThemeIcon, Text, useMantineTheme } from "@mantine/core"
+import { IconCoin } from "@tabler/icons"
+import { useRouter } from "next/router"
 
 interface Props {
   reward: string;
 }
 
 export const EarnedCoin = (props: Props) => {
-  const theme = useMantineTheme();
-  const { tokenSymbol } = useDaoToken();
-  return (
-    <div
-      css={css`
-        display: flex;
-      `}
+    const router = useRouter()
+    const { daoId, projectId } = router.query
+    const theme = useMantineTheme();
+    const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string })
+    return <div
+        css={css`
+      display: flex;
+    `}
     >
       <ThemeIcon
         size="xl"
@@ -48,5 +50,4 @@ export const EarnedCoin = (props: Props) => {
         </span>
       </Text>
     </div>
-  );
 };

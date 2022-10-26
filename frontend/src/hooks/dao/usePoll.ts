@@ -1,40 +1,75 @@
+import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom";
 import { Candidate } from "@/domains/Candidate";
 import { Poll } from "@/types";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import useMetaMask, {
     getContract,
     getContractWithSigner
 } from "../web3/useMetaMask";
+import useDaoHistory from "./useDaoHistory";
 
-export default () => {
+interface Props {
+    daoId: string
+    projectId: string
+}
+
+export default (props: Props) => {
+
+    const { load } = useDaoHistory({ daoId: props.daoId, projectId: props.projectId })
     const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
     const [isAdmin, setIsAdmin] = useState(false)
     const { address } = useMetaMask();
     //TODO: ブロックチェーンから値を取る
     const [contributorReward, setContributorReward] = useState<number>(7000);
     const [voterReward, setVoterReward] = useState<number>(3000);
+    const [tokenContractAddress, setTokenContractAddress] = useAtom(TokenContractAddress)
     const [isEligibleToVote, setIsEligibleToVote] = useState(true);
 
-    //TODO: DAOごとにPollのアドレスが違うので動的に取得する
-    const contractAddress = process.env
-        .NEXT_PUBLIC_POLL_CONTRACT_ADDRESS as string;
-    const contract = getContract(contractAddress, artifact.abi) as Poll;
-    const contractWithSigner = getContractWithSigner(
-        contractAddress,
-        artifact.abi
-    ) as Poll;
 
-    const loadCurrentMaxPoll = async () => {
+    const [contractAddress] = useAtom(PollContractAddress)
+
+    const [contract, setContract] = useState<Poll | null>(null)
+    const [contractWithSigner, setContractWithSigner] = useState<Poll | null>(null)
+
+    const [startLoadCurrentMaxPoll, setStartLoadCurrentMaxPoll] = useState(false)
+    useEffect(() => {
+        if (contractAddress) {
+            const contract = getContract(contractAddress, artifact.abi) as Poll
+            setContract(contract)
+            setContractWithSigner(getContractWithSigner(contractAddress, artifact.abi) as Poll)
+            contract.functions.daoTokenAddress().then((address) => {
+                setTokenContractAddress(address[0])
+            })
+        } else {
+            load()
+        }
+    }, [contractAddress])
+
+    useEffect(() => {
+        if (startLoadCurrentMaxPoll) {
+            _loadCurrentMaxPoll()
+            setStartLoadCurrentMaxPoll(false)
+        }
+    }, [contract, startLoadCurrentMaxPoll])
+
+
+    const _loadCurrentMaxPoll = async () => {
+        if (!contract) return
         const currentMaxPollId = await contract.functions.currentMaxPollId()
         const _pollDetail = await fetchPollDetail(currentMaxPollId[0].toNumber());
         setPollDetail(_pollDetail);
     }
 
+    const loadCurrentMaxPoll = () => {
+        setStartLoadCurrentMaxPoll(true)
+    }
+
     const checkIsAdmin = async () => {
+        if (!contract) return
         contract.functions.hasRole(ethers.utils.keccak256(ethers.utils.toUtf8Bytes("POLL_ADMIN_ROLE")), address).then((res) => {
             setIsAdmin(res[0]);
         });
@@ -42,6 +77,7 @@ export default () => {
 
 
     const fetchPollDetail = async (pollId: number) => {
+        if (!contract) return
         const res = await contract.functions.getPollDetail(pollId);
         const pollDetail = res[0];
         const _pollDetail = {
@@ -66,14 +102,16 @@ export default () => {
 
 
     return {
-        isAdmin, checkIsAdmin,
+        contractAddress,
+        isAdmin,
+        checkIsAdmin,
         pollDetail,
         loadCurrentMaxPoll,
-        fetchPollDetail,
+        fetchPollDetail: contract ? fetchPollDetail : undefined,
         contributorReward,
         voterReward,
-        vote: contractWithSigner.functions.vote,
-        settleCurrentPollAndCreateNewPoll: contractWithSigner.functions.settleCurrentPollAndCreateNewPoll,
-        candidateToPoll: contractWithSigner.functions.candidateToCurrentPoll,
+        vote: contractWithSigner?.functions.vote,
+        settleCurrentPollAndCreateNewPoll: contractWithSigner?.functions.settleCurrentPollAndCreateNewPoll,
+        candidateToPoll: contractWithSigner?.functions.candidateToCurrentPoll,
     };
 };

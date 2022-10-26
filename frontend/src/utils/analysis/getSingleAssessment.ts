@@ -17,6 +17,5 @@ export const getSingleAssessment = (
             Average: averagePoint
         })
     }
-
     return result;
 }

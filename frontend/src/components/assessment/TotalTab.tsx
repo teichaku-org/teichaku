@@ -15,6 +15,7 @@ import { Poll } from "@/types";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import { getRewardHistory } from "@/utils/analysis/getRewardHistory";
 import { getCumulativeReward } from "@/utils/analysis/getCumulativeReward";
+import { useRouter } from "next/router";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -24,7 +25,9 @@ interface Props {
 
 const TotalTab = (props: Props) => {
   const { myDaoHistory, assessments, address } = props;
-  const { fetchPollDetail } = usePoll();
+  const router = useRouter();
+  const { daoId, projectId } = router.query;
+  const { fetchPollDetail } = usePoll({ daoId: daoId as string, projectId: projectId as string });
   const [perspectives, setPerspectives] = useState<string[]>([]);
   const [currentMaxPollId, setCurrentMaxPollId] = useState<number>(0);
 
@@ -44,7 +47,7 @@ const TotalTab = (props: Props) => {
       });
     }
     loadCurrentMaxPollId();
-  }, [fetchPollDetail]);
+  }, []); //TODO fetchPollDetailを[]に入れると無限ループが発生する
 
   //NOTE currentMaxPollIdは開催中のpollIdなので過去の最新のものは-1したものになる
   const rewardHistory = getRewardHistory(myDaoHistory, currentMaxPollId - 1);

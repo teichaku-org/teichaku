@@ -12,12 +12,13 @@ interface Props {
     comment: string
     distribution: number
     disabled: boolean
+    tokenSymbol: string
     onChangePoint: (point: number[]) => void
     onChangeComment: (comment: string) => void
 }
 
 export const CandidateCard = (props: Props) => {
-    const { tokenSymbol } = useDaoToken()
+
     const options = [
         { value: "0", label: "🤔Umm...(0)" },
         { value: "1", label: "🙂OK(1)" },
@@ -85,7 +86,7 @@ export const CandidateCard = (props: Props) => {
                             margin-left: 5px;
                             `}
                         >
-                            {tokenSymbol}
+                            {props.tokenSymbol}
                         </span>
                     </Text>
                 </Center>
