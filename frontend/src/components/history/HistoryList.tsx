@@ -23,17 +23,11 @@ interface TableSortProps {
   subTitle?: string;
 }
 
-function getIsDuplicate(arr1: string[], arr2: string[]) {
-  return (
-    [...arr1, ...arr2].filter(
-      (item) => arr1.includes(item) && arr2.includes(item)
-    ).length > 0
-  );
-}
 
 function filterByRole(data: RowData[], filterRoles: string[]) {
+  if (filterRoles.includes("all")) return data;
   return data.filter((item) => {
-    return getIsDuplicate(item.roles, filterRoles);
+    return item.roles.some((role) => filterRoles.includes(role));
   });
 }
 
@@ -106,15 +100,12 @@ export interface SortKeys {
 }
 
 export function HistoryList({ data, title, subTitle }: TableSortProps) {
-  const [search, setSearch] = useState("");
-  const [sortedData, setSortedData] = useState<RowData[]>([]);
   const theme = useMantineTheme();
   const [selectedContribution, setSelectedContribution] = useState<{
     pollId: number;
     contributor: string;
   }>();
   const opened = selectedContribution !== undefined;
-
   const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
 
   //TODO: viewとkeyは分ける
@@ -198,18 +189,14 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
     return true;
   };
 
-  useEffect(() => {
-    const filterRoles = Object.keys(filterObjRoles).filter(
-      (key) => filterObjRoles[key]
-    );
-    setSortedData(
-      sortData(filterByRole(data, filterRoles), {
-        sortBy: sortBy(),
-        reversed: reversed(),
-        search: "",
-      })
-    );
-  }, [filterObjRoles, sortKeys]);
+  const filterRoles = Object.keys(filterObjRoles).filter(
+    (key) => filterObjRoles[key]
+  );
+  const sortedData = sortData(filterByRole(data, filterRoles), {
+    sortBy: sortBy(),
+    reversed: reversed(),
+    search: "",
+  })
 
   const rows = sortedData.map((row, index) => (
     <div
