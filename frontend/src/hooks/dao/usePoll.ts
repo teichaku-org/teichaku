@@ -66,7 +66,6 @@ export default (props: Props) => {
         });
     }
 
-
     const fetchPollDetail = async (pollId: number) => {
         if (!contract) return
         const res = await contract.functions.getPollDetail(pollId);

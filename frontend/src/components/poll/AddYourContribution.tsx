@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useForm } from '@mantine/form';
 
 interface Props {
+    voted: boolean
     candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void
 }
 
@@ -134,7 +135,7 @@ export const AddYourContribution = (props: Props) => {
                 variant="gradient"
                 gradient={{ from: 'blue', to: 'grape' }}
                 mb="md" fullWidth leftIcon={<IconPlus />}>
-                Add Your Contribution!
+                {props.voted ? "Update Your Contribution" : "Add Your Contribution"}
             </Button>
         </Group>
     </>

@@ -21,7 +21,7 @@ const Overview = () => {
     const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0;
     const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0;
 
-    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = useDaoToken(dao)
+    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao)
     const { contributorReward, voterReward } = usePoll(dao)
 
     useEffect(() => {
@@ -47,6 +47,7 @@ const Overview = () => {
             <Grid.Col sm={12} md={6}>
                 <TokenInfoCard
                     tokenTotalSupply={tokenTotalSupply}
+                    treasuryBalance={treasuryBalance}
                     tokenSymbol={tokenSymbol}
                     tokenName={tokenName}
                     contractAddress={contractAddress}

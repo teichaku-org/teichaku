@@ -3,8 +3,8 @@ import { Contract, ethers } from "ethers";
 import useMetaMask, { getContract, getContractWithSigner } from "../web3/useMetaMask";
 import artifact from "../../abi/token/DAOToken.sol/DAOToken.json";
 import { useAtom } from "jotai";
-import { TokenNameAtom, TokenSymbolAtom, TokenTotalSupplyAtom, YourBalanceAtom } from "@/domains/atoms/TokenAtom";
-import { TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
+import { TokenNameAtom, TokenSymbolAtom, TokenTotalSupplyAtom, TreasuryBalanceAtom, YourBalanceAtom } from "@/domains/atoms/TokenAtom";
+import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import usePoll from "./usePoll";
 
 interface Props {
@@ -16,6 +16,9 @@ export default (props: Props) => {
     const [tokenSymbol, setTokenSymbol] = useAtom(TokenSymbolAtom);
     const [tokenTotalSupply, setTokenTotalSupply] = useAtom(TokenTotalSupplyAtom);
     const [yourBalance, setYourBalance] = useAtom(YourBalanceAtom);
+    const [treasuryBalance, setTreasuryBalance] = useAtom(TreasuryBalanceAtom)
+    const [pollAddress] = useAtom(PollContractAddress)
+
 
     usePoll({ daoId: props.daoId, projectId: props.projectId })
 
@@ -42,15 +45,25 @@ export default (props: Props) => {
             if (address) {
                 contract.functions.balanceOf(signer.getAddress()).then(b => setYourBalance(Number(ethers.utils.formatEther(b[0]))));
             }
-        } else {
-
+            contract.functions.balanceOf(pollAddress).then(b => setTreasuryBalance(Number(ethers.utils.formatEther(b[0]))));
         }
     }
 
     useEffect(() => {
+        if (!(contract && props.daoId && props.projectId)) return
         load()
     }, [contract, props.daoId, props.projectId])
 
+    const sendToken = async (to: string, amount: number) => {
+        if (!contractWithSigner) return
+        contractWithSigner.functions.transfer(to, ethers.utils.parseEther(amount.toString()))
+    }
 
-    return { load, tokenName, tokenSymbol: tokenSymbol, tokenTotalSupply, yourBalance, contractAddress };
+    return {
+        load, tokenName,
+        tokenSymbol, tokenTotalSupply,
+        yourBalance, contractAddress,
+        treasuryBalance,
+        sendToken
+    };
 }
