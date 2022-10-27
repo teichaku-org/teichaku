@@ -31,6 +31,8 @@ export const SingleAssessment = (props: Props) => {
             author: item.voter,
             timestamp: contribution?.timestamp || new Date()
         }
+    }).sort((a, b) => {
+        return b.comment.length - a.comment.length
     })
     const evidences = contribution?.evidences
     useEffect(() => {
@@ -69,8 +71,8 @@ export const SingleAssessment = (props: Props) => {
         <Text mt="lg" mb="xs" color="dimmed">Evidences</Text>
         <Evidences evidences={evidences || []} />
 
-        {/* コメント */}
-        <Text mt="lg" mb="xs" color="dimmed">Comments</Text>
+        {/* 投票者 & コメント */}
+        <Text mt="lg" mb="xs" color="dimmed">Voters and Comments</Text>
         <Comments comments={comments} />
 
         {/* 自分のだったらNFT化 */}
