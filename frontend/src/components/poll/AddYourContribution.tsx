@@ -115,6 +115,7 @@ export const AddYourContribution = (props: Props) => {
                 data={roles}
                 searchable
                 creatable
+                dropdownPosition="top"
                 getCreateLabel={(query) => `+ Create ${query}`}
                 onCreate={(query) => {
                     setRoles([...roles, query]);
