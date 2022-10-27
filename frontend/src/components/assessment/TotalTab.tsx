@@ -80,7 +80,7 @@ const TotalTab = (props: Props) => {
                 Compared to previous reward
               </Text>
               <Text color="teal" size="xl" weight={500}>
-                <span>+{Math.round((totalReward / previousTotalReward) * 100) - 100}%</span>
+                <span>+{Math.round(((totalReward - previousTotalReward) / totalReward) * 100)}%</span>
                 <IconArrowUpRight size={23} stroke={1.5} />
               </Text>
             </Group>
