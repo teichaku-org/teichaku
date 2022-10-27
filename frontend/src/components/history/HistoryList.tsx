@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Center, Drawer, ScrollArea, Text, Title, useInputProps, useMantineTheme } from "@mantine/core";
+import {
+  Center,
+  Drawer,
+  ScrollArea,
+  Text,
+  Title,
+  useInputProps,
+  useMantineTheme,
+} from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -243,7 +251,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
               `
         }
       >
-        <Center >
+        <Center>
           <Title size="h1">{title}</Title>
         </Center>
 
@@ -264,7 +272,10 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
             align="left"
             color={theme.colorScheme === "dark" ? "white" : "black"}
           >
-            <span style={{ fontSize: "25px", marginRight: 5 }}>{rows.length}</span>Contributions
+            <span style={{ fontSize: "25px", marginRight: 5 }}>
+              {rows.length}
+            </span>
+            Contributions
           </Text>
           <div
             css={css`
@@ -282,13 +293,9 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
         {rows.length > 0 ? (
           <div>{rows}</div>
         ) : (
-          <tr>
-            <td colSpan={Object.keys(data[0]).length}>
-              <Text weight={500} align="center">
-                Nothing found
-              </Text>
-            </td>
-          </tr>
+          <Text weight={500} align="center">
+            Nothing found
+          </Text>
         )}
       </div>
       <Drawer
