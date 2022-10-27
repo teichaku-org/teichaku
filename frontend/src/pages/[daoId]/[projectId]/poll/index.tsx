@@ -1,5 +1,6 @@
 import { PollSystem } from "@/components/poll/PollSystem";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
+import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useDaoToken from "@/hooks/dao/useDaoToken";
 import usePoll from "@/hooks/dao/usePoll";
 import useMetaMask from "@/hooks/web3/useMetaMask";
@@ -11,6 +12,7 @@ import { useEffect, useState } from "react";
 
 const Poll = () => {
   useDaoExistCheck()
+  useDaoLoad()
   const { address } = useMetaMask()
   const router = useRouter()
   const { daoId, projectId } = router.query
@@ -20,6 +22,7 @@ const Poll = () => {
   const [leftTimeStr, setLeftTimeStr] = useState("");
 
   useEffect(() => {
+    console.log({ contractAddress })
     loadCurrentMaxPoll();
   }, [contractAddress])
 
@@ -65,6 +68,7 @@ const Poll = () => {
   if (!pollDetail) return <div>Loading</div>;
   return (
     <Container>
+
       <Center>
         <Title size="h1">Contribution Poll</Title>
       </Center>

@@ -1,5 +1,5 @@
 import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
-import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom";
+import { ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
 import { Poll } from "@/types";
 import { ethers } from "ethers";
@@ -18,16 +18,11 @@ interface Props {
 }
 
 export default (props: Props) => {
-
-    const { load } = useDaoHistory({ daoId: props.daoId, projectId: props.projectId })
     const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
     const [isAdmin, setIsAdmin] = useState(false)
     const { address } = useMetaMask();
-    const [contributorReward, setContributorReward] = useState<number>(0);
-    const [voterReward, setVoterReward] = useState<number>(0);
-    const [tokenContractAddress, setTokenContractAddress] = useAtom(TokenContractAddress)
-    const [isEligibleToVote, setIsEligibleToVote] = useState(true);
-
+    const [contributorReward] = useAtom(ContributorRewardAtom);
+    const [voterReward] = useAtom(VoterRewardAtom);
 
     const [contractAddress] = useAtom(PollContractAddress)
 
@@ -40,17 +35,6 @@ export default (props: Props) => {
             const contract = getContract(contractAddress, artifact.abi) as Poll
             setContract(contract)
             setContractWithSigner(getContractWithSigner(contractAddress, artifact.abi) as Poll)
-            contract.functions.daoTokenAddress().then((address) => {
-                setTokenContractAddress(address[0])
-            })
-            contract.functions.CONTRIBUTOR_ASSIGNMENT_TOKEN().then((res) => {
-                setContributorReward(Number(ethers.utils.formatEther(res[0])))
-            })
-            contract.functions.VOTER_ASSIGNMENT_TOKEN().then((res) => {
-                setVoterReward(Number(ethers.utils.formatEther(res[0])))
-            })
-        } else {
-            load()
         }
     }, [contractAddress])
 

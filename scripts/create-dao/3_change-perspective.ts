@@ -1,19 +1,19 @@
 import { ethers } from "hardhat";
-
+import { getSigner } from "../../frontend/src/hooks/web3/useMetaMask";
 
 const daoId = "test2";
 const projectId = "test2";
 const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
-
 async function main() {
     const daoHistory = await ethers.getContractAt("DAOHistory", daoHistoryAddress);
+    const pollAddress = await daoHistory.pollAddress(daoId, projectId);
+    const poll = await ethers.getContractAt("Poll", pollAddress);
 
-    const daoName = "Chen's DAO";
-    const daoDescription = "I love it.";
-    const website = ""
-    const logo = "https://pbs.twimg.com/profile_images/1573337831023398912/9n_sTKRu_400x400.jpg"
-
-    await daoHistory.addDao(daoId, projectId, daoName, daoDescription, website, logo);
+    await poll.changePerspective([
+        "貢献度",
+        "難易度",
+        "量"
+    ])
 }
 
 // We recommend this pattern to be able to use async/await everywhere

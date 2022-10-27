@@ -49,7 +49,7 @@ export default (props: Props) => {
 
     useEffect(() => {
         load()
-    }, [address, props.daoId, props.projectId])
+    }, [contract, props.daoId, props.projectId])
 
 
     return { load, tokenName, tokenSymbol: tokenSymbol, tokenTotalSupply, yourBalance, contractAddress };

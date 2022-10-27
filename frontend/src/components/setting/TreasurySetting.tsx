@@ -5,6 +5,7 @@ export const TreasurySetting = () => {
             Treasury
         </Text>
         <Text size="lg" weight={500} mb="md">
+            {/* TODO: きちんとブロックチェーンから取得する */}
             120000 W3HC
         </Text>
         <Button>Add</Button>

@@ -23,22 +23,12 @@ export default (props: Props) => {
   const [daoHistory, setDaoHistory] = useAtom(DaoHistoryListAtom);
   const [assessments, setAssessments] = useAtom(AssessmentListAtom);
   const [daoInfo, setDaoInfo] = useAtom(DaoInfoAtom);
-  const [pollContractAddress, setPollContractAddress] = useAtom(PollContractAddress)
-  const { address } = useMetaMask();
 
   const contractAddress = process.env
     .NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string;
   const contract = getContract(contractAddress, artifact.abi) as DAOHistory;
-  const contractWithSigner = getContractWithSigner(
-    contractAddress,
-    artifact.abi
-  ) as DAOHistory;
-
 
   const load = async () => {
-    contract.functions.pollAddress(daoId, projectId).then((res) => {
-      setPollContractAddress(res[0])
-    })
     contract.functions.getDaoHistory(daoId, projectId).then((res) => {
       const _daoHistory = res[0].map((d) => {
         return {
