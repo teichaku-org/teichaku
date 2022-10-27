@@ -37,7 +37,7 @@ const Assessment: NextPage = () => {
       <Center>
         <Title size="h1">Your Assessments</Title>
       </Center>
-      <AssessmentTab daoHistory={daoHistory} assessments={assessments} />
+      <AssessmentTab daoHistory={daoHistory} />
     </div>
   );
 };
