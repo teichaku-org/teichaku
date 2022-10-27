@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { DAOHistory, DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
 
-export default async (daoHistory: DAOHistory) => {
+export default async (daoHistory: DAOHistory, daoId: string, projectId: string) => {
     const data = [
         {
             "contributionText": "①アプリ側でも「他の人の意見を参考にする」を見れるようにして、アプリのユーザも日本語の意見を考えやすくした\nhttps://twitter.com/IT_KOTA3/status/1539245638239526913\n\n②アプリから「最初の３問はハートを消費しない」というウソの文言を削除し、「問題をスタート時にハートが１つ消費される」ということを記載した",
@@ -329,7 +329,7 @@ export default async (daoHistory: DAOHistory) => {
             pollId: item.pollId,
             evidences: randomUrlList,
         };
-        await daoHistory.addDaoHistory("demo", "season1", daoHistoryItem)
+        await daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem)
     }
 
 

@@ -9,6 +9,7 @@ const NetworkCheck = () => {
     const { address, login } = useMetaMask()
     const expectedNetwork = process.env.NEXT_PUBLIC_EXPECTED_NETWORK;
     const expectedNetworkChainId = process.env.NEXT_PUBLIC_EXPECTED_NETWORK_CHAIN_ID;
+    const expectedRpcUrl = process.env.NEXT_PUBLIC_EXPECTED_RPC_URL;
     const isMetaMaskInstalled = () => {
         const { ethereum } = window as any;
         return Boolean(ethereum && ethereum.isMetaMask);
@@ -21,23 +22,13 @@ const NetworkCheck = () => {
             });
             window.location.reload();
         } catch (e: any) {
-            //TODO: rpcUrlの環境変数化
-            let rpcUrl = ""
-            if (expectedNetwork === "Polygon Mumbai") {
-                rpcUrl = "https://rpc-mumbai.maticvigil.com";
-            } else if (expectedNetwork === "Polygon Mainnet") {
-                rpcUrl = "https://polygon-rpc.com";
-            } else if (expectedNetwork === "Local") {
-                rpcUrl = "http://localhost:8545";
-            }
-
             await (window as any).ethereum.request({
                 method: 'wallet_addEthereumChain',
                 params: [
                     {
                         chainId: expectedNetworkChainId,
                         chainName: expectedNetwork,
-                        rpcUrls: [rpcUrl],
+                        rpcUrls: [expectedRpcUrl],
                     },
                 ],
             });

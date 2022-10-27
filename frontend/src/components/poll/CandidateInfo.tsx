@@ -1,4 +1,5 @@
-import { Candidate } from "@/domains/Candidate"
+
+import { Contribution } from "@/domains/Contribution"
 import { shortenAddress } from "@/utils/shortenAddress"
 import { shortenUrl } from "@/utils/shortenUrl"
 import { css } from "@emotion/react"
@@ -7,14 +8,11 @@ import Link from "next/link"
 import { RoleBadge } from "../common/RoleBadge"
 
 interface Props {
-    candidate: Candidate
+    candidate: Contribution
 }
 
 
 export const CandidateInfo = (props: Props) => {
-    //TODO: roleのバッチをつける
-    //TODO: 情報に強弱をつける
-
     return <div>
 
         <RoleBadge roles={props.candidate.roles} />

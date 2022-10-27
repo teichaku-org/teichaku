@@ -26,7 +26,9 @@ describe("Web3Hachathon Demo Scenario", function () {
             token, daoHistory, poll, daonft
         } = await loadFixture(deployFixture);
 
-        await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll);
+        const daoId = "demo"
+        const projectId = "season1"
+        await setupDemo(token, owner, otherAccount, daonft, otherAccount2, daoHistory, poll, daoId, projectId);
 
         return {
             owner, otherAccount, otherAccount2,

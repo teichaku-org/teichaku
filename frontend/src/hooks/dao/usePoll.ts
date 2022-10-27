@@ -1,6 +1,6 @@
 import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom";
-import { Candidate } from "@/domains/Candidate";
+import { Contribution } from "@/domains/Contribution";
 import { Poll } from "@/types";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
@@ -23,9 +23,8 @@ export default (props: Props) => {
     const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
     const [isAdmin, setIsAdmin] = useState(false)
     const { address } = useMetaMask();
-    //TODO: ブロックチェーンから値を取る
-    const [contributorReward, setContributorReward] = useState<number>(7000);
-    const [voterReward, setVoterReward] = useState<number>(3000);
+    const [contributorReward, setContributorReward] = useState<number>(0);
+    const [voterReward, setVoterReward] = useState<number>(0);
     const [tokenContractAddress, setTokenContractAddress] = useAtom(TokenContractAddress)
     const [isEligibleToVote, setIsEligibleToVote] = useState(true);
 
@@ -44,6 +43,12 @@ export default (props: Props) => {
             contract.functions.daoTokenAddress().then((address) => {
                 setTokenContractAddress(address[0])
             })
+            contract.functions.CONTRIBUTOR_ASSIGNMENT_TOKEN().then((res) => {
+                setContributorReward(Number(ethers.utils.formatEther(res[0])))
+            })
+            contract.functions.VOTER_ASSIGNMENT_TOKEN().then((res) => {
+                setVoterReward(Number(ethers.utils.formatEther(res[0])))
+            })
         } else {
             load()
         }
@@ -59,9 +64,11 @@ export default (props: Props) => {
 
     const _loadCurrentMaxPoll = async () => {
         if (!contract) return
-        const currentMaxPollId = await contract.functions.currentMaxPollId()
-        const _pollDetail = await fetchPollDetail(currentMaxPollId[0].toNumber());
-        setPollDetail(_pollDetail);
+        const _currentMaxPollId = await contract.functions.currentMaxPollId()
+        const pollId = _currentMaxPollId[0].toNumber()
+        fetchPollDetail(pollId).then(res => {
+            setPollDetail(res);
+        })
     }
 
     const loadCurrentMaxPoll = () => {
@@ -89,7 +96,7 @@ export default (props: Props) => {
                     evidences: c.evidences,
                     roles: c.roles,
                 };
-            }) as Candidate[],
+            }) as Contribution[],
             voters: pollDetail.voters,
             alreadyVoted: pollDetail.voters.includes(address),
             alreadyContributed: pollDetail.contributions.map((c) => c.contributor).includes(address),
