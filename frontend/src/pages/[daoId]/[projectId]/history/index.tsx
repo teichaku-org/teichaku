@@ -18,7 +18,7 @@ const History: NextPage = () => {
   const { daoHistory, daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const title = `The History of ${daoInfo?.name || "DAO"}`
   const subTitle = `A list of contributions of the ${daoInfo?.name || "DAO"} member`
-
+  console.log({ daoHistory })
   useEffect(() => {
     if (daoId && projectId) {
       load();
