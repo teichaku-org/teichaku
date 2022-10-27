@@ -79,6 +79,9 @@ npx hardhat run scripts/deploy-test1.ts --network maticmum
 npx hardhat run scripts/deploy-test2.ts --network maticmum
 ```
 
+※ .envファイルおよびvercelの環境変数のコントラクトアドレスを修正する。
+
+
 ## MumbaiテストネットでDAOを作る
 各ファイルの設定値をきちんとセットした上で、以下コマンドを実行する
 ```
