@@ -25,6 +25,7 @@ export const AssessmentRadar = ({ data }: Props) => {
       }}
       margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
       dotSize={10}
+      maxValue={10}
       dotColor={{ theme: "background" }}
       dotBorderWidth={2}
       colors={["#a5d8ff"]}

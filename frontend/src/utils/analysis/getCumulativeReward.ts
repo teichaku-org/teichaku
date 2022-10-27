@@ -1,6 +1,4 @@
-import { DaoHistory } from "@/domains/DaoHistory";
 import { BarDatum } from "@nivo/bar";
-import { format } from "date-fns";
 
 export const getCumulativeReward = (rewardHistory: BarDatum[]) => {
   let total = 0;
