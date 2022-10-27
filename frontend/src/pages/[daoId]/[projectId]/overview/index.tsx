@@ -3,6 +3,8 @@ import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
+import useDaoToken from "@/hooks/dao/useDaoToken"
+import usePoll from "@/hooks/dao/usePoll"
 import { Grid } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -19,10 +21,8 @@ const Overview = () => {
     const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0;
     const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0;
 
-    //const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = useDaoToken(dao)
-    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = { tokenTotalSupply: 100, tokenSymbol: "DAI", tokenName: "DAI", contractAddress: "0x123" }
-    //const { contributorReward, voterReward } = usePoll(dao)
-    const { contributorReward, voterReward } = { contributorReward: 10, voterReward: 10 }
+    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = useDaoToken(dao)
+    const { contributorReward, voterReward } = usePoll(dao)
 
     useEffect(() => {
         if (daoId && projectId) {

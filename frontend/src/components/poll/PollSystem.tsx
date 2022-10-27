@@ -100,9 +100,22 @@ export const PollSystem = (props: Props) => {
         })
     }
 
+    const renderSaveButton = () => {
+        if (props.candidates.length === 0) return null
+        return <><Group position="center" my="xl">
+            <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
+            <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
+        </Group>
+
+            {
+                props.isAdmin ? <Group position="center" my="xl">
+                    <Button size="xl" color="red" radius="md" onClick={props.settle}>Settle This Poll(Only Admin Can Do it)</Button>
+                </Group> : <div />
+            }
+        </>
+    }
+
     return <div>
-
-
         <AddYourContribution
             candidateToPoll={props.candidateToPoll}
         />
@@ -111,13 +124,7 @@ export const PollSystem = (props: Props) => {
             props.alreadyVoted ? <Alert mb="md" icon={<IconAlertCircle size={16} />} color="grape">
                 You already voted but you can vote for revision
             </Alert> : <div />}
-        <Group position="center" my="xl">
-            <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
-            <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
-        </Group>
 
-        {props.isAdmin ? <Group position="center" my="xl">
-            <Button size="xl" color="red" radius="md" onClick={props.settle}>Settle This Poll(Only Admin Can Do it)</Button>
-        </Group> : <div />}
+        {renderSaveButton()}
     </div>
 }

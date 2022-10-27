@@ -1,8 +1,8 @@
 import { Contribution } from "@/domains/Contribution"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import { css } from "@emotion/react"
-import { Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
-import { IconCoin } from "@tabler/icons"
+import { Alert, Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
+import { IconAlertCircle, IconCoin } from "@tabler/icons"
 import { CandidateInfo } from "./CandidateInfo"
 
 interface Props {
@@ -48,13 +48,10 @@ export const CandidateCard = (props: Props) => {
             />)
     }
 
-    if (props.disabled) {
-        return <Paper p="lg" radius="lg" withBorder mb="sm">
-            <CandidateInfo candidate={props.candidate} />
-        </Paper>
-    }
-
     return <Paper p="lg" radius="lg" withBorder mb="lg">
+        {props.disabled && <Alert mb="lg" color="blue" icon={<IconAlertCircle size={16} />} >
+            This is your contribution, so you can't vote for yourself
+        </Alert>}
         <CandidateInfo candidate={props.candidate} />
         <Grid align="center">
             <Grid.Col xs={12} md={8}>{selects()}</Grid.Col>
@@ -103,5 +100,5 @@ export const CandidateCard = (props: Props) => {
             value={props.comment}
             disabled={props.disabled}
         />
-    </Paper>
+    </Paper >
 }

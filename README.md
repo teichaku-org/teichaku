@@ -89,4 +89,5 @@ export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
 npx hardhat run scripts/create-dao/0_create-new-dao-demo.ts --network maticmum
 npx hardhat run scripts/create-dao/1_set-token.ts --network maticmum
 npx hardhat run scripts/create-dao/2_send-token.ts --network maticmum
+npx hardhat run scripts/create-dao/3_change-perspective.ts --network maticmum
 ```

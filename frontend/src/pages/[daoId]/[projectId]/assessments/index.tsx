@@ -4,7 +4,7 @@ import { css } from "@emotion/react";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
 import { Center, Container, Loader, Title } from "@mantine/core";
-import AssessmentTab from "@/components/assessment/AssessmentTab";
+import AssessmentTab from "@/components/assessment/AssessmentTabs";
 import NodataMessage from "@/components/common/NodataMsg";
 import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
@@ -15,7 +15,7 @@ const Assessment: NextPage = () => {
   useDaoLoad()
   const router = useRouter()
   const { daoId, projectId } = router.query
-  const { daoHistory, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
+  const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
 
   useEffect(() => {
     if (daoId && projectId) {
@@ -23,7 +23,7 @@ const Assessment: NextPage = () => {
     }
   }, [daoId, projectId]);
 
-  if (!daoHistory)
+  if (!daoHistory && !assessments)
     return (
       <Container>
         <Loader size="lg" variant="dots" />
@@ -32,9 +32,7 @@ const Assessment: NextPage = () => {
   if (daoHistory.length === 0) return <NodataMessage />;
 
   return (
-    <div
-
-    >
+    <div>
       <Center>
         <Title size="h1">Your Assessments</Title>
       </Center>

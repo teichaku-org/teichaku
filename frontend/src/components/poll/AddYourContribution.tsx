@@ -47,9 +47,10 @@ export const AddYourContribution = (props: Props) => {
         localStorage.removeItem("candidate")
     }
 
-    const _candidate = () => {
-        props.candidateToPoll(form.values.contributionText, [form.values.evidence1, form.values.evidence2, form.values.evidence3], form.values.roles)
+    const _candidate = async () => {
+        await props.candidateToPoll(form.values.contributionText, [form.values.evidence1, form.values.evidence2, form.values.evidence3], form.values.roles)
         clearLocalStorage()
+        setOpened(false)
     }
     return <>
         <Modal
