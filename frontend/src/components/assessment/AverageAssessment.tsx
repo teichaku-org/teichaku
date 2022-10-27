@@ -2,7 +2,7 @@ import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import usePoll from "@/hooks/dao/usePoll";
 import useMetaMask from "@/hooks/web3/useMetaMask";
 import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
-import { Paper, ThemeIcon, Title } from "@mantine/core";
+import { Loader, Paper, ThemeIcon, Title } from "@mantine/core";
 import { IconChartRadar } from "@tabler/icons";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export const AverageAssessment = () => {
     }
   }, [fetchPollDetail]);
 
-  const averageAccessment = getAverageAssessment(assessments, perspectives, address);
+  const averageAccessment = getAverageAssessment(assessments, perspectives, address, daoHistory);
 
   return (
     <>
