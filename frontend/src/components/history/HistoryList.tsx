@@ -223,6 +223,9 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
     </div>
   ));
 
+  if (data.length === 0) {
+    return <div />
+  }
   return (
     <div
       css={css`

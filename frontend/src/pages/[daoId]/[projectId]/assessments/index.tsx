@@ -8,9 +8,11 @@ import AssessmentTab from "@/components/assessment/AssessmentTab";
 import NodataMessage from "@/components/common/NodataMsg";
 import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
+import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 
 const Assessment: NextPage = () => {
   useDaoExistCheck()
+  useDaoLoad()
   const router = useRouter()
   const { daoId, projectId } = router.query
   const { daoHistory, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
