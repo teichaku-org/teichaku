@@ -1,4 +1,4 @@
-import { Container, Loader, Tabs } from "@mantine/core";
+import { Container, Tabs, Text } from "@mantine/core";
 import { IconChartLine, IconChartPie3 } from "@tabler/icons";
 
 import { DaoHistory } from "@/domains/DaoHistory";
@@ -9,16 +9,15 @@ import { Assessment } from "@/domains/Assessment";
 
 interface Props {
   daoHistory: DaoHistory[];
-  assessments: Assessment[];
 }
 
 const AssessmentTabs = (props: Props) => {
-  const { daoHistory, assessments } = props;
+  const { daoHistory } = props;
   const { address } = useMetaMask();
   if (!address) {
     return (
       <Container>
-        <Loader size="lg" variant="dots" />
+        <Text>Your MetaMask address not found</Text>
       </Container>
     );
   }
@@ -39,7 +38,7 @@ const AssessmentTabs = (props: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value="total" pt="xs">
-        <TotalTab myDaoHistory={myDaoHistory()} assessments={assessments} address={address} />
+        <TotalTab myDaoHistory={myDaoHistory()} />
       </Tabs.Panel>
 
       <Tabs.Panel value="individual" pt="xs">
