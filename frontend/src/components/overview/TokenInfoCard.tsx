@@ -28,11 +28,12 @@ interface Props {
     contractAddress: string
     contributorReward: number
     voterReward: number
+    treasuryBalance: number
 }
 export function TokenInfoCard(props: Props) {
     const { classes, theme } = useStyles();
 
-    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress } = props
+    const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = props
     const { contributorReward, voterReward } = props
 
     const contributorRewardPercent = contributorReward / (contributorReward + voterReward) * 100
@@ -51,7 +52,20 @@ export function TokenInfoCard(props: Props) {
             <Text size="xl" color="dimmed" mb="sm">
                 Rewards Token
             </Text>
+
             <Group>
+                <Card p="xl">
+                    <Text size="xs" color="dimmed">
+                        Contract Address
+                    </Text>
+                    <Group spacing="xs">
+                        <Text className={classes.lead}>
+                            {shortenAddress(contractAddress)}
+                        </Text>
+                        <IconCopyButton text={contractAddress} />
+
+                    </Group>
+                </Card>
                 <Card p="xl">
                     <Text size="xs" color="dimmed">
                         Token Name
@@ -77,19 +91,15 @@ export function TokenInfoCard(props: Props) {
                         {tokenTotalSupply}
                     </Text>
                 </Card>
-
                 <Card p="xl">
                     <Text size="xs" color="dimmed">
-                        Contract Address
+                        Treasury Balance
                     </Text>
-                    <Group spacing="xs">
-                        <Text className={classes.lead}>
-                            {shortenAddress(contractAddress)}
-                        </Text>
-                        <IconCopyButton text={contractAddress} />
-
-                    </Group>
+                    <Text className={classes.lead}>
+                        {treasuryBalance}
+                    </Text>
                 </Card>
+
             </Group>
 
             <Text size="xl" color="dimmed" mt="xl" mb="sm">

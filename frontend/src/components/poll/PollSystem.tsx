@@ -117,6 +117,7 @@ export const PollSystem = (props: Props) => {
 
     return <div>
         <AddYourContribution
+            voted={props.alreadyVoted}
             candidateToPoll={props.candidateToPoll}
         />
         {renderItems()}
