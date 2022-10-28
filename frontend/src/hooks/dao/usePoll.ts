@@ -39,7 +39,7 @@ export default (props: Props) => {
     }, [contractAddress])
 
     useEffect(() => {
-        if (startLoadCurrentMaxPoll) {
+        if (startLoadCurrentMaxPoll && contract) {
             _loadCurrentMaxPoll()
             setStartLoadCurrentMaxPoll(false)
         }
@@ -50,7 +50,7 @@ export default (props: Props) => {
         if (!contract) return
         const _currentMaxPollId = await contract.functions.currentMaxPollId()
         const pollId = _currentMaxPollId[0].toNumber()
-        fetchPollDetail(pollId).then(res => {
+        _fetchPollDetail(pollId).then(res => {
             setPollDetail(res);
         })
     }
@@ -66,7 +66,7 @@ export default (props: Props) => {
         });
     }
 
-    const fetchPollDetail = async (pollId: number) => {
+    const _fetchPollDetail = async (pollId: number) => {
         if (!contract) return
         const res = await contract.functions.getPollDetail(pollId);
         const pollDetail = res[0];
@@ -97,7 +97,6 @@ export default (props: Props) => {
         checkIsAdmin,
         pollDetail,
         loadCurrentMaxPoll,
-        fetchPollDetail: contract ? fetchPollDetail : undefined,
         contributorReward,
         voterReward,
         vote: contractWithSigner?.functions.vote,

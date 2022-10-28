@@ -13,6 +13,8 @@ import artifact from "../../abi/Poll.sol/Poll.json";
 import { getRewardHistory } from "@/utils/analysis/getRewardHistory";
 import { getCumulativeReward } from "@/utils/analysis/getCumulativeReward";
 import { AverageAssessment } from "./AverageAssessment";
+import { useAtom } from "jotai";
+import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -21,9 +23,9 @@ interface Props {
 const TotalTab = (props: Props) => {
   const { myDaoHistory } = props;
   const [currentMaxPollId, setCurrentMaxPollId] = useState<number>(0);
+  const [contractAddress] = useAtom(PollContractAddress)
 
   const loadCurrentMaxPollId = async () => {
-    const contractAddress = process.env.NEXT_PUBLIC_POLL_CONTRACT_ADDRESS as string;
     const contract = getContract(contractAddress, artifact.abi) as Poll;
     const currentMaxPollId = await contract.functions.currentMaxPollId();
     console.log(currentMaxPollId[0].toNumber());

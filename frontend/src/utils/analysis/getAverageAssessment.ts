@@ -35,7 +35,7 @@ export const getAverageAssessment = (
   for (const key in totalAssesment) {
     result.push({
       perspective: key,
-      Point: Math.round(totalAssesment[key] / myDaoHistory.length),
+      Point: Math.round(totalAssesment[key] / myDaoHistory.length * 100) / 100, //小数第2位
     });
   }
   return result;
