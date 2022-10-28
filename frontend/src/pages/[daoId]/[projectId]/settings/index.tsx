@@ -1,5 +1,6 @@
 import { DistributionSetting } from "@/components/setting/DistributionSetting"
 import { PollDeadlineSetting } from "@/components/setting/PollDeadlineSetting"
+import { PollPerspectiveSetting } from "@/components/setting/PollPerspectiveSetting"
 import { SBTSetting } from "@/components/setting/SBTSetting"
 import { TokenSetting } from "@/components/setting/TokenSetting"
 import { TreasurySetting } from "@/components/setting/TreasurySetting"
@@ -15,12 +16,13 @@ const SettingPage = () => {
             <Title size="h1">Settings</Title>
         </Center>
         <Center mb="md">
-            <Text color="dimmed">Setting is being built now! </Text>
+            <Text color="dimmed">Setting is being built now! Most features still don't work.</Text>
         </Center>
 
         <TokenSetting />
         <TreasurySetting />
         <DistributionSetting />
+        <PollPerspectiveSetting />
         <PollDeadlineSetting />
         <SBTSetting />
     </Container>
