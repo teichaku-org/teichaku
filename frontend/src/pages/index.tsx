@@ -7,7 +7,7 @@ const Home = () => {
     <div>
       <Container>
         <HeroTitle />
-        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSKP4SSpyIQr4w-fALfFCA9QEB_79ICG4hZEQZbz_TBkIvFda4ckj6hsqovAlUnKHZsdcRk54qJDFoa/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+        <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSKP4SSpyIQr4w-fALfFCA9QEB_79ICG4hZEQZbz_TBkIvFda4ckj6hsqovAlUnKHZsdcRk54qJDFoa/embed?start=false&loop=false&delayms=3000" frameBorder="0" width="960" height="569" allowFullScreen={true} ></iframe>
         <div style={{ height: 100 }} />
         <Problems />
       </Container>
