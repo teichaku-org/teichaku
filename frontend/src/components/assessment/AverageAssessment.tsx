@@ -11,21 +11,15 @@ import { AssessmentRadar } from "../graphs/AssessmentRadar";
 export const AverageAssessment = () => {
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { fetchPollDetail } = usePoll({ daoId: daoId as string, projectId: projectId as string });
+  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { address } = useMetaMask();
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
-  const [perspectives, setPerspectives] = useState<string[]>([]);
+  const perspectives = pollDetail?.perspectives || []
+  const averageAccessment = getAverageAssessment(assessments, perspectives, address, daoHistory);
 
   useEffect(() => {
-    if (fetchPollDetail) {
-      //NOTE pollIdごとにperspectivesが変わるが一旦これで良い
-      fetchPollDetail(daoHistory[0].pollId).then((res) => {
-        setPerspectives(res?.perspectives || []);
-      });
-    }
-  }, [fetchPollDetail]);
-
-  const averageAccessment = getAverageAssessment(assessments, perspectives, address, daoHistory);
+    loadCurrentMaxPoll()
+  }, [])
 
   return (
     <>

@@ -17,7 +17,7 @@ const AssessmentTabs = (props: Props) => {
   if (!address) {
     return (
       <Container>
-        <Text>Your MetaMask address not found</Text>
+        <Text>You don't connect metamask yet. Connect wallet from right top button.</Text>
       </Container>
     );
   }

@@ -33,7 +33,7 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
                         {icon}
                     </ThemeIcon>
 
-                    <Text size="sm">{label}</Text>
+                    <Text size="md">{label}</Text>
                 </Group>
             </UnstyledButton>
         </Link>

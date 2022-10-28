@@ -18,10 +18,15 @@ interface Props {
 export const SingleAssessment = (props: Props) => {
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const { fetchPollDetail } = usePoll({ daoId: daoId as string, projectId: projectId as string })
+    const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string })
     const { address } = useMetaMask()
     const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string })
-    const [perspectives, setPerspectives] = useState<string[]>([])
+
+    const perspectives = pollDetail?.perspectives || []
+    useEffect(() => {
+        //TODO: pollIdごとに異なるperspectivesを取得したい
+        loadCurrentMaxPoll()
+    }, [])
 
     const contribution = daoHistory.find((item) => item.contributor === props.contributor && item.pollId === props.pollId)
     const targetAssessments = assessments.filter((item) => item.contributor === props.contributor && item.pollId === props.pollId)
@@ -35,15 +40,6 @@ export const SingleAssessment = (props: Props) => {
         return b.comment.length - a.comment.length
     })
     const evidences = contribution?.evidences
-    useEffect(() => {
-        if (fetchPollDetail) {
-            fetchPollDetail(props.pollId).then(res => {
-                setPerspectives(res?.perspectives || [])
-            })
-        }
-    }, [fetchPollDetail])
-
-
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     const isYourContribution = props.contributor === address
     return <div >
