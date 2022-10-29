@@ -1,6 +1,6 @@
 import { Links } from "@/constants/Links";
 import { UnstyledButton, Group, ThemeIcon, Text } from "@mantine/core";
-import { IconGitPullRequest, IconAlertCircle, IconMessages, IconDatabase, IconInfoSquare, IconBackhoe, IconCoin, IconSettings } from "@tabler/icons";
+import { IconGitPullRequest, IconAlertCircle, IconMessages, IconDatabase, IconInfoSquare, IconBackhoe, IconCoin, IconSettings, IconWalk } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -46,12 +46,13 @@ export const NavbarLinks = () => {
     const { daoId, projectId } = router.query
     let commonPath = Links.getCommonPath()
     if (!(daoId && projectId)) {
-        const commonPath = process.env.NEXT_PUBLIC_DEMO_PATH
+        commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || commonPath
     }
     const data = [
-        { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'Overviews', path: commonPath + "/overview" },
+        { icon: <IconInfoSquare size={16} />, color: 'green', label: 'Overviews', path: commonPath + "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },
-        { icon: <IconMessages size={16} />, color: 'violet', label: 'Poll', path: commonPath + "/poll" },
+        { icon: <IconWalk size={16} />, color: 'cyan', label: 'Contribution', path: commonPath + "/contribution" },
+        { icon: <IconMessages size={16} />, color: 'indigo', label: 'Poll', path: commonPath + "/poll" },
         { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: commonPath + "/assessments" },
         { icon: <IconSettings size={16} />, color: 'grape', label: 'Settings', path: commonPath + "/settings" },
     ];
