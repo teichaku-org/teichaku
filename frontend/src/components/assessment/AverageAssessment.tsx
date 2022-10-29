@@ -8,14 +8,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 
-export const AverageAssessment = () => {
+interface Props {
+  address: string
+}
+
+export const AverageAssessment = (props: Props) => {
   const router = useRouter();
   const { daoId, projectId } = router.query;
   const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
-  const { address } = useMetaMask();
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const perspectives = pollDetail?.perspectives || []
-  const averageAccessment = getAverageAssessment(assessments, perspectives, address, daoHistory);
+  const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
 
   useEffect(() => {
     loadCurrentMaxPoll()

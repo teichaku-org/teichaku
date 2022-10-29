@@ -9,7 +9,6 @@ export const getAverageAssessment = (
   daoHistory: DaoHistory[]
 ) => {
   const myDaoHistory = daoHistory.filter((dao) => dao.contributor === contributor);
-
   //singleAssessmentを集める
   const singleAssessments = [];
   for (const mydao of myDaoHistory) {

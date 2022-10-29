@@ -255,7 +255,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
           `}
         >
           <Text
-            size="xl"
+            size="sm"
             align="left"
             color={theme.colorScheme === "dark" ? "white" : "black"}
           >

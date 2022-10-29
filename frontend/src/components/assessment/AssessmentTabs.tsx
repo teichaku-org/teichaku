@@ -9,11 +9,11 @@ import { Assessment } from "@/domains/Assessment";
 
 interface Props {
   daoHistory: DaoHistory[];
+  address: string
 }
 
 const AssessmentTabs = (props: Props) => {
-  const { daoHistory } = props;
-  const { address } = useMetaMask();
+  const { daoHistory, address } = props;
   if (!address) {
     return (
       <Container>
@@ -38,7 +38,7 @@ const AssessmentTabs = (props: Props) => {
       </Tabs.List>
 
       <Tabs.Panel value="total" pt="xs">
-        <TotalTab myDaoHistory={myDaoHistory()} />
+        <TotalTab myDaoHistory={myDaoHistory()} address={address} />
       </Tabs.Panel>
 
       <Tabs.Panel value="individual" pt="xs">

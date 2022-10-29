@@ -1,4 +1,4 @@
-import { Grid, Paper, ThemeIcon, Title, Text, Stack, Group } from "@mantine/core";
+import { Grid, Paper, ThemeIcon, Title, Text, Stack, Group, Center } from "@mantine/core";
 
 import { AssessmentBar } from "../graphs/AssessmentBar";
 import { AssessmentLine } from "../graphs/AssessmentLine";
@@ -18,6 +18,7 @@ import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 
 interface Props {
   myDaoHistory: DaoHistory[];
+  address: string; //TODO: myDaoHistoryを渡すかaddressを渡すか統一する
 }
 
 const TotalTab = (props: Props) => {
@@ -26,9 +27,9 @@ const TotalTab = (props: Props) => {
   const [contractAddress] = useAtom(PollContractAddress)
 
   const loadCurrentMaxPollId = async () => {
+    //TODO: hookからアクセスするようにする
     const contract = getContract(contractAddress, artifact.abi) as Poll;
     const currentMaxPollId = await contract.functions.currentMaxPollId();
-    console.log(currentMaxPollId[0].toNumber());
     setCurrentMaxPollId(currentMaxPollId[0].toNumber());
   };
 
@@ -78,13 +79,17 @@ const TotalTab = (props: Props) => {
           <Stack spacing={0}>
             <TotalReward reward={String(Math.round(totalReward))} />
             <Group>
-              <Text size="xs" color="dimmed" mt={7}>
+              <Text size="xs" color="dimmed">
                 Compared to previous reward
               </Text>
-              <Text color="teal" size="xl" weight={500}>
-                <span>+{Math.round(((totalReward - previousTotalReward) / totalReward) * 100)}%</span>
-                <IconArrowUpRight size={23} stroke={1.5} />
-              </Text>
+              <Center>
+                <Text color="teal" size={27} weight={500}>
+                  +{Math.round(((totalReward - previousTotalReward) / totalReward) * 100)}%
+                </Text>
+                <Text color="teal" mt="xs">
+                  <IconArrowUpRight size={27} stroke={1.5} />
+                </Text>
+              </Center>
             </Group>
           </Stack>
         </Paper>
@@ -133,7 +138,7 @@ const TotalTab = (props: Props) => {
         <CumulativeReward />
       </Grid.Col>
       <Grid.Col md={12} lg={4}>
-        <AverageAssessment />
+        <AverageAssessment address={props.address} />
       </Grid.Col>
       <Grid.Col md={12} lg={8}>
         <RewardHistoryCol />
