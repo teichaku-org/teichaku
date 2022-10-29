@@ -17,7 +17,10 @@ const Poll = () => {
   const { address } = useMetaMask()
   const router = useRouter()
   const { daoId, projectId } = router.query
-  const { isAdmin, checkIsAdmin, pollDetail, contractAddress, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll, settleCurrentPollAndCreateNewPoll } =
+  const { isAdmin, checkIsAdmin, pollDetail,
+    contractAddress, contributorReward, vote, candidateToPoll,
+    loadCurrentMaxPoll, settleCurrentPollAndCreateNewPoll,
+    voterReward } =
     usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
 
@@ -34,6 +37,7 @@ const Poll = () => {
   if (!pollDetail) return <div>Loading</div>;
   const voters = pollDetail.voters;
   const candidates = pollDetail.contributions;
+  const incentiveForVoters = Math.round(voterReward / voters.length)
 
   const _vote = async (points: number[][], comments: string[]) => {
     if (!vote) return;
@@ -67,6 +71,8 @@ const Poll = () => {
       <PollEndInfo
         startDate={pollDetail.startTimeStamp}
         endDate={pollDetail.endTimeStamp} />
+      <Text>Current Reviewer Incentive: <b>{incentiveForVoters} {tokenSymbol}</b></Text>
+      <div style={{ height: 10 }} />
       <PollSystem
         candidates={candidates}
         alreadyVoted={pollDetail.alreadyVoted}

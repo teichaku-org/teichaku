@@ -1,7 +1,7 @@
-import { Button, Card, Text, TextInput } from "@mantine/core"
+import { Button, Card, Paper, Text, TextInput } from "@mantine/core"
 
 export const DistributionSetting = () => {
-    return <Card mb="lg">
+    return <Paper p="lg" mb="lg">
         <Text size="md" weight={700} >
             Distribution
         </Text>
@@ -13,9 +13,9 @@ export const DistributionSetting = () => {
         />
         <TextInput
             placeholder="3000"
-            label="Voter Distribution"
+            label="Reviewer Distribution"
             mb="sm"
         />
         <Button>Update</Button>
-    </Card>
+    </Paper>
 }

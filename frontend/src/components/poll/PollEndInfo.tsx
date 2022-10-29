@@ -25,7 +25,7 @@ export const PollEndInfo = (props: Props) => {
 
     return <>
         <Text color="dimmed">{intervalText}</Text>
-        <Text mb="lg">
+        <Text>
             The current SprintReview end in{"  "}
             <Text
                 size="xl"

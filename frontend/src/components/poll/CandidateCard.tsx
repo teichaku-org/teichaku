@@ -1,6 +1,6 @@
 import { Contribution } from "@/domains/Contribution"
 import { css } from "@emotion/react"
-import { Alert, Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
+import { Alert, Card, Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
 import { IconAlertCircle, IconCoin } from "@tabler/icons"
 import { CandidateInfo } from "./CandidateInfo"
 
@@ -47,7 +47,7 @@ export const CandidateCard = (props: Props) => {
             />)
     }
 
-    return <Paper p="lg" radius="lg" withBorder mb="lg">
+    return <Card p="lg" radius="lg" withBorder mb="lg">
         {props.disabled && <Alert mb="lg" color="blue" icon={<IconAlertCircle size={16} />} >
             This is your contribution, so you can't vote for yourself
         </Alert>}
@@ -98,5 +98,5 @@ export const CandidateCard = (props: Props) => {
             value={props.comment}
             disabled={props.disabled}
         />
-    </Paper >
+    </Card >
 }

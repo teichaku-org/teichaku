@@ -1,12 +1,15 @@
-import { Button, Card, TextInput } from "@mantine/core"
+import { Button, Text, Paper, TextInput } from "@mantine/core"
 
 export const TokenSetting = () => {
-    return <Card mb="lg">
+    return <Paper p="lg" mb="lg">
+        <Text size="md" weight={700} >
+            Token for distribution
+        </Text>
         <TextInput
             placeholder="0x..."
-            label="Token Address"
+            label="ERC20 Token Address"
             mb="sm"
         />
         <Button>Update</Button>
-    </Card>
+    </Paper>
 }

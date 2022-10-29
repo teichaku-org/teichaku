@@ -109,7 +109,7 @@ export function TokenInfoCard(props: Props) {
                 size={30}
                 sections={[
                     { value: contributorRewardPercent, color: 'blue', label: 'Contributor', tooltip: contributorValue },
-                    { value: voterRewardPercent, color: 'grape', label: 'Voter', tooltip: voterValue },
+                    { value: voterRewardPercent, color: 'grape', label: 'Reviewer', tooltip: voterValue },
                 ]}
             />
         </Paper>
