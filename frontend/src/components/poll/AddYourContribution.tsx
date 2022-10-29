@@ -20,7 +20,7 @@ export const AddYourContribution = (props: Props) => {
             size="xl"
             onClose={() => setOpened(false)}
         >
-            <ContributionCard candidateToPoll={candidateToPoll} />
+            <ContributionCard candidateToPoll={candidateToPoll} title="Explain Your Contributions!" />
         </Modal>
 
 
