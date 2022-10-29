@@ -1,6 +1,6 @@
 import useDaoToken from '@/hooks/dao/useDaoToken';
 import usePoll from '@/hooks/dao/usePoll';
-import { Text, Progress, Card, Button, Input, TextInput } from '@mantine/core';
+import { Text, Progress, Card, Button, Input, TextInput, Paper } from '@mantine/core';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -16,9 +16,9 @@ export const TreasurySetting = () => {
         sendToken(contractAddress, Number(value))
     }
 
-    return <Card mb="lg">
+    return <Paper p="lg" mb="lg">
         <Text size="md" weight={700} >
-            Treasury
+            Treasury Balance
         </Text>
         <Text size="lg" weight={500} mb="md">
             {treasuryBalance} {tokenSymbol}
@@ -31,5 +31,5 @@ export const TreasurySetting = () => {
             value={value}
         />
         <Button onClick={_sendToken}>Add</Button>
-    </Card>
+    </Paper>
 }

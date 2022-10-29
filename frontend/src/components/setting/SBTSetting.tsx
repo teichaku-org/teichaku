@@ -1,12 +1,15 @@
-import { Button, Card, TextInput } from "@mantine/core"
+import { Button, Text, Paper, TextInput } from "@mantine/core"
 
 export const SBTSetting = () => {
-    return <Card mb="lg">
+    return <Paper p="lg" mb="lg">
+        <Text size="md" weight={700} >
+            SBT For Review
+        </Text>
         <TextInput
             placeholder="0x..."
             label="SBT Address"
             mb="sm"
         />
         <Button>Update</Button>
-    </Card>
+    </Paper>
 }

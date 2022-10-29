@@ -68,7 +68,7 @@ export const SingleAssessment = (props: Props) => {
         <Evidences evidences={evidences || []} />
 
         {/* 投票者 & コメント */}
-        <Text mt="lg" mb="xs" color="dimmed">Voters and Comments</Text>
+        <Text mt="lg" mb="xs" color="dimmed">Reviewers and Comments</Text>
         <Comments comments={comments} />
 
         {/* 自分のだったらNFT化 */}
