@@ -2,6 +2,7 @@ import { Button, Group, Modal, MultiSelect, SimpleGrid, Textarea, TextInput, Tit
 import { IconPlus } from "@tabler/icons"
 import { useEffect, useState } from "react"
 import { useForm } from '@mantine/form';
+import { ContributionExamples } from "./ContributionExamples";
 
 interface Props {
     voted: boolean
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const AddYourContribution = (props: Props) => {
+    const [showExample, setShowExample] = useState(true)
     const [roles, setRoles] = useState([
         "Engineer",
         "Designer",
@@ -53,79 +55,89 @@ export const AddYourContribution = (props: Props) => {
         clearLocalStorage()
         setOpened(false)
     }
+
+    const onClickExample = (exmapleText: string) => {
+        form.setFieldValue("contributionText", exmapleText)
+        setShowExample(false)
+    }
     return <>
         <Modal
             opened={opened}
             size="xl"
             onClose={() => setOpened(false)}
         >
-            <Title
-                order={2}
-                size="h1"
-                sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
-                weight={900}
-                align="center"
-            >
-                Explain Your Contributions!
-            </Title>
+            {showExample ? <ContributionExamples onClick={onClickExample} /> :
+                <>
+                    <Title
+                        order={2}
+                        size="h1"
+                        sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
+                        weight={900}
+                        align="center"
+                    >
+                        Explain Your Contributions!
+                    </Title>
 
-            <Textarea
-                mt="md"
-                label="Your contribution"
-                placeholder="What did you do for the DAO?"
-                maxRows={10}
-                minRows={5}
-                autosize
-                name="contributionText"
-                variant="filled"
-                {...form.getInputProps('contributionText')}
-                required={true}
-            />
-            <TextInput
-                label="Evidence Url 1"
-                placeholder="https://..."
-                mt="md"
-                name="evidence1"
-                variant="filled"
-                {...form.getInputProps('evidence1')}
-            />
-            {form.values.evidence1 && <TextInput
-                label="Evidence Url 2"
-                placeholder="https://..."
-                mt="md"
-                name="evidence2"
-                variant="filled"
-                {...form.getInputProps('evidence2')}
-            />
-            }
-            {form.values.evidence2 && <TextInput
-                label="Evidence Url 3"
-                placeholder="https://..."
-                mt="md"
-                name="evidence3"
-                variant="filled"
-                {...form.getInputProps('evidence3')}
-            />
-            }
 
-            <MultiSelect
-                mt="md"
-                label="Your Roles"
-                placeholder="Type your role"
-                data={roles}
-                searchable
-                creatable
-                dropdownPosition="top"
-                getCreateLabel={(query) => `+ Create ${query}`}
-                onCreate={(query) => {
-                    setRoles([...roles, query]);
-                    return query;
-                }}
-                {...form.getInputProps('roles')} />
-            <Group position="center" mt="xl">
-                <Button color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
-                <Button radius="md" onClick={_candidate} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
-            </Group>
+                    <Textarea
+                        mt="md"
+                        label="Your contribution"
+                        placeholder="What did you do for the DAO?"
+                        maxRows={10}
+                        minRows={5}
+                        autosize
+                        name="contributionText"
+                        variant="filled"
+                        {...form.getInputProps('contributionText')}
+                        required={true}
+                    />
+
+                    <TextInput
+                        label="Evidence Url 1"
+                        placeholder="https://..."
+                        mt="md"
+                        name="evidence1"
+                        variant="filled"
+                        {...form.getInputProps('evidence1')}
+                    />
+                    {form.values.evidence1 && <TextInput
+                        label="Evidence Url 2"
+                        placeholder="https://..."
+                        mt="md"
+                        name="evidence2"
+                        variant="filled"
+                        {...form.getInputProps('evidence2')}
+                    />
+                    }
+                    {form.values.evidence2 && <TextInput
+                        label="Evidence Url 3"
+                        placeholder="https://..."
+                        mt="md"
+                        name="evidence3"
+                        variant="filled"
+                        {...form.getInputProps('evidence3')}
+                    />
+                    }
+
+                    <MultiSelect
+                        mt="md"
+                        label="Your Roles"
+                        placeholder="Type your role"
+                        data={roles}
+                        searchable
+                        creatable
+                        dropdownPosition="top"
+                        getCreateLabel={(query) => `+ Create ${query}`}
+                        onCreate={(query) => {
+                            setRoles([...roles, query]);
+                            return query;
+                        }}
+                        {...form.getInputProps('roles')} />
+                    <Group position="center" mt="xl">
+                        <Button color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
+                        <Button radius="md" onClick={_candidate} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
+                    </Group>
+                </>}
         </Modal>
 
 
