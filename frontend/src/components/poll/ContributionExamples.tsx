@@ -20,8 +20,16 @@ export const ContributionExamples = (props: Props) => {
             description: "I advertised the project on ...",
         },
         {
+            title: "Development",
+            description: "I developed a new ...",
+        },
+        {
             title: "Design",
             description: "I designed a new ...",
+        },
+        {
+            title: "Analysis",
+            description: "I analized ...",
         },
         {
             title: "Anything!!",

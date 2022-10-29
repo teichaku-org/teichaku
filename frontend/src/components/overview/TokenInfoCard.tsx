@@ -102,7 +102,7 @@ export function TokenInfoCard(props: Props) {
             </Group>
 
             <Text size="xl" color="dimmed" mt="xl" mb="sm">
-                Distributions Per Sprint
+                Total Distributions Per Sprint
             </Text>
             <Progress
                 radius="xl"

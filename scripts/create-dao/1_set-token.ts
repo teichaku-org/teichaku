@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
-const daoId = "test3";
-const projectId = "test3";
+const daoId = "web3hackathon";
+const projectId = "demo";
 const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
 async function main() {
     const daoHistory = await ethers.getContractAt("DAOHistory", daoHistoryAddress);
@@ -12,8 +12,8 @@ async function main() {
 
     // tokenの発行
     const Token = await ethers.getContractFactory("DAOToken");
-    const NAME = "Chen Token"
-    const SYMBOL = "CHEN"
+    const NAME = "Hackathon Token";
+    const SYMBOL = "HACK";
     const INITIAL_SUPPLY = ethers.utils.parseEther("100000");
     const token = await Token.deploy(NAME, SYMBOL, INITIAL_SUPPLY);
     await token.deployed();

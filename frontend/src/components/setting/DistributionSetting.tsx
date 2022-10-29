@@ -8,12 +8,12 @@ export const DistributionSetting = () => {
 
         <TextInput
             placeholder="7000"
-            label="Contributor Distribution"
+            label="Contributor Distribution(Total)"
             mb="sm"
         />
         <TextInput
             placeholder="3000"
-            label="Reviewer Distribution"
+            label="Reviewer Distribution(Total)"
             mb="sm"
         />
         <Button>Update</Button>
