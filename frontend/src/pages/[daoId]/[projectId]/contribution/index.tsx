@@ -1,4 +1,5 @@
 import { ContributionCard } from "@/components/contribution/ContributionCard";
+import { PollEndInfo } from "@/components/poll/PollEndInfo";
 import { PollSystem } from "@/components/poll/PollSystem";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
@@ -16,8 +17,12 @@ const Poll = () => {
     useDaoLoad()
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const { candidateToPoll } =
+    const { candidateToPoll, pollDetail, loadCurrentMaxPoll, contractAddress } =
         usePoll({ daoId: daoId as string, projectId: projectId as string });
+
+    useEffect(() => {
+        loadCurrentMaxPoll();
+    }, [contractAddress])
 
     const _candidateToPoll = async (
         contributionText: string,
@@ -28,9 +33,10 @@ const Poll = () => {
         await candidateToPoll(contributionText, evidences, roles);
     };
 
-
+    if (!pollDetail) return <div>Loading</div>;
     return (
         <Container>
+            <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
             <ContributionCard candidateToPoll={_candidateToPoll} />
         </Container>
     );

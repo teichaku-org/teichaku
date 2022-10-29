@@ -1,3 +1,4 @@
+import { PollEndInfo } from "@/components/poll/PollEndInfo";
 import { PollSystem } from "@/components/poll/PollSystem";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
@@ -19,10 +20,8 @@ const Poll = () => {
   const { isAdmin, checkIsAdmin, pollDetail, contractAddress, contributorReward, vote, candidateToPoll, loadCurrentMaxPoll, settleCurrentPollAndCreateNewPoll } =
     usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
-  const [leftTimeStr, setLeftTimeStr] = useState("");
 
   useEffect(() => {
-    console.log({ contractAddress })
     loadCurrentMaxPoll();
   }, [contractAddress])
 
@@ -31,18 +30,10 @@ const Poll = () => {
   }, [address])
 
 
-  const interval = useInterval(() => {
-    if (endTimeStamp) setLeftTimeStr(getLeftTime(endTimeStamp));
-  }, 1000);
-  useEffect(() => {
-    interval.start();
-    return interval.stop;
-  }, [pollDetail]);
+
   if (!pollDetail) return <div>Loading</div>;
   const voters = pollDetail.voters;
   const candidates = pollDetail.contributions;
-  const startTimeStamp = pollDetail.startTimeStamp;
-  const endTimeStamp = pollDetail.endTimeStamp;
 
   const _vote = async (points: number[][], comments: string[]) => {
     if (!vote) return;
@@ -70,20 +61,12 @@ const Poll = () => {
     <Container>
 
       <Center>
-        <Title size="h1">Contribution Poll</Title>
+        <Title size="h1">SprintReview</Title>
       </Center>
 
-      <Text mb="lg">
-        This poll end in{"  "}
-        <Text
-          size="xl"
-          span
-          variant="gradient"
-          gradient={{ from: "blue", to: "grape" }}
-        >
-          {leftTimeStr}
-        </Text>
-      </Text>
+      <PollEndInfo
+        startDate={pollDetail.startTimeStamp}
+        endDate={pollDetail.endTimeStamp} />
       <PollSystem
         candidates={candidates}
         alreadyVoted={pollDetail.alreadyVoted}
