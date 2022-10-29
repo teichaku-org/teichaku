@@ -43,7 +43,10 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
 export const NavbarLinks = () => {
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const commonPath = `/${daoId}/${projectId}`
+    let commonPath = `/${daoId}/${projectId}`
+    if (!(daoId && projectId)) {
+        const commonPath = process.env.NEXT_PUBLIC_DEMO_PATH
+    }
     const data = [
         { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'Overviews', path: commonPath + "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },
