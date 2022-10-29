@@ -9,6 +9,7 @@ import NodataMessage from "@/components/common/NodataMsg";
 import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
+import { FloatingAddButton } from "@/components/contribution/FloatingAddButton";
 
 const History: NextPage = () => {
   useDaoExistCheck()
@@ -37,6 +38,7 @@ const History: NextPage = () => {
     <div
     >
       <HistoryList data={daoHistory} title={title} subTitle={subTitle} />
+      <FloatingAddButton />
     </div>
   );
 };

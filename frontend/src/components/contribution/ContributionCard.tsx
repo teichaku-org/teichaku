@@ -36,6 +36,7 @@ export const ContributionCard = (props: Props) => {
         const candidate = localStorage.getItem("candidate")
         if (candidate) {
             form.setValues(JSON.parse(candidate))
+            setShowExample(false)
         }
     }
 

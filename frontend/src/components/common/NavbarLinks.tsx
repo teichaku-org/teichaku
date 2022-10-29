@@ -52,7 +52,7 @@ export const NavbarLinks = () => {
         { icon: <IconInfoSquare size={16} />, color: 'green', label: 'Overviews', path: commonPath + "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },
         { icon: <IconWalk size={16} />, color: 'cyan', label: 'Contribution', path: commonPath + "/contribution" },
-        { icon: <IconMessages size={16} />, color: 'indigo', label: 'Poll', path: commonPath + "/poll" },
+        { icon: <IconMessages size={16} />, color: 'indigo', label: 'SprintReview', path: commonPath + "/poll" },
         { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: commonPath + "/assessments" },
         { icon: <IconSettings size={16} />, color: 'grape', label: 'Settings', path: commonPath + "/settings" },
     ];
