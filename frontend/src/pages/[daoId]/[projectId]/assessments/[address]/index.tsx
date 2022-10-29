@@ -1,23 +1,21 @@
 import type { NextPage } from "next";
-import { css } from "@emotion/react";
 
-import useDaoHistory from "@/hooks/dao/useDaoHistory";
-import { useEffect } from "react";
-import { Center, Container, Loader, Title } from "@mantine/core";
 import AssessmentTab from "@/components/assessment/AssessmentTabs";
 import NodataMessage from "@/components/common/NodataMsg";
-import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
+import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
-import useMetaMask from "@/hooks/web3/useMetaMask";
+import { shortenAddress } from "@/utils/shortenAddress";
+import { Center, Container, Loader, Title } from "@mantine/core";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Assessment: NextPage = () => {
   useDaoExistCheck()
   useDaoLoad()
   const router = useRouter()
-  const { daoId, projectId } = router.query
+  const { daoId, projectId, address } = router.query
   const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
-  const { address } = useMetaMask();
   useEffect(() => {
     if (daoId && projectId) {
       load();
@@ -35,9 +33,9 @@ const Assessment: NextPage = () => {
   return (
     <div>
       <Center>
-        <Title size="h1">Your Assessments</Title>
+        <Title size="h1">{shortenAddress(address as string)} Assessments</Title>
       </Center>
-      <AssessmentTab daoHistory={daoHistory} address={address} />
+      <AssessmentTab daoHistory={daoHistory} address={address as string} />
     </div>
   );
 };

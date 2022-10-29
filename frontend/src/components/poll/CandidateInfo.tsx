@@ -1,4 +1,5 @@
 
+import { Links } from "@/constants/Links"
 import { Contribution } from "@/domains/Contribution"
 import { shortenAddress } from "@/utils/shortenAddress"
 import { shortenUrl } from "@/utils/shortenUrl"
@@ -13,10 +14,15 @@ interface Props {
 
 
 export const CandidateInfo = (props: Props) => {
-    return <div>
+    const link = Links.getCommonPath() + "/assessments/" + props.candidate.contributor;
 
+    return <div>
         <RoleBadge roles={props.candidate.roles} />
-        <Text span size="xs" >by <Text variant="link" span >{shortenAddress(props.candidate.contributor)}</Text></Text>
+        <Text span size="xs" >by
+            <Link href={link}>
+                <Text variant="link" span >{shortenAddress(props.candidate.contributor)}</Text>
+            </Link>
+        </Text>
 
         <Text
             my="xl"

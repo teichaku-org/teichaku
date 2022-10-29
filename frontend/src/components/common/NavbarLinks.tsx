@@ -1,3 +1,4 @@
+import { Links } from "@/constants/Links";
 import { UnstyledButton, Group, ThemeIcon, Text } from "@mantine/core";
 import { IconGitPullRequest, IconAlertCircle, IconMessages, IconDatabase, IconInfoSquare, IconBackhoe, IconCoin, IconSettings } from "@tabler/icons";
 import Link from "next/link";
@@ -43,7 +44,10 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
 export const NavbarLinks = () => {
     const router = useRouter()
     const { daoId, projectId } = router.query
-    const commonPath = `/${daoId}/${projectId}`
+    let commonPath = Links.getCommonPath()
+    if (!(daoId && projectId)) {
+        const commonPath = process.env.NEXT_PUBLIC_DEMO_PATH
+    }
     const data = [
         { icon: <IconInfoSquare size={16} />, color: 'blue', label: 'Overviews', path: commonPath + "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },

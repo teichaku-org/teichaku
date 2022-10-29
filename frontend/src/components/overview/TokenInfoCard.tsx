@@ -63,7 +63,6 @@ export function TokenInfoCard(props: Props) {
                             {shortenAddress(contractAddress)}
                         </Text>
                         <IconCopyButton text={contractAddress} />
-
                     </Group>
                 </Card>
                 <Card p="xl">

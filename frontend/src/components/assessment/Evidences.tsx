@@ -1,5 +1,4 @@
-import { shortenAddress } from "@/utils/shortenAddress";
-import { Anchor, Avatar, createStyles, Group, List, Paper, Spoiler, Text } from "@mantine/core"
+import { Anchor, List, Spoiler } from "@mantine/core";
 
 
 interface Props {
