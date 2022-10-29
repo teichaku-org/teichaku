@@ -18,7 +18,7 @@ export const CandidateInfo = (props: Props) => {
 
     return <div>
         <RoleBadge roles={props.candidate.roles} />
-        <Text span size="xs" >by
+        <Text span size="xs" >by{" "}
             <Link href={link}>
                 <Text variant="link" span >{shortenAddress(props.candidate.contributor)}</Text>
             </Link>

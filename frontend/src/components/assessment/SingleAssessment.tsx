@@ -1,8 +1,11 @@
+import { Links } from "@/constants/Links"
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import usePoll from "@/hooks/dao/usePoll"
 import useMetaMask from "@/hooks/web3/useMetaMask"
 import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment"
+import { shortenAddress } from "@/utils/shortenAddress"
 import { Button, Center, Container, Paper, Text } from "@mantine/core"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { AssessmentRadar } from "../graphs/AssessmentRadar"
@@ -42,7 +45,14 @@ export const SingleAssessment = (props: Props) => {
     const evidences = contribution?.evidences
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     const isYourContribution = props.contributor === address
+    const link = Links.getCommonPath() + "/assessments/" + props.contributor;
+
     return <div >
+        <Text span size="xs" >by{" "}
+            <Link href={link}>
+                <Text variant="link" span >{shortenAddress(props.contributor)}</Text>
+            </Link>
+        </Text>
 
         <Text mt="lg" mb="xs" color="dimmed">Earned tokens</Text>
 
