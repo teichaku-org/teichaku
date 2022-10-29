@@ -23,7 +23,7 @@ export const Comments = (props: Props) => {
                 <Group>
                     <Avatar color="cyan" radius="xl" >{c.author?.substring(2, 4)}</Avatar>
                     <div>
-                        <Text span size="xs" >by
+                        <Text span size="xs" >by{" "}
                             <Link href={link}>
                                 <Text variant="link" span >{shortenAddress(c.author)}</Text>
                             </Link>
