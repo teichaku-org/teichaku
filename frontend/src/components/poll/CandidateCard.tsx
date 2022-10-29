@@ -1,5 +1,4 @@
 import { Contribution } from "@/domains/Contribution"
-import useDaoToken from "@/hooks/dao/useDaoToken"
 import { css } from "@emotion/react"
 import { Alert, Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core"
 import { IconAlertCircle, IconCoin } from "@tabler/icons"
@@ -87,7 +86,6 @@ export const CandidateCard = (props: Props) => {
                         </span>
                     </Text>
                 </Center>
-
             </Grid.Col>
 
         </Grid>
