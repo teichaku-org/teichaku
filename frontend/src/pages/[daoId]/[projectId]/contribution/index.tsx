@@ -36,8 +36,8 @@ const Poll = () => {
     if (!pollDetail) return <div>Loading</div>;
     return (
         <Container>
-            <Center>
-                <Title size="h1">Explain Your Contribution</Title>
+            <Center m="md">
+                <Title size="h1">Explain Your Contribution!</Title>
             </Center>
             <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
             <ContributionCard candidateToPoll={_candidateToPoll} />
