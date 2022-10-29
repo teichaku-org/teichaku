@@ -42,7 +42,7 @@ export const ContributionExamples = (props: Props) => {
 
         <Group position="center" mt="lg">
             {examples.map(e => {
-                return <Button size="lg" onClick={() => props.onClick(e.description)} variant="light">{e.title}</Button>
+                return <Button key={e.title} size="lg" onClick={() => props.onClick(e.description)} variant="light">{e.title}</Button>
             })}
         </Group>
     </Card>
