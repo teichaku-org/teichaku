@@ -5,6 +5,7 @@ import { ContributionExamples } from "../poll/ContributionExamples";
 
 interface Props {
     candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void
+    title?: string
 }
 
 export const ContributionCard = (props: Props) => {
@@ -60,15 +61,15 @@ export const ContributionCard = (props: Props) => {
     }
     return <>{showExample ? <ContributionExamples onClick={onClickExample} /> :
         <>
-            <Title
+            {props.title ? <Title
                 order={2}
                 size="h1"
                 sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily}` })}
                 weight={900}
                 align="center"
             >
-                Explain Your Contributions!
-            </Title>
+                {props.title}
+            </Title> : <div />}
 
 
             <Textarea
