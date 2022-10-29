@@ -37,7 +37,7 @@ const Poll = () => {
   if (!pollDetail) return <div>Loading</div>;
   const voters = pollDetail.voters;
   const candidates = pollDetail.contributions;
-  const incentiveForVoters = Math.round(voterReward / voters.length)
+  const incentiveForVoters = Math.round(voterReward / (voters.length + 1))
 
   const _vote = async (points: number[][], comments: string[]) => {
     if (!vote) return;
