@@ -1,4 +1,5 @@
 import { AppInfo } from '@/constants/AppInfo';
+import { useLocale } from '@/i18n/useLocale';
 import { createStyles, Container, Text, Button, Group } from '@mantine/core';
 import { ActionButtons } from './ActionButtons';
 
@@ -49,16 +50,16 @@ const useStyles = createStyles((theme) => ({
 
 export function HeroTitle() {
     const { classes } = useStyles();
-
+    const { t } = useLocale()
     return (
         <div className={classes.wrapper}>
             <Container size={700} className={classes.inner}>
                 <h1 className={classes.title}>
-                    New DAO Framework to{' '}
+                    {t.LP.HeroText1}
                     <Text component="span" variant="gradient" gradient={{ from: 'blue', to: 'grape' }} inherit>
-                        Make a Lasting Impact
-                    </Text>{' '}
-                    and Retain members.
+                        {t.LP.HeroText2Colorful}
+                    </Text>
+                    {t.LP.HeroText3}
                 </h1>
 
                 <Text className={classes.description} color="dimmed">

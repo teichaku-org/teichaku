@@ -64,7 +64,6 @@ const MyApp = ({ Component, pageProps }: any) => {
             {/* パスが/である場合は表示する */}
             {!Component.noNeedWallet && (
               <>
-                <MetamaskCheck />
                 <NetworkCheck />
               </>
             )}

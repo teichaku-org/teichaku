@@ -1,15 +1,14 @@
 import useMetaMask from "@/hooks/web3/useMetaMask";
 import {
-  Button,
+  Center,
   Container,
   createStyles,
-  Header,
-  ThemeIcon,
+  Header
 } from "@mantine/core";
-import { IconCoin, IconLogout } from "@tabler/icons";
 import { ConnectWallet } from "../web3/login/ConnectWallet";
 import { AppLogo } from "./AppLogo";
 import { AppMenu } from "./AppMenu";
+import { LanguagePicker } from "./LanguagePicker";
 
 const HEADER_HEIGHT = 70;
 
@@ -30,7 +29,11 @@ export function AppHeader() {
     <Header height={HEADER_HEIGHT} mb={120}>
       <Container className={classes.inner}>
         <AppLogo />
-        {address ? <AppMenu /> : <ConnectWallet />}
+        <Center>
+          <LanguagePicker />
+          <div style={{ width: 10 }} />
+          {address ? <AppMenu /> : <ConnectWallet />}
+        </Center>
       </Container>
     </Header>
   );
