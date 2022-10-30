@@ -1,4 +1,5 @@
 import { AppInfo } from "@/constants/AppInfo"
+import { useLocale } from "@/i18n/useLocale";
 import { Group, Button, createStyles } from "@mantine/core"
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -27,6 +28,7 @@ const useStyles = createStyles((theme) => ({
 
 export const ActionButtons = () => {
     const { classes } = useStyles();
+    const { t } = useLocale()
     return <Group className={classes.controls}>
         <Button
             size="xl"
@@ -36,7 +38,7 @@ export const ActionButtons = () => {
             component="a"
             href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/history`}
         >
-            Demo
+            {t.Button.Demo}
         </Button>
 
         <Button
@@ -46,7 +48,7 @@ export const ActionButtons = () => {
             className={classes.control}
             href={AppInfo.inqueryUrl}
         >
-            Create Your DAO
+            {t.Button.CreateYourDAO}
         </Button>
     </Group>
 }

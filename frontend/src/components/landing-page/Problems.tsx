@@ -1,3 +1,4 @@
+import { useLocale } from '@/i18n/useLocale';
 import { Container, Text, SimpleGrid, Skeleton, useMantineTheme, createStyles, Center } from '@mantine/core';
 import { SolutionCard } from './SolutionCard';
 const BREAKPOINT = '@media (max-width: 755px)';
@@ -25,8 +26,7 @@ interface ProblemProps {
     solutionName: string;
     image: string;
 }
-export const Problem = ({ title, solutionTitle, solutionName, image }: ProblemProps) => {
-    const theme = useMantineTheme();
+const Problem = ({ title, solutionTitle, solutionName, image }: ProblemProps) => {
     const { classes } = useStyles();
     return <Container my="xl">
         <SimpleGrid cols={2} spacing="lg" breakpoints={[{ maxWidth: 'sm', cols: 1 }]}>
@@ -45,29 +45,30 @@ export const Problem = ({ title, solutionTitle, solutionName, image }: ProblemPr
 }
 
 export const Problems = () => {
+    const { t } = useLocale()
     const problems = [
         {
-            title: "Newcomers don't have idea what the DAO are doing?",
-            solutionTitle: "All Contributions that DAO members have made so far is recorded and helps newcomers to understand DAO.",
-            solutionName: "The history of DAO is recorded on blockchain.",
+            title: t.LP.Problems.Onboarding.Title,
+            solutionTitle: t.LP.Problems.Onboarding.SolutionTitle,
+            solutionName: t.LP.Problems.Onboarding.SolutionName,
             image: "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/history.png"
         },
         {
-            title: "The hurdle to get rewards is too high!",
-            solutionTitle: "Any contribution is fine, just give it a try and everyone will evaluate it.",
-            solutionName: "You can register your contributions without permission!",
+            title: t.LP.Problems.Hurdle.Title,
+            solutionTitle: t.LP.Problems.Hurdle.SolutionTitle,
+            solutionName: t.LP.Problems.Hurdle.SolutionName,
             image: "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/contribution.png"
         },
         {
-            title: "Unclear benefits of participation",
-            solutionTitle: "The evaluation will be the token reward directly as it is. And evaluations and comments on your contributions are recorded on blockchain and can be exported as NFT.",
-            solutionName: "Token and NFT are issued for your contribution.",
+            title: t.LP.Problems.Reward.Title,
+            solutionTitle: t.LP.Problems.Reward.SolutionTitle,
+            solutionName: t.LP.Problems.Reward.SolutionName,
             image: "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/assessment.png"
         }
     ]
     return <Container size="lg">
         <h2>
-            <Text variant='gradient' gradient={{ from: "blue", to: "grape" }} >Problems of DAO and Our Solutions</Text>
+            <Text variant='gradient' gradient={{ from: "blue", to: "grape" }} >{t.LP.Problems.Title}</Text>
         </h2>
         {problems.map((problem, index) =>
             <Problem

@@ -63,7 +63,7 @@ export function HeroTitle() {
                 </h1>
 
                 <Text className={classes.description} color="dimmed">
-                    Fully on-chain and decentrized token distribution systems that are friendly to newcomers and core members.
+                    {t.LP.HeroSubText}
                 </Text>
 
                 <ActionButtons />
