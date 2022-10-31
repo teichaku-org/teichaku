@@ -6,9 +6,10 @@ import { useRouter } from "next/router"
 export const FloatingAddButton = () => {
     const router = useRouter()
     const onClick = () => {
-        const commonPath = Links.getCommonPath()
+        const commonPath = Links.getCommonPath(router)
         router.push(commonPath + "/contribution")
     }
+
     return <div style={{ position: "fixed", right: 20, bottom: 20 }}>
         <ActionIcon onClick={onClick} color="blue" size={50} radius="xl" variant="filled">
             <IconPlus size={34} />

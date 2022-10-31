@@ -1,11 +1,11 @@
 import { AppFooter } from "@/components/common/AppFooter";
 import { AppHeader } from "@/components/common/AppHeader";
 import { AppNavbar } from "@/components/common/AppNavbar";
-import { MetamaskCheck } from "@/components/web3/common/MetamaskCheck";
 import { AppInfo } from "@/constants/AppInfo";
 import { AppShell, MantineProvider } from "@mantine/core";
 import dynamic from "next/dynamic";
 import NetworkCheck from "../components/web3/common/NetworkCheck";
+import { NotificationsProvider } from '@mantine/notifications';
 
 const MyApp = ({ Component, pageProps }: any) => {
   const SafeHydrate = dynamic(() => import("./SafeHydrage"), { ssr: false });
@@ -46,29 +46,31 @@ const MyApp = ({ Component, pageProps }: any) => {
             },
           }}
         >
-          <AppShell
-            padding="md"
-            navbarOffsetBreakpoint={"lg"}
-            navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
-            header={<AppHeader />}
-            footer={Component.noNavbar ? <AppFooter /> : undefined}
-            styles={(theme) => ({
-              main: {
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[8]
-                    : theme.colors.gray[0],
-              },
-            })}
-          >
-            {/* パスが/である場合は表示する */}
-            {!Component.noNeedWallet && (
-              <>
-                <NetworkCheck />
-              </>
-            )}
-            <Component {...pageProps} />
-          </AppShell>
+          <NotificationsProvider>
+            <AppShell
+              padding="md"
+              navbarOffsetBreakpoint={"md"}
+              navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
+              header={<AppHeader />}
+              footer={Component.noNavbar ? <AppFooter /> : undefined}
+              styles={(theme) => ({
+                main: {
+                  backgroundColor:
+                    theme.colorScheme === "dark"
+                      ? theme.colors.dark[8]
+                      : theme.colors.gray[0],
+                },
+              })}
+            >
+              {/* パスが/である場合は表示する */}
+              {!Component.noNeedWallet && (
+                <>
+                  <NetworkCheck />
+                </>
+              )}
+              <Component {...pageProps} />
+            </AppShell>
+          </NotificationsProvider>
         </MantineProvider>
       </div>
     );

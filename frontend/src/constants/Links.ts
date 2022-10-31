@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
+import { NextRouter, Router, useRouter } from "next/router";
 
 export const Links = {
-    getCommonPath: () => {
-        const router = useRouter();
+    getCommonPath: (router: NextRouter) => {
         const { daoId, projectId } = router.query;
         return `/${daoId}/${projectId}`;
     }

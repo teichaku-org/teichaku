@@ -8,7 +8,7 @@ import { shortenAddress } from "@/utils/shortenAddress";
 import { Button, Center, Container, Paper, Text } from "@mantine/core";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 import { Comments } from "./Comments";
 import { EarnedCoin } from "./EarnedCoin";
@@ -38,21 +38,18 @@ export const SingleAssessment = (props: Props) => {
   const targetAssessments = assessments.filter(
     (item) => item.contributor === props.contributor && item.pollId === props.pollId
   );
-  const comments = targetAssessments
-    .map((item) => {
-      return {
-        comment: item.comment,
-        author: item.voter,
-        timestamp: contribution?.timestamp || new Date(),
-      };
-    })
-    .sort((a, b) => {
-      return b.comment.length - a.comment.length;
-    });
+  const comments = targetAssessments.map((item) => {
+    return {
+      comment: item.comment,
+      author: item.voter,
+      timestamp: contribution?.timestamp || new Date(),
+    };
+  });
   const evidences = contribution?.evidences;
+
   const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId);
   const isYourContribution = props.contributor === address;
-  const link = Links.getCommonPath() + "/assessments/" + props.contributor;
+  const link = Links.getCommonPath(router) + "/assessments/" + props.contributor;
 
   return (
     <div>
@@ -100,7 +97,7 @@ export const SingleAssessment = (props: Props) => {
       <Text mt="lg" mb="xs" color="dimmed">
         {t.Assessment.SingleAssessment.ReviewersAndComments}
       </Text>
-      <Comments comments={comments} />
+      <Comments comments={comments} pollId={props.pollId} />
 
       {/* 自分のだったらNFT化 */}
       <Center>

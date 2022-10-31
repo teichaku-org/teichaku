@@ -5,7 +5,7 @@ import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import usePoll from "@/hooks/dao/usePoll"
-import { Grid } from "@mantine/core"
+import { Center, Grid, Title, Text } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -32,6 +32,14 @@ const Overview = () => {
 
     if (!daoInfo) return <div>Loading</div>
     return <div>
+        <Center>
+            <Title size="h1">DAO Overview</Title>
+        </Center>
+
+        <Center mb="md">
+            <Text color="dimmed">The Details of DAO and its Token</Text>
+        </Center>
+
         <Grid>
             <Grid.Col sm={12} md={6}>
                 <OrganizationCard
@@ -56,10 +64,6 @@ const Overview = () => {
                 />
             </Grid.Col>
         </Grid>
-
-
-
-
     </div>
 }
 export default Overview
