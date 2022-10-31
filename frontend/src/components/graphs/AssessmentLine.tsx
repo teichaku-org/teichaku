@@ -18,7 +18,7 @@ export const AssessmentLine = ({ data }: Props) => {
       theme={theme}
       data={data}
       yScale={{ type: "linear", stacked: false, min: 0 }}
-      margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
+      margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
       animate={true}
       colors={["#a5d8ff"]}
       pointSize={10}
