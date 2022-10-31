@@ -1,6 +1,6 @@
 import { ethers } from "hardhat";
 
-const daoId = "web3hackathon";
+const daoId = "hackathon";
 const projectId = "demo";
 const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
 async function main() {

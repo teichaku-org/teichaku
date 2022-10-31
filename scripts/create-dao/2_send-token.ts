@@ -1,10 +1,10 @@
 import { ethers } from "hardhat";
 import { getSigner } from "../../frontend/src/hooks/web3/useMetaMask";
 
-const daoId = "web3hackathon";
+const daoId = "hackathon";
 const projectId = "demo";
 const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
-const tokenAddress = ""
+const tokenAddress = "0xeCC7Bb4cf28Dc6fe99A9f0Fb0AdFD5a2E0F7707A"
 const contributorReward = ethers.utils.parseEther("7000");
 const voterReward = ethers.utils.parseEther("3000");
 async function main() {

@@ -43,6 +43,7 @@ export const SingleAssessment = (props: Props) => {
         return b.comment.length - a.comment.length
     })
     const evidences = contribution?.evidences
+
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     const isYourContribution = props.contributor === address
     const link = Links.getCommonPath(router) + "/assessments/" + props.contributor;
@@ -79,7 +80,7 @@ export const SingleAssessment = (props: Props) => {
 
         {/* 投票者 & コメント */}
         <Text mt="lg" mb="xs" color="dimmed">Reviewers and Comments</Text>
-        <Comments comments={comments} />
+        <Comments comments={comments} pollId={props.pollId} />
 
         {/* 自分のだったらNFT化 */}
         <Center>
