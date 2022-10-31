@@ -124,16 +124,21 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
           roles[key] = false;
         });
         setFilterObjRoles(roles);
-        return;
+      } else {
+        Object.keys(filterObjRoles).forEach((key) => {
+          roles[key] = true;
+        });
+        setFilterObjRoles(roles);
       }
-      Object.keys(filterObjRoles).forEach((key) => {
-        roles[key] = true;
-      });
-      setFilterObjRoles(roles);
       return;
+    } else {
+      const roles = { ...filterObjRoles };
+      roles[role] = !roles[role];
+      if (!roles[role]) {
+        roles["all"] = false;
+      }
+      setFilterObjRoles(roles);
     }
-
-    setFilterObjRoles({ ...filterObjRoles, [role]: !filterObjRoles[role] });
     return;
   };
 

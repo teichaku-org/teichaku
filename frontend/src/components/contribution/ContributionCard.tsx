@@ -2,6 +2,9 @@ import { Title, Textarea, TextInput, MultiSelect, Group, Button } from "@mantine
 import { useForm } from "@mantine/form";
 import { useState, useEffect } from "react";
 import { ContributionExamples } from "../poll/ContributionExamples";
+import { showNotification } from '@mantine/notifications';
+import { Router, useRouter } from "next/router";
+import { Links } from "@/constants/Links";
 
 interface Props {
     candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void
@@ -9,6 +12,8 @@ interface Props {
 }
 
 export const ContributionCard = (props: Props) => {
+    const router = useRouter()
+    const sprintReviewPath = Links.getCommonPath(router) + "/poll"
     const [showExample, setShowExample] = useState(true)
     const [roles, setRoles] = useState([
         "Engineer",
@@ -53,6 +58,16 @@ export const ContributionCard = (props: Props) => {
     const _candidate = async () => {
         clearLocalStorage()
         await props.candidateToPoll(form.values.contributionText, [form.values.evidence1, form.values.evidence2, form.values.evidence3], form.values.roles)
+        showNotification({
+            id: "candidate",
+            title: 'Your Contribution is sent to blockchain!',
+            message: 'Please wait for the transaction to be completed.',
+            autoClose: 4000,
+            loading: true,
+            onClose: () => {
+                router.push(sprintReviewPath)
+            }
+        })
     }
 
     const onClickExample = (exmapleText: string) => {

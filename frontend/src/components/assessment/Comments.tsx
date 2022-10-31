@@ -12,6 +12,7 @@ const useStyles = createStyles((theme) => ({
 
 interface Props {
     comments: { comment: string, author: string, timestamp: Date }[]
+    pollId: number
 }
 
 export const Comments = (props: Props) => {
@@ -21,7 +22,7 @@ export const Comments = (props: Props) => {
     return <Spoiler maxHeight={400} showLabel="Show more" hideLabel="Hide">
         {props.comments.map(c => {
             const link = Links.getCommonPath(router) + "/assessments/" + c.author;
-            return <Paper key={c.comment} withBorder radius="md" p="md" mb="md">
+            return <Paper key={c.author + props.pollId} withBorder radius="md" p="md" mb="md">
                 <Group>
                     <Avatar color="cyan" radius="xl" >{c.author?.substring(2, 4)}</Avatar>
                     <div>

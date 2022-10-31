@@ -1,17 +1,17 @@
 import { ethers } from "hardhat";
 
 
-const daoId = "web3hackathon";
+const daoId = "hackathon";
 const projectId = "demo";
 const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
 
 async function main() {
     const daoHistory = await ethers.getContractAt("DAOHistory", daoHistoryAddress);
 
-    const daoName = "Web3Hackathon Test DAO";
-    const daoDescription = "This is a test";
+    const daoName = "Web3Hackathon DAO";
+    const daoDescription = "This is a demo DAO for Web3Hackathon";
     const website = ""
-    const logo = "https://pbs.twimg.com/profile_images/1573337831023398912/9n_sTKRu_400x400.jpg"
+    const logo = "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg"
 
     await daoHistory.addDao(daoId, projectId, daoName, daoDescription, website, logo);
 }
