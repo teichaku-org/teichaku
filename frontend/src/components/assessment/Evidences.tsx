@@ -1,3 +1,4 @@
+import { shortenUrl } from "@/utils/shortenUrl";
 import { Anchor, List, Spoiler } from "@mantine/core";
 
 
@@ -11,7 +12,7 @@ export const Evidences = (props: Props) => {
         <List type="ordered" size="sm">
             {evidences.map((e, index) => {
                 return <List.Item key={e + index}>
-                    <Anchor href={e} target="_blank" rel="noreferrer">{e}</Anchor>
+                    <Anchor href={e} target="_blank" rel="noreferrer">{shortenUrl(e)}</Anchor>
                 </List.Item>
             })}
         </List>
