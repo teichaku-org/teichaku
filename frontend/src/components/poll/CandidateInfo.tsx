@@ -6,6 +6,7 @@ import { shortenUrl } from "@/utils/shortenUrl"
 import { css } from "@emotion/react"
 import { Anchor, Text } from "@mantine/core"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { RoleBadge } from "../common/RoleBadge"
 
 interface Props {
@@ -14,7 +15,8 @@ interface Props {
 
 
 export const CandidateInfo = (props: Props) => {
-    const link = Links.getCommonPath() + "/assessments/" + props.candidate.contributor;
+    const router = useRouter()
+    const link = Links.getCommonPath(router) + "/assessments/" + props.candidate.contributor;
 
     return <div>
         <RoleBadge roles={props.candidate.roles} />

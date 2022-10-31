@@ -1,9 +1,11 @@
 import { Links } from "@/constants/Links";
 import { Button, Container, Group, Title } from "@mantine/core";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const NodataMessage = () => {
-  const commonPath = Links.getCommonPath()
+  const router = useRouter()
+  const commonPath = Links.getCommonPath(router)
   return (
     <Container>
       <Title
