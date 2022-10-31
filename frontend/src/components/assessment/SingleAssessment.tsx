@@ -45,7 +45,7 @@ export const SingleAssessment = (props: Props) => {
     const evidences = contribution?.evidences
     const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
     const isYourContribution = props.contributor === address
-    const link = Links.getCommonPath() + "/assessments/" + props.contributor;
+    const link = Links.getCommonPath(router) + "/assessments/" + props.contributor;
 
     return <div >
         <Text span size="xs" >by{" "}

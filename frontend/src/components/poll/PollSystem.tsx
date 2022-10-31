@@ -1,6 +1,8 @@
 import { Contribution } from "@/domains/Contribution"
 import useMetaMask from "@/hooks/web3/useMetaMask"
-import { Alert, Button, Group } from "@mantine/core"
+import { Alert, Button, Group, Space, useMantineTheme } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
+import { Container } from "@nivo/core"
 import { IconAlertCircle, IconPlus } from "@tabler/icons"
 import { useEffect, useState } from "react"
 import { AddYourContribution } from "./AddYourContribution"
@@ -22,7 +24,9 @@ export const PollSystem = (props: Props) => {
     const [pointObject, setPointObject] = useState<{ [key: string]: number[] }>({})
     const [commentObject, setCommentObject] = useState<{ [key: string]: string }>({})
     const [distributionObject, setDistributionObject] = useState<{ [key: string]: number }>({})
-
+    //smarller than md
+    const theme = useMantineTheme()
+    const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`)
     useEffect(() => {
         loadLocalStorage()
     }, [])
@@ -102,17 +106,14 @@ export const PollSystem = (props: Props) => {
 
     const renderSaveButton = () => {
         if (props.candidates.length === 0) return null
-        return <><Group position="center" my="xl">
-            <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
-            <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
-        </Group>
-
-            {
-                props.isAdmin ? <Group position="center" my="xl">
-                    <Button size="xl" color="red" radius="md" onClick={props.settle}>Settle This Poll(Only Admin Can Do it)</Button>
-                </Group> : <div />
-            }
-        </>
+        return <div style={{ position: "fixed", bottom: 0, right: 0, left: matches ? 0 : 250 }}>
+            <Container>
+                <Group position="center" my="xl" >
+                    <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>Save Draft</Button>
+                    <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: 'blue', to: 'grape' }}>Submit to Blockchain</Button>
+                </Group>
+            </Container>
+        </div >
     }
 
     return <div>
@@ -126,6 +127,12 @@ export const PollSystem = (props: Props) => {
                 You already voted but you can vote for revision
             </Alert> : <div />}
 
+        <Space h={100} />
         {renderSaveButton()}
+        {
+            props.isAdmin ? <Group position="center" my="xl">
+                <Button size="xl" color="red" radius="md" onClick={props.settle}>Settle This Poll(Only Admin Can Do it)</Button>
+            </Group> : <div />
+        }
     </div>
 }
