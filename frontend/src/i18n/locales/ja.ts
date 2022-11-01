@@ -1,4 +1,24 @@
 export const ja = {
+  Overview: {
+    Title: "DAOの概要",
+    SubTitle: "DAOの詳細とトークンについて",
+    OrganizationCard: {
+      Contributions: "貢献",
+      Contributors: "貢献者",
+      Voters: "投票者",
+    },
+    TokenInfoCard: {
+      RewardsToken: "トークンについて",
+      ContractAddress: "コントラクトアドレス",
+      TokenName: "トークン名",
+      TokenSymbol: "トークンシンボル",
+      TotalSupply: "合計発行数",
+      TreasuryBalance: "トレジャリー残高",
+      TotalDistributionsPerSprint: "スプリントごとのトークン分配割合",
+      Contributor: "貢献者",
+      Reviewer: "レビュアー",
+    },
+  },
   LP: {
     HeroText1: "メンバーを定着させて",
     HeroText2Colorful: "継続的なインパクトを生み出す",
@@ -33,12 +53,18 @@ export const ja = {
     FilterByRole: "ロールで絞り込む",
     MintNFT: "NFTにする",
     AppMenu: "メニュー",
+    Follow: "フォローする",
+    Unfollow: "フォローを解除",
+    ConnectWallet: "ウォレットを接続",
   },
   Common: {
     NodataMessage: {
       Title: "貢献を始めましょう!",
     },
     AppMenu: {
+      Info: "情報",
+      Events: "イベント",
+      Admin: "管理",
       Overviews: "概要",
       History: "ヒストリー",
       Contribution: "貢献登録",
@@ -63,7 +89,7 @@ export const ja = {
   },
   Assessment: {
     SingleAssessment: {
-      EarnedTokens: "稼いだトークン",
+      EarnedTokens: "獲得トークン",
       Assessments: "評価",
       Contribution: "貢献内容",
       Evidences: "エビデンス",

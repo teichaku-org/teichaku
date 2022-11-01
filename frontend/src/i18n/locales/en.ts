@@ -1,4 +1,24 @@
 export const en = {
+  Overview: {
+    Title: "DAO Overview",
+    SubTitle: "The Details of DAO and its Token",
+    OrganizationCard: {
+      Contributions: "Contributions",
+      Contributors: "Contributors",
+      Voters: "Voters",
+    },
+    TokenInfoCard: {
+      RewardsToken: "Rewards Token",
+      ContractAddress: " Contract Address",
+      TokenName: "Token Name",
+      TokenSymbol: "Token Symbol",
+      TotalSupply: "Total Supply",
+      TreasuryBalance: "Treasury Balance",
+      TotalDistributionsPerSprint: "Total Distributions Per Sprint",
+      Contributor: "Contributor",
+      Reviewer: "Reviewer",
+    },
+  },
   LP: {
     HeroText1: "New DAO Framework to ",
     HeroText2Colorful: "Make a Lasting Impact",
@@ -33,12 +53,18 @@ export const en = {
     FilterByRole: "Filter by role",
     MintNFT: "Mint NFT",
     AppMenu: "menu",
+    Follow: "Follow",
+    Unfollow: "Unfollow",
+    ConnectWallet: "Connect Wallet",
   },
   Common: {
     NodataMessage: {
       Title: "Let's Start Contributing!",
     },
     AppMenu: {
+      Info: "Info",
+      Events: "Events",
+      Admin: "Admin",
       Overviews: "Overviews",
       History: "History",
       Contribution: "Contribution",
