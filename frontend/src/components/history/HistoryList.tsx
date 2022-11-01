@@ -98,10 +98,10 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
 
   //TODO: viewとkeyは分ける
   const [sortKeys, setSortKeys] = useState<SortKeys>({
-    Newest: true,
-    Oldest: false,
-    Largest: false,
-    Smallest: false,
+    [t.History.SortKeys.Newest]: true,
+    [t.History.SortKeys.Oldest]: false,
+    [t.History.SortKeys.Largest]: false,
+    [t.History.SortKeys.Smallest]: false,
   });
 
   const handleFilterRoles = (role: string) => {
@@ -166,14 +166,14 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
   }, []);
 
   const sortBy = (): keyof DaoHistory | null => {
-    if (sortKeys["Newest"] || sortKeys["Oldest"]) {
+    if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Oldest]) {
       return "timestamp";
     }
     return "reward";
   };
 
   const reversed = (): boolean => {
-    if (sortKeys["Newest"] || sortKeys["Smallest"]) {
+    if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Smallest]) {
       return false;
     }
     return true;

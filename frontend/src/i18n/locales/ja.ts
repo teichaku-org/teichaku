@@ -32,10 +32,19 @@ export const ja = {
     SortBy: "並び替え",
     FilterByRole: "ロールで絞り込む",
     MintNFT: "NFTにする",
+    AppMenu: "メニュー",
   },
   Common: {
     NodataMessage: {
       Title: "貢献を始めましょう!",
+    },
+    AppMenu: {
+      Overviews: "概要",
+      History: "歴史",
+      Contribution: "貢献",
+      SprintReview: "スプリントレビュー",
+      Assessments: "評価",
+      Settings: "設定",
     },
   },
   History: {
@@ -44,6 +53,12 @@ export const ja = {
     HistoryList: {
       Contributions: "貢献",
       NothingFound: "貢献が見つかりませんでした。",
+    },
+    SortKeys: {
+      Newest: "最新順",
+      Oldest: "古い順",
+      Largest: "大きな貢献順",
+      Smallest: "小さな貢献順",
     },
   },
   Assessment: {

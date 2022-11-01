@@ -32,10 +32,19 @@ export const en = {
     SortBy: "Sort by",
     FilterByRole: "Filter by role",
     MintNFT: "Mint NFT",
+    AppMenu: "menu",
   },
   Common: {
     NodataMessage: {
       Title: "Let's Start Contributing!",
+    },
+    AppMenu: {
+      Overviews: "Overviews",
+      History: "History",
+      Contribution: "Contribution",
+      SprintReview: "SprintReview",
+      Assessments: "Assessments",
+      Settings: "Settings",
     },
   },
   History: {
@@ -44,6 +53,12 @@ export const en = {
     HistoryList: {
       Contributions: "Contributions",
       NothingFound: "Nothing found",
+    },
+    SortKeys: {
+      Newest: "Newest",
+      Oldest: "Oldest",
+      Largest: "Largest",
+      Smallest: "Smallest",
     },
   },
   Assessment: {
