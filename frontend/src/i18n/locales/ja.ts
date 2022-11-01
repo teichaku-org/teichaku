@@ -10,7 +10,7 @@ export const ja = {
         Title: "新しく入ってきた人には、DAOが何をしているかわからない",
         SolutionTitle:
           "DAOメンバーが過去に行ったすべての貢献が記録され、新しく入ってきた人がDAOを理解するのに役立ちます。",
-        SolutionName: "DAOの歴史をブロックチェーンに",
+        SolutionName: "DAOのヒストリーをブロックチェーンに",
       },
       Hurdle: {
         Title: "報酬を得るためのハードルが高すぎる！",
@@ -40,15 +40,15 @@ export const ja = {
     },
     AppMenu: {
       Overviews: "概要",
-      History: "歴史",
-      Contribution: "貢献",
+      History: "ヒストリー",
+      Contribution: "貢献登録",
       SprintReview: "スプリントレビュー",
       Assessments: "評価",
       Settings: "設定",
     },
   },
   History: {
-    Title: (daoname: string) => `${daoname}の歴史`,
+    Title: (daoname: string) => `${daoname}のヒストリー`,
     SubTitle: (daoname: string) => `${daoname}メンバーの貢献一覧`,
     HistoryList: {
       Contributions: "貢献",
