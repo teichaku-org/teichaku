@@ -58,7 +58,7 @@ const TotalTab = (props: Props) => {
     };
 
     const previousTotalReward = totalReward - getLatestReward();
-
+    const upRate = Math.round(((totalReward - previousTotalReward) / totalReward) * 100) || 0
     return (
       <>
         <Title mt="md" size="h3">
@@ -84,7 +84,7 @@ const TotalTab = (props: Props) => {
               </Text>
               <Center>
                 <Text color="teal" size={27} weight={500}>
-                  +{Math.round(((totalReward - previousTotalReward) / totalReward) * 100)}%
+                  +{upRate}%
                 </Text>
                 <Text color="teal" mt="xs">
                   <IconArrowUpRight size={27} stroke={1.5} />
