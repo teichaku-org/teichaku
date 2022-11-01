@@ -4,12 +4,10 @@ import { IconChartLine, IconChartPie3 } from "@tabler/icons";
 import { DaoHistory } from "@/domains/DaoHistory";
 import IndivisualTab from "./IndivisualTab";
 import TotalTab from "./TotalTab";
-import useMetaMask from "@/hooks/web3/useMetaMask";
-import { Assessment } from "@/domains/Assessment";
 
 interface Props {
   daoHistory: DaoHistory[];
-  address: string
+  address: string;
 }
 
 const AssessmentTabs = (props: Props) => {

@@ -6,15 +6,15 @@ import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import { shortenAddress } from "@/utils/shortenAddress";
-import { Center, Container, Loader, Title } from "@mantine/core";
+import { Center, Loader, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Assessment: NextPage = () => {
-  useDaoExistCheck()
-  useDaoLoad()
-  const router = useRouter()
-  const { daoId, projectId, address } = router.query
+  useDaoExistCheck();
+  useDaoLoad();
+  const router = useRouter();
+  const { daoId, projectId, address } = router.query;
   const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   useEffect(() => {
     if (daoId && projectId) {
@@ -24,9 +24,9 @@ const Assessment: NextPage = () => {
 
   if (!daoHistory && !assessments)
     return (
-      <Container>
+      <Center>
         <Loader size="lg" variant="dots" />
-      </Container>
+      </Center>
     );
   if (daoHistory.length === 0) return <NodataMessage />;
 

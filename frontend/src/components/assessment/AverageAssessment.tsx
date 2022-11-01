@@ -1,15 +1,14 @@
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import usePoll from "@/hooks/dao/usePoll";
-import useMetaMask from "@/hooks/web3/useMetaMask";
 import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
-import { Loader, Paper, ThemeIcon, Title } from "@mantine/core";
+import { Paper, ThemeIcon, Title } from "@mantine/core";
 import { IconChartRadar } from "@tabler/icons";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 
 interface Props {
-  address: string
+  address: string;
 }
 
 export const AverageAssessment = (props: Props) => {
@@ -17,12 +16,12 @@ export const AverageAssessment = (props: Props) => {
   const { daoId, projectId } = router.query;
   const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
-  const perspectives = pollDetail?.perspectives || []
+  const perspectives = pollDetail?.perspectives || [];
   const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
 
   useEffect(() => {
-    loadCurrentMaxPoll()
-  }, [])
+    loadCurrentMaxPoll();
+  }, []);
 
   return (
     <>

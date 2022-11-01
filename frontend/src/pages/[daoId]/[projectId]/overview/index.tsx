@@ -6,7 +6,7 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useDaoToken from "@/hooks/dao/useDaoToken";
 import usePoll from "@/hooks/dao/usePoll";
 import { useLocale } from "@/i18n/useLocale";
-import { Center, Grid, Title, Text } from "@mantine/core";
+import { Center, Grid, Title, Text, Loader } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -32,7 +32,12 @@ const Overview = () => {
     }
   }, [daoId, projectId]);
 
-  if (!daoInfo) return <div>Loading</div>;
+  if (!daoInfo)
+    return (
+      <Center>
+        <Loader size="lg" variant="dots" />
+      </Center>
+    );
   return (
     <div>
       <Center>

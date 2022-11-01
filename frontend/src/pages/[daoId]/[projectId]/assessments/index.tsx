@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { css } from "@emotion/react";
 
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
@@ -12,10 +11,10 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useMetaMask from "@/hooks/web3/useMetaMask";
 
 const Assessment: NextPage = () => {
-  useDaoExistCheck()
-  useDaoLoad()
-  const router = useRouter()
-  const { daoId, projectId } = router.query
+  useDaoExistCheck();
+  useDaoLoad();
+  const router = useRouter();
+  const { daoId, projectId } = router.query;
   const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const { address } = useMetaMask();
   useEffect(() => {

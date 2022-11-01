@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import { useEffect } from "react";
-import { Center, Container, Loader } from "@mantine/core";
+import { Center, Loader } from "@mantine/core";
 import NodataMessage from "@/components/common/NodataMsg";
 import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
@@ -29,9 +29,9 @@ const History: NextPage = () => {
 
   if (!daoHistory)
     return (
-      <Container>
+      <Center>
         <Loader size="lg" variant="dots" />
-      </Container>
+      </Center>
     );
   if (daoHistory.length === 0) return <NodataMessage />;
 
