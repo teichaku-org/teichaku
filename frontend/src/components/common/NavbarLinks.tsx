@@ -1,5 +1,5 @@
 import { Links } from "@/constants/Links";
-import { UnstyledButton, Group, ThemeIcon, Text } from "@mantine/core";
+import { UnstyledButton, Group, ThemeIcon, Text, Divider, Space } from "@mantine/core";
 import { IconGitPullRequest, IconAlertCircle, IconMessages, IconDatabase, IconInfoSquare, IconBackhoe, IconCoin, IconSettings, IconWalk } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -51,13 +51,32 @@ export const NavbarLinks = () => {
     const data = [
         { icon: <IconInfoSquare size={16} />, color: 'green', label: 'Overviews', path: commonPath + "/overview" },
         { icon: <IconBackhoe size={16} />, color: 'teal', label: 'History', path: commonPath + "/history" },
+        { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: commonPath + "/assessments" },
+    ]
+    const event = [
         { icon: <IconWalk size={16} />, color: 'cyan', label: 'Contribution', path: commonPath + "/contribution" },
         { icon: <IconMessages size={16} />, color: 'indigo', label: 'SprintReview', path: commonPath + "/poll" },
-        { icon: <IconCoin size={16} />, color: 'violet', label: 'Assessments', path: commonPath + "/assessments" },
+    ]
+    const admin = [
         { icon: <IconSettings size={16} />, color: 'grape', label: 'Settings', path: commonPath + "/settings" },
     ];
 
-    const links = data.map((link) => <MainLink {...link} key={link.label} />);
-    return <div>{links}</div>;
+    const dataLinks = data.map((link) => <MainLink {...link} key={link.label} />);
+    const eventLinks = event.map((link) => <MainLink {...link} key={link.label} />);
+    const adminLinks = admin.map((link) => <MainLink {...link} key={link.label} />);
+    return <div>
+        <Text color="dimmed">Info</Text>
+        {dataLinks}
+        <Space h="md" />
+        <Divider />
+        <Space h="md" />
+        <Text color="dimmed">Events</Text>
+        {eventLinks}
+        <Space h="md" />
+        <Divider />
+        <Space h="md" />
+        <Text color="dimmed">Admin</Text>
+        {adminLinks}
+    </div>;
 
 }
