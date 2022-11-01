@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { css } from "@emotion/react";
 
 import { HistoryList } from "@/components/history/HistoryList";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
@@ -10,16 +9,18 @@ import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import { FloatingAddButton } from "@/components/contribution/FloatingAddButton";
+import { useLocale } from "@/i18n/useLocale";
 
 const History: NextPage = () => {
-  useDaoExistCheck()
-  useDaoLoad()
-  const router = useRouter()
-  const { daoId, projectId } = router.query
+  const { t } = useLocale();
+  useDaoExistCheck();
+  useDaoLoad();
+  const router = useRouter();
+  const { daoId, projectId } = router.query;
   const { daoHistory, daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
-  const title = `The History of ${daoInfo?.name || "DAO"}`
-  const subTitle = `A list of contributions of the ${daoInfo?.name || "DAO"} member`
-  console.log({ daoHistory })
+  const title = t.History.Title(daoInfo?.name || "DAO");
+  const subTitle = t.History.SubTitle(daoInfo?.name || "DAO");
+  console.log({ daoHistory });
   useEffect(() => {
     if (daoId && projectId) {
       load();
@@ -35,8 +36,7 @@ const History: NextPage = () => {
   if (daoHistory.length === 0) return <NodataMessage />;
 
   return (
-    <div
-    >
+    <div>
       <HistoryList data={daoHistory} title={title} subTitle={subTitle} />
       <FloatingAddButton />
     </div>

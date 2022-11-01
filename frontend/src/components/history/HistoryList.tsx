@@ -1,13 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Center,
-  Drawer,
-  ScrollArea,
-  Text,
-  Title,
-  useInputProps,
-  useMantineTheme,
-} from "@mantine/core";
+import { Center, Drawer, ScrollArea, Text, Title, useInputProps, useMantineTheme } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import { css } from "@emotion/react";
 import { HistoryCard } from "./HistoryCard";
@@ -15,6 +7,7 @@ import { SortButton } from "./SortButton";
 import { FilterButton } from "./FilterButton";
 import { SingleAssessment } from "../assessment/SingleAssessment";
 import { DaoHistory } from "@/domains/DaoHistory";
+import { useLocale } from "@/i18n/useLocale";
 
 type RowData = DaoHistory;
 interface TableSortProps {
@@ -22,7 +15,6 @@ interface TableSortProps {
   title?: string;
   subTitle?: string;
 }
-
 
 function filterByRole(data: RowData[], filterRoles: string[]) {
   if (filterRoles.includes("all")) return data;
@@ -33,15 +25,10 @@ function filterByRole(data: RowData[], filterRoles: string[]) {
 
 function filterData(data: RowData[], search: string) {
   const query = search.toLowerCase().trim();
-  return data.filter((item) =>
-    keys(data[0]).some((key) => String(item[key]).includes(query))
-  );
+  return data.filter((item) => keys(data[0]).some((key) => String(item[key]).includes(query)));
 }
 
-function sortData(
-  data: RowData[],
-  payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }
-) {
+function sortData(data: RowData[], payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }) {
   const { sortBy } = payload;
 
   if (!sortBy) {
@@ -100,6 +87,7 @@ export interface SortKeys {
 }
 
 export function HistoryList({ data, title, subTitle }: TableSortProps) {
+  const { t } = useLocale();
   const theme = useMantineTheme();
   const [selectedContribution, setSelectedContribution] = useState<{
     pollId: number;
@@ -110,10 +98,10 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
 
   //TODO: viewとkeyは分ける
   const [sortKeys, setSortKeys] = useState<SortKeys>({
-    Newest: true,
-    Oldest: false,
-    Largest: false,
-    Smallest: false,
+    [t.History.SortKeys.Newest]: true,
+    [t.History.SortKeys.Oldest]: false,
+    [t.History.SortKeys.Largest]: false,
+    [t.History.SortKeys.Smallest]: false,
   });
 
   const handleFilterRoles = (role: string) => {
@@ -143,10 +131,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
   };
 
   const onClickCard = (row: { pollId: number; contributor: string }) => {
-    if (
-      selectedContribution?.pollId === row.pollId &&
-      selectedContribution?.contributor === row.contributor
-    ) {
+    if (selectedContribution?.pollId === row.pollId && selectedContribution?.contributor === row.contributor) {
       setSelectedContribution(undefined);
       return;
     }
@@ -181,27 +166,25 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
   }, []);
 
   const sortBy = (): keyof DaoHistory | null => {
-    if (sortKeys["Newest"] || sortKeys["Oldest"]) {
+    if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Oldest]) {
       return "timestamp";
     }
     return "reward";
   };
 
   const reversed = (): boolean => {
-    if (sortKeys["Newest"] || sortKeys["Smallest"]) {
+    if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Smallest]) {
       return false;
     }
     return true;
   };
 
-  const filterRoles = Object.keys(filterObjRoles).filter(
-    (key) => filterObjRoles[key]
-  );
+  const filterRoles = Object.keys(filterObjRoles).filter((key) => filterObjRoles[key]);
   const sortedData = sortData(filterByRole(data, filterRoles), {
     sortBy: sortBy(),
     reversed: reversed(),
     search: "",
-  })
+  });
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -216,9 +199,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
         reward={String(Math.round(row.reward))}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
-        onClick={() =>
-          onClickCard({ pollId: row.pollId, contributor: row.contributor })
-        }
+        onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
       />
     </div>
   ));
@@ -259,15 +240,9 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
             margin-right: 20px;
           `}
         >
-          <Text
-            size="sm"
-            align="left"
-            color={theme.colorScheme === "dark" ? "white" : "black"}
-          >
-            <span style={{ fontSize: "25px", marginRight: 5 }}>
-              {rows.length}
-            </span>
-            Contributions
+          <Text size="sm" align="left" color={theme.colorScheme === "dark" ? "white" : "black"}>
+            <span style={{ fontSize: "25px", marginRight: 5 }}>{rows.length}</span>
+            {t.History.HistoryList.Contributions}
           </Text>
           <div
             css={css`
@@ -276,17 +251,14 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
             `}
           >
             <SortButton sortKeys={sortKeys} handleSortKeys={handleSortKeys} />
-            <FilterButton
-              handleFilterRoles={handleFilterRoles}
-              roles={filterObjRoles}
-            />
+            <FilterButton handleFilterRoles={handleFilterRoles} roles={filterObjRoles} />
           </div>
         </div>
         {rows.length > 0 ? (
           <div>{rows}</div>
         ) : (
           <Text weight={500} align="center">
-            Nothing found
+            {t.History.HistoryList.NothingFound}
           </Text>
         )}
       </div>
@@ -301,10 +273,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
       >
         {selectedContribution && (
           <ScrollArea style={{ height: "100%" }} p="lg">
-            <SingleAssessment
-              pollId={selectedContribution.pollId}
-              contributor={selectedContribution.contributor}
-            />
+            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
           </ScrollArea>
         )}
       </Drawer>
