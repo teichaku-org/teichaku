@@ -1,3 +1,4 @@
+import { useLocale } from "@/i18n/useLocale";
 import { Menu, Button, Checkbox } from "@mantine/core";
 import { IconFilter } from "@tabler/icons";
 
@@ -10,17 +11,12 @@ interface Props {
 
 export function FilterButton(props: Props) {
   const { handleFilterRoles, roles } = props;
-
+  const { t } = useLocale();
   return (
     <Menu closeOnItemClick={false} shadow="md" width={200} withArrow>
       <Menu.Target>
-        <Button
-          leftIcon={<IconFilter />}
-          variant="subtle"
-          color="gray"
-          radius="lg"
-        >
-          Filter by role
+        <Button leftIcon={<IconFilter />} variant="subtle" color="gray" radius="lg">
+          {t.Button.FilterByRole}
         </Button>
       </Menu.Target>
 
