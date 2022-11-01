@@ -13,6 +13,8 @@ interface MainLinkProps {
 }
 
 function MainLink({ icon, color, label, path }: MainLinkProps) {
+    const currentPath = useRouter().asPath;
+    const isActivated = currentPath === path;
     return (
         <Link href={path} passHref>
             <UnstyledButton
@@ -21,11 +23,13 @@ function MainLink({ icon, color, label, path }: MainLinkProps) {
                     width: "100%",
                     padding: theme.spacing.xs,
                     borderRadius: theme.radius.sm,
-                    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+                    backgroundColor: isActivated ? theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background : "transparent",
+                    color: isActivated ? theme.fn.variant({ variant: 'light', color: theme.primaryColor }).color : (theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black),
 
                     "&:hover": {
-                        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+                        backgroundColor: isActivated ? theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background : theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
                     },
+
                 })}
             >
                 <Group>
