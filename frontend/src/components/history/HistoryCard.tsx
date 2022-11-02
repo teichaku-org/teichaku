@@ -1,5 +1,9 @@
+import { Links } from "@/constants/Links";
+import { shortenAddress } from "@/utils/shortenAddress";
 import { css } from "@emotion/react";
-import { createStyles, Paper, Text, useMantineTheme } from "@mantine/core";
+import { createStyles, Grid, Paper, Space, Text, useMantineTheme } from "@mantine/core";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { MouseEventHandler } from "react";
 import { EarnedCoin } from "../assessment/EarnedCoin";
 import { RoleBadge } from "../common/RoleBadge";
@@ -27,12 +31,16 @@ interface HistoryCardProps {
   roles: string[];
   timestamp: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  contributor: string
 }
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
-  const { contributionText, reward, roles, timestamp, onClick } = props;
+  const { contributionText, reward, roles, timestamp, onClick, contributor } = props;
   const theme = useMantineTheme();
+  const router = useRouter()
+  const link = Links.getCommonPath(router) + "/assessments/" + contributor;
+
 
   return (
     <Paper
@@ -43,7 +51,10 @@ export function HistoryCard(props: HistoryCardProps) {
       onClick={onClick}
     >
       <EarnedCoin reward={reward} />
-      <RoleBadge roles={roles} />
+      <Grid justify="left" align="center" my="sm">
+        <RoleBadge roles={roles} />
+      </Grid>
+
       <Text
         size="lg"
         weight={500}
