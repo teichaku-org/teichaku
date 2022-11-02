@@ -179,9 +179,6 @@ export const en = {
         Message: "Please wait for the transaction to be completed.",
       },
       CandidateCard: {
-        SelectPoint: {
-          Placeholder: "Pick one",
-        },
         Comment: {
           Label: "comment (optional)",
           Placeholder: "Your comment",

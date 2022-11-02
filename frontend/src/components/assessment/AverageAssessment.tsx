@@ -20,8 +20,9 @@ export const AverageAssessment = (props: Props) => {
   const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const perspectives = pollDetail?.perspectives || [];
+  console.log({ perspectives });
   const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
-
+  console.log({ averageAccessment });
   useEffect(() => {
     loadCurrentMaxPoll();
   }, []);

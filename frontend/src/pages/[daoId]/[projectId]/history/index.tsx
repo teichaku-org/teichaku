@@ -20,7 +20,6 @@ const History: NextPage = () => {
   const { daoHistory, daoInfo, load } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const title = t.History.Title(daoInfo?.name || "DAO");
   const subTitle = t.History.SubTitle(daoInfo?.name || "DAO");
-  console.log({ daoHistory });
   useEffect(() => {
     if (daoId && projectId) {
       load();

@@ -200,6 +200,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
         onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
+        contributor={row.contributor}
       />
     </div>
   ));

@@ -18,6 +18,7 @@ export const ContributionCard = (props: Props) => {
   const router = useRouter();
   const sprintReviewPath = Links.getCommonPath(router) + "/poll";
   const [showExample, setShowExample] = useState(true);
+  const [placeholder, setPlaceholder] = useState("");
   const [roles, setRoles] = useState([
     "Engineer",
     "Designer",
@@ -35,6 +36,10 @@ export const ContributionCard = (props: Props) => {
       evidence3: "",
     },
   });
+
+  useEffect(() => {
+    loadLocalStorage();
+  }, []);
 
   useEffect(() => {
     loadLocalStorage();
@@ -77,7 +82,8 @@ export const ContributionCard = (props: Props) => {
   };
 
   const onClickExample = (exmapleText: string) => {
-    form.setFieldValue("contributionText", exmapleText);
+    //form.setFieldValue("contributionText", exmapleText)
+    setPlaceholder(exmapleText);
     setShowExample(false);
   };
   return (

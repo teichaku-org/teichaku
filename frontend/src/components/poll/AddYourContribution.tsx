@@ -32,7 +32,7 @@ export const AddYourContribution = (props: Props) => {
           fullWidth
           leftIcon={<IconPlus />}
         >
-          {props.voted ? t.Button.UpdateYourContribution : t.Button.AddYourContribution}
+          {t.Button.AddYourContribution}
         </Button>
       </Group>
     </>

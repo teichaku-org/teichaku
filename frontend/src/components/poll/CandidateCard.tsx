@@ -1,8 +1,9 @@
 import { Contribution } from "@/domains/Contribution";
 import { useLocale } from "@/i18n/useLocale";
 import { css } from "@emotion/react";
-import { Alert, Card, Center, Grid, Paper, Select, Text, Textarea, ThemeIcon } from "@mantine/core";
+import { Alert, Card, Center, SimpleGrid, Text, Textarea, ThemeIcon } from "@mantine/core";
 import { IconAlertCircle, IconCoin } from "@tabler/icons";
+import { AssessmentSelectCard } from "./AssessmentSelectCard";
 import { CandidateInfo } from "./CandidateInfo";
 
 interface Props {
@@ -19,15 +20,7 @@ interface Props {
 
 export const CandidateCard = (props: Props) => {
   const { t } = useLocale();
-  const { Comment, SelectPoint, AlertVoteMyself } = t.Poll.PollSystem.CandidateCard;
-
-  const options = [
-    { value: "0", label: "🤔Umm...(0)" },
-    { value: "1", label: "🙂OK(1)" },
-    { value: "3", label: "😄Nice(3)" },
-    { value: "6", label: "😆Great(6)" },
-    { value: "10", label: "😍Excellent(10)" },
-  ];
+  const { Comment, AlertVoteMyself } = t.Poll.PollSystem.CandidateCard;
 
   const onChangePoint = (value: string, index: number) => {
     const newPoint = [...props.point];
@@ -37,62 +30,68 @@ export const CandidateCard = (props: Props) => {
 
   const selects = () => {
     return props.perspectives.map((perspective, index) => (
-      <Select
-        required={true}
+      <AssessmentSelectCard
         key={perspective}
         label={perspective}
-        placeholder={SelectPoint.Placeholder}
-        data={options}
-        value={String(props.point[index])}
-        shadow="1px 1px 2px 0px rgba(0,0,0,0.75)"
         onChange={(e) => (e ? onChangePoint(e, index) : null)}
-        mb="sm"
-        disabled={props.disabled}
+        value={String(props.point[index] || 0)}
       />
     ));
   };
 
-  return (
-    <Card p="lg" radius="lg" withBorder mb="lg">
-      {props.disabled && (
+  if (props.disabled) {
+    return (
+      <Card p="lg" radius="lg" withBorder mb="lg">
         <Alert mb="lg" color="blue" icon={<IconAlertCircle size={16} />}>
           {AlertVoteMyself}
         </Alert>
-      )}
+        <CandidateInfo candidate={props.candidate} />
+      </Card>
+    );
+  }
+  return (
+    <Card p="lg" radius="lg" withBorder mb="lg">
       <CandidateInfo candidate={props.candidate} />
-      <Grid align="center">
-        <Grid.Col xs={12} md={8}>
-          {selects()}
-        </Grid.Col>
-        <Grid.Col xs={12} md={4}>
-          <Center>
-            <ThemeIcon size="xl" radius="md" variant="gradient" gradient={{ deg: 0, from: "blue", to: "grape" }}>
-              <IconCoin size={28} stroke={1.5} />
-            </ThemeIcon>
-            <Text
-              component="span"
-              align="center"
-              size="xl"
-              weight={700}
-              style={{ fontFamily: "Greycliff CF, sans-serif" }}
-              css={css`
-                font-size: 30px;
-                margin-left: 5px;
-              `}
-            >
-              {props.distribution}
-              <span
-                css={css`
-                  font-size: 20px;
-                  margin-left: 5px;
-                `}
-              >
-                {props.tokenSymbol}
-              </span>
-            </Text>
-          </Center>
-        </Grid.Col>
-      </Grid>
+
+      <Center>
+        <ThemeIcon size="xl" radius="md" variant="gradient" gradient={{ deg: 0, from: "blue", to: "grape" }}>
+          <IconCoin size={28} stroke={1.5} />
+        </ThemeIcon>
+        <Text
+          component="span"
+          align="center"
+          size="xl"
+          weight={700}
+          style={{ fontFamily: "Greycliff CF, sans-serif" }}
+          css={css`
+            font-size: 30px;
+            margin-left: 5px;
+          `}
+        >
+          {props.distribution}
+          <span
+            css={css`
+              font-size: 20px;
+              margin-left: 5px;
+            `}
+          >
+            {props.tokenSymbol}
+          </span>
+        </Text>
+      </Center>
+
+      <SimpleGrid
+        cols={3}
+        spacing="lg"
+        mt="lg"
+        breakpoints={[
+          { maxWidth: 980, cols: 3, spacing: "md" },
+          { maxWidth: 755, cols: 2, spacing: "sm" },
+          { maxWidth: 600, cols: 1, spacing: "sm" },
+        ]}
+      >
+        {selects()}
+      </SimpleGrid>
       <Textarea
         mt="lg"
         placeholder={Comment.Placeholder}
