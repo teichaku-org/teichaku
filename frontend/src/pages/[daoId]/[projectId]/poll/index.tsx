@@ -5,6 +5,7 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useDaoToken from "@/hooks/dao/useDaoToken";
 import usePoll from "@/hooks/dao/usePoll";
 import useMetaMask from "@/hooks/web3/useMetaMask";
+import { useLocale } from "@/i18n/useLocale";
 import { Center, Container, Loader, Text, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -13,6 +14,7 @@ const Poll = () => {
   useDaoExistCheck();
   useDaoLoad();
   const { address } = useMetaMask();
+  const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
   const {
@@ -73,12 +75,12 @@ const Poll = () => {
   return (
     <Container>
       <Center>
-        <Title size="h1">SprintReview</Title>
+        <Title size="h1">{t.Poll.Title}</Title>
       </Center>
 
       <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
       <Text>
-        Current Reviewer Incentive:{" "}
+        {t.Poll.CurrentReviewerIncentive}{" "}
         <b>
           {incentiveForVoters} {tokenSymbol}
         </b>

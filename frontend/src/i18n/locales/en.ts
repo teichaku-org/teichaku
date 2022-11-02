@@ -58,6 +58,9 @@ export const en = {
     ConnectWallet: "Connect Wallet",
     SaveDraft: "Save Draft",
     SubmitToBlockchain: "Submit to Blockchain",
+    AddYourContribution: "Add Your Contribution",
+    UpdateYourContribution: "Update Your Contribution",
+    SettlePoll: "Settle Poll(Only Admin Can)",
   },
   Common: {
     NodataMessage: {
@@ -163,6 +166,27 @@ export const en = {
           Title: "Anything!!",
           Description: "I analized ...",
         },
+      },
+    },
+  },
+  Poll: {
+    Title: "SprintReview",
+    CurrentReviewerIncentive: "Current Reviewer Incentive:",
+    PollSystem: {
+      AlreadyVoteMessage: "You already voted but you can vote for revision",
+      Notification: {
+        Title: "Your Vote is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
+      CandidateCard: {
+        SelectPoint: {
+          Placeholder: "Pick one",
+        },
+        Comment: {
+          Label: "comment (optional)",
+          Placeholder: "Your comment",
+        },
+        AlertVoteMyself: "This is your contribution, so you can't vote for yourself",
       },
     },
   },

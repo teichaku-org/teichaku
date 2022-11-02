@@ -151,7 +151,7 @@ export const ContributionCard = (props: Props) => {
             searchable
             creatable
             dropdownPosition="top"
-            getCreateLabel={(query) => `+ Create ${query}`}
+            getCreateLabel={(query) => Role.CreateLabel(query)}
             onCreate={(query) => {
               setRoles([...roles, query]);
               return query;

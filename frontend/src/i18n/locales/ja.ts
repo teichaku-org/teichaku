@@ -58,6 +58,9 @@ export const ja = {
     ConnectWallet: "ウォレットを接続",
     SaveDraft: "下書き保存",
     SubmitToBlockchain: "ブロックチェーンに送信",
+    AddYourContribution: "自分の貢献を追加する",
+    UpdateYourContribution: "自分の貢献を更新する",
+    SettlePoll: "投票を締め切る(管理者用)",
   },
   Common: {
     NodataMessage: {
@@ -90,7 +93,7 @@ export const ja = {
     },
   },
   Assessment: {
-    Title: "あなたの評価",
+    Title: "自分の評価",
     AssessmentTabs: {
       NotConnectWallet: "メタマスクとまだ接続できていません。 右上のウォレット接続ボタンから接続をお願いします。",
       Total: "集計",
@@ -163,6 +166,27 @@ export const ja = {
           Title: "なんでも!!",
           Description: "...を行いました。",
         },
+      },
+    },
+  },
+  Poll: {
+    Title: "スプリントレビュー",
+    CurrentReviewerIncentive: "現在レビュアーが獲得できるトークン:",
+    PollSystem: {
+      AlreadyVoteMessage: "既に投票をしていますが、投票を修正できます。",
+      Notification: {
+        Title: "投票がブロックチェーンに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
+      },
+      CandidateCard: {
+        SelectPoint: {
+          Placeholder: "１つ選択",
+        },
+        Comment: {
+          Label: "コメント (任意)",
+          Placeholder: "あなたのコメント",
+        },
+        AlertVoteMyself: "自分の貢献には投票できません。",
       },
     },
   },
