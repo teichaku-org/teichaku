@@ -144,7 +144,7 @@ export const ja = {
       ContributionExamples: {
         Title: "貢献を選択しよう!",
         Documentation: {
-          Title: "ドキュメント整理",
+          Title: "ドキュメント作成",
           Description: "...についての新しいドキュメントを作成しました。",
         },
         BugFix: {
