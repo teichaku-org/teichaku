@@ -18,7 +18,7 @@ export const ContributionCard = (props: Props) => {
   const router = useRouter();
   const sprintReviewPath = Links.getCommonPath(router) + "/poll";
   const [showExample, setShowExample] = useState(true);
-  const [placeholder, setPlaceholder] = useState("");
+  const [placeholder, setPlaceholder] = useState(Contribution.Placeholder);
   const [roles, setRoles] = useState([
     "Engineer",
     "Designer",
@@ -110,7 +110,7 @@ export const ContributionCard = (props: Props) => {
             autoFocus={true}
             mt="md"
             label={Contribution.Label}
-            placeholder={Contribution.Placeholder}
+            placeholder={placeholder}
             maxRows={10}
             minRows={5}
             autosize

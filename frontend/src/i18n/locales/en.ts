@@ -5,7 +5,7 @@ export const en = {
     OrganizationCard: {
       Contributions: "Contributions",
       Contributors: "Contributors",
-      Voters: "Voters",
+      Reviewer: "Reviewer",
     },
     TokenInfoCard: {
       RewardsToken: "Rewards Token",
@@ -61,6 +61,7 @@ export const en = {
     AddYourContribution: "Add Your Contribution",
     UpdateYourContribution: "Update Your Contribution",
     SettlePoll: "Settle Poll(Only Admin Can)",
+    ChangeNetwork: (network: string) => `Change Network to ${network}`,
   },
   Common: {
     NodataMessage: {
@@ -76,6 +77,10 @@ export const en = {
       SprintReview: "SprintReview",
       Assessments: "Assessments",
       Settings: "Settings",
+    },
+    NetworkCheck: {
+      Title: "The currently connected network is not supported.",
+      Text: (name: string, network: string) => `${name} is running on ${network}!`,
     },
   },
   History: {

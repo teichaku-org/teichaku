@@ -5,7 +5,7 @@ export const ja = {
     OrganizationCard: {
       Contributions: "貢献",
       Contributors: "貢献者",
-      Voters: "投票者",
+      Reviewer: "レビュアー",
     },
     TokenInfoCard: {
       RewardsToken: "トークンについて",
@@ -57,10 +57,11 @@ export const ja = {
     Unfollow: "フォローを解除",
     ConnectWallet: "ウォレットを接続",
     SaveDraft: "下書き保存",
-    SubmitToBlockchain: "ブロックチェーンに送信",
+    SubmitToBlockchain: "ブロックチェーンに登録",
     AddYourContribution: "自分の貢献を追加する",
     UpdateYourContribution: "自分の貢献を更新する",
     SettlePoll: "投票を締め切る(管理者用)",
+    ChangeNetwork: (network: string) => `ネットワークを${network}へ変更する`,
   },
   Common: {
     NodataMessage: {
@@ -76,6 +77,10 @@ export const ja = {
       SprintReview: "スプリントレビュー",
       Assessments: "評価",
       Settings: "設定",
+    },
+    NetworkCheck: {
+      Title: "現在接続されているネットワークはサポートされていません。",
+      Text: (name: string, network: string) => `${name} は ${network}で動いています!`,
     },
   },
   History: {

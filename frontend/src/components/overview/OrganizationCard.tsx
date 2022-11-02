@@ -16,12 +16,12 @@ export function OrganizationCard(props: Props) {
   const { daoId, avatar, name, description } = props;
   const { follow, isFollowed, unfollow } = useFollowDao();
   const { t } = useLocale();
-  const { Contributions, Contributors, Voters } = t.Overview.OrganizationCard;
+  const { Contributions, Contributors, Reviewer } = t.Overview.OrganizationCard;
 
   const stats = [
     { label: Contributions, value: props.contributionCount },
     { label: Contributors, value: props.contributorCount },
-    { label: Voters, value: props.voterCount },
+    { label: Reviewer, value: props.voterCount },
   ];
   const items = stats.map((stat) => (
     <div key={stat.label}>

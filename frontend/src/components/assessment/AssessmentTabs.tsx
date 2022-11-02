@@ -1,4 +1,4 @@
-import { Container, Tabs, Text } from "@mantine/core";
+import { Center, Container, Tabs, Text } from "@mantine/core";
 import { IconChartLine, IconChartPie3 } from "@tabler/icons";
 
 import { DaoHistory } from "@/domains/DaoHistory";
@@ -18,9 +18,9 @@ const AssessmentTabs = (props: Props) => {
 
   if (!address) {
     return (
-      <Container>
-        <Text>{NotConnectWallet}</Text>
-      </Container>
+      <Center>
+        <Text pt="xl">{NotConnectWallet}</Text>
+      </Center>
     );
   }
 
