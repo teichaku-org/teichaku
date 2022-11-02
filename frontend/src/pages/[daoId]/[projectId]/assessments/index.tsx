@@ -9,11 +9,13 @@ import { useRouter } from "next/router";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useMetaMask from "@/hooks/web3/useMetaMask";
+import { useLocale } from "@/i18n/useLocale";
 
 const Assessment: NextPage = () => {
   useDaoExistCheck();
   useDaoLoad();
   const router = useRouter();
+  const { t } = useLocale();
   const { daoId, projectId } = router.query;
   const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
   const { address } = useMetaMask();
@@ -34,7 +36,7 @@ const Assessment: NextPage = () => {
   return (
     <div>
       <Center>
-        <Title size="h1">Your Assessments</Title>
+        <Title size="h1">{t.Assessment.Title}</Title>
       </Center>
       <AssessmentTab daoHistory={daoHistory} address={address} />
     </div>

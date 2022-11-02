@@ -3,6 +3,7 @@ import { PollEndInfo } from "@/components/poll/PollEndInfo";
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import usePoll from "@/hooks/dao/usePoll";
+import { useLocale } from "@/i18n/useLocale";
 import { Center, Container, Loader, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,6 +12,7 @@ const Poll = () => {
   useDaoExistCheck();
   useDaoLoad();
   const router = useRouter();
+  const { t } = useLocale();
   const { daoId, projectId } = router.query;
   const { candidateToPoll, pollDetail, loadCurrentMaxPoll, contractAddress } = usePoll({
     daoId: daoId as string,
@@ -35,7 +37,7 @@ const Poll = () => {
   return (
     <Container>
       <Center m="md">
-        <Title size="h1">Explain Your Contribution!</Title>
+        <Title size="h1">{t.Contribution.Title}</Title>
       </Center>
       <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
       <div style={{ height: 10 }} />

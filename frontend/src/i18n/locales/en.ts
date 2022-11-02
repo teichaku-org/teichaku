@@ -56,6 +56,8 @@ export const en = {
     Follow: "Follow",
     Unfollow: "Unfollow",
     ConnectWallet: "Connect Wallet",
+    SaveDraft: "Save Draft",
+    SubmitToBlockchain: "Submit to Blockchain",
   },
   Common: {
     NodataMessage: {
@@ -88,12 +90,80 @@ export const en = {
     },
   },
   Assessment: {
+    Title: "Your Assessments",
+    AssessmentTabs: {
+      NotConnectWallet: "You don't connect metamask yet. Connect wallet from right top button.",
+      Total: "Total",
+      Individual: "Individual",
+      TotalTab: {
+        TotalRewardTitle: "Total Reward",
+        ComparedPreviousReward: "Compared to previous reward",
+        CumulativeRewardTitle: "Cumulative Reward",
+        AverageAssessmentTitle: "Average Assessment",
+        RewardHistoryTitle: "Reward History",
+      },
+    },
     SingleAssessment: {
       EarnedTokens: "Earned tokens",
       Assessments: "Assessments",
       Contribution: "Contribution",
       Evidences: "Evidences",
       ReviewersAndComments: "Reviewers and Comments",
+    },
+  },
+  Contribution: {
+    Title: "Explain Your Contribution!",
+    PollEndInfo: {
+      LeftTimeText: "The current SprintReview end in",
+    },
+    ContributionCard: {
+      Notification: {
+        Title: "Your Contribution is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
+      Contribution: {
+        Label: "Your contribution",
+        Placeholder: "What did you do for the DAO?",
+      },
+      Evidence: {
+        Label: (num: number) => `Evidence Url ${num}`,
+      },
+      Role: {
+        Label: "Your Roles",
+        Placeholder: "Type your role",
+        CreateLabel: (query: string) => `+ Create ${query}`,
+      },
+      ContributionExamples: {
+        Title: "Pick Your Contributions!",
+        Documentation: {
+          Title: "Documentation",
+          Description: "I created a new documentation page for ...",
+        },
+        BugFix: {
+          Title: "Bug Fix",
+          Description: "I fixed a bug in ...",
+        },
+        Advertisement: {
+          Title: "Advertisement",
+          Description: "I advertised the project on ...",
+        },
+        Development: {
+          Title: "Development",
+          Description: "I developed a new ...",
+        },
+        Design: {
+          Title: "Design",
+          Description: "I designed a new ...",
+        },
+        Analysis: {
+          Title: "Analysis",
+          Description: "I analized ...",
+        },
+        Anything: {
+          Title: "Anything!!",
+          Description: "I analized ...",
+        },
+      },
     },
   },
 };

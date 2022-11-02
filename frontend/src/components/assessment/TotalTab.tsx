@@ -15,6 +15,7 @@ import { getCumulativeReward } from "@/utils/analysis/getCumulativeReward";
 import { AverageAssessment } from "./AverageAssessment";
 import { useAtom } from "jotai";
 import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
+import { useLocale } from "@/i18n/useLocale";
 
 interface Props {
   myDaoHistory: DaoHistory[];
@@ -22,9 +23,12 @@ interface Props {
 }
 
 const TotalTab = (props: Props) => {
+  const { t } = useLocale();
+  const { TotalRewardTitle, ComparedPreviousReward, CumulativeRewardTitle, RewardHistoryTitle } =
+    t.Assessment.AssessmentTabs.TotalTab;
   const { myDaoHistory } = props;
   const [currentMaxPollId, setCurrentMaxPollId] = useState<number>(0);
-  const [contractAddress] = useAtom(PollContractAddress)
+  const [contractAddress] = useAtom(PollContractAddress);
 
   const loadCurrentMaxPollId = async () => {
     //TODO: hookからアクセスするようにする
@@ -58,14 +62,14 @@ const TotalTab = (props: Props) => {
     };
 
     const previousTotalReward = totalReward - getLatestReward();
-    const upRate = Math.round(((totalReward - previousTotalReward) / totalReward) * 100) || 0
+    const upRate = Math.round(((totalReward - previousTotalReward) / totalReward) * 100) || 0;
     return (
       <>
         <Title mt="md" size="h3">
           <ThemeIcon size="md" radius="md" variant="light" color="violet" mr="xs">
             <IconCoin size={16} stroke={1.5} />
           </ThemeIcon>
-          Total Reward
+          {TotalRewardTitle}
         </Title>
         <Paper
           mt="xs"
@@ -80,7 +84,7 @@ const TotalTab = (props: Props) => {
             <TotalReward reward={String(Math.round(totalReward))} />
             <Group>
               <Text size="xs" color="dimmed">
-                Compared to previous reward
+                {ComparedPreviousReward}
               </Text>
               <Center>
                 <Text color="teal" size={27} weight={500}>
@@ -104,7 +108,7 @@ const TotalTab = (props: Props) => {
           <ThemeIcon size="md" radius="md" variant="light" color="blue" mr="xs">
             <IconChartLine size={16} stroke={1.5} />
           </ThemeIcon>
-          Cumulative Reward
+          {CumulativeRewardTitle}
         </Title>
         <Paper mt="xs" style={{ height: 310 }}>
           <AssessmentLine data={cumulativeReward} />
@@ -120,7 +124,7 @@ const TotalTab = (props: Props) => {
           <ThemeIcon size="md" radius="md" variant="light" color="grape" mr="xs">
             <IconChartBar size={16} stroke={1.5} />
           </ThemeIcon>
-          Reward History
+          {RewardHistoryTitle}
         </Title>
         <Paper mt="xs" style={{ height: 310 }}>
           <AssessmentBar data={rewardHistory} />
