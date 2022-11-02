@@ -31,7 +31,7 @@ export const AddYourContribution = (props: Props) => {
                 variant="gradient"
                 gradient={{ from: 'blue', to: 'grape' }}
                 mb="md" fullWidth leftIcon={<IconPlus />}>
-                {props.voted ? "Update Your Contribution" : "Add Your Contribution"}
+                Add Your Contribution
             </Button>
         </Group>
     </>
