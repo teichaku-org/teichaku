@@ -1,10 +1,13 @@
-import useMetaMask from "@/hooks/web3/useMetaMask"
-import { Button } from "@mantine/core"
+import useMetaMask from "@/hooks/web3/useMetaMask";
+import { useLocale } from "@/i18n/useLocale";
+import { Button } from "@mantine/core";
 
 export const ConnectWallet = () => {
-    const { login } = useMetaMask()
-    return <Button variant="gradient" gradient={{ from: 'blue', to: 'grape' }} onClick={login}>
-        Connect Wallet
+  const { login } = useMetaMask();
+  const { t } = useLocale();
+  return (
+    <Button variant="gradient" gradient={{ from: "blue", to: "grape" }} onClick={login}>
+      {t.Button.ConnectWallet}
     </Button>
-
-}
+  );
+};

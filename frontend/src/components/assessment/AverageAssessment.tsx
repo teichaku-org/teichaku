@@ -1,29 +1,31 @@
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import usePoll from "@/hooks/dao/usePoll";
-import useMetaMask from "@/hooks/web3/useMetaMask";
+import { useLocale } from "@/i18n/useLocale";
 import { getAverageAssessment } from "@/utils/analysis/getAverageAssessment";
-import { Loader, Paper, ThemeIcon, Title } from "@mantine/core";
+import { Paper, ThemeIcon, Title } from "@mantine/core";
 import { IconChartRadar } from "@tabler/icons";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AssessmentRadar } from "../graphs/AssessmentRadar";
 
 interface Props {
-  address: string
+  address: string;
 }
 
 export const AverageAssessment = (props: Props) => {
+  const { t } = useLocale();
+  const { AverageAssessmentTitle } = t.Assessment.AssessmentTabs.TotalTab;
   const router = useRouter();
   const { daoId, projectId } = router.query;
   const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
-  const perspectives = pollDetail?.perspectives || []
-  console.log({ perspectives })
+  const perspectives = pollDetail?.perspectives || [];
+  console.log({ perspectives });
   const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
-  console.log({ averageAccessment })
+  console.log({ averageAccessment });
   useEffect(() => {
-    loadCurrentMaxPoll()
-  }, [])
+    loadCurrentMaxPoll();
+  }, []);
 
   return (
     <>
@@ -31,7 +33,7 @@ export const AverageAssessment = (props: Props) => {
         <ThemeIcon size="md" radius="md" variant="light" color="green" mr="xs">
           <IconChartRadar size={16} stroke={1.5} />
         </ThemeIcon>
-        Average Assessment
+        {AverageAssessmentTitle}
       </Title>
       <Paper mt="xs" style={{ height: 310 }}>
         <AssessmentRadar data={averageAccessment} />
