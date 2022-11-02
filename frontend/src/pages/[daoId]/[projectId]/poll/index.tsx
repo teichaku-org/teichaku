@@ -42,7 +42,6 @@ const Poll = () => {
   const _vote = async (points: number[][], comments: string[]) => {
     if (!vote) return;
     const candidates = pollDetail.contributions.map((c) => c.contributor);
-    console.log({ points, comments, candidates });
     await vote(pollDetail.pollId, candidates, points, comments);
   };
 

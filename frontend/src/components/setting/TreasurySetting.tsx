@@ -11,8 +11,6 @@ export const TreasurySetting = () => {
     const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
     const [value, setValue] = useState('');
     const _sendToken = () => {
-        //TODO: 好きに送れるようにする
-        console.log("sendToken to " + contractAddress);
         sendToken(contractAddress, Number(value))
     }
 

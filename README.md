@@ -22,14 +22,15 @@ https://tokyo-web3.vercel.app/
 
 ## deployしたContract
 
-| コントラクト名  | 概略 | コントラクトアドレス(Mumbai) | 
+| コントラクト名  | 概略 | コントラクトアドレス(Polygon Mumbai) | 
 | ------------- | ------------- | ------------- |
-| DAOHistory  | DAOにおける活動(貢献・投票)の情報を保持する。  |  TBD |
-| PollFactory  | Pollコントラクトを作成する。DAOHistoryから呼び出す。  | TBD  |
-| Poll  | 投票・集計・トークン分配を行う。  | TBD  |
-| DAOToken  | 分配するERC20のトークン(デモ用)  | TBD  |
+| DAOHistory  | DAOにおける活動(貢献・投票)の情報を保持する。  |  0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75 |
+| PollFactory  | Pollコントラクトを作成する。DAOHistoryから呼び出す。  | 0x476684620C5Dee01A411bc776D511f7081FF47b5  |
+| Poll  | 投票・集計・トークン分配を行う。  | 0x7D31878Af5390930FDc95370364ef2a4328dA639  |
+| DAOToken  | 分配するERC20のトークン(デモ用)  | 0xeCC7Bb4cf28Dc6fe99A9f0Fb0AdFD5a2E0F7707A  |
 | DAONFT  | 複数アカウントによる不正投票を防止するためのSBT(デモ用)  | TBD  |
 
+※ PollコントラクトはTeichakuでDAOを作成するたびに生成されます。
 ## テスト手順
 
 ```
