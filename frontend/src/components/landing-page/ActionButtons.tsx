@@ -36,7 +36,7 @@ export const ActionButtons = () => {
             variant="gradient"
             gradient={{ from: 'blue', to: 'grape' }}
             component="a"
-            href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/history`}
+            href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`}
         >
             {t.Button.Demo}
         </Button>

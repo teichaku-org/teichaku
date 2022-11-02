@@ -15,6 +15,7 @@ export const ContributionCard = (props: Props) => {
     const router = useRouter()
     const sprintReviewPath = Links.getCommonPath(router) + "/poll"
     const [showExample, setShowExample] = useState(true)
+    const [placeholder, setPlaceholder] = useState("")
     const [roles, setRoles] = useState([
         "Engineer",
         "Designer",
@@ -71,7 +72,8 @@ export const ContributionCard = (props: Props) => {
     }
 
     const onClickExample = (exmapleText: string) => {
-        form.setFieldValue("contributionText", exmapleText)
+        //form.setFieldValue("contributionText", exmapleText)
+        setPlaceholder(exmapleText)
         setShowExample(false)
     }
     return <>{showExample ? <ContributionExamples onClick={onClickExample} /> :
@@ -91,7 +93,7 @@ export const ContributionCard = (props: Props) => {
                 autoFocus={true}
                 mt="md"
                 label="Your contribution"
-                placeholder="What did you do for the DAO?"
+                placeholder={placeholder}
                 maxRows={10}
                 minRows={5}
                 autosize
