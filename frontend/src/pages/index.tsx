@@ -24,7 +24,7 @@ const Home = () => {
           } src="https://docs.google.com/presentation/d/e/2PACX-1vSKP4SSpyIQr4w-fALfFCA9QEB_79ICG4hZEQZbz_TBkIvFda4ckj6hsqovAlUnKHZsdcRk54qJDFoa/embed?start=false&loop=false&delayms=3000" frameBorder="0" allowFullScreen={true} ></iframe>
         </div>
         <div style={{ height: 100 }} />
-        <Problems />
+        {/* <Problems /> */}
       </Container>
     </div>
   );
