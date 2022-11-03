@@ -62,6 +62,8 @@ export const en = {
     UpdateYourContribution: "Update Your Contribution",
     SettlePoll: "Settle Poll(Only Admin Can)",
     ChangeNetwork: (network: string) => `Change Network to ${network}`,
+    Update: "Update",
+    Add: "Add",
   },
   Common: {
     NodataMessage: {
@@ -189,6 +191,57 @@ export const en = {
           Placeholder: "Your comment",
         },
         AlertVoteMyself: "This is your contribution, so you can't vote for yourself",
+      },
+    },
+  },
+  Settings: {
+    Title: "Settings",
+    SubTitle: "Setting is being built now! Most features still don't work.",
+    TokenSetting: {
+      TokenDistribution: "Token for distribution",
+      CurrentTokenSymbol: "Current Token Symbol:",
+      AddressInput: {
+        Label: "ERC20 Token Address",
+      },
+    },
+    TreasurySetting: {
+      Title: "Treasury Balance",
+      SendTokenInput: {
+        Label: "Send Tokens to Treasury",
+        Placeholder: "Specify the amount of tokens you want to transfer",
+      },
+    },
+    DistributionSetting: {
+      Title: "Distribution",
+      Contributor: {
+        Label: "Contributor Distribution(Total)",
+      },
+      Reviewer: {
+        Label: "Reviewer Distribution(Total)",
+      },
+    },
+    PollPerspectiveSetting: {
+      Title: "Poll Perspectives",
+      Perspective: {
+        Label: (num: number) => `Perspective ${num}`,
+        InitialValues: {
+          Perspective1: "quality",
+          Perspective2: "quantity",
+          Perspective3: "effectiveness",
+        },
+      },
+    },
+    PollDeadlineSetting: {
+      Title: "Poll Deadline",
+      DatePicker: {
+        Placeholder: "Pick date",
+        Label: "Deadline date",
+      },
+    },
+    SBTSetting: {
+      Title: "SBT For Review",
+      SBTAddressInput: {
+        Label: "SBT Address",
       },
     },
   },

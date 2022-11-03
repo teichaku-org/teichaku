@@ -1,13 +1,22 @@
-import { Button, Card, Paper, Text } from "@mantine/core"
-import { DatePicker } from "@mantine/dates"
+import { useLocale } from "@/i18n/useLocale";
+import { Button, Card, Paper, Text } from "@mantine/core";
+import { DatePicker } from "@mantine/dates";
 
 export const PollDeadlineSetting = () => {
-    return <Paper p="lg" mb="lg">
-        <Text size="md" weight={700} >
-            Poll Deadline
-        </Text>
-        <DatePicker mb="md" placeholder="Pick date" label="Deadline date" dropdownPosition="top-start" />
+  const { t } = useLocale();
+  return (
+    <Paper p="lg" mb="lg">
+      <Text size="md" weight={700}>
+        {t.Settings.PollDeadlineSetting.Title}
+      </Text>
+      <DatePicker
+        mb="md"
+        placeholder={t.Settings.PollDeadlineSetting.DatePicker.Placeholder}
+        label={t.Settings.PollDeadlineSetting.DatePicker.Label}
+        dropdownPosition="top-start"
+      />
 
-        <Button>Update</Button>
+      <Button>{t.Button.Update}</Button>
     </Paper>
-}
+  );
+};
