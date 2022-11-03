@@ -62,6 +62,8 @@ export const ja = {
     UpdateYourContribution: "自分の貢献を更新する",
     SettlePoll: "投票を締め切る(管理者用)",
     ChangeNetwork: (network: string) => `ネットワークを${network}へ変更する`,
+    Update: "更新",
+    Add: "追加",
   },
   Common: {
     NodataMessage: {
@@ -192,6 +194,57 @@ export const ja = {
           Placeholder: "あなたのコメント",
         },
         AlertVoteMyself: "自分の貢献には投票できません。",
+      },
+    },
+  },
+  Settings: {
+    Title: "設定",
+    SubTitle: "設定は現在開発中です! ほとんどの機能はまだ動作しません。",
+    TokenSetting: {
+      TokenDistribution: "分配用トークン",
+      CurrentTokenSymbol: "現在のトークンシンボル:",
+      AddressInput: {
+        Label: "ERC20 トークンアドレス",
+      },
+    },
+    TreasurySetting: {
+      Title: "トレジャリー残高",
+      SendTokenInput: {
+        Label: "トレジャリーにトークンを追加",
+        Placeholder: "追加するトークンの量を指定します",
+      },
+    },
+    DistributionSetting: {
+      Title: "トークン分配割合",
+      Contributor: {
+        Label: "貢献者への分配(合計)",
+      },
+      Reviewer: {
+        Label: "レビュアーへの分配(合計)",
+      },
+    },
+    PollPerspectiveSetting: {
+      Title: "投票時の評価観点",
+      Perspective: {
+        Label: (num: number) => `評価観点 ${num}`,
+        InitialValues: {
+          Perspective1: "質",
+          Perspective2: "量",
+          Perspective3: "有効性",
+        },
+      },
+    },
+    PollDeadlineSetting: {
+      Title: "投票締め切り",
+      DatePicker: {
+        Placeholder: "日付を選択",
+        Label: "締め切り日",
+      },
+    },
+    SBTSetting: {
+      Title: "レビューに必要なSBT",
+      SBTAddressInput: {
+        Label: "SBT アドレス",
       },
     },
   },
