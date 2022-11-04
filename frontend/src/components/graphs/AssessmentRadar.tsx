@@ -36,7 +36,6 @@ export const AssessmentRadar = ({ data }: Props) => {
       colors={["#a5d8ff"]}
       motionConfig="wobbly"
       isInteractive={false}
-      enableDotLabel={true}
       legends={[
         {
           anchor: "top",
