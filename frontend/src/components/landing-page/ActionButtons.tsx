@@ -1,6 +1,7 @@
 import { AppInfo } from "@/constants/AppInfo"
 import { useLocale } from "@/i18n/useLocale";
 import { Group, Button, createStyles } from "@mantine/core"
+import { useRouter } from "next/router";
 const BREAKPOINT = '@media (max-width: 755px)';
 
 const useStyles = createStyles((theme) => ({
@@ -29,6 +30,11 @@ const useStyles = createStyles((theme) => ({
 export const ActionButtons = () => {
     const { classes } = useStyles();
     const { t } = useLocale()
+    const router = useRouter()
+    const onClickDemo = () => {
+        const path = `${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`
+        router.push(path)
+    }
     return <Group className={classes.controls}>
         <Button
             size="xl"
@@ -36,7 +42,7 @@ export const ActionButtons = () => {
             variant="gradient"
             gradient={{ from: 'blue', to: 'grape' }}
             component="a"
-            href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`}
+            onClick={onClickDemo}
         >
             {t.Button.Demo}
         </Button>
