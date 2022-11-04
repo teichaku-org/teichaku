@@ -21,6 +21,11 @@ export const AssessmentRadar = ({ data }: Props) => {
       theme={{
         textColor: "white",
         fontSize: 12,
+        dots: {
+          text: {
+            fontSize: 13,
+          },
+        },
         tooltip: { container: { background: "black" } },
       }}
       margin={{ top: 70, right: 80, bottom: 40, left: 80 }}
@@ -30,6 +35,8 @@ export const AssessmentRadar = ({ data }: Props) => {
       dotBorderWidth={2}
       colors={["#a5d8ff"]}
       motionConfig="wobbly"
+      isInteractive={false}
+      enableDotLabel={true}
       legends={[
         {
           anchor: "top",
