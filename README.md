@@ -4,8 +4,10 @@
 ## URL
 https://tokyo-web3.vercel.app/
 
-### 前提条件
+### 動作前提
 - MetaMaskがインストールされているChrome(PC)もしくはMetamaskの内蔵ブラウザ(Smartphone)
+- Polygon MumbaiのMATICを持っている (https://mumbaifaucet.com/ から取得お願いします)
+
 
 ## 使用したtech stacks
 ### Backend
@@ -14,6 +16,7 @@ https://tokyo-web3.vercel.app/
 * Hardhat
 * OpenZeppelin
 * Polygon(Mumbai Testnet)
+
 ### Frontend
 * Next.js
 * Ethers.js
@@ -31,14 +34,33 @@ https://tokyo-web3.vercel.app/
 | DAONFT  | 複数アカウントによる不正投票を防止するためのSBT(デモ用)  | TBD  |
 
 ※ PollコントラクトはTeichakuでDAOを作成するたびに生成されます。
+
 ## テスト手順
 
 ```
+npm ci
 npm run test
 ```
 
 ## application codeやその他のfile
 
+* /contracts/DAOHistory.sol
+  * Teichakuに関わるデータが保存される
+* /contracts/PollCreator.sol
+  * 投票コントラクトを作成する。イーサリアムのサイズ制限回避のため、DAOHistoryから切り離している
+* /contracts/Poll.sol
+  * 投票コントラクト。受付・集計・トークン分配まで行う。
+* /scripts
+  * デプロイコードなどのスクリプト
+* /test
+  * 単体テスト
+* /frontend
+  * フロントエンド
+ 
+
+
+
+# 以下開発用のドキュメント
 ### blockchainのローカル起動
 ```
 npm ci
