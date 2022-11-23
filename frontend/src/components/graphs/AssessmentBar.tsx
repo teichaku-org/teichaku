@@ -1,5 +1,3 @@
-// install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/radar
 import { BarDatum, ResponsiveBar } from "@nivo/bar";
 import { theme } from "./theme";
 

@@ -1,7 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "ethers";
-import { DAOToken, DAONFT, DAOHistory, Poll } from "../../typechain-types";
-import { DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
+import { DAOHistory, DAONFT, DAOToken, Poll } from "../../typechain-types";
 import createAssessment from "./createAssessment";
 import createDaoHistory from "./createDaoHistory";
 
@@ -31,7 +30,7 @@ async function setupDemo(
     console.log("token.transfer(poll.address, ethers.utils.parseEther(\"100000\")) done")
 
     // DaoHistoryの追加
-    await createDaoHistory(daoHistory, daoId, projectId)
+    await createDaoHistory(daoHistory, daoId, projectId, token.address)
     console.log("createDaoHistory(daoHistory) done")
     await createAssessment(daoHistory, daoId, projectId)
     console.log("createAssessment(daoHistory) done")

@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 struct DAOHistoryItem {
     string contributionText;
     uint256 reward;
+    address rewardToken;
     string[] roles;
     uint256 timestamp;
     address contributor;

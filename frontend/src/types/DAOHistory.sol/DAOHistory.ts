@@ -55,6 +55,7 @@ export type AssessmentStructOutput = [
 export type DAOHistoryItemStruct = {
   contributionText: PromiseOrValue<string>;
   reward: PromiseOrValue<BigNumberish>;
+  rewardToken: PromiseOrValue<string>;
   roles: PromiseOrValue<string>[];
   timestamp: PromiseOrValue<BigNumberish>;
   contributor: PromiseOrValue<string>;
@@ -65,6 +66,7 @@ export type DAOHistoryItemStruct = {
 export type DAOHistoryItemStructOutput = [
   string,
   BigNumber,
+  string,
   string[],
   BigNumber,
   string,
@@ -73,6 +75,7 @@ export type DAOHistoryItemStructOutput = [
 ] & {
   contributionText: string;
   reward: BigNumber;
+  rewardToken: string;
   roles: string[];
   timestamp: BigNumber;
   contributor: string;
@@ -102,7 +105,7 @@ export interface DAOHistoryInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "addAssessment(string,string,(address,address,uint256[],string,uint256,int256)[])": FunctionFragment;
     "addDao(string,string,string,string,string,string)": FunctionFragment;
-    "addDaoHistory(string,string,(string,uint256,string[],uint256,address,int256,string[]))": FunctionFragment;
+    "addDaoHistory(string,string,(string,uint256,address,string[],uint256,address,int256,string[]))": FunctionFragment;
     "addProject(string,string)": FunctionFragment;
     "assessments(string,string,uint256)": FunctionFragment;
     "daoInfo(string)": FunctionFragment;
@@ -515,9 +518,10 @@ export interface DAOHistory extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, string, BigNumber] & {
+      [string, BigNumber, string, BigNumber, string, BigNumber] & {
         contributionText: string;
         reward: BigNumber;
+        rewardToken: string;
         timestamp: BigNumber;
         contributor: string;
         pollId: BigNumber;
@@ -665,9 +669,10 @@ export interface DAOHistory extends BaseContract {
     arg2: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [string, BigNumber, BigNumber, string, BigNumber] & {
+    [string, BigNumber, string, BigNumber, string, BigNumber] & {
       contributionText: string;
       reward: BigNumber;
+      rewardToken: string;
       timestamp: BigNumber;
       contributor: string;
       pollId: BigNumber;
@@ -815,9 +820,10 @@ export interface DAOHistory extends BaseContract {
       arg2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, string, BigNumber] & {
+      [string, BigNumber, string, BigNumber, string, BigNumber] & {
         contributionText: string;
         reward: BigNumber;
+        rewardToken: string;
         timestamp: BigNumber;
         contributor: string;
         pollId: BigNumber;

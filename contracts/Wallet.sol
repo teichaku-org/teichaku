@@ -7,8 +7,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./lib/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./interface/IWallet.sol";
 
-contract Wallet is Ownable, Pausable, ReentrancyGuard {
+//TODO: upgradableにする
+contract Wallet is IWallet, Ownable, Pausable, ReentrancyGuard {
     address[] public tokenList;
     mapping(address => bool) public isTokenListed;
 

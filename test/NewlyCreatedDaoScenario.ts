@@ -1,10 +1,6 @@
-import { time, loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import { anyValue } from "@nomicfoundation/hardhat-chai-matchers/withArgs";
+import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
 import { expect } from "chai";
 import { ethers } from "hardhat";
-import { DAOHistory, DAOHistoryItemStruct } from "../typechain-types/contracts/DAOHistory";
-import { DAOToken, DAONFT } from "../typechain-types";
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import setupDemo from "../scripts/demo/setupDemo";
 import setupDeploy from "../scripts/demo/setupDeploy";
 
