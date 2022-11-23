@@ -26,12 +26,16 @@ const History: NextPage = () => {
     }
   }, [daoId, projectId]);
 
+  // Loading
   if (!daoHistory)
     return (
       <Center>
         <Loader size="lg" variant="dots" />
       </Center>
     );
+
+
+  // No data
   if (daoHistory.length === 0) return <NodataMessage />;
 
   return (

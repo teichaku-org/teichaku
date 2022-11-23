@@ -9,26 +9,25 @@ import { SingleAssessment } from "../assessment/SingleAssessment";
 import { DaoHistory } from "@/domains/DaoHistory";
 import { useLocale } from "@/i18n/useLocale";
 
-type RowData = DaoHistory;
-interface TableSortProps {
-  data: RowData[];
+interface Props {
+  data: DaoHistory[];
   title?: string;
   subTitle?: string;
 }
 
-function filterByRole(data: RowData[], filterRoles: string[]) {
+function filterByRole(data: DaoHistory[], filterRoles: string[]) {
   if (filterRoles.includes("all")) return data;
   return data.filter((item) => {
     return item.roles.some((role) => filterRoles.includes(role));
   });
 }
 
-function filterData(data: RowData[], search: string) {
+function filterData(data: DaoHistory[], search: string) {
   const query = search.toLowerCase().trim();
   return data.filter((item) => keys(data[0]).some((key) => String(item[key]).includes(query)));
 }
 
-function sortData(data: RowData[], payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }) {
+function sortData(data: DaoHistory[], payload: { sortBy: keyof DaoHistory | null; reversed: boolean; search: string }) {
   const { sortBy } = payload;
 
   if (!sortBy) {
@@ -86,7 +85,7 @@ export interface SortKeys {
   [index: string]: boolean;
 }
 
-export function HistoryList({ data, title, subTitle }: TableSortProps) {
+export function HistoryList({ data, title, subTitle }: Props) {
   const { t } = useLocale();
   const theme = useMantineTheme();
   const [selectedContribution, setSelectedContribution] = useState<{
@@ -197,6 +196,7 @@ export function HistoryList({ data, title, subTitle }: TableSortProps) {
         key={index}
         contributionText={row.contributionText}
         reward={String(Math.round(row.reward))}
+        contractAddress={row.rewardToken}
         roles={row.roles}
         timestamp={row.timestamp.toLocaleString()}
         onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}

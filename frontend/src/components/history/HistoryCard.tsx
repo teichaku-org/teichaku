@@ -28,6 +28,7 @@ const useStyles = createStyles((theme) => ({
 interface HistoryCardProps {
   contributionText: string;
   reward: string;
+  contractAddress: string;
   roles: string[];
   timestamp: string;
   onClick?: MouseEventHandler<HTMLDivElement>;
@@ -36,7 +37,7 @@ interface HistoryCardProps {
 
 export function HistoryCard(props: HistoryCardProps) {
   const { classes } = useStyles();
-  const { contributionText, reward, roles, timestamp, onClick, contributor } = props;
+  const { contributionText, reward, contractAddress, roles, timestamp, onClick, contributor } = props;
   const theme = useMantineTheme();
   const router = useRouter()
   const link = Links.getCommonPath(router) + "/assessments/" + contributor;
@@ -50,7 +51,10 @@ export function HistoryCard(props: HistoryCardProps) {
       className={classes.card}
       onClick={onClick}
     >
-      <EarnedCoin reward={reward} />
+      <EarnedCoin
+        reward={reward}
+        contractAddress={contractAddress}
+      />
       <Grid justify="left" align="center" my="sm">
         <RoleBadge roles={roles} />
       </Grid>
