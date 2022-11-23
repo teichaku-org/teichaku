@@ -23,9 +23,9 @@ describe("Poll", function () {
         await wallet.deployed();
 
         // 手数料の設定
-        const commisionRate = 5
-        await pollFactory.setCommisionRate(commisionRate);
-        await pollFactory.setCommisionAddress(wallet.address);
+        const commissionRate = 5
+        await pollFactory.setCommissionRate(commissionRate);
+        await pollFactory.setCommissionAddress(wallet.address);
 
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");

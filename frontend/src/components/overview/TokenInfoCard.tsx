@@ -27,6 +27,7 @@ interface Props {
   contractAddress: string;
   contributorReward: number;
   voterReward: number;
+  commissionFee: number;
   treasuryBalance: number;
 }
 export function TokenInfoCard(props: Props) {
@@ -42,15 +43,19 @@ export function TokenInfoCard(props: Props) {
     TotalDistributionsPerSprint,
     Contributor,
     Reviewer,
+    Commission,
   } = t.Overview.TokenInfoCard;
 
   const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = props;
-  const { contributorReward, voterReward } = props;
+  const { contributorReward, voterReward, commissionFee } = props;
 
-  const contributorRewardPercent = (contributorReward / (contributorReward + voterReward)) * 100;
-  const voterRewardPercent = (voterReward / (contributorReward + voterReward)) * 100;
+  const totalRewardToken = contributorReward + voterReward + commissionFee;
+  const contributorRewardPercent = (contributorReward / totalRewardToken) * 100;
+  const voterRewardPercent = (voterReward / totalRewardToken) * 100;
+  const commissionFeePercent = (commissionFee / totalRewardToken) * 100;
   const contributorValue = contributorReward + " " + tokenSymbol;
   const voterValue = voterReward + " " + tokenSymbol;
+  const commissionFeeValue = commissionFee + " " + tokenSymbol;
   return (
     <Paper
       radius="md"
@@ -110,6 +115,7 @@ export function TokenInfoCard(props: Props) {
         sections={[
           { value: contributorRewardPercent, color: "blue", label: Contributor, tooltip: contributorValue },
           { value: voterRewardPercent, color: "grape", label: Reviewer, tooltip: voterValue },
+          { value: commissionFeePercent, color: "gray", label: "", tooltip: Commission + " " + commissionFeeValue },
         ]}
       />
     </Paper>

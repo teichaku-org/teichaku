@@ -1,5 +1,5 @@
 import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
-import { ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
+import { CommissionFeeAtom, ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
 import { Poll } from "@/types";
 import { ethers } from "ethers";
@@ -10,8 +10,8 @@ import useMetaMask, {
     getContract,
     getContractWithSigner
 } from "../web3/useMetaMask";
-import useDaoHistory from "./useDaoHistory";
 
+//TODO: daoId, projectIdが不要なパラメータなら削除
 interface Props {
     daoId: string
     projectId: string
@@ -23,6 +23,7 @@ export default (props: Props) => {
     const { address } = useMetaMask();
     const [contributorReward] = useAtom(ContributorRewardAtom);
     const [voterReward] = useAtom(VoterRewardAtom);
+    const [commissionFee] = useAtom(CommissionFeeAtom)
 
     const [contractAddress] = useAtom(PollContractAddress)
 
@@ -99,6 +100,7 @@ export default (props: Props) => {
         loadCurrentMaxPoll,
         contributorReward,
         voterReward,
+        commissionFee,
         vote: contractWithSigner?.functions.vote,
         settleCurrentPollAndCreateNewPoll: contractWithSigner?.functions.settleCurrentPollAndCreateNewPoll,
         candidateToPoll: contractWithSigner?.functions.candidateToCurrentPoll,
