@@ -7,11 +7,12 @@ import { useRouter } from "next/router"
 
 interface Props {
   reward: string;
-  contractAddress: string;
+  contractAddress?: string;
 }
 
 export const EarnedCoin = (props: Props) => {
   const theme = useMantineTheme();
+  if (!props.contractAddress) return null;
   const { tokenSymbol } = useERC20({ contractAddress: props.contractAddress })
   return <div
     css={css`

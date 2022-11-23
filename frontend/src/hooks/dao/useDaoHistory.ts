@@ -34,6 +34,7 @@ export default (props: Props) => {
         return {
           contributionText: d.contributionText,
           reward: Number(ethers.utils.formatEther(d.reward)),
+          rewardToken: d.rewardToken,
           roles: d.roles,
           timestamp: new Date(Number(d.timestamp) * 1000),
           contributor: d.contributor,
