@@ -67,7 +67,9 @@ export const SingleAssessment = (props: Props) => {
       </Text>
 
       <Container>
-        <EarnedCoin reward={String(Math.round(contribution?.reward || 0))} />
+        <EarnedCoin
+          reward={String(Math.round(contribution?.reward || 0))}
+          contractAddress={contribution?.rewardToken} />
       </Container>
 
       <Text mt="lg" mb="xs" color="dimmed">
