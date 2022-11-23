@@ -38,8 +38,8 @@ export interface PollFactoryInterface extends utils.Interface {
     "renounceOwnership()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "setCommisionAddress(address)": FunctionFragment;
-    "setCommisionRate(uint256)": FunctionFragment;
+    "setCommissionAddress(address)": FunctionFragment;
+    "setCommissionRate(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
@@ -55,8 +55,8 @@ export interface PollFactoryInterface extends utils.Interface {
       | "renounceOwnership"
       | "renounceRole"
       | "revokeRole"
-      | "setCommisionAddress"
-      | "setCommisionRate"
+      | "setCommissionAddress"
+      | "setCommissionRate"
       | "supportsInterface"
       | "transferOwnership"
   ): FunctionFragment;
@@ -99,11 +99,11 @@ export interface PollFactoryInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setCommisionAddress",
+    functionFragment: "setCommissionAddress",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setCommisionRate",
+    functionFragment: "setCommissionRate",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -137,11 +137,11 @@ export interface PollFactoryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setCommisionAddress",
+    functionFragment: "setCommissionAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setCommisionRate",
+    functionFragment: "setCommissionRate",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -286,12 +286,12 @@ export interface PollFactory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setCommisionAddress(
+    setCommissionAddress(
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setCommisionRate(
+    setCommissionRate(
       rate: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -351,12 +351,12 @@ export interface PollFactory extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setCommisionAddress(
+  setCommissionAddress(
     addr: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setCommisionRate(
+  setCommissionRate(
     rate: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -414,12 +414,12 @@ export interface PollFactory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setCommisionAddress(
+    setCommissionAddress(
       addr: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setCommisionRate(
+    setCommissionRate(
       rate: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -524,12 +524,12 @@ export interface PollFactory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setCommisionAddress(
+    setCommissionAddress(
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setCommisionRate(
+    setCommissionRate(
       rate: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -592,12 +592,12 @@ export interface PollFactory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setCommisionAddress(
+    setCommissionAddress(
       addr: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setCommisionRate(
+    setCommissionRate(
       rate: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

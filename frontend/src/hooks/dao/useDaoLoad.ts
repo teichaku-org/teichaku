@@ -6,7 +6,7 @@ import historyArtifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 import pollArtifact from "../../abi/Poll.sol/Poll.json";
 import { useAtom } from "jotai";
 import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
-import { ContributorRewardAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
+import { CommissionFeeAtom, ContributorRewardAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { ethers } from "ethers";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -23,6 +23,7 @@ export const useDaoLoad = () => {
     const contract = getContract(contractAddress, historyArtifact.abi) as DAOHistory;
     const [____, setPollContractAddress] = useAtom(PollContractAddress)
     const [__, setContributorReward] = useAtom(ContributorRewardAtom);
+    const [_____, setCommissionFee] = useAtom(CommissionFeeAtom);
     const [___, setVoterReward] = useAtom(VoterRewardAtom);
     const [_, setTokenContractAddress] = useAtom(TokenContractAddress)
 
@@ -40,6 +41,9 @@ export const useDaoLoad = () => {
         })
         pollContract.functions.VOTER_ASSIGNMENT_TOKEN().then((res) => {
             setVoterReward(Number(ethers.utils.formatEther(res[0])))
+        })
+        pollContract.functions.getCommissionToken().then((res) => {
+            setCommissionFee(Number(ethers.utils.formatEther(res[0])))
         })
     }
 

@@ -17,6 +17,7 @@ export const ja = {
       TotalDistributionsPerSprint: "スプリントごとのトークン分配割合",
       Contributor: "貢献者",
       Reviewer: "レビュアー",
+      Commission: "手数料",
     },
   },
   LP: {

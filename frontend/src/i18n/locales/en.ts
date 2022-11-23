@@ -17,6 +17,7 @@ export const en = {
       TotalDistributionsPerSprint: "Total Distributions Per Sprint",
       Contributor: "Contributor",
       Reviewer: "Reviewer",
+      Commission: "Commission",
     },
   },
   LP: {

@@ -10,8 +10,8 @@ import useMetaMask, {
     getContract,
     getContractWithSigner
 } from "../web3/useMetaMask";
-import useDaoHistory from "./useDaoHistory";
 
+//TODO: daoId, projectIdが不要なパラメータなら削除
 interface Props {
     daoId: string
     projectId: string

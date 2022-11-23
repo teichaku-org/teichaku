@@ -98,7 +98,7 @@ export type DetailPollItemStructOutput = [
 
 export interface PollInterface extends utils.Interface {
   functions: {
-    "COMMISION_RATE()": FunctionFragment;
+    "COMMISSION_RATE()": FunctionFragment;
     "CONTRIBUTOR_ASSIGNMENT_TOKEN()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "VOTER_ASSIGNMENT_TOKEN()": FunctionFragment;
@@ -106,11 +106,11 @@ export interface PollInterface extends utils.Interface {
     "activePerspective()": FunctionFragment;
     "candidateToCurrentPoll(string,string[],string[])": FunctionFragment;
     "changePerspective(string[])": FunctionFragment;
-    "commisionAddress()": FunctionFragment;
+    "commissionAddress()": FunctionFragment;
     "currentMaxPollId()": FunctionFragment;
     "daoTokenAddress()": FunctionFragment;
     "endTimeStamp(int256)": FunctionFragment;
-    "getCommisionToken()": FunctionFragment;
+    "getCommissionToken()": FunctionFragment;
     "getCurrentCandidates()": FunctionFragment;
     "getCurrentPerspectives()": FunctionFragment;
     "getCurrentVotes()": FunctionFragment;
@@ -143,7 +143,7 @@ export interface PollInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "COMMISION_RATE"
+      | "COMMISSION_RATE"
       | "CONTRIBUTOR_ASSIGNMENT_TOKEN"
       | "DEFAULT_ADMIN_ROLE"
       | "VOTER_ASSIGNMENT_TOKEN"
@@ -151,11 +151,11 @@ export interface PollInterface extends utils.Interface {
       | "activePerspective"
       | "candidateToCurrentPoll"
       | "changePerspective"
-      | "commisionAddress"
+      | "commissionAddress"
       | "currentMaxPollId"
       | "daoTokenAddress"
       | "endTimeStamp"
-      | "getCommisionToken"
+      | "getCommissionToken"
       | "getCurrentCandidates"
       | "getCurrentPerspectives"
       | "getCurrentVotes"
@@ -187,7 +187,7 @@ export interface PollInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "COMMISION_RATE",
+    functionFragment: "COMMISSION_RATE",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -223,7 +223,7 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "commisionAddress",
+    functionFragment: "commissionAddress",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -239,7 +239,7 @@ export interface PollInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getCommisionToken",
+    functionFragment: "getCommissionToken",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -358,7 +358,7 @@ export interface PollInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "COMMISION_RATE",
+    functionFragment: "COMMISSION_RATE",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -390,7 +390,7 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "commisionAddress",
+    functionFragment: "commissionAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -406,7 +406,7 @@ export interface PollInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getCommisionToken",
+    functionFragment: "getCommissionToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -587,7 +587,7 @@ export interface Poll extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    COMMISION_RATE(overrides?: CallOverrides): Promise<[BigNumber]>;
+    COMMISSION_RATE(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     CONTRIBUTOR_ASSIGNMENT_TOKEN(
       overrides?: CallOverrides
@@ -613,7 +613,7 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    commisionAddress(overrides?: CallOverrides): Promise<[string]>;
+    commissionAddress(overrides?: CallOverrides): Promise<[string]>;
 
     currentMaxPollId(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -624,7 +624,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getCommisionToken(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getCommissionToken(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getCurrentCandidates(overrides?: CallOverrides): Promise<[string[]]>;
 
@@ -757,7 +757,7 @@ export interface Poll extends BaseContract {
     votingDuration(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
-  COMMISION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
+  COMMISSION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
 
   CONTRIBUTOR_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -781,7 +781,7 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  commisionAddress(overrides?: CallOverrides): Promise<string>;
+  commissionAddress(overrides?: CallOverrides): Promise<string>;
 
   currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -792,7 +792,7 @@ export interface Poll extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getCommisionToken(overrides?: CallOverrides): Promise<BigNumber>;
+  getCommissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
   getCurrentCandidates(overrides?: CallOverrides): Promise<string[]>;
 
@@ -925,7 +925,7 @@ export interface Poll extends BaseContract {
   votingDuration(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    COMMISION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
+    COMMISSION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
 
     CONTRIBUTOR_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -949,7 +949,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    commisionAddress(overrides?: CallOverrides): Promise<string>;
+    commissionAddress(overrides?: CallOverrides): Promise<string>;
 
     currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -960,7 +960,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getCommisionToken(overrides?: CallOverrides): Promise<BigNumber>;
+    getCommissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getCurrentCandidates(overrides?: CallOverrides): Promise<string[]>;
 
@@ -1134,7 +1134,7 @@ export interface Poll extends BaseContract {
   };
 
   estimateGas: {
-    COMMISION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
+    COMMISSION_RATE(overrides?: CallOverrides): Promise<BigNumber>;
 
     CONTRIBUTOR_ASSIGNMENT_TOKEN(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1158,7 +1158,7 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    commisionAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    commissionAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     currentMaxPollId(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1169,7 +1169,7 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getCommisionToken(overrides?: CallOverrides): Promise<BigNumber>;
+    getCommissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getCurrentCandidates(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1303,7 +1303,7 @@ export interface Poll extends BaseContract {
   };
 
   populateTransaction: {
-    COMMISION_RATE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    COMMISSION_RATE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     CONTRIBUTOR_ASSIGNMENT_TOKEN(
       overrides?: CallOverrides
@@ -1335,7 +1335,7 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    commisionAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    commissionAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     currentMaxPollId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1346,7 +1346,9 @@ export interface Poll extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getCommisionToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getCommissionToken(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getCurrentCandidates(
       overrides?: CallOverrides

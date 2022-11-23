@@ -43,6 +43,7 @@ export function TokenInfoCard(props: Props) {
     TotalDistributionsPerSprint,
     Contributor,
     Reviewer,
+    Commission,
   } = t.Overview.TokenInfoCard;
 
   const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = props;
@@ -51,6 +52,7 @@ export function TokenInfoCard(props: Props) {
   const totalRewardToken = contributorReward + voterReward + commissionFee;
   const contributorRewardPercent = (contributorReward / totalRewardToken) * 100;
   const voterRewardPercent = (voterReward / totalRewardToken) * 100;
+  const commissionFeePercent = (commissionFee / totalRewardToken) * 100;
   const contributorValue = contributorReward + " " + tokenSymbol;
   const voterValue = voterReward + " " + tokenSymbol;
   const commissionFeeValue = commissionFee + " " + tokenSymbol;
@@ -113,7 +115,7 @@ export function TokenInfoCard(props: Props) {
         sections={[
           { value: contributorRewardPercent, color: "blue", label: Contributor, tooltip: contributorValue },
           { value: voterRewardPercent, color: "grape", label: Reviewer, tooltip: voterValue },
-          { value: 100 - contributorRewardPercent - voterRewardPercent, color: "gray", label: "Other", tooltip: "Other" },
+          { value: commissionFeePercent, color: "gray", label: "", tooltip: Commission + " " + commissionFeeValue },
         ]}
       />
     </Paper>
