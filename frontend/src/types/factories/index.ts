@@ -4,3 +4,4 @@
 export * as daoHistorySol from "./DAOHistory.sol";
 export * as pollCreatorSol from "./PollCreator.sol";
 export { Poll__factory } from "./Poll__factory";
+export { Wallet__factory } from "./Wallet__factory";

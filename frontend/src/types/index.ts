@@ -6,6 +6,7 @@ export type { daoHistorySol };
 import type * as pollCreatorSol from "./PollCreator.sol";
 export type { pollCreatorSol };
 export type { Poll } from "./Poll";
+export type { Wallet } from "./Wallet";
 export * as factories from "./factories";
 export type { DAOHistory } from "./DAOHistory.sol/DAOHistory";
 export { DAOHistory__factory } from "./factories/DAOHistory.sol/DAOHistory__factory";
@@ -14,3 +15,4 @@ export { IPollFactory__factory } from "./factories/DAOHistory.sol/IPollFactory__
 export { Poll__factory } from "./factories/Poll__factory";
 export type { PollFactory } from "./PollCreator.sol/PollFactory";
 export { PollFactory__factory } from "./factories/PollCreator.sol/PollFactory__factory";
+export { Wallet__factory } from "./factories/Wallet__factory";

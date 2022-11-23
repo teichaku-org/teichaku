@@ -27,13 +27,13 @@ contract Poll is AccessControl, Ownable {
     constructor(
         string memory _daoId,
         string memory _projectId,
-        uint256 _commisionRate,
-        address _commisionAddress
+        uint256 _commissionRate,
+        address _commissionAddress
     ) {
         daoId = _daoId;
         projectId = _projectId;
-        COMMISION_RATE = _commisionRate;
-        commisionAddress = _commisionAddress;
+        COMMISSION_RATE = _commissionRate;
+        commissionAddress = _commissionAddress;
         endTimeStamp[0] = block.timestamp + 14 days;
     }
 
@@ -56,9 +56,9 @@ contract Poll is AccessControl, Ownable {
     // DAO History address
     address private daoHistoryAddress;
 
-    // Commisionを受け取るアドレス
-    // Address to receive Commision
-    address public commisionAddress;
+    // Commissionを受け取るアドレス
+    // Address to receive Commission
+    address public commissionAddress;
 
     // 立候補者(貢献者)に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to candidates(contributors)
@@ -73,8 +73,8 @@ contract Poll is AccessControl, Ownable {
     uint256 public VOTE_MAX_PARTICIPANT = 100;
 
     // 手数料率
-    // commision rate
-    uint256 public COMMISION_RATE = 5;
+    // commission rate
+    uint256 public COMMISSION_RATE = 5;
 
     // 立候補者のリスト
     // list of candidates
@@ -146,8 +146,11 @@ contract Poll is AccessControl, Ownable {
         require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         daoTokenAddress = _daoTokenAddress;
         nftAddress = _nftAddress;
-        require(commisionAddress != address(0), "commisionAddress is not set");
-        Wallet wallet = Wallet(commisionAddress);
+        require(
+            commissionAddress != address(0),
+            "commissionAddress is not set"
+        );
+        Wallet wallet = Wallet(commissionAddress);
         wallet.registerToken(_daoTokenAddress);
     }
 
@@ -378,7 +381,7 @@ contract Poll is AccessControl, Ownable {
                 );
             }
             _transferTokenForContributor(_candidates, assignmentToken);
-            _transferTokenForCommision();
+            _transferTokenForCommission();
 
             // Decide how much to distribute to Voters
             address[] memory _voters = getVoters(currentMaxPollId);
@@ -427,19 +430,19 @@ contract Poll is AccessControl, Ownable {
     /**
      * @notice Transfer token to teichaku
      */
-    function _transferTokenForCommision() internal {
+    function _transferTokenForCommission() internal {
         if (daoTokenAddress == address(0)) {
             // If the token address to be distributed is not registered, the token will not be distributed
             return;
         }
-        if (commisionAddress == address(0)) {
+        if (commissionAddress == address(0)) {
             // If the address to be distributed is not registered, the token will not be distributed
             return;
         }
-        uint256 token = getCommisionToken();
+        uint256 token = getCommissionToken();
         if (token > 0) {
             IERC20 tokenContract = IERC20(daoTokenAddress);
-            tokenContract.transfer(commisionAddress, token);
+            tokenContract.transfer(commissionAddress, token);
         }
     }
 
@@ -556,11 +559,11 @@ contract Poll is AccessControl, Ownable {
         return perspectives[_pollId];
     }
 
-    function getCommisionToken() public view returns (uint256) {
+    function getCommissionToken() public view returns (uint256) {
         return
             SafeMath.div(
                 VOTER_ASSIGNMENT_TOKEN + CONTRIBUTOR_ASSIGNMENT_TOKEN,
                 100
-            ) * COMMISION_RATE;
+            ) * COMMISSION_RATE;
     }
 }

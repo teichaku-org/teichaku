@@ -24,7 +24,7 @@ const Overview = () => {
   const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0;
 
   const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao);
-  const { contributorReward, voterReward } = usePoll(dao);
+  const { contributorReward, voterReward, commissionFee } = usePoll(dao);
 
   useEffect(() => {
     if (daoId && projectId) {
@@ -68,6 +68,7 @@ const Overview = () => {
             tokenName={tokenName}
             contractAddress={contractAddress}
             contributorReward={contributorReward}
+            commissionFee={commissionFee}
             voterReward={voterReward}
           />
         </Grid.Col>
