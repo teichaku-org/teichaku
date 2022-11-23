@@ -1,9 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "ethers";
-import { DAOToken, DAONFT, DAOHistory, Poll } from "../../typechain-types";
-import { DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
-import createAssessment from "./createAssessment";
-import createDaoHistory from "./createDaoHistory";
+import { DAOHistory, DAONFT, DAOToken, Poll } from "../../typechain-types";
 
 async function setupEmptyDemo(
     token: DAOToken,

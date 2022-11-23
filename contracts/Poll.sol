@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
 import "./DAOHistory.sol";
-import "./Wallet.sol";
+import "./interface/IWallet.sol";
 import "./lib/SafeMath.sol";
 import "./struct/poll/DetailPollItem.sol";
 import "./struct/poll/AbstractPollItem.sol";
@@ -146,12 +146,6 @@ contract Poll is AccessControl, Ownable {
         require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         daoTokenAddress = _daoTokenAddress;
         nftAddress = _nftAddress;
-        require(
-            commissionAddress != address(0),
-            "commissionAddress is not set"
-        );
-        Wallet wallet = Wallet(commissionAddress);
-        wallet.registerToken(_daoTokenAddress);
     }
 
     /**
@@ -402,6 +396,7 @@ contract Poll is AccessControl, Ownable {
                 DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
                     contributionText: contributionItem.contributionText,
                     reward: assignmentToken[c],
+                    rewardToken: daoTokenAddress,
                     roles: contributionItem.roles,
                     timestamp: block.timestamp,
                     contributor: _candidates[c],
@@ -439,6 +434,14 @@ contract Poll is AccessControl, Ownable {
             // If the address to be distributed is not registered, the token will not be distributed
             return;
         }
+
+        require(
+            commissionAddress != address(0),
+            "commissionAddress is not set"
+        );
+        IWallet wallet = IWallet(commissionAddress);
+        wallet.registerToken(daoTokenAddress);
+
         uint256 token = getCommissionToken();
         if (token > 0) {
             IERC20 tokenContract = IERC20(daoTokenAddress);
