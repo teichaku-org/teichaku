@@ -58,7 +58,7 @@ contract DAOHistory is AccessControl, Ownable {
         string memory description,
         string memory website,
         string memory logo
-    ) public returns (address) {
+    ) external returns (address) {
         require(daoInfo[daoId].projects.length == 0, "DAO already exists");
         string[] memory projects = new string[](1);
         projects[0] = projectId;

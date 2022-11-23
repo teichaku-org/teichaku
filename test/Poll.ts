@@ -17,6 +17,16 @@ describe("Poll", function () {
         await pollFactory.deployed();
         console.log("PollFactory deployed to:", pollFactory.address);
 
+        // Walletのデプロイ
+        const Wallet = await ethers.getContractFactory("Wallet");
+        const wallet = await Wallet.deploy();
+        await wallet.deployed();
+
+        // 手数料の設定
+        const commisionRate = 5
+        await pollFactory.setCommisionRate(commisionRate);
+        await pollFactory.setCommisionAddress(wallet.address);
+
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");
         const daoHistory = await DaoHistory.deploy(pollFactory.address);
@@ -51,7 +61,7 @@ describe("Poll", function () {
         //設定値
         await poll.setAssignmentToken(ethers.utils.parseEther("5000"), ethers.utils.parseEther("3000"));
         await poll.changePerspective(["p1", "p2", "p3"])
-        return { token, poll, nft, owner, otherAccount, otherAccount2, otherAccount3 };
+        return { token, poll, nft, wallet, owner, otherAccount, otherAccount2, otherAccount3 };
     }
 
     describe("Deployment", function () {
@@ -283,6 +293,20 @@ describe("Poll", function () {
             await poll.connect(otherAccount).vote(0, [owner.address], [[1, 2, 3]], ["test"])
             await expect(poll.connect(otherAccount2).vote(0, [owner.address], [[1, 2, 3]], ["test"])).to.be.revertedWith("not eligible to vote.");
         });
+    })
 
+    describe("手数料の徴収", function () {
+        it("スプリントごとに設定したウォレットに5%のトークンを徴収する", async function () {
+            const { owner, token, nft, poll, otherAccount, wallet } = await loadFixture(deploy);
+
+            await poll.candidateToCurrentPoll("test1", [], [])
+            await poll.connect(otherAccount).vote(0, [owner.address], [[1, 2, 3]], ["test"])
+            await poll.settleCurrentPollAndCreateNewPoll();
+
+            const balance = await token.balanceOf(wallet.address);
+            // 8000 * 0.05 = 400
+            expect(balance).to.eq(ethers.utils.parseEther("400"));
+
+        });
     })
 });

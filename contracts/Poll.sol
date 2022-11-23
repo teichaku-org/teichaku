@@ -2,11 +2,11 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
 import "./DAOHistory.sol";
+import "./Wallet.sol";
 import "./lib/SafeMath.sol";
 import "./struct/poll/DetailPollItem.sol";
 import "./struct/poll/AbstractPollItem.sol";
@@ -17,17 +17,24 @@ import "./struct/dao/DAOHistoryItem.sol";
 //dev
 // import "hardhat/console.sol";
 
-contract Poll is AccessControl, Ownable, Pausable {
+contract Poll is AccessControl, Ownable {
     // DAO ID
     string private daoId;
     // Project Id
     string private projectId;
 
     // Constructor
-    constructor(string memory _daoId, string memory _projectId) {
+    constructor(
+        string memory _daoId,
+        string memory _projectId,
+        uint256 _commisionRate,
+        address _commisionAddress
+    ) {
         daoId = _daoId;
         projectId = _projectId;
-        endTimeStamp[0] = block.timestamp + 7 days;
+        COMMISION_RATE = _commisionRate;
+        commisionAddress = _commisionAddress;
+        endTimeStamp[0] = block.timestamp + 14 days;
     }
 
     // Pollを開始したり終了するなどの権限
@@ -49,6 +56,10 @@ contract Poll is AccessControl, Ownable, Pausable {
     // DAO History address
     address private daoHistoryAddress;
 
+    // Commisionを受け取るアドレス
+    // Address to receive Commision
+    address public commisionAddress;
+
     // 立候補者(貢献者)に割り当てられるDAOトークンの総数
     // total amount of DAO tokens to be distributed to candidates(contributors)
     uint256 public CONTRIBUTOR_ASSIGNMENT_TOKEN = 0 * (10**18);
@@ -60,6 +71,10 @@ contract Poll is AccessControl, Ownable, Pausable {
     // 投票時に参加できる人数
     // maximum number of people who can participate in voting
     uint256 public VOTE_MAX_PARTICIPANT = 100;
+
+    // 手数料率
+    // commision rate
+    uint256 public COMMISION_RATE = 5;
 
     // 立候補者のリスト
     // list of candidates
@@ -131,6 +146,9 @@ contract Poll is AccessControl, Ownable, Pausable {
         require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         daoTokenAddress = _daoTokenAddress;
         nftAddress = _nftAddress;
+        require(commisionAddress != address(0), "commisionAddress is not set");
+        Wallet wallet = Wallet(commisionAddress);
+        wallet.registerToken(_daoTokenAddress);
     }
 
     /**
@@ -173,7 +191,7 @@ contract Poll is AccessControl, Ownable, Pausable {
         string memory contributionText,
         string[] memory evidences,
         string[] memory roles
-    ) external whenNotPaused {
+    ) external {
         uint256 updateIndex = VOTE_MAX_PARTICIPANT + 1;
         for (
             uint256 index = 0;
@@ -227,7 +245,7 @@ contract Poll is AccessControl, Ownable, Pausable {
         address[] memory _candidates,
         uint256[][] memory _points,
         string[] memory _comments
-    ) external whenNotPaused returns (bool) {
+    ) external returns (bool) {
         address[] memory voters = getVoters(_pollId);
 
         // Check if the voter is eligible to vote
@@ -288,7 +306,7 @@ contract Poll is AccessControl, Ownable, Pausable {
      * @notice Settle the current poll, and start new poll
      * @dev only poll admin can execute this function and it is expected that external cron system calls this function weekly or bi-weekly.
      */
-    function settleCurrentPollAndCreateNewPoll() external whenNotPaused {
+    function settleCurrentPollAndCreateNewPoll() external {
         require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         _settlePoll();
         _createPoll();
@@ -339,17 +357,19 @@ contract Poll is AccessControl, Ownable, Pausable {
             }
         }
 
-        // Decide how much to distribute to Contributors
+        // Calculate the total score
         uint256 totalPoints = 0;
         for (uint256 index = 0; index < summedPoints.length; index++) {
             uint256 _points = summedPoints[index];
             totalPoints = SafeMath.add(totalPoints, _points);
         }
 
-        uint256[] memory assignmentToken = new uint256[](
-            candidates[currentMaxPollId].length
-        );
-        if (totalPoints > 0) {
+        endTimeStamp[currentMaxPollId] = block.timestamp;
+        if (totalPoints != 0) {
+            // Decide how much to distribute to Contributors
+            uint256[] memory assignmentToken = new uint256[](
+                candidates[currentMaxPollId].length
+            );
             for (uint256 index = 0; index < _candidates.length; index++) {
                 uint256 _points = summedPoints[index];
                 assignmentToken[index] = SafeMath.div(
@@ -358,42 +378,40 @@ contract Poll is AccessControl, Ownable, Pausable {
                 );
             }
             _transferTokenForContributor(_candidates, assignmentToken);
-        }
+            _transferTokenForCommision();
 
-        // Decide how much to distribute to Voters
-        address[] memory _voters = getVoters(currentMaxPollId);
-        uint256 totalVoterCount = _voters.length;
-        if (totalVoterCount > 0) {
-            uint256 voterAssignmentToken = SafeMath.div(
-                VOTER_ASSIGNMENT_TOKEN,
-                totalVoterCount
-            );
-            _transferTokenForVoter(_voters, voterAssignmentToken);
-        }
-
-        endTimeStamp[currentMaxPollId] = block.timestamp;
-
-        //Save aggregation results in DAO History
-        DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
-        for (uint256 c = 0; c < _candidates.length; c++) {
-            ContributionItem memory contributionItem = contributions[
-                currentMaxPollId
-            ][c];
-            DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
-                contributionText: contributionItem.contributionText,
-                reward: assignmentToken[c],
-                roles: contributionItem.roles,
-                timestamp: block.timestamp,
-                contributor: _candidates[c],
-                pollId: currentMaxPollId,
-                evidences: contributionItem.evidences
-            });
-            daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
-            daoHistory.addAssessment(
-                daoId,
-                projectId,
-                candidatesAssessments[c]
-            );
+            // Decide how much to distribute to Voters
+            address[] memory _voters = getVoters(currentMaxPollId);
+            uint256 totalVoterCount = _voters.length;
+            if (totalVoterCount > 0) {
+                uint256 voterAssignmentToken = SafeMath.div(
+                    VOTER_ASSIGNMENT_TOKEN,
+                    totalVoterCount
+                );
+                _transferTokenForVoter(_voters, voterAssignmentToken);
+            }
+            //Save aggregation results in DAO History
+            DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
+            for (uint256 c = 0; c < _candidates.length; c++) {
+                ContributionItem memory contributionItem = contributions[
+                    currentMaxPollId
+                ][c];
+                DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
+                    contributionText: contributionItem.contributionText,
+                    reward: assignmentToken[c],
+                    roles: contributionItem.roles,
+                    timestamp: block.timestamp,
+                    contributor: _candidates[c],
+                    pollId: currentMaxPollId,
+                    evidences: contributionItem.evidences
+                });
+                daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
+                daoHistory.addAssessment(
+                    daoId,
+                    projectId,
+                    candidatesAssessments[c]
+                );
+            }
         }
     }
 
@@ -404,6 +422,25 @@ contract Poll is AccessControl, Ownable, Pausable {
         currentMaxPollId++;
         startTimeStamp[currentMaxPollId] = block.timestamp;
         endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
+    }
+
+    /**
+     * @notice Transfer token to teichaku
+     */
+    function _transferTokenForCommision() internal {
+        if (daoTokenAddress == address(0)) {
+            // If the token address to be distributed is not registered, the token will not be distributed
+            return;
+        }
+        if (commisionAddress == address(0)) {
+            // If the address to be distributed is not registered, the token will not be distributed
+            return;
+        }
+        uint256 token = getCommisionToken();
+        if (token > 0) {
+            IERC20 tokenContract = IERC20(daoTokenAddress);
+            tokenContract.transfer(commisionAddress, token);
+        }
     }
 
     /**
@@ -519,17 +556,11 @@ contract Poll is AccessControl, Ownable, Pausable {
         return perspectives[_pollId];
     }
 
-    /**
-     * @notice pause the contract
-     */
-    function pause() external onlyOwner {
-        _pause();
-    }
-
-    /**
-     * @notice unpause the contract
-     */
-    function unpause() external onlyOwner {
-        _unpause();
+    function getCommisionToken() public view returns (uint256) {
+        return
+            SafeMath.div(
+                VOTER_ASSIGNMENT_TOKEN + CONTRIBUTOR_ASSIGNMENT_TOKEN,
+                100
+            ) * COMMISION_RATE;
     }
 }

@@ -13,6 +13,16 @@ describe("DAO History", function () {
         const pollFactory = await PollFactory.deploy();
         await pollFactory.deployed();
 
+        // Walletのデプロイ
+        const Wallet = await ethers.getContractFactory("Wallet");
+        const wallet = await Wallet.deploy();
+        await wallet.deployed();
+
+        // 手数料の設定
+        const commisionRate = 5
+        await pollFactory.setCommisionRate(commisionRate);
+        await pollFactory.setCommisionAddress(wallet.address);
+
 
         // DaoHistoryのデプロイ
         const DaoHistory = await ethers.getContractFactory("DAOHistory");

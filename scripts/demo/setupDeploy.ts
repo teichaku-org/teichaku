@@ -18,6 +18,16 @@ export default async function setupDeploy() {
     await pollFactory.deployed();
     console.log("PollFactory deployed to:", pollFactory.address);
 
+    // Walletのデプロイ
+    const Wallet = await ethers.getContractFactory("Wallet");
+    const wallet = await Wallet.deploy();
+    await wallet.deployed();
+
+    // 手数料の設定
+    const commisionRate = 5
+    await pollFactory.setCommisionRate(commisionRate);
+    await pollFactory.setCommisionAddress(wallet.address);
+
     // DaoHistoryのデプロイ
     const DaoHistory = await ethers.getContractFactory("DAOHistory");
     const daoHistory = await DaoHistory.deploy(pollFactory.address);
