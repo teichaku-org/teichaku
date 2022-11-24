@@ -4,27 +4,24 @@ import { ethers } from "hardhat";
 import setupDemo from "../scripts/demo/setupDemo";
 import setupDeploy from "../scripts/demo/setupDeploy";
 
-describe("Newly Created Dao Scenario", function () {
+describe("Wallet", function () {
     async function deployFixture() {
         return setupDeploy()
     }
 
 
     describe("Walletにあるトークンを引き出す", function () {
-        it("ETHを指定して引き出す", async function () {
+        it("トークンを指定して引き出す", async function () {
             const { owner, wallet, token } = await loadFixture(deployFixture);
 
             const amount = ethers.utils.parseEther("1");
-            //ETHを送金
-            await owner.sendTransaction({
-                to: wallet.address,
-                value: amount
-            });
+            //トークンを送金
+            await token.mint(wallet.address, amount);
 
-            const ownerBalanceBefore = await ethers.provider.getBalance(owner.address);
-            await wallet.withdraw(ethers.constants.AddressZero);
-            const balanceAfter = await ethers.provider.getBalance(wallet.address);
-            const ownerBalanceAfter = await ethers.provider.getBalance(owner.address);
+            const ownerBalanceBefore = await token.balanceOf(owner.address);
+            await wallet.withdraw(token.address);
+            const balanceAfter = await token.balanceOf(wallet.address);
+            const ownerBalanceAfter = await token.balanceOf(owner.address);
 
             expect(balanceAfter).to.equal(0);
             expect(ownerBalanceAfter.sub(ownerBalanceBefore)).to.equal(amount);

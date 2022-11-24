@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { DAOHistory, DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory";
+import { DAOHistory, DAOHistoryItemStruct } from "../../typechain-types/contracts/DAOHistory.sol/DAOHistory";
 
 export default async (daoHistory: DAOHistory, daoId: string, projectId: string, tokenAddress: string) => {
     const data = [

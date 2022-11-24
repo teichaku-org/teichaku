@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import { AssessmentStruct, DAOHistory, } from "../../typechain-types/contracts/DAOHistory";
+import { AssessmentStruct, DAOHistory, } from "../../typechain-types/contracts/DAOHistory.sol/DAOHistory";
 
 export default async (daoHistory: DAOHistory, daoId: string, projectId: string) => {
     const data = [
