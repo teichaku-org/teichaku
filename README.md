@@ -61,6 +61,7 @@ npm run test
 
 
 # 以下開発用のドキュメント
+※ secrets_template.tsをsecrets.tsにリネームする。ファイルの中身は変更する必要はない。
 ### blockchainのローカル起動
 ```
 npm ci
