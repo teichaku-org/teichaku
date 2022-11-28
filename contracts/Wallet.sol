@@ -20,7 +20,6 @@ contract Wallet is IWallet, Ownable, Pausable, ReentrancyGuard {
      * @notice add token to the list
      */
     function registerToken(address token) external {
-        //TODO: 権限externalでいいのかな？
         require(token != address(0), "token address is invalid");
         if (!isTokenListed[token]) {
             isTokenListed[token] = true;
@@ -42,18 +41,33 @@ contract Wallet is IWallet, Ownable, Pausable, ReentrancyGuard {
     /**
      * @notice withdraw all tokens or ETH
      */
-    function withdraw() external onlyOwner {
+    function withdrawAll() external onlyOwner {
         //全てのトークンをownerに転送する
         for (uint256 i = 0; i < tokenList.length; i++) {
             address token = tokenList[i];
-            uint256 balance = getBalance(token);
-            if (balance > 0) {
-                if (token == address(0)) {
-                    Address.sendValue(payable(owner()), balance);
-                } else {
-                    IERC20(token).transfer(owner(), balance);
-                }
+            this.withdraw(token);
+        }
+    }
+
+    /**
+     * @notice withdraw token or ETH
+     */
+    function withdraw(address token) external onlyOwner {
+        uint256 balance = getBalance(token);
+        if (balance > 0) {
+            if (token == address(0)) {
+                Address.sendValue(payable(owner()), balance);
+            } else {
+                IERC20(token).transfer(owner(), balance);
             }
         }
+    }
+
+    function pause() external onlyOwner {
+        _pause();
+    }
+
+    function unpause() external onlyOwner {
+        _unpause();
     }
 }

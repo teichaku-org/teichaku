@@ -22,6 +22,7 @@ export default async function setupDeploy() {
     const Wallet = await ethers.getContractFactory("Wallet");
     const wallet = await Wallet.deploy();
     await wallet.deployed();
+    console.log("Wallet deployed to:", wallet.address);
 
     // 手数料の設定
     const commissionRate = 5
@@ -68,6 +69,6 @@ export default async function setupDeploy() {
 
     return {
         owner, otherAccount, otherAccount2,
-        token, daoHistory, poll, daonft
+        token, daoHistory, poll, daonft, wallet
     };
 }
