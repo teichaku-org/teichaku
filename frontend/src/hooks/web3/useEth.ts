@@ -29,6 +29,7 @@ export default () => {
             else if (n.name === "maticmum") setNetwork("Polygon Mumbai")
             else if (n.name === "homestead") setNetwork("Ethereum Mainnet")
             else if (n.name === "matic") setNetwork("Polygon Mainnet")
+            else if (n.name === "goerli") setNetwork("Goerli Testnet")
             else setNetwork(n.name)
         }
         )

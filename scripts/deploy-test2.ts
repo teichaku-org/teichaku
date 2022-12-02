@@ -3,8 +3,8 @@ import setupDemo from "./demo/setupDemo";
 import setupDeploy from "./demo/setupDeploy";
 import setupEmptyDemo from "./demo/setupEmptyDemo";
 
-const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
-const tokenAddress = "0x5f761a7FaAb5d50B0A37e295F2Eb34A05dC535Dc"
+const daoHistoryAddress = "0x9E22909C9862EEF94A0D830461103335A634202c"
+const tokenAddress = "0x7BE92ae8449ecFB012D05d72BedE9728d9D033Bc"
 
 async function main() {
   const daoId = "demo"

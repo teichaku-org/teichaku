@@ -43,6 +43,11 @@ const config: HardhatUserConfig = {
       url: "https://polygon-rpc.com",
       accounts: [PRIVATE_KEY],
       allowUnlimitedContractSize: true
+    },
+    goerli: {
+      url: `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`,
+      accounts: [PRIVATE_KEY],
+      allowUnlimitedContractSize: true
     }
   },
   etherscan: {

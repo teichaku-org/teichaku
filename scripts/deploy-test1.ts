@@ -26,6 +26,7 @@ async function main() {
   const Wallet = await ethers.getContractFactory("Wallet");
   const wallet = await Wallet.deploy();
   await wallet.deployed();
+  console.log("Wallet deployed to:", wallet.address);
 
   // 手数料の設定
   const commissionRate = 5

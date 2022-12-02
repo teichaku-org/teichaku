@@ -115,3 +115,26 @@ npx hardhat run scripts/create-dao/1_set-token.ts --network maticmum
 npx hardhat run scripts/create-dao/2_send-token.ts --network maticmum
 npx hardhat run scripts/create-dao/3_change-perspective.ts --network maticmum
 ```
+
+
+## Goerliテストネットへのデプロイ
+前提条件: secrets.tsを準備する
+
+以下コマンドを実行する。deploy-test2を実行する前にコントラクトアドレスを設定する。
+```
+export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
+npx hardhat run scripts/deploy-test1.ts --network goerli
+npx hardhat run scripts/deploy-test2.ts --network goerli
+```
+
+※ .envファイルおよびvercelの環境変数のコントラクトアドレスを修正する。
+
+## GoerliテストネットでDAOを作る
+各ファイルの設定値をきちんとセットした上で、以下コマンドを実行する
+```
+export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
+npx hardhat run scripts/create-dao/0_create-new-dao-demo.ts --network goerli
+npx hardhat run scripts/create-dao/1_set-token.ts --network goerli
+npx hardhat run scripts/create-dao/2_send-token.ts --network goerli
+npx hardhat run scripts/create-dao/3_change-perspective.ts --network goerli
+```
