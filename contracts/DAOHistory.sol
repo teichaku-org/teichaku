@@ -4,6 +4,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./struct/dao/DAOInfo.sol";
 import "./struct/dao/DAOHistoryItem.sol";
 import "./struct/assessment/Assessment.sol";
+import "./interface/IDAOHistory.sol";
 
 interface IPollFactory {
     function createPoll(
@@ -13,7 +14,7 @@ interface IPollFactory {
     ) external returns (address);
 }
 
-contract DAOHistory is AccessControl, Ownable {
+contract DAOHistory is IDAOHistory, AccessControl, Ownable {
     // daoId => projectId => [DAOHistoryItem, ...]
     mapping(string => mapping(string => DAOHistoryItem[])) public histories;
 
@@ -37,7 +38,8 @@ contract DAOHistory is AccessControl, Ownable {
 
     /**
      * @notice Setup role for other contract to interact with DAO History
-     * @dev only owner can set DAO History Address
+     * @dev only owner can set DAO History A. dress
+     * (テストデータ作成をする開発用にのみ利用 TODO: 不要な関数のため削除する)
      */
     function setupAddHistoryRole(address contractAddress)
         public
@@ -87,7 +89,7 @@ contract DAOHistory is AccessControl, Ownable {
             projectId,
             msg.sender
         );
-        setupAddHistoryRole(_pollAddress);
+        _setupRole(ADD_HISTORY_ROLE, _pollAddress);
         pollAddress[daoId][projectId] = _pollAddress;
         return _pollAddress;
     }

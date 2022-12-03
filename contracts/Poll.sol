@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./lib/Array.sol";
 import "./DAOHistory.sol";
 import "./interface/IWallet.sol";
+import "./interface/IPoll.sol";
 import "./lib/SafeMath.sol";
 import "./struct/poll/DetailPollItem.sol";
 import "./struct/poll/AbstractPollItem.sol";
@@ -17,7 +18,7 @@ import "./struct/dao/DAOHistoryItem.sol";
 //dev
 // import "hardhat/console.sol";
 
-contract Poll is AccessControl, Ownable {
+contract Poll is IPoll, AccessControl, Ownable {
     // DAO ID
     string private daoId;
     // Project Id

@@ -50,6 +50,13 @@ export default async function setupDeploy() {
     await daonft.deployed();
     console.log("DAONFT deployed to:", daonft.address);
 
+    // DAOLauncherのデプロイ
+    const DAOLauncher = await ethers.getContractFactory("DAOLauncher");
+    const daolauncher = await DAOLauncher.deploy(daoHistory.address);
+    await daolauncher.deployed();
+    console.log("DAOLauncher deployed to:", daolauncher.address);
+
+
 
     // Pollが利用するToken, DaoHistory, 投票のために必要なNFTの設定
     await poll.setTokenAddress(token.address, "0x0000000000000000000000000000000000000000");

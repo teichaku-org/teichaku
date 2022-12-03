@@ -1,19 +1,34 @@
 import { ethers } from "hardhat";
 
 
-const daoId = "hackathon";
+const daoId = "teichaku";
 const projectId = "demo";
-const daoHistoryAddress = "0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75"
-
+const daoLauncherAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const tokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+const daoName = "Teichaku DAO";
+const daoDescription = "This is a demo DAO for Teichaku DAO";
+const website = ""
+const logo = "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership.png"
+const contributorReward = ethers.utils.parseEther("7000")
+const reviewerReward = ethers.utils.parseEther("3000")
+const votingDurattion = 60 * 60 * 24 * 7
+console.log({
+    daoId,
+    projectId,
+})
 async function main() {
-    const daoHistory = await ethers.getContractAt("DAOHistory", daoHistoryAddress);
+    const daoLauncher = await ethers.getContractAt("DAOLauncher", daoLauncherAddress);
 
-    const daoName = "Web3Hackathon DAO";
-    const daoDescription = "This is a demo DAO for Web3Hackathon";
-    const website = ""
-    const logo = "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg"
 
-    await daoHistory.addDao(daoId, projectId, daoName, daoDescription, website, logo);
+    await daoLauncher.createDao(
+        daoId, projectId,
+        daoName, daoDescription,
+        website, logo,
+        tokenAddress,
+        contributorReward,
+        reviewerReward,
+        votingDurattion
+    );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

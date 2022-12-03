@@ -46,7 +46,7 @@ npm run test
 
 * /contracts/DAOHistory.sol
   * Teichakuに関わるデータが保存される
-* /contracts/PollCreator.sol
+* /contracts/PollFactory.sol
   * 投票コントラクトを作成する。イーサリアムのサイズ制限回避のため、DAOHistoryから切り離している
 * /contracts/Poll.sol
   * 投票コントラクト。受付・集計・トークン分配まで行う。
@@ -134,7 +134,6 @@ npx hardhat run scripts/deploy-test2.ts --network goerli
 ```
 export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
 npx hardhat run scripts/create-dao/0_create-new-dao-demo.ts --network goerli
-npx hardhat run scripts/create-dao/1_set-token.ts --network goerli
 npx hardhat run scripts/create-dao/2_send-token.ts --network goerli
 npx hardhat run scripts/create-dao/3_change-perspective.ts --network goerli
 ```
