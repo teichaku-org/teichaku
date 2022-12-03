@@ -195,11 +195,43 @@ export const en = {
       },
     },
   },
+  CreateDao: {
+    Step1: {
+      Title: "Claim a name",
+      SubTitle: "Claim a name for your DAO",
+      URLPreview: "URL Preview: ",
+      DAOName: "DAO's name",
+      DAODescription: "DAO's description",
+      DAONamePlaceholder: "Type your DAO's name",
+      DAODescriptionPlaceholder: "Type your DAO's description",
+      LogoUrl: "Logo URL",
+      LogoUrlPlaceholder: "https://...",
+      FirstProjectName: "First project's name",
+      FirstProjectNamePlaceholder: "Type your first project's name",
+      FirstProjectNameDefault: "season1",
+    },
+    Step2: {
+      Title: "Configure template",
+      SubTitle: "Rewards and Sprint Duration",
+      NotSet: "Not set",
+
+    },
+    Step3: {
+      Title: "Review Information",
+      SubTitle: "Have one last look",
+      Setting: "Setting",
+      Value: "Value",
+      ProjectUrl: "Project URL",
+      ContributorReward: "Contributor Reward",
+      ReviewerReward: "Reviewer Reward",
+
+    },
+  },
   Settings: {
     Title: "Settings",
     SubTitle: "Setting is being built now! Most features still don't work.",
     TokenSetting: {
-      TokenDistribution: "Token for distribution",
+      TokenDistribution: "Token for Reward",
       CurrentTokenSymbol: "Current Token Symbol:",
       AddressInput: {
         Label: "ERC20 Token Address",
@@ -213,12 +245,12 @@ export const en = {
       },
     },
     DistributionSetting: {
-      Title: "Distribution",
+      Title: "Total Reward Per Sprint",
       Contributor: {
-        Label: "Contributor Distribution(Total)",
+        Label: "Contributor Distribution",
       },
       Reviewer: {
-        Label: "Reviewer Distribution(Total)",
+        Label: "Reviewer Distribution",
       },
     },
     PollPerspectiveSetting: {
@@ -238,6 +270,11 @@ export const en = {
         Placeholder: "Pick date",
         Label: "Deadline date",
       },
+    },
+    PollDuration: {
+      Title: "Poll Duration",
+      Days: "Type 1-30 days",
+      DayUnit: "days",
     },
     SBTSetting: {
       Title: "SBT For Review",

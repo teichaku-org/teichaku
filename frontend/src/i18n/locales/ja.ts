@@ -198,11 +198,42 @@ export const ja = {
       },
     },
   },
+  CreateDao: {
+    Step1: {
+      Title: "名前を決める",
+      SubTitle: "DAOの名前や説明を決める",
+      URLPreview: "URLプレビュー: ",
+      DAOName: "DAOの名前",
+      DAODescription: "DAOの説明",
+      DAONamePlaceholder: "DAOの名前を入力してください",
+      DAODescriptionPlaceholder: "DAOの説明を入力してください",
+      LogoUrl: "ロゴのURL",
+      LogoUrlPlaceholder: "https://...",
+      FirstProjectName: "最初のプロジェクトの名前",
+      FirstProjectNamePlaceholder: "最初のプロジェクトの名前を入力してください",
+      FirstProjectNameDefault: "season1",
+    },
+    Step2: {
+      Title: "設定する",
+      SubTitle: "報酬とスプリントの長さを設定",
+      NotSet: "未設定"
+    },
+    Step3: {
+      Title: "確認",
+      SubTitle: "DAOの設定を確認",
+      Setting: "設定",
+      Value: "値",
+      ProjectUrl: "プロジェクトのURL",
+      ContributorReward: "コントリビューターの報酬",
+      ReviewerReward: "レビュアーの報酬",
+
+    }
+  },
   Settings: {
     Title: "設定",
     SubTitle: "設定は現在開発中です! ほとんどの機能はまだ動作しません。",
     TokenSetting: {
-      TokenDistribution: "分配用トークン",
+      TokenDistribution: "報酬に用いるトークン",
       CurrentTokenSymbol: "現在のトークンシンボル:",
       AddressInput: {
         Label: "ERC20 トークンアドレス",
@@ -216,12 +247,12 @@ export const ja = {
       },
     },
     DistributionSetting: {
-      Title: "トークン分配割合",
+      Title: "1スプリントあたりのトークン分配",
       Contributor: {
-        Label: "貢献者への分配(合計)",
+        Label: "貢献者への分配",
       },
       Reviewer: {
-        Label: "レビュアーへの分配(合計)",
+        Label: "レビュアーへの分配",
       },
     },
     PollPerspectiveSetting: {
@@ -241,6 +272,11 @@ export const ja = {
         Placeholder: "日付を選択",
         Label: "締め切り日",
       },
+    },
+    PollDuration: {
+      Title: "スプリントの長さ",
+      Days: "1-30の日数を選択",
+      DayUnit: "日",
     },
     SBTSetting: {
       Title: "レビューに必要なSBT",

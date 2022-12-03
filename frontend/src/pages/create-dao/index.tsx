@@ -1,12 +1,44 @@
-import { NotFoundPage } from "@/components/common/NotFoundPage"
-import { AppInfo } from "@/constants/AppInfo"
-import { Button, Group } from "@mantine/core"
+import { CreateDaoStepper } from "@/components/create-dao/CreateDaoStepper";
+import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo";
+import { SetDaoInfo } from "@/components/create-dao/SetDaoInfo";
+import { SetReward } from "@/components/create-dao/SetReward";
+import { Center, Container } from "@mantine/core";
 
 const Page = () => {
+    const step1 = () => {
+        return (
+            <Container mt="md">
+                <SetDaoInfo />
+            </Container>
+        );
+    };
 
-    return <div>
-        <NotFoundPage />
-    </div>
+    const step2 = () => {
+        return (
+            <Container mt="md">
+                <SetReward />
+            </Container>
+        );
+    };
+
+    const step3 = () => {
+        return (
+            <Container mt="md">
+                <ReviewDaoInfo />
+            </Container>
+        );
+    };
+
+    return <Container my="xl">
+        <CreateDaoStepper
+            step1Component={step1()}
+            step2Component={step2()}
+            step3Component={step3()}
+            completedComponent={<h1>Completed</h1>}
+        />
+    </Container>
+
 }
 
+Page.noNavbar = true;
 export default Page
