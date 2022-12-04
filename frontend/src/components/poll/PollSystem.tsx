@@ -124,7 +124,7 @@ export const PollSystem = (props: Props) => {
             {props.isAdmin ? (
               <Group position="center" my="xl">
                 <Button size="lg" color="red" radius="md" onClick={props.settle}>
-                  {t.Button.SettlePoll}
+                  {t.Button.SettlePollForAdmin}
                 </Button>
               </Group>
             ) : (
