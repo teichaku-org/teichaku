@@ -89,8 +89,10 @@ contract DAOHistory is IDAOHistory, AccessControl, Ownable {
             projectId,
             msg.sender
         );
+
         _setupRole(ADD_HISTORY_ROLE, _pollAddress);
         pollAddress[daoId][projectId] = _pollAddress;
+
         return _pollAddress;
     }
 

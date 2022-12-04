@@ -52,7 +52,7 @@ export const ActionButtons = () => {
             size="xl"
             variant="default"
             className={classes.control}
-            href={AppInfo.inqueryUrl}
+            href="/create-dao"
         >
             {t.Button.CreateYourDAO}
         </Button>

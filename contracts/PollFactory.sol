@@ -30,8 +30,9 @@ contract PollFactory is AccessControl, Ownable {
         poll.setDaoHistoryAddress(msg.sender);
 
         // grant permission
-        poll.setPollAdminRole(sender);
-        poll.transferOwnership(sender);
+        poll.setPollAdminRole(sender); //dao launcher
+        poll.setPollAdminRole(tx.origin); // original caller
+        poll.transferOwnership(tx.origin); // original caller
         return pollAddress;
     }
 

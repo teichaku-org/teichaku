@@ -1,7 +1,7 @@
 import { useLocale } from "@/i18n/useLocale";
 import { DAOLauncher } from "@/types/DAOLauncher";
 import { hideNotification, showNotification } from "@mantine/notifications";
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import artifact from "../../abi/DAOLauncher.sol/DAOLauncher.json";
@@ -16,7 +16,7 @@ export default () => {
     const contractAddress = process.env
         .NEXT_PUBLIC_DAOLAUNCHER_CONTRACT_ADDRESS as string;
     const contract = getContract(contractAddress, artifact.abi) as DAOLauncher;
-    const contractWithSigner = getContractWithSigner(contractAddress, artifact.abi)
+    const contractWithSigner = getContractWithSigner(contractAddress, artifact.abi) as DAOLauncher;
 
     const createDao = async (daoId: string, projectId: string,
         daoName: string, daoDescription: string,
@@ -31,9 +31,9 @@ export default () => {
             daoName, daoDescription,
             website, logo,
             tokenAddress,
-            contributorReward,
-            reviewerReward,
-            votingDurattion
+            ethers.utils.parseEther(String(contributorReward)),
+            ethers.utils.parseEther(String(reviewerReward)),
+            votingDurattion * 60 * 60 * 24
         )
         showNotification({
             id: "createDao",

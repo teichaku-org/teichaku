@@ -8,4 +8,6 @@ interface IPoll {
     function setVotingDuration(int256 pollId, uint256 _votingDuration) external;
 
     function settleCurrentPollAndCreateNewPoll() external;
+
+    function setPollAdminRole(address _pollAdmin) external;
 }
