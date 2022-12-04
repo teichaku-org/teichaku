@@ -3,8 +3,6 @@
 /* eslint-disable */
 import type * as daoHistorySol from "./DAOHistory.sol";
 export type { daoHistorySol };
-import type * as pollCreatorSol from "./PollCreator.sol";
-export type { pollCreatorSol };
 export type { DAOLauncher } from "./DAOLauncher";
 export type { Poll } from "./Poll";
 export type { PollFactory } from "./PollFactory";
@@ -16,6 +14,5 @@ export type { IPollFactory } from "./DAOHistory.sol/IPollFactory";
 export { IPollFactory__factory } from "./factories/DAOHistory.sol/IPollFactory__factory";
 export { DAOLauncher__factory } from "./factories/DAOLauncher__factory";
 export { Poll__factory } from "./factories/Poll__factory";
-export type { PollFactory } from "./PollCreator.sol/PollFactory";
-export { PollFactory__factory } from "./factories/PollCreator.sol/PollFactory__factory";
+export { PollFactory__factory } from "./factories/PollFactory__factory";
 export { Wallet__factory } from "./factories/Wallet__factory";
