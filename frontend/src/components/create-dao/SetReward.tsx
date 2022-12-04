@@ -25,6 +25,21 @@ export const SetReward = () => {
         }
     }
 
+    const isTokenAddressYetEmpty = tokenAddress === ""
+    const invalidTokenAddress = !ethers.utils.isAddress(tokenAddress)
+    const noTokenSymbol = tokenSymbol === t.CreateDao.Step2.NotSet
+    const errorMessage = (() => {
+        if (isTokenAddressYetEmpty) {
+            return ""
+        }
+        if (invalidTokenAddress) {
+            return t.CreateDao.Step2.InvalidTokenAddress
+        }
+        if (noTokenSymbol) {
+            return t.CreateDao.Step2.NoTokenSymbol
+        }
+    })()
+
     return <div>
         <Center mb="xl">
             <Title size="h1">
@@ -44,8 +59,10 @@ export const SetReward = () => {
         </Card>
         <TextInput
             value={tokenAddress}
+            required
             onChange={(e) => onChangeTokenAddress(e.currentTarget.value)}
             placeholder="0x..."
+            error={errorMessage}
             label={t.Settings.TokenSetting.AddressInput.Label}
             mb="sm" />
 
@@ -55,11 +72,13 @@ export const SetReward = () => {
         </Text>
 
         <NumberInput
+            required
             min={0}
             value={contributorReward}
             onChange={(e) => setContributorReward(e)}
             placeholder="7000" label={t.Settings.DistributionSetting.Contributor.Label} mb="sm" />
         <NumberInput
+            required
             min={0}
             value={reviewerReward}
             onChange={(e) => setReviewerReward(e)}

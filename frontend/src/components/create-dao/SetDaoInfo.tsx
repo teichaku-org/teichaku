@@ -1,10 +1,15 @@
 import { AppInfo } from "@/constants/AppInfo";
 import { CreateDAOName, CreateDAOAvatar, CreateDAODescription, CreateDAOFirstProject } from "@/domains/atoms/CreateDaoAtom";
+import useDaoHistory from "@/hooks/dao/useDaoHistory";
+import { getContract } from "@/hooks/web3/useMetaMask";
 import { useLocale } from "@/i18n/useLocale";
+import { DAOHistory } from "@/types";
 import { snakeCase } from "@/utils/snakeCase";
 import { Paper, Card, TextInput, Button, Text, Title, Center } from "@mantine/core"
+import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 
 export const SetDaoInfo = () => {
     const { t } = useLocale();
@@ -12,11 +17,30 @@ export const SetDaoInfo = () => {
     const [name, setName] = useAtom(CreateDAOName)
     const [avatar, setAvatar] = useAtom(CreateDAOAvatar)
     const [description, setDescription] = useAtom(CreateDAODescription)
-
+    const [alreadyExist, setAlreadyExist] = useState(false)
 
     const snakedName = snakeCase(name);
     const snakedProjectName = snakeCase(projectName);
     const urlPath = "/" + snakedName + "/" + snakedProjectName;
+
+    const checkDuplicate = () => {
+        const contractAddress = process.env
+            .NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string;
+        const contract = getContract(contractAddress, artifact.abi) as DAOHistory;
+        contract.functions.getDaoInfo(snakedName).then((res) => {
+            const _daoInfo = res[0]
+            if (_daoInfo[0].length > 0) {
+                setAlreadyExist(true)
+            } else {
+                setAlreadyExist(false)
+            }
+        })
+    }
+
+    useEffect(() => {
+        checkDuplicate()
+    }, [name])
+
     return <div>
         <Center mb="xl">
             <Title size="h1">
@@ -30,9 +54,12 @@ export const SetDaoInfo = () => {
         <TextInput
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
+            required
+            error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
             placeholder={t.CreateDao.Step1.DAONamePlaceholder} label={t.CreateDao.Step1.DAOName} mb="sm" />
         <TextInput
             value={projectName}
+            required
             onChange={e => setProjectName(e.currentTarget.value)}
             placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
 

@@ -206,6 +206,7 @@ export const ja = {
       DAOName: "DAOの名前",
       DAODescription: "DAOの説明",
       DAONamePlaceholder: "DAOの名前を入力してください",
+      Duplicate: "この名前は既に使われています。",
       DAODescriptionPlaceholder: "DAOの説明を入力してください",
       LogoUrl: "ロゴのURL",
       LogoUrlPlaceholder: "https://...",
@@ -216,7 +217,9 @@ export const ja = {
     Step2: {
       Title: "設定する",
       SubTitle: "報酬とスプリントの長さを設定",
-      NotSet: "未設定"
+      NotSet: "未設定",
+      InvalidTokenAddress: "無効なトークンアドレスです。",
+      NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
       Title: "確認",

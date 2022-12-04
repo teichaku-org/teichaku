@@ -1,6 +1,7 @@
 import { AppInfo } from "@/constants/AppInfo"
 import { useLocale } from "@/i18n/useLocale";
 import { Group, Button, createStyles } from "@mantine/core"
+import Link from "next/link";
 import { useRouter } from "next/router";
 const BREAKPOINT = '@media (max-width: 755px)';
 
@@ -47,15 +48,15 @@ export const ActionButtons = () => {
             {t.Button.Demo}
         </Button>
 
-        <Button
-            component="a"
-            size="xl"
-            variant="default"
-            className={classes.control}
-            href="/create-dao"
-        >
-            {t.Button.CreateYourDAO}
-        </Button>
+        <Link href="/create-dao">
+            <Button
+                size="xl"
+                variant="default"
+                className={classes.control}
+            >
+                {t.Button.CreateYourDAO}
+            </Button>
+        </Link>
     </Group>
 }
 

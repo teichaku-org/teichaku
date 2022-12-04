@@ -203,18 +203,21 @@ export const en = {
       DAOName: "DAO's name",
       DAODescription: "DAO's description",
       DAONamePlaceholder: "Type your DAO's name",
+      Duplicate: "This name is already taken",
       DAODescriptionPlaceholder: "Type your DAO's description",
       LogoUrl: "Logo URL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "First project's name",
       FirstProjectNamePlaceholder: "Type your first project's name",
       FirstProjectNameDefault: "season1",
+
     },
     Step2: {
       Title: "Configure template",
       SubTitle: "Rewards and Sprint Duration",
       NotSet: "Not set",
-
+      InvalidTokenAddress: "Invalid token address",
+      NoTokenSymbol: "We can't get token symbol. It might not be a token address",
     },
     Step3: {
       Title: "Review Information",
