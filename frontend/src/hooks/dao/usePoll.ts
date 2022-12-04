@@ -107,7 +107,8 @@ export default (props: Props) => {
             id: "candidate",
             title: t.Contribution.ContributionCard.Notification.Title,
             message: t.Contribution.ContributionCard.Notification.Message,
-            loading: true
+            loading: true,
+            autoClose: false
         });
         await tx?.wait()
         hideNotification("candidate")
@@ -132,6 +133,7 @@ export default (props: Props) => {
             title: t.Poll.PollSystem.Notification.Title,
             message: t.Poll.PollSystem.Notification.Message,
             loading: true,
+            autoClose: false
         });
 
         await tx?.wait()

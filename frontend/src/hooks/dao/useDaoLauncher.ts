@@ -39,6 +39,8 @@ export default () => {
             id: "createDao",
             title: t.CreateDao.Complete.Notification.Title,
             message: t.CreateDao.Complete.Notification.Message,
+            loading: true,
+            autoClose: false
         })
         await tx.wait()
         router.push(`/${daoId}/${projectId}/overview`)
