@@ -25,6 +25,19 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "_pollAdmin",
+          "type": "address"
+        }
+      ],
+      "name": "setPollAdminRole",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "_tokenAddress",
           "type": "address"
         },
@@ -53,6 +66,13 @@
         }
       ],
       "name": "setVotingDuration",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "settleCurrentPollAndCreateNewPoll",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

@@ -124,7 +124,6 @@ npx hardhat run scripts/create-dao/3_change-perspective.ts --network maticmum
 ```
 export PRIVATE_KEY=<0xウォレットの秘密鍵を入れる>
 npx hardhat run scripts/deploy-test1.ts --network goerli
-npx hardhat run scripts/deploy-test2.ts --network goerli
 ```
 
 ※ .envファイルおよびvercelの環境変数のコントラクトアドレスを修正する。
