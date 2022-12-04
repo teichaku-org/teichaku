@@ -55,7 +55,7 @@ export const ReviewDaoInfo = () => {
             <tbody>
                 <tr>
                     <td>{t.CreateDao.Step3.ProjectUrl}</td>
-                    <td>{AppInfo.url}<b>{urlPath}</b></td>
+                    <td><b>{urlPath}</b></td>
                 </tr>
 
                 <tr>

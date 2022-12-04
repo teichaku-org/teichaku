@@ -36,6 +36,7 @@ contract Poll is IPoll, AccessControl, Ownable {
         COMMISSION_RATE = _commissionRate;
         commissionAddress = _commissionAddress;
         endTimeStamp[0] = block.timestamp + 14 days;
+        perspectives[0] = ["Planning", "Execution", "Improvement"];
     }
 
     // Pollを開始したり終了するなどの権限
@@ -103,7 +104,7 @@ contract Poll is IPoll, AccessControl, Ownable {
 
     // 投票観点
     // perspective
-    mapping(uint256 => string[]) private perspectives; // perspectiveId => [perspective1, perspective2, ...]
+    mapping(uint256 => string[]) private perspectives;
 
     // アクティブな投票観点
     // active perspective

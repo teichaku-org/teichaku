@@ -8,7 +8,7 @@ export const en = {
       Reviewer: "Reviewer",
     },
     TokenInfoCard: {
-      RewardsToken: "Rewards Token",
+      RewardsToken: "Reward Token",
       ContractAddress: " Contract Address",
       TokenName: "Token Name",
       TokenSymbol: "Token Symbol",
@@ -226,6 +226,15 @@ export const en = {
       ReviewerReward: "Reviewer Reward",
 
     },
+    Complete: {
+      Wait: "Click below button to confirm the transaction!",
+      AcceptTransaction: "Accept Transaction",
+      Retry: "Retry",
+      Notification: {
+        Title: "Your DAO is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.(About 1 minute)",
+      }
+    }
   },
   Settings: {
     Title: "Settings",

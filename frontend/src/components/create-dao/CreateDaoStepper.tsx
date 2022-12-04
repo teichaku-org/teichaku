@@ -11,13 +11,13 @@ interface Props {
 
 export const CreateDaoStepper = (props: Props) => {
     const { t } = useLocale();
-    const [active, setActive] = useState(1);
+    const [active, setActive] = useState(0);
     const nextStep = () => setActive((current) => (current < 3 ? current + 1 : current));
     const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
 
     return (
         <>
-            <Stepper active={active} onStepClick={setActive} breakpoint="sm">
+            <Stepper active={active} breakpoint="sm" >
                 <Stepper.Step label={t.CreateDao.Step1.Title} description={t.CreateDao.Step1.SubTitle}>
                     {props.step1Component}
                 </Stepper.Step>
@@ -33,8 +33,11 @@ export const CreateDaoStepper = (props: Props) => {
             </Stepper>
 
             <Group position="center" mt="xl">
-                <Button variant="default" onClick={prevStep}>Back</Button>
-                <Button onClick={nextStep}>Next step</Button>
+                {active > 0 && (
+                    <Button variant="default" onClick={prevStep}>Back</Button>)}
+                {active < 3 && (
+                    <Button onClick={nextStep}>Next step</Button>
+                )}
             </Group>
         </>
     );

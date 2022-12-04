@@ -3,5 +3,7 @@
 /* eslint-disable */
 export * as daoHistorySol from "./DAOHistory.sol";
 export * as pollCreatorSol from "./PollCreator.sol";
+export { DAOLauncher__factory } from "./DAOLauncher__factory";
 export { Poll__factory } from "./Poll__factory";
+export { PollFactory__factory } from "./PollFactory__factory";
 export { Wallet__factory } from "./Wallet__factory";

@@ -226,7 +226,15 @@ export const ja = {
       ProjectUrl: "プロジェクトのURL",
       ContributorReward: "コントリビューターの報酬",
       ReviewerReward: "レビュアーの報酬",
-
+    },
+    Complete: {
+      Wait: "以下のボタンを押すとトランザクションが承認され、ブロックチェーンにDAOが書き込まれます！",
+      AcceptTransaction: "トランザクションを承認",
+      Retry: "リトライ",
+      Notification: {
+        Title: "DAOがブロックチェーンに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
+      }
     }
   },
   Settings: {

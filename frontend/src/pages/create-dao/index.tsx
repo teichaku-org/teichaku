@@ -2,6 +2,7 @@ import { CreateDaoStepper } from "@/components/create-dao/CreateDaoStepper";
 import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo";
 import { SetDaoInfo } from "@/components/create-dao/SetDaoInfo";
 import { SetReward } from "@/components/create-dao/SetReward";
+import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy";
 import { Center, Container } from "@mantine/core";
 
 const Page = () => {
@@ -29,12 +30,20 @@ const Page = () => {
         );
     };
 
+    const completedStep = () => {
+        return (
+            <Container mt="md" p="xl">
+                <WaitingDeploy />
+            </Container>
+        );
+    }
+
     return <Container my="xl">
         <CreateDaoStepper
             step1Component={step1()}
             step2Component={step2()}
             step3Component={step3()}
-            completedComponent={<h1>Completed</h1>}
+            completedComponent={completedStep()}
         />
     </Container>
 

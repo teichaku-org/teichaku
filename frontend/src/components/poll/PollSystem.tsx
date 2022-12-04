@@ -1,16 +1,15 @@
+import { Links } from "@/constants/Links";
 import { Contribution } from "@/domains/Contribution";
 import useMetaMask from "@/hooks/web3/useMetaMask";
+import { useLocale } from "@/i18n/useLocale";
 import { Alert, Button, Group, Space, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Container } from "@nivo/core";
-import { IconAlertCircle, IconPlus } from "@tabler/icons";
+import { IconAlertCircle } from "@tabler/icons";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AddYourContribution } from "./AddYourContribution";
 import { CandidateCard } from "./CandidateCard";
-import { showNotification } from "@mantine/notifications";
-import { useRouter } from "next/router";
-import { Links } from "@/constants/Links";
-import { useLocale } from "@/i18n/useLocale";
 
 interface Props {
   candidates: Contribution[];
@@ -73,27 +72,13 @@ export const PollSystem = (props: Props) => {
     }
   };
 
-  const clearLocalStorage = () => {
-    localStorage.removeItem("points");
-    localStorage.removeItem("comments");
-  };
 
   const _vote = async () => {
     const defaultPoints = props.perspectives.map(() => 0);
     const points = props.candidates.map((c) => pointObject[c.contributor] || defaultPoints);
     const comments = props.candidates.map((c) => commentObject[c.contributor] || "");
     await props.vote(points, comments);
-    clearLocalStorage();
-    showNotification({
-      id: "candidate",
-      title: Notification.Title,
-      message: Notification.Message,
-      autoClose: 4000,
-      loading: true,
-      onClose: () => {
-        router.push(historyPath);
-      },
-    });
+
   };
 
   const renderItems = () => {

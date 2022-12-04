@@ -1,9 +1,13 @@
+import { Links } from "@/constants/Links";
 import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { CommissionFeeAtom, ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
+import { useLocale } from "@/i18n/useLocale";
 import { Poll } from "@/types";
+import { hideNotification, showNotification } from "@mantine/notifications";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import artifact from "../../abi/Poll.sol/Poll.json";
 import useMetaMask, {
@@ -18,6 +22,8 @@ interface Props {
 }
 
 export default (props: Props) => {
+    const { t } = useLocale()
+    const router = useRouter()
     const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
     const [isAdmin, setIsAdmin] = useState(false)
     const { address } = useMetaMask();
@@ -91,6 +97,49 @@ export default (props: Props) => {
         return _pollDetail
     }
 
+    const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
+        const tx = await contractWithSigner?.functions.candidateToCurrentPoll(
+            contributionText,
+            evidences,
+            roles
+        )
+        showNotification({
+            id: "candidate",
+            title: t.Contribution.ContributionCard.Notification.Title,
+            message: t.Contribution.ContributionCard.Notification.Message,
+            loading: true
+        });
+        await tx?.wait()
+        hideNotification("candidate")
+        const commonPath = Links.getCommonPath(router)
+        router.push(commonPath + "/poll")
+    }
+
+    const clearLocalStorage = () => {
+        localStorage.removeItem("points");
+        localStorage.removeItem("comments");
+    };
+
+    const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
+        const tx = await contractWithSigner?.functions.vote(
+            pollId,
+            candidates,
+            points,
+            comments
+        )
+        showNotification({
+            id: "vote",
+            title: t.Poll.PollSystem.Notification.Title,
+            message: t.Poll.PollSystem.Notification.Message,
+            loading: true,
+        });
+
+        await tx?.wait()
+        clearLocalStorage();
+        hideNotification("vote")
+        const commonPath = Links.getCommonPath(router)
+        router.push(commonPath + "/history")
+    }
 
     return {
         contractAddress,
@@ -101,8 +150,8 @@ export default (props: Props) => {
         contributorReward,
         voterReward,
         commissionFee,
-        vote: contractWithSigner?.functions.vote,
+        vote: _vote,
         settleCurrentPollAndCreateNewPoll: contractWithSigner?.functions.settleCurrentPollAndCreateNewPoll,
-        candidateToPoll: contractWithSigner?.functions.candidateToCurrentPoll,
+        candidateToPoll: _candidateToPoll,
     };
 };

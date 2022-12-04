@@ -1,15 +1,13 @@
 import { Assessment } from "@/domains/Assessment";
 import { AssessmentListAtom } from "@/domains/atoms/AssessmentListAtom";
-import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { DaoHistoryListAtom } from "@/domains/atoms/DaoHistoryListAtom";
 import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom";
 import { DAOHistory } from "@/types";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
-import useMetaMask, {
-  getContract,
-  getContractWithSigner
+import {
+  getContract
 } from "../web3/useMetaMask";
 
 interface Props {

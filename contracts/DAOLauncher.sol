@@ -39,5 +39,6 @@ contract DAOLauncher is AccessControl, Ownable {
         poll.setAssignmentToken(_contributorToken, _voterToken);
         poll.setTokenAddress(_tokenAddress, address(0));
         poll.setVotingDuration(0, _votingDuration);
+        poll.settleCurrentPollAndCreateNewPoll();
     }
 }
