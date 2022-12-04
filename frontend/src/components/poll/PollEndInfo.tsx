@@ -1,12 +1,13 @@
 import { useLocale } from "@/i18n/useLocale";
-import { getLeftTime } from "@/utils/calculateLeftTime";
-import { Text } from "@mantine/core";
+import { getLeftTime, isPollEnded } from "@/utils/calculateLeftTime";
+import { Button, Text } from "@mantine/core";
 import { useInterval } from "@mantine/hooks";
 import { useState, useEffect } from "react";
 
 interface Props {
   startDate: Date;
   endDate: Date;
+  settle: () => void
 }
 
 export const PollEndInfo = (props: Props) => {
@@ -19,11 +20,21 @@ export const PollEndInfo = (props: Props) => {
   const interval = useInterval(() => {
     if (endTimeStamp) setLeftTimeStr(getLeftTime(endTimeStamp));
   }, 1000);
+  const isEnded = isPollEnded(endTimeStamp);
 
   useEffect(() => {
     interval.start();
     return interval.stop;
   }, [endTimeStamp]);
+
+  if (isEnded) {
+    return <>
+      <Text color="dimmed">{intervalText}</Text>
+      <Button size="lg" color="red" radius="md" onClick={props.settle}>
+        {t.Button.SettlePoll}
+      </Button>
+    </>
+  }
 
   return (
     <>

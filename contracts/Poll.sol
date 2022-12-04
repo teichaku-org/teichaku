@@ -306,7 +306,11 @@ contract Poll is IPoll, AccessControl, Ownable {
      * @dev only poll admin can execute this function and it is expected that external cron system calls this function weekly or bi-weekly.
      */
     function settleCurrentPollAndCreateNewPoll() external {
-        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
+        if (!hasRole(POLL_ADMIN_ROLE, msg.sender)) {
+            if (block.timestamp < endTimeStamp[currentMaxPollId]) {
+                revert("Poll is not finished yet.");
+            }
+        }
         _settlePoll();
         _createPoll();
     }
@@ -421,7 +425,9 @@ contract Poll is IPoll, AccessControl, Ownable {
     function _createPoll() internal {
         currentMaxPollId++;
         startTimeStamp[currentMaxPollId] = block.timestamp;
-        endTimeStamp[currentMaxPollId] = block.timestamp + votingDuration;
+        endTimeStamp[currentMaxPollId] =
+            endTimeStamp[currentMaxPollId - 1] +
+            votingDuration;
     }
 
     /**

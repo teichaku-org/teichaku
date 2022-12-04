@@ -7,6 +7,7 @@ import usePoll from "@/hooks/dao/usePoll";
 import useMetaMask from "@/hooks/web3/useMetaMask";
 import { useLocale } from "@/i18n/useLocale";
 import { Center, Container, Loader, Text, Title } from "@mantine/core";
+import { defaultProps } from "@nivo/bar";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
@@ -77,7 +78,10 @@ const Poll = () => {
         <Title size="h1">{t.Poll.Title}</Title>
       </Center>
 
-      <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
+      <PollEndInfo
+        startDate={pollDetail.startTimeStamp}
+        endDate={pollDetail.endTimeStamp}
+        settle={_settle} />
       <Text>
         {t.Poll.CurrentReviewerIncentive}{" "}
         <b>

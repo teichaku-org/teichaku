@@ -11,6 +11,7 @@ export const calculateLeftTime = (endTime: Date) => {
         hours,
         minutes,
         seconds,
+        left
     };
 }
 
@@ -18,4 +19,9 @@ export const calculateLeftTime = (endTime: Date) => {
 export const getLeftTime = (endTime: Date) => {
     const { days, hours, minutes, seconds } = calculateLeftTime(endTime);
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+export const isPollEnded = (endTime: Date) => {
+    const { left } = calculateLeftTime(endTime);
+    return left <= 0;
 }

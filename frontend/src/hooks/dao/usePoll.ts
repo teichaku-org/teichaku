@@ -143,6 +143,21 @@ export default (props: Props) => {
         router.push(commonPath + "/history")
     }
 
+    const settleCurrentPollAndCreateNewPoll = async () => {
+        const tx = await contractWithSigner?.functions.settleCurrentPollAndCreateNewPoll()
+        showNotification({
+            id: "settle",
+            title: t.Poll.PollSystem.Settle.Title,
+            message: t.Poll.PollSystem.Settle.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("settle")
+        const commonPath = Links.getCommonPath(router)
+        router.push(commonPath + "/history")
+    }
+
     return {
         contractAddress,
         isAdmin,
@@ -153,7 +168,7 @@ export default (props: Props) => {
         voterReward,
         commissionFee,
         vote: _vote,
-        settleCurrentPollAndCreateNewPoll: contractWithSigner?.functions.settleCurrentPollAndCreateNewPoll,
+        settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
     };
 };

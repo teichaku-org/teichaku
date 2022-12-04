@@ -186,6 +186,10 @@ export const ja = {
         Title: "投票がブロックチェーンに送信されました!",
         Message: "トランザクション完了までお待ちください。",
       },
+      Settle: {
+        Title: "あなたのトランザクションはブロックチェーンに送信されました！",
+        Message: "トランザクション完了までお待ちください。",
+      },
       CandidateCard: {
         SelectPoint: {
           Placeholder: "１つ選択",

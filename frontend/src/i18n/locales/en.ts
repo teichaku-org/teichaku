@@ -186,6 +186,10 @@ export const en = {
         Title: "Your Vote is sent to blockchain!",
         Message: "Please wait for the transaction to be completed.",
       },
+      Settle: {
+        Title: "Your transaction is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
       CandidateCard: {
         Comment: {
           Label: "comment (optional)",
