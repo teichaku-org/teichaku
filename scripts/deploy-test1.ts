@@ -6,6 +6,13 @@ import setupEmptyDemo from "./demo/setupEmptyDemo";
 async function main() {
   const daoId = "demo"
   const projectId = "season1"
+  const daoName = "Teichaku DAO";
+  const daoDescription = "This is a demo DAO for Teichaku DAO";
+  const website = ""
+  const logo = "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/englister/dao_membership.png"
+  const contributorReward = ethers.utils.parseEther("7000")
+  const reviewerReward = ethers.utils.parseEther("3000")
+  const votingDurattion = 60 * 60 * 24 * 7
 
   // tokenの発行
   const Token = await ethers.getContractFactory("DAOToken");
@@ -39,8 +46,22 @@ async function main() {
   await daoHistory.deployed();
   console.log("DAOHistory deployed to:", daoHistory.address);
 
+  // DAOLauncherのデプロイ
+  const DAOLauncher = await ethers.getContractFactory("DAOLauncher");
+  const daoLauncher = await DAOLauncher.deploy(daoHistory.address);
+  await daoLauncher.deployed();
+  console.log("DAOLauncher deployed to:", daoLauncher.address);
+
   // DAOの追加
-  await daoHistory.addDao(daoId, projectId, "Web3 Hackathon DAO", "The Web3 Hackathon DAO is a DAO that was created for the Hackathon and aims to create this product.", "https://englister.yunomy.com", "https://yunomy-image-folder.s3.ap-northeast-1.amazonaws.com/web3hackathon/icon.jpeg");
+  await daoLauncher.createDao(
+    daoId, projectId,
+    daoName, daoDescription,
+    website, logo,
+    token.address,
+    contributorReward,
+    reviewerReward,
+    votingDurattion
+  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
