@@ -180,6 +180,7 @@ export const en = {
   Poll: {
     Title: "SprintReview",
     CurrentReviewerIncentive: "Current Reviewer Incentive:",
+    PollIsEnded: "The current SprintReview is ended.",
     PollSystem: {
       AlreadyVoteMessage: "You already voted but you can vote for revision",
       Notification: {

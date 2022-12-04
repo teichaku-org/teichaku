@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 interface Props {
   startDate: Date;
   endDate: Date;
-  settle: () => void
+  settle?: () => void
 }
 
 export const PollEndInfo = (props: Props) => {
@@ -28,6 +28,13 @@ export const PollEndInfo = (props: Props) => {
   }, [endTimeStamp]);
 
   if (isEnded) {
+    if (!props.settle) {
+      return (
+        <div>
+          <Text>{t.Poll.Title}</Text>
+        </div>
+      );
+    }
     return <>
       <Text color="dimmed">{intervalText}</Text>
       <Button size="lg" color="red" radius="md" onClick={props.settle}>

@@ -180,6 +180,7 @@ export const ja = {
   Poll: {
     Title: "スプリントレビュー",
     CurrentReviewerIncentive: "現在レビュアーが獲得できるトークン:",
+    PollIsEnded: "スプリントレビューは終了しました。",
     PollSystem: {
       AlreadyVoteMessage: "既に投票をしていますが、投票を修正できます。",
       Notification: {
