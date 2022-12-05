@@ -2,6 +2,7 @@ import { Links } from "@/constants/Links";
 import { Contribution } from "@/domains/Contribution";
 import useMetaMask from "@/hooks/web3/useMetaMask";
 import { useLocale } from "@/i18n/useLocale";
+import { calculateTheTimeToVote } from "@/utils/theTimeToVote";
 import { Alert, Button, Group, Space, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Container } from "@nivo/core";
@@ -18,10 +19,10 @@ interface Props {
   vote: (points: number[][], comments: string[]) => void;
   candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void;
   perspectives: string[];
-  voters: string[];
   isAdmin: boolean;
   tokenSymbol: string;
   settle: () => void;
+  endDate: Date;
 }
 export const PollSystem = (props: Props) => {
   const { t } = useLocale();
@@ -30,6 +31,9 @@ export const PollSystem = (props: Props) => {
   const [pointObject, setPointObject] = useState<{ [key: string]: number[] }>({});
   const [commentObject, setCommentObject] = useState<{ [key: string]: string }>({});
   const [distributionObject, setDistributionObject] = useState<{ [key: string]: number }>({});
+  const theTimeCanVote = calculateTheTimeToVote(props.endDate);
+  const isTheTimeCanVote = theTimeCanVote < new Date();
+
   //smarller than md
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(max-width: ${theme.breakpoints.md}px)`);
@@ -117,12 +121,12 @@ export const PollSystem = (props: Props) => {
             <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>
               {t.Button.SaveDraft}
             </Button>
-            <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: "blue", to: "grape" }}>
-              {t.Button.SubmitToBlockchain}
+            <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: "blue", to: "grape" }} disabled={!isTheTimeCanVote}>
+              {isTheTimeCanVote ? t.Button.SubmitToBlockchain : t.Button.WaitToVote(theTimeCanVote)}
             </Button>
             {props.isAdmin ? (
               <Group position="center" my="xl">
-                <Button size="lg" color="red" radius="md" onClick={props.settle} disabled={props.voters.length === 0}>
+                <Button size="lg" color="red" radius="md" onClick={props.settle}>
                   {t.Button.SettlePollForAdmin}
                 </Button>
               </Group>

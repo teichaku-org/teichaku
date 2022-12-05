@@ -72,6 +72,9 @@ const Poll = () => {
       router.push(`/${daoId}/${projectId}/settings/send-token`);
       return;
     }
+    if (voters.length === 0) {
+      window.confirm(t.Poll.ConfirmNoVoter);
+    }
     await settleCurrentPollAndCreateNewPoll();
   };
 
@@ -106,9 +109,9 @@ const Poll = () => {
         perspectives={pollDetail.perspectives}
         candidateToPoll={_candidateToPoll}
         isAdmin={isAdmin}
-        voters={voters}
         settle={_settle}
         tokenSymbol={tokenSymbol}
+        endDate={pollDetail.endTimeStamp}
       />
     </Container>
   );

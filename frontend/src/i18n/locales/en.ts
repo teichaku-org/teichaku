@@ -59,6 +59,7 @@ export const en = {
     ConnectWallet: "Connect Wallet",
     SaveDraft: "Save Draft",
     SubmitToBlockchain: "Submit to Blockchain",
+    WaitToVote: (date: Date) => `Wait Until ${date.toLocaleDateString()}`,
     AddYourContribution: "Add Your Contribution",
     UpdateYourContribution: "Update Your Contribution",
     SettlePollForAdmin: "Settle Poll(Only Admin Can)",
@@ -198,6 +199,7 @@ export const en = {
     Title: "SprintReview",
     CurrentReviewerIncentive: "Current Reviewer Incentive:",
     PollIsEnded: "The current SprintReview is ended.",
+    ConfirmNoVoter: "No one has voted yet. If there are no reviewers, no tokens will be distributed and voting will be initialized.",
     PollSystem: {
       AlreadyVoteMessage: "You already voted but you can vote for revision",
       Notification: {

@@ -59,6 +59,7 @@ export const ja = {
     ConnectWallet: "ウォレットを接続",
     SaveDraft: "下書き保存",
     SubmitToBlockchain: "ブロックチェーンに登録",
+    WaitToVote: (date: Date) => `${date.toLocaleDateString()}から投票可能`,
     AddYourContribution: "自分の貢献を追加する",
     UpdateYourContribution: "自分の貢献を更新する",
     SettlePollForAdmin: "投票を締め切る(管理者用)",
@@ -198,6 +199,7 @@ export const ja = {
     Title: "スプリントレビュー",
     CurrentReviewerIncentive: "現在レビュアーが獲得できるトークン:",
     PollIsEnded: "スプリントレビューは終了しました。",
+    ConfirmNoVoter: "まだ誰も投票していません。レビュワーがいない場合はトークンは分配されず、投票が初期化されます。",
     PollSystem: {
       AlreadyVoteMessage: "既に投票をしていますが、投票を修正できます。",
       Notification: {
