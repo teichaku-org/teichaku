@@ -20,9 +20,9 @@ async function setupDemo(
     console.log("daoHistory.setupAddHistoryRole(owner.address) done")
 
     // Tokenの発行
-    await token.mint(owner.address, ethers.utils.parseEther("100500"));
+    await token.mint(owner.address, ethers.utils.parseEther("200000"));
     if (otherAccount)
-        await token.mint(otherAccount.address, ethers.utils.parseEther("500"));
+        await token.mint(otherAccount.address, ethers.utils.parseEther("100000"));
     console.log("token.mint(owner.address, ethers.utils.parseEther(\"100500\")) done")
 
     // Pollに送金する

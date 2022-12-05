@@ -147,32 +147,48 @@ export const ja = {
       },
       ContributionExamples: {
         Title: "貢献を選択しよう!",
-        Documentation: {
-          Title: "ドキュメント作成",
-          Description: "...についての新しいドキュメントを作成しました。",
-        },
-        BugFix: {
-          Title: "バグ修正",
-          Description: "...のバグを修正しました。",
-        },
-        Advertisement: {
-          Title: "広告宣伝",
-          Description: "...を宣伝しました。",
-        },
         Development: {
-          Title: "開発",
+          Title: "💻　開発",
           Description: "...を新しく開発しました。",
         },
         Design: {
-          Title: "デザイン",
-          Description: "を新しくデザインしました。",
+          Title: "🎨　デザイン",
+          Description: "...をデザインしました。",
         },
-        Analysis: {
-          Title: "分析",
+        Translation: {
+          Title: "🌐　翻訳",
+          Description: "...を翻訳しました。",
+        },
+        Documentation: {
+          Title: "📝　ドキュメント",
+          Description: "...についての新しいドキュメントを作成しました。",
+        },
+        Writing: {
+          Title: "✍️　執筆",
+          Description: "...についての記事を作成しました。",
+        },
+        Marketing: {
+          Title: "📢　マーケティング",
+          Description: "...をマーケティングしました。",
+        },
+        Community: {
+          Title: "👥　コミュニティ",
+          Description: "...でコミニティ運営に貢献しました。",
+        },
+        Research: {
+          Title: "🔬　研究",
+          Description: "...について調査しました。",
+        },
+        Operation: {
+          Title: "🔧　運用",
+          Description: "...を運営しました。",
+        },
+        DataAnalysis: {
+          Title: "📊　データ分析",
           Description: "...を分析しました。",
         },
         Anything: {
-          Title: "なんでも!!",
+          Title: "🤷　その他(なんでも)",
           Description: "...を行いました。",
         },
       },
@@ -262,6 +278,8 @@ export const ja = {
         Label: "トレジャリーにトークンを追加",
         Placeholder: "追加するトークンの量を指定します",
       },
+      TokenIsShortTitle: "分配するトークンが不足しています",
+      TokenIsShortDescription: (token: number) => `投票を締め切るには最低でも${token}トークンが必要です。トークンを追加して再度投票の締め切りを行ってください。`,
     },
     DistributionSetting: {
       Title: "1スプリントあたりのトークン分配",

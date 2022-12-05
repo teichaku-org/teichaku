@@ -1,9 +1,7 @@
-import useDaoToken from "@/hooks/dao/useDaoToken"
 import useERC20 from "@/hooks/dao/useERC20"
 import { css } from "@emotion/react"
-import { ThemeIcon, Text, useMantineTheme } from "@mantine/core"
+import { Text, ThemeIcon, useMantineTheme } from "@mantine/core"
 import { IconCoin } from "@tabler/icons"
-import { useRouter } from "next/router"
 
 interface Props {
   reward: string;

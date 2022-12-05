@@ -139,8 +139,8 @@ export default (props: Props) => {
         await tx?.wait()
         clearLocalStorage();
         hideNotification("vote")
-        const commonPath = Links.getCommonPath(router)
-        router.push(commonPath + "/history")
+        //reload
+        window.location.reload();
     }
 
     const settleCurrentPollAndCreateNewPoll = async () => {

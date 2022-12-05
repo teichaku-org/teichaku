@@ -147,33 +147,49 @@ export const en = {
       },
       ContributionExamples: {
         Title: "Pick Your Contributions!",
-        Documentation: {
-          Title: "Documentation",
-          Description: "I created a new documentation page for ...",
-        },
-        BugFix: {
-          Title: "Bug Fix",
-          Description: "I fixed a bug in ...",
-        },
-        Advertisement: {
-          Title: "Advertisement",
-          Description: "I advertised the project on ...",
-        },
         Development: {
-          Title: "Development",
-          Description: "I developed a new ...",
+          Title: "💻　Development",
+          Description: "I developed a new feature for the DAO.",
         },
         Design: {
-          Title: "Design",
-          Description: "I designed a new ...",
+          Title: "🎨　Design",
+          Description: "I designed a new feature for the DAO.",
         },
-        Analysis: {
-          Title: "Analysis",
-          Description: "I analized ...",
+        Translation: {
+          Title: "🌍　Translation",
+          Description: "I translated the DAO's website into Japanese.",
+        },
+        Documentation: {
+          Title: "📝　Documentation",
+          Description: "I wrote a new documentation for the DAO.",
+        },
+        Writing: {
+          Title: "✍️　Writing",
+          Description: "I wrote a new article for the DAO.",
+        },
+        Marketing: {
+          Title: "📢　Marketing",
+          Description: "I promoted the DAO on Twitter.",
+        },
+        Community: {
+          Title: "👥　Community",
+          Description: "I answered a question on Discord.",
+        },
+        Research: {
+          Title: "🔬　Research",
+          Description: "I researched a new feature for the DAO.",
+        },
+        Operation: {
+          Title: "🔧　Operation",
+          Description: "I operated the DAO's website.",
+        },
+        DataAnalysis: {
+          Title: "📊　Data Analysis",
+          Description: "I analyzed the DAO's data.",
         },
         Anything: {
-          Title: "Anything!!",
-          Description: "I analized ...",
+          Title: "🤷　Anything",
+          Description: "I did anything for the DAO.",
         },
       },
     },
@@ -261,6 +277,8 @@ export const en = {
         Label: "Send Tokens to Treasury",
         Placeholder: "Specify the amount of tokens you want to transfer",
       },
+      TokenIsShortTitle: "Not enough tokens to distribute",
+      TokenIsShortDescription: (token: number) => `A minimum of ${token} tokens is required to close the vote. Please add more tokens and close the vote again.`,
     },
     DistributionSetting: {
       Title: "Total Reward Per Sprint",

@@ -49,9 +49,9 @@ describe("Web3Hachathon Demo Scenario", function () {
     });
 
     describe("デモデータをセットした後の状態について確認", function () {
-        it("トークンはownerが500保有している", async function () {
+        it("トークンはownerが100000保有している", async function () {
             const { owner, token, daoHistory, poll } = await deployAndSetupDemoData()
-            const expected = ethers.utils.parseEther("500");
+            const expected = ethers.utils.parseEther("100000");
             expect(await token.balanceOf(owner.address)).to.equal(expected);
         });
 

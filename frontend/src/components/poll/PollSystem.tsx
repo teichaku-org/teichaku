@@ -18,15 +18,14 @@ interface Props {
   vote: (points: number[][], comments: string[]) => void;
   candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => void;
   perspectives: string[];
+  voters: string[];
   isAdmin: boolean;
   tokenSymbol: string;
   settle: () => void;
 }
 export const PollSystem = (props: Props) => {
   const { t } = useLocale();
-  const { Notification, AlreadyVoteMessage } = t.Poll.PollSystem;
-  const router = useRouter();
-  const historyPath = Links.getCommonPath(router) + "/history";
+  const { AlreadyVoteMessage } = t.Poll.PollSystem;
   const { address } = useMetaMask();
   const [pointObject, setPointObject] = useState<{ [key: string]: number[] }>({});
   const [commentObject, setCommentObject] = useState<{ [key: string]: string }>({});
@@ -123,7 +122,7 @@ export const PollSystem = (props: Props) => {
             </Button>
             {props.isAdmin ? (
               <Group position="center" my="xl">
-                <Button size="lg" color="red" radius="md" onClick={props.settle}>
+                <Button size="lg" color="red" radius="md" onClick={props.settle} disabled={props.voters.length === 0}>
                   {t.Button.SettlePollForAdmin}
                 </Button>
               </Group>

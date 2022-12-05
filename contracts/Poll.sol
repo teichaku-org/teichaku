@@ -366,56 +366,58 @@ contract Poll is IPoll, AccessControl, Ownable {
             uint256 _points = summedPoints[index];
             totalPoints = SafeMath.add(totalPoints, _points);
         }
-
         endTimeStamp[currentMaxPollId] = block.timestamp;
-        if (totalPoints != 0) {
-            // Decide how much to distribute to Contributors
-            uint256[] memory assignmentToken = new uint256[](
-                candidates[currentMaxPollId].length
-            );
-            for (uint256 index = 0; index < _candidates.length; index++) {
-                uint256 _points = summedPoints[index];
-                assignmentToken[index] = SafeMath.div(
-                    SafeMath.mul(_points, CONTRIBUTOR_ASSIGNMENT_TOKEN),
-                    totalPoints
-                );
-            }
-            _transferTokenForContributor(_candidates, assignmentToken);
-            _transferTokenForCommission();
 
-            // Decide how much to distribute to Voters
-            address[] memory _voters = getVoters(currentMaxPollId);
-            uint256 totalVoterCount = _voters.length;
-            if (totalVoterCount > 0) {
-                uint256 voterAssignmentToken = SafeMath.div(
-                    VOTER_ASSIGNMENT_TOKEN,
-                    totalVoterCount
-                );
-                _transferTokenForVoter(_voters, voterAssignmentToken);
-            }
-            //Save aggregation results in DAO History
-            DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
-            for (uint256 c = 0; c < _candidates.length; c++) {
-                ContributionItem memory contributionItem = contributions[
-                    currentMaxPollId
-                ][c];
-                DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
-                    contributionText: contributionItem.contributionText,
-                    reward: assignmentToken[c],
-                    rewardToken: daoTokenAddress,
-                    roles: contributionItem.roles,
-                    timestamp: block.timestamp,
-                    contributor: _candidates[c],
-                    pollId: currentMaxPollId,
-                    evidences: contributionItem.evidences
-                });
-                daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
-                daoHistory.addAssessment(
-                    daoId,
-                    projectId,
-                    candidatesAssessments[c]
-                );
-            }
+        if (totalPoints == 0) {
+            return;
+        }
+
+        // Decide how much to distribute to Contributors
+        uint256[] memory assignmentToken = new uint256[](
+            candidates[currentMaxPollId].length
+        );
+        for (uint256 index = 0; index < _candidates.length; index++) {
+            uint256 _points = summedPoints[index];
+            assignmentToken[index] = SafeMath.div(
+                SafeMath.mul(_points, CONTRIBUTOR_ASSIGNMENT_TOKEN),
+                totalPoints
+            );
+        }
+        _transferTokenForContributor(_candidates, assignmentToken);
+        _transferTokenForCommission();
+
+        // Decide how much to distribute to Voters
+        address[] memory _voters = getVoters(currentMaxPollId);
+        uint256 totalVoterCount = _voters.length;
+        if (totalVoterCount > 0) {
+            uint256 voterAssignmentToken = SafeMath.div(
+                VOTER_ASSIGNMENT_TOKEN,
+                totalVoterCount
+            );
+            _transferTokenForVoter(_voters, voterAssignmentToken);
+        }
+        //Save aggregation results in DAO History
+        DAOHistory daoHistory = DAOHistory(daoHistoryAddress);
+        for (uint256 c = 0; c < _candidates.length; c++) {
+            ContributionItem memory contributionItem = contributions[
+                currentMaxPollId
+            ][c];
+            DAOHistoryItem memory daoHistoryItem = DAOHistoryItem({
+                contributionText: contributionItem.contributionText,
+                reward: assignmentToken[c],
+                rewardToken: daoTokenAddress,
+                roles: contributionItem.roles,
+                timestamp: block.timestamp,
+                contributor: _candidates[c],
+                pollId: currentMaxPollId,
+                evidences: contributionItem.evidences
+            });
+            daoHistory.addDaoHistory(daoId, projectId, daoHistoryItem);
+            daoHistory.addAssessment(
+                daoId,
+                projectId,
+                candidatesAssessments[c]
+            );
         }
     }
 

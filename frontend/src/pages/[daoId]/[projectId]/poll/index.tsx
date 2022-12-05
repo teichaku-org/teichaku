@@ -18,6 +18,7 @@ const Poll = () => {
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
+  const dao = { daoId: daoId as string, projectId: projectId as string };
   const {
     isAdmin,
     checkIsAdmin,
@@ -29,8 +30,12 @@ const Poll = () => {
     loadCurrentMaxPoll,
     settleCurrentPollAndCreateNewPoll,
     voterReward,
-  } = usePoll({ daoId: daoId as string, projectId: projectId as string });
-  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
+    commissionFee,
+  } = usePoll(dao);
+
+  const { tokenSymbol } = useDaoToken(dao);
+  const { treasuryBalance } = useDaoToken(dao);
+  const isTokenShort = treasuryBalance < contributorReward + voterReward + commissionFee;
 
   useEffect(() => {
     loadCurrentMaxPoll();
@@ -62,7 +67,11 @@ const Poll = () => {
   };
 
   const _settle = async () => {
-    if (!settleCurrentPollAndCreateNewPoll) return;
+    // トークンがない場合はトークン振込ページへ
+    if (isTokenShort) {
+      router.push(`/${daoId}/${projectId}/settings/send-token`);
+      return;
+    }
     await settleCurrentPollAndCreateNewPoll();
   };
 
@@ -97,6 +106,7 @@ const Poll = () => {
         perspectives={pollDetail.perspectives}
         candidateToPoll={_candidateToPoll}
         isAdmin={isAdmin}
+        voters={voters}
         settle={_settle}
         tokenSymbol={tokenSymbol}
       />

@@ -21,14 +21,21 @@ export const ContributionCard = (props: Props) => {
   const [roles, setRoles] = useState([
     "Engineer",
     "Designer",
+    "Translator",
+    "Documenter",
+    "Writer",
+    "Marketer",
+    "Community Manager",
+    "Researcher",
+    "Operator",
+    "Data Analyst",
     "Product Manager",
-    "Marketing",
     "Sales",
     "Customer Support",
   ]);
   const form = useForm({
     initialValues: {
-      roles: [],
+      roles: [] as string[],
       contributionText: "",
       evidence1: "",
       evidence2: "",
@@ -70,9 +77,10 @@ export const ContributionCard = (props: Props) => {
     );
   };
 
-  const onClickExample = (exmapleText: string) => {
+  const onClickExample = (exmapleText: string, defaultRole: string) => {
     //form.setFieldValue("contributionText", exmapleText)
     setPlaceholder(exmapleText);
+    form.setFieldValue("roles", [defaultRole]);
     setShowExample(false);
   };
   return (
