@@ -1,12 +1,10 @@
 import { AppInfo } from "@/constants/AppInfo";
-import { CreateDAOName, CreateDAOAvatar, CreateDAODescription, CreateDAOFirstProject } from "@/domains/atoms/CreateDaoAtom";
-import useDaoHistory from "@/hooks/dao/useDaoHistory";
+import { CreateDAOAvatar, CreateDAODescription, CreateDAOFirstProject, CreateDAOName } from "@/domains/atoms/CreateDaoAtom";
 import { getContract } from "@/hooks/web3/useMetaMask";
 import { useLocale } from "@/i18n/useLocale";
 import { DAOHistory } from "@/types";
 import { snakeCase } from "@/utils/snakeCase";
-import { Paper, Card, TextInput, Button, Text, Title, Center } from "@mantine/core"
-import { ethers } from "ethers";
+import { Card, Center, SimpleGrid, Text, TextInput, Title } from "@mantine/core";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
@@ -48,20 +46,47 @@ export const SetDaoInfo = () => {
             </Title>
         </Center>
 
-        <Text mb="md">{t.CreateDao.Step1.URLPreview}
-            {AppInfo.url}<b>{urlPath}</b>
-        </Text>
-        <TextInput
-            value={name}
-            onChange={(e) => setName(e.currentTarget.value)}
-            required
-            error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
-            placeholder={t.CreateDao.Step1.DAONamePlaceholder} label={t.CreateDao.Step1.DAOName} mb="sm" />
-        <TextInput
-            value={projectName}
-            required
-            onChange={e => setProjectName(e.currentTarget.value)}
-            placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
+        <SimpleGrid
+            cols={2}
+            spacing="lg"
+            breakpoints={[
+                { maxWidth: 800, cols: 1, spacing: 'sm' },
+            ]}
+        >
+            <Card shadow="" p="xl" mb="xl" >
+                <Text mb="md">{t.CreateDao.Step1.URLPreview}
+                    {AppInfo.url}<b>{urlPath}</b>
+                </Text>
+                <TextInput
+                    value={name}
+                    onChange={(e) => setName(e.currentTarget.value)}
+                    required
+                    error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
+                    placeholder={t.CreateDao.Step1.DAONamePlaceholder} label={t.CreateDao.Step1.DAOName} mb="sm" />
+                <TextInput
+                    value={projectName}
+                    required
+                    onChange={e => setProjectName(e.currentTarget.value)}
+                    placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
+            </Card>
+
+            <Card shadow="" p="xl" mb="xl" >
+                <Text mb="md">{t.CreateDao.Step1.URLPreview}
+                    {AppInfo.url}<b>{urlPath}</b>
+                </Text>
+                <TextInput
+                    value={name}
+                    onChange={(e) => setName(e.currentTarget.value)}
+                    required
+                    error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
+                    placeholder={t.CreateDao.Step1.DAONamePlaceholder} label={t.CreateDao.Step1.DAOName} mb="sm" />
+                <TextInput
+                    value={projectName}
+                    required
+                    onChange={e => setProjectName(e.currentTarget.value)}
+                    placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
+            </Card>
+        </SimpleGrid>
 
     </div>
 }

@@ -9,7 +9,7 @@ import {
 
 interface Props {
     label: string;
-    value: string;
+    value: number | undefined;
     onChange: (value: string) => void;
 }
 
@@ -29,6 +29,22 @@ export function AssessmentSelectCard(props: Props) {
                 return 10
             default:
                 return 0
+        }
+    }
+    const convertValue = (value: number | undefined) => {
+        switch (value) {
+            case 0:
+                return 1
+            case 1:
+                return 2
+            case 3:
+                return 3
+            case 6:
+                return 4
+            case 10:
+                return 5
+            default:
+                return undefined
         }
     }
     const getEmptyIcon = (value: number) => {
@@ -83,10 +99,15 @@ export function AssessmentSelectCard(props: Props) {
             <Center mb="xs"><Text weight="bold">{props.label}</Text></Center>
             <Card shadow="xs" p="xs">
                 <Center mb="xs">
-                    <Text size={30}>{props.value} pt</Text>
+                    <Text size={30}>{props.value || 0} pt</Text>
                 </Center>
                 <Center>
-                    <Rating onChange={onChange} emptySymbol={getEmptyIcon} fullSymbol={getFullIcon} highlightSelectedOnly />
+                    <Rating
+                        onChange={onChange}
+                        value={convertValue(props.value)}
+                        emptySymbol={getEmptyIcon}
+                        fullSymbol={getFullIcon}
+                        highlightSelectedOnly />
                 </Center>
             </Card>
         </div>

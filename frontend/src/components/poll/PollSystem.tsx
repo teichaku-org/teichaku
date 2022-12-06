@@ -60,11 +60,15 @@ export const PollSystem = (props: Props) => {
     setDistributionObject(distributionObject);
   }, [pointObject]);
 
-  const saveLocalStorage = () => {
-    localStorage.setItem("points", JSON.stringify(pointObject));
-    localStorage.setItem("comments", JSON.stringify(commentObject));
-    window.location.reload();
-  };
+  useEffect(() => {
+    //自動でローカルストレージに保存 
+    if (Object.keys(pointObject).length) {
+      localStorage.setItem("points", JSON.stringify(pointObject));
+    }
+    if (Object.keys(commentObject).length) {
+      localStorage.setItem("comments", JSON.stringify(commentObject));
+    }
+  }, [pointObject, commentObject]);
 
   const loadLocalStorage = () => {
     const points = localStorage.getItem("points");
@@ -118,9 +122,6 @@ export const PollSystem = (props: Props) => {
       <div style={{ position: "fixed", bottom: 0, right: 0, left: matches ? 0 : 250 }}>
         <Container>
           <Group position="center" my="xl">
-            <Button size="lg" color="gray" radius="md" onClick={saveLocalStorage}>
-              {t.Button.SaveDraft}
-            </Button>
             <Button size="lg" radius="md" onClick={_vote} variant="gradient" gradient={{ from: "blue", to: "grape" }} disabled={!isTheTimeCanVote}>
               {isTheTimeCanVote ? t.Button.SubmitToBlockchain : t.Button.WaitToVote(theTimeCanVote)}
             </Button>

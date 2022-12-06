@@ -34,7 +34,7 @@ export const CandidateCard = (props: Props) => {
         key={perspective}
         label={perspective}
         onChange={(e) => (e ? onChangePoint(e, index) : null)}
-        value={String(props.point[index] || 0)}
+        value={props.point[index] || undefined}
       />
     ));
   };

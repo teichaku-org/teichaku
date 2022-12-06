@@ -22,6 +22,7 @@
     "@nivo/line": "^0.80.0",
     "@nivo/radar": "^0.80.0",
     "@tabler/icons": "^1.101.0",
+    "@walletconnect/sign-client": "^2.1.4",
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.6",
     "ethers": "^5.7.1",
