@@ -121,6 +121,22 @@ export default (props: Props) => {
         localStorage.removeItem("comments");
     };
 
+    const _setPerspectives = async (perspectives: string[]) => {
+        const tx = await contractWithSigner?.functions.changePerspective(perspectives)
+        showNotification({
+            id: "setPerspectives",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setPerspectives")
+        //reload
+        window.location.reload();
+
+    }
+
     const _setStartTime = async (pollId: number, startTimeStamp: number) => {
         const tx = await contractWithSigner?.functions.setStartTimeStamp(
             pollId,
@@ -208,5 +224,6 @@ export default (props: Props) => {
         candidateToPoll: _candidateToPoll,
         setStartTime: _setStartTime,
         setDuration: _setDuration,
+        setPerspectives: _setPerspectives,
     };
 };

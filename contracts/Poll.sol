@@ -379,7 +379,6 @@ contract Poll is IPoll, AccessControl, Ownable {
             uint256 _points = summedPoints[index];
             totalPoints = SafeMath.add(totalPoints, _points);
         }
-        endTimeStamp[currentMaxPollId] = block.timestamp;
 
         if (totalPoints == 0) {
             return;
@@ -439,9 +438,7 @@ contract Poll is IPoll, AccessControl, Ownable {
      */
     function _createPoll() internal {
         currentMaxPollId++;
-        startTimeStamp[currentMaxPollId] =
-            startTimeStamp[currentMaxPollId - 1] +
-            votingDuration;
+        startTimeStamp[currentMaxPollId] = endTimeStamp[currentMaxPollId - 1];
         endTimeStamp[currentMaxPollId] =
             endTimeStamp[currentMaxPollId - 1] +
             votingDuration;
