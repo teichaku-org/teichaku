@@ -10,4 +10,6 @@ interface IPoll {
     function settleCurrentPollAndCreateNewPoll() external;
 
     function setPollAdminRole(address _pollAdmin) external;
+
+    function setStartTimeStamp(int256 pollId, uint256 _startTimeStamp) external;
 }
