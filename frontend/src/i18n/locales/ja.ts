@@ -267,6 +267,10 @@ export const ja = {
   Settings: {
     Title: "設定",
     SubTitle: "設定は現在開発中です! ほとんどの機能はまだ動作しません。",
+    Notification: {
+      Title: "設定がブロックチェーンに送信されました!",
+      Message: "トランザクション完了までお待ちください。",
+    },
     TokenSetting: {
       TokenDistribution: "報酬に用いるトークン",
       CurrentTokenSymbol: "現在のトークンシンボル:",
@@ -304,11 +308,14 @@ export const ja = {
       },
     },
     PollDeadlineSetting: {
-      Title: "投票締め切り",
+      Title: "スプリント期間",
       DatePicker: {
         Placeholder: "日付を選択",
-        Label: "締め切り日",
+        Label: "スプリント開始日",
       },
+      PollDeadline: {
+        Label: "Sprint End Date",
+      }
     },
     PollDuration: {
       Title: "スプリントの長さ",

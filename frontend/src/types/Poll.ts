@@ -130,6 +130,7 @@ export interface PollInterface extends utils.Interface {
     "setAssignmentToken(uint256,uint256)": FunctionFragment;
     "setDaoHistoryAddress(address)": FunctionFragment;
     "setPollAdminRole(address)": FunctionFragment;
+    "setStartTimeStamp(int256,uint256)": FunctionFragment;
     "setTokenAddress(address,address)": FunctionFragment;
     "setVoteMaxParticipant(uint256)": FunctionFragment;
     "setVotingDuration(int256,uint256)": FunctionFragment;
@@ -175,6 +176,7 @@ export interface PollInterface extends utils.Interface {
       | "setAssignmentToken"
       | "setDaoHistoryAddress"
       | "setPollAdminRole"
+      | "setStartTimeStamp"
       | "setTokenAddress"
       | "setVoteMaxParticipant"
       | "setVotingDuration"
@@ -314,6 +316,10 @@ export interface PollInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setPollAdminRole",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStartTimeStamp",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setTokenAddress",
@@ -462,6 +468,10 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setPollAdminRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setStartTimeStamp",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -710,6 +720,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setStartTimeStamp(
+      pollId: PromiseOrValue<BigNumberish>,
+      _startTimeStamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setTokenAddress(
       _daoTokenAddress: PromiseOrValue<string>,
       _nftAddress: PromiseOrValue<string>,
@@ -878,6 +894,12 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setStartTimeStamp(
+    pollId: PromiseOrValue<BigNumberish>,
+    _startTimeStamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setTokenAddress(
     _daoTokenAddress: PromiseOrValue<string>,
     _nftAddress: PromiseOrValue<string>,
@@ -1041,6 +1063,12 @@ export interface Poll extends BaseContract {
 
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setStartTimeStamp(
+      pollId: PromiseOrValue<BigNumberish>,
+      _startTimeStamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1255,6 +1283,12 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setStartTimeStamp(
+      pollId: PromiseOrValue<BigNumberish>,
+      _startTimeStamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setTokenAddress(
       _daoTokenAddress: PromiseOrValue<string>,
       _nftAddress: PromiseOrValue<string>,
@@ -1435,6 +1469,12 @@ export interface Poll extends BaseContract {
 
     setPollAdminRole(
       _address: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStartTimeStamp(
+      pollId: PromiseOrValue<BigNumberish>,
+      _startTimeStamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -35,6 +35,7 @@ contract Poll is IPoll, AccessControl, Ownable {
         projectId = _projectId;
         COMMISSION_RATE = _commissionRate;
         commissionAddress = _commissionAddress;
+        startTimeStamp[0] = block.timestamp;
         endTimeStamp[0] = block.timestamp + 14 days;
         perspectives[0] = ["Planning", "Execution", "Improvement"];
     }
@@ -181,6 +182,18 @@ contract Poll is IPoll, AccessControl, Ownable {
         require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
         votingDuration = _votingDuration;
         endTimeStamp[pollId] = startTimeStamp[pollId] + _votingDuration;
+    }
+
+    /**
+     * @notice Set startTimeStamp
+     * @dev only poll admin can set Commission Address
+     */
+    function setStartTimeStamp(int256 pollId, uint256 _startTimeStamp)
+        external
+    {
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
+        startTimeStamp[pollId] = _startTimeStamp;
+        endTimeStamp[pollId] = _startTimeStamp + votingDuration;
     }
 
     /**
@@ -426,7 +439,9 @@ contract Poll is IPoll, AccessControl, Ownable {
      */
     function _createPoll() internal {
         currentMaxPollId++;
-        startTimeStamp[currentMaxPollId] = block.timestamp;
+        startTimeStamp[currentMaxPollId] =
+            startTimeStamp[currentMaxPollId - 1] +
+            votingDuration;
         endTimeStamp[currentMaxPollId] =
             endTimeStamp[currentMaxPollId - 1] +
             votingDuration;

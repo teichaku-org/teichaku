@@ -121,6 +121,42 @@ export default (props: Props) => {
         localStorage.removeItem("comments");
     };
 
+    const _setStartTime = async (pollId: number, startTimeStamp: number) => {
+        const tx = await contractWithSigner?.functions.setStartTimeStamp(
+            pollId,
+            startTimeStamp
+        )
+        showNotification({
+            id: "setStartTimeStamp",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setStartTimeStamp")
+        //reload
+        window.location.reload();
+    }
+
+    const _setDuration = async (pollId: number, durationDays: number) => {
+        const tx = await contractWithSigner?.functions.setVotingDuration(
+            pollId,
+            durationDays * 24 * 60 * 60
+        )
+        showNotification({
+            id: "setDuration",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setDuration")
+        //reload
+        window.location.reload();
+    }
+
     const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
         const tx = await contractWithSigner?.functions.vote(
             pollId,
@@ -170,5 +206,7 @@ export default (props: Props) => {
         vote: _vote,
         settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
+        setStartTime: _setStartTime,
+        setDuration: _setDuration,
     };
 };

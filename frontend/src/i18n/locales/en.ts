@@ -266,6 +266,10 @@ export const en = {
   Settings: {
     Title: "Settings",
     SubTitle: "Setting is being built now! Most features still don't work.",
+    Notification: {
+      Title: "Your setting is sent to blockchain!",
+      Message: "Please wait for the transaction to be completed.",
+    },
     TokenSetting: {
       TokenDistribution: "Token for Reward",
       CurrentTokenSymbol: "Current Token Symbol:",
@@ -303,11 +307,14 @@ export const en = {
       },
     },
     PollDeadlineSetting: {
-      Title: "Poll Deadline",
+      Title: "Sprint Duration",
       DatePicker: {
         Placeholder: "Pick date",
-        Label: "Deadline date",
+        Label: "Sprint Start Date",
       },
+      PollDeadline: {
+        Label: "Sprint End Date",
+      }
     },
     PollDuration: {
       Title: "Poll Duration",
