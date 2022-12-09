@@ -47,7 +47,7 @@ export const SetDaoInfo = () => {
         </Center>
 
         <SimpleGrid
-            cols={2}
+            cols={1}
             spacing="lg"
             breakpoints={[
                 { maxWidth: 800, cols: 1, spacing: 'sm' },
@@ -69,7 +69,7 @@ export const SetDaoInfo = () => {
                     onChange={e => setProjectName(e.currentTarget.value)}
                     placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
             </Card>
-
+            {/* 
             <Card shadow="" p="xl" mb="xl" >
                 <Text mb="md">{t.CreateDao.Step1.URLPreview}
                     {AppInfo.url}<b>{urlPath}</b>
@@ -85,7 +85,7 @@ export const SetDaoInfo = () => {
                     required
                     onChange={e => setProjectName(e.currentTarget.value)}
                     placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
-            </Card>
+            </Card> */}
         </SimpleGrid>
 
     </div>

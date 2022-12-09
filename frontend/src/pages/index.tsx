@@ -1,9 +1,20 @@
 import { HeroTitle } from "@/components/landing-page/HeroTitle";
 import { Problems } from "@/components/landing-page/Problems";
+import { useLocale } from "@/i18n/useLocale";
 import { css } from "@emotion/react";
 import { Container } from "@mantine/core";
 
 const Home = () => {
+
+  const { locale } = useLocale()
+  const slideUrl = () => {
+    if (locale === "ja") {
+      return "https://docs.google.com/presentation/d/e/2PACX-1vQGSG-wIPSSjb2_K60-s3I49EkB5UHtYx8HWCloe3k-y6HuwDZCyunx2nhgbJ9FDdtTz-To4KYPRSCa/embed?start=false&loop=false&delayms=3000"
+    } else {
+      return "https://docs.google.com/presentation/d/e/2PACX-1vQTBuhIEd3XYNfR2i16K2q1Mh0TFTZOVneClWKd9mmZxXiFq7uP7jA6IbWMJj4SpOXL-k8-u6NI2nzO/embed?start=false&loop=false&delayms=3000"
+    }
+  }
+
   return (
     <div>
       <Container>
@@ -21,7 +32,7 @@ const Home = () => {
             left: 0;
             width: 100%;
             height: 100%;`
-          } src="https://docs.google.com/presentation/d/e/2PACX-1vSKP4SSpyIQr4w-fALfFCA9QEB_79ICG4hZEQZbz_TBkIvFda4ckj6hsqovAlUnKHZsdcRk54qJDFoa/embed?start=false&loop=false&delayms=3000" frameBorder="0" allowFullScreen={true} ></iframe>
+          } src={slideUrl()} frameBorder="0" allowFullScreen={true} ></iframe>
         </div>
         <div style={{ height: 100 }} />
         {/* <Problems /> */}

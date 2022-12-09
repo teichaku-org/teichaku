@@ -2,11 +2,11 @@
 
 # 基本情報
 ## URL
-https://tokyo-web3.vercel.app/
+https://teichaku.vercel.app/
 
 ### 動作前提
 - MetaMaskがインストールされているChrome(PC)もしくはMetamaskの内蔵ブラウザ(Smartphone)
-- Polygon MumbaiのMATICを持っている (https://mumbaifaucet.com/ から取得お願いします)
+- Etherium GoerliのETHを持っている
 
 
 ## 使用したtech stacks
