@@ -116,6 +116,8 @@ export default (props: Props) => {
         router.push(commonPath + "/poll")
     }
 
+    // todo ここらへんにトークン設定関数を作成する(上の関数を参考にして)
+
     const clearLocalStorage = () => {
         localStorage.removeItem("points");
         localStorage.removeItem("comments");
