@@ -152,6 +152,17 @@ contract Poll is IPoll, AccessControl, Ownable {
     }
 
     /**
+     * @notice Set Token Address
+     * @dev only admin can set Token AND NFT Address
+     */
+    function setDaoTokenAddress(address _daoTokenAddress)
+    external
+    {
+        require(hasRole(POLL_ADMIN_ROLE, msg.sender), "Not admin");
+        daoTokenAddress = _daoTokenAddress;
+    }
+
+    /**
      * @notice Set CONTRIBUTOR_ASSIGNMENT_TOKEN
      * @dev only poll admin can set CONTRIBUTOR_ASSIGNMENT_TOKEN
      */

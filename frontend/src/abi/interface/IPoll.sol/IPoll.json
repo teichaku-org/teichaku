@@ -37,6 +37,24 @@
     {
       "inputs": [
         {
+          "internalType": "int256",
+          "name": "pollId",
+          "type": "int256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_startTimeStamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "setStartTimeStamp",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "_tokenAddress",
           "type": "address"
