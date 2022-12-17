@@ -68,6 +68,12 @@ npm ci
 npm run node
 ```
 
+#### ※mainnetからフォークしblockchainをローカル起動する場合は以下
+```
+npm ci
+npm run node -- --fork <infura.ioなどから取得したネットワークエンドポイント>
+```
+
 ### コントラクトのローカルデプロイ
 ```
 npm run dev
