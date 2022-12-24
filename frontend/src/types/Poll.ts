@@ -129,7 +129,6 @@ export interface PollInterface extends utils.Interface {
     "revokeRole(bytes32,address)": FunctionFragment;
     "setAssignmentToken(uint256,uint256)": FunctionFragment;
     "setDaoHistoryAddress(address)": FunctionFragment;
-    "setDaoTokenAddress(address)": FunctionFragment;
     "setPollAdminRole(address)": FunctionFragment;
     "setStartTimeStamp(int256,uint256)": FunctionFragment;
     "setTokenAddress(address,address)": FunctionFragment;
@@ -176,7 +175,6 @@ export interface PollInterface extends utils.Interface {
       | "revokeRole"
       | "setAssignmentToken"
       | "setDaoHistoryAddress"
-      | "setDaoTokenAddress"
       | "setPollAdminRole"
       | "setStartTimeStamp"
       | "setTokenAddress"
@@ -313,10 +311,6 @@ export interface PollInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setDaoHistoryAddress",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDaoTokenAddress",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -470,10 +464,6 @@ export interface PollInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setDaoHistoryAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDaoTokenAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -725,11 +715,6 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -904,11 +889,6 @@ export interface Poll extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setDaoTokenAddress(
-    _daoTokenAddress: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   setPollAdminRole(
     _address: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1078,11 +1058,6 @@ export interface Poll extends BaseContract {
 
     setDaoHistoryAddress(
       _daoHistoryAddress: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1303,11 +1278,6 @@ export interface Poll extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     setPollAdminRole(
       _address: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1494,11 +1464,6 @@ export interface Poll extends BaseContract {
 
     setDaoHistoryAddress(
       _daoHistoryAddress: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setDaoTokenAddress(
-      _daoTokenAddress: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -116,21 +116,7 @@ export default (props: Props) => {
         router.push(commonPath + "/poll")
     }
 
-    const _setDaoTokenAddress = async (daoTokenAddress: string) => {
-        const tx = await contractWithSigner?.functions.setDaoTokenAddress(daoTokenAddress)
-        showNotification({
-            id: "setDaoTokenAddress",
-            title: t.Settings.Notification.Title,
-            message: t.Settings.Notification.Message,
-            loading: true,
-            autoClose: false
-        });
-        await tx?.wait()
-        hideNotification("setDaoTokenAddress")
-        //reload
-        window.location.reload();
-
-    }
+    // todo ここらへんにトークン設定関数を作成する(上の関数を参考にして)
 
     const clearLocalStorage = () => {
         localStorage.removeItem("points");
@@ -238,7 +224,6 @@ export default (props: Props) => {
         vote: _vote,
         settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
-        setDaoTokenAddress:_setDaoTokenAddress,
         setStartTime: _setStartTime,
         setDuration: _setDuration,
         setPerspectives: _setPerspectives,
