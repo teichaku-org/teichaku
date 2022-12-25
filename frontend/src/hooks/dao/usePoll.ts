@@ -1,5 +1,5 @@
 import { Links } from "@/constants/Links";
-import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
+import {NftContractAddress, PollContractAddress, TokenContractAddress} from "@/domains/atoms/DaoContractAddressAtom";
 import { CommissionFeeAtom, ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
 import { useLocale } from "@/i18n/useLocale";
@@ -32,6 +32,8 @@ export default (props: Props) => {
     const [commissionFee] = useAtom(CommissionFeeAtom)
 
     const [contractAddress] = useAtom(PollContractAddress)
+
+    const [nftAddress] = useAtom(NftContractAddress)
 
     const [contract, setContract] = useState<Poll | null>(null)
     const [contractWithSigner, setContractWithSigner] = useState<Poll | null>(null)
@@ -116,7 +118,21 @@ export default (props: Props) => {
         router.push(commonPath + "/poll")
     }
 
-    // todo ここらへんにトークン設定関数を作成する(上の関数を参考にして)
+    const _setTokenAddress = async (daoTokenAddress: string) => {
+        const tx = await contractWithSigner?.functions.setTokenAddress(daoTokenAddress,nftAddress)
+        showNotification({
+            id: "setTokenAddress",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setTokenAddress")
+        //reload
+        window.location.reload();
+
+    }
 
     const clearLocalStorage = () => {
         localStorage.removeItem("points");
@@ -224,6 +240,7 @@ export default (props: Props) => {
         vote: _vote,
         settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
+        setTokenAddress:_setTokenAddress,
         setStartTime: _setStartTime,
         setDuration: _setDuration,
         setPerspectives: _setPerspectives,

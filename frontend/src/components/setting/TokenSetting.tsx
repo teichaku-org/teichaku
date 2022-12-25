@@ -3,12 +3,14 @@ import { useLocale } from "@/i18n/useLocale";
 import { Button, Text, Paper, TextInput, Card } from "@mantine/core";
 import { useRouter } from "next/router";
 import {useForm} from "@mantine/form";
+import usePoll from "@/hooks/dao/usePoll";
 
 export const TokenSetting = () => {
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
   const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
+  const { setTokenAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string })
 
   const form = useForm({
     initialValues: {
@@ -17,11 +19,8 @@ export const TokenSetting = () => {
   });
 
   const update = () => {
-        // const result = [
-        //     form.values.tokenAddress,
-        // ]
-        // const perspectives = result.filter((item) => item !== "" && item !== undefined)
     console.log(form.values.tokenAddress)
+    setTokenAddress(form.values.tokenAddress)
   }
 
   return (
