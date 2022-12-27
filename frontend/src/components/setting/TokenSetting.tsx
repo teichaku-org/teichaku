@@ -4,6 +4,7 @@ import { Button, Text, Paper, TextInput, Card } from "@mantine/core";
 import { useRouter } from "next/router";
 import {useForm} from "@mantine/form";
 import usePoll from "@/hooks/dao/usePoll";
+import {ethers} from "ethers";
 
 export const TokenSetting = () => {
   const { t } = useLocale();
@@ -16,11 +17,18 @@ export const TokenSetting = () => {
     initialValues: {
       tokenAddress: "",
     },
+    validate: {
+      tokenAddress: (value) => (value != "" && !ethers.utils.isAddress(value)? t.CreateDao.Step2.InvalidTokenAddress : null),
+    },
+    validateInputOnChange: true
   });
 
   const update = () => {
-    console.log(form.values.tokenAddress)
     setTokenAddress(form.values.tokenAddress)
+  }
+
+  const shouldBeDisabled = () => {
+      return form.values.tokenAddress == "" || !form.isValid()
   }
 
   return (
@@ -35,7 +43,7 @@ export const TokenSetting = () => {
         </Text>
       </Card>
       <TextInput placeholder="0x..." label={t.Settings.TokenSetting.AddressInput.Label} mb="sm" {...form.getInputProps("tokenAddress")}　/>
-      <Button onClick={update}>{t.Button.Update}</Button>
+      <Button disabled={shouldBeDisabled()} onClick={update}>{t.Button.Update}</Button>
     </Paper>
   );
 };
