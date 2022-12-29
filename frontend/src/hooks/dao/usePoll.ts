@@ -34,6 +34,7 @@ export default (props: Props) => {
     const [contractAddress] = useAtom(PollContractAddress)
 
     const [nftAddress] = useAtom(NftContractAddress)
+    const [daoTokenAddress] = useAtom(TokenContractAddress)
 
     const [contract, setContract] = useState<Poll | null>(null)
     const [contractWithSigner, setContractWithSigner] = useState<Poll | null>(null)
@@ -118,8 +119,11 @@ export default (props: Props) => {
         router.push(commonPath + "/poll")
     }
 
-    const _setTokenAddress = async (daoTokenAddress: string) => {
-        const tx = await contractWithSigner?.functions.setTokenAddress(daoTokenAddress,nftAddress)
+    const _setTokenAddress = async (argDaoTokenAddress: string|null,argNftAddress:string|null) => {
+        const tx = await contractWithSigner?.functions.setTokenAddress(
+            argDaoTokenAddress==null?daoTokenAddress:argDaoTokenAddress,
+            argNftAddress==null?nftAddress:argNftAddress
+        )
         showNotification({
             id: "setTokenAddress",
             title: t.Settings.Notification.Title,

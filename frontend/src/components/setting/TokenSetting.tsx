@@ -24,11 +24,11 @@ export const TokenSetting = () => {
   });
 
   const update = () => {
-    setTokenAddress(form.values.tokenAddress)
+    setTokenAddress(form.values.tokenAddress,null)
   }
 
   const shouldBeDisabled = () => {
-      return form.values.tokenAddress == "" || !form.isValid()
+    return form.values.tokenAddress == "" || !form.isValid()
   }
 
   return (
