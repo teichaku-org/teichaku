@@ -1,5 +1,5 @@
 import { Links } from "@/constants/Links";
-import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
+import {NftContractAddress, PollContractAddress, TokenContractAddress} from "@/domains/atoms/DaoContractAddressAtom";
 import { CommissionFeeAtom, ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
 import { useLocale } from "@/i18n/useLocale";
@@ -32,6 +32,9 @@ export default (props: Props) => {
     const [commissionFee] = useAtom(CommissionFeeAtom)
 
     const [contractAddress] = useAtom(PollContractAddress)
+
+    const [nftAddress] = useAtom(NftContractAddress)
+    const [daoTokenAddress] = useAtom(TokenContractAddress)
 
     const [contract, setContract] = useState<Poll | null>(null)
     const [contractWithSigner, setContractWithSigner] = useState<Poll | null>(null)
@@ -114,6 +117,25 @@ export default (props: Props) => {
         hideNotification("candidate")
         const commonPath = Links.getCommonPath(router)
         router.push(commonPath + "/poll")
+    }
+
+    const _setTokenAddress = async (argDaoTokenAddress: string|null,argNftAddress:string|null) => {
+        const tx = await contractWithSigner?.functions.setTokenAddress(
+            argDaoTokenAddress==null?daoTokenAddress:argDaoTokenAddress,
+            argNftAddress==null?nftAddress:argNftAddress
+        )
+        showNotification({
+            id: "setTokenAddress",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setTokenAddress")
+        //reload
+        window.location.reload();
+
     }
 
     const clearLocalStorage = () => {
@@ -222,6 +244,7 @@ export default (props: Props) => {
         vote: _vote,
         settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
+        setTokenAddress:_setTokenAddress,
         setStartTime: _setStartTime,
         setDuration: _setDuration,
         setPerspectives: _setPerspectives,

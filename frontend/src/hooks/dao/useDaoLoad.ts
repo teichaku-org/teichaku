@@ -5,7 +5,7 @@ import { getContract } from "../web3/useMetaMask";
 import historyArtifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 import pollArtifact from "../../abi/Poll.sol/Poll.json";
 import { useAtom } from "jotai";
-import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
+import {NftContractAddress, PollContractAddress, TokenContractAddress} from "@/domains/atoms/DaoContractAddressAtom";
 import { CommissionFeeAtom, ContributorRewardAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { ethers } from "ethers";
 import { useEffect } from "react";
@@ -26,6 +26,7 @@ export const useDaoLoad = () => {
     const [_____, setCommissionFee] = useAtom(CommissionFeeAtom);
     const [___, setVoterReward] = useAtom(VoterRewardAtom);
     const [_, setTokenContractAddress] = useAtom(TokenContractAddress)
+    const [______, setNftContractAddress] = useAtom(NftContractAddress)
 
     const load = async () => {
         const res = await contract.functions.pollAddress(daoId, projectId)
@@ -35,6 +36,9 @@ export const useDaoLoad = () => {
 
         pollContract.functions.daoTokenAddress().then((address) => {
             setTokenContractAddress(address[0])
+        })
+        pollContract.functions.nftAddress().then((address) => {
+            setNftContractAddress(address[0])
         })
         pollContract.functions.CONTRIBUTOR_ASSIGNMENT_TOKEN().then((res) => {
             setContributorReward(Number(ethers.utils.formatEther(res[0])))
