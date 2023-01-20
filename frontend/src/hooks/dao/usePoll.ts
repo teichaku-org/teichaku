@@ -141,8 +141,8 @@ export default (props: Props) => {
 
     const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
         const tx = await contractWithSigner?.functions.setAssignmentToken(
-            contributorReward,
-            reviewerReward
+            ethers.utils.parseEther(String(contributorReward)),
+            ethers.utils.parseEther(String(reviewerReward))
         )
         showNotification({
             id: "setTokenDistribution",
