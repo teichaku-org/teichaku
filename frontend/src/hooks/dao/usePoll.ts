@@ -1,5 +1,5 @@
 import { Links } from "@/constants/Links";
-import {NftContractAddress, PollContractAddress, TokenContractAddress} from "@/domains/atoms/DaoContractAddressAtom";
+import { NftContractAddress, PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { CommissionFeeAtom, ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom";
 import { Contribution } from "@/domains/Contribution";
 import { useLocale } from "@/i18n/useLocale";
@@ -119,10 +119,10 @@ export default (props: Props) => {
         router.push(commonPath + "/poll")
     }
 
-    const _setTokenAddress = async (argDaoTokenAddress: string|null,argNftAddress:string|null) => {
+    const _setTokenAddress = async (argDaoTokenAddress: string | null, argNftAddress: string | null) => {
         const tx = await contractWithSigner?.functions.setTokenAddress(
-            argDaoTokenAddress==null?daoTokenAddress:argDaoTokenAddress,
-            argNftAddress==null?nftAddress:argNftAddress
+            argDaoTokenAddress == null ? daoTokenAddress : argDaoTokenAddress,
+            argNftAddress == null ? nftAddress : argNftAddress
         )
         showNotification({
             id: "setTokenAddress",
@@ -133,6 +133,26 @@ export default (props: Props) => {
         });
         await tx?.wait()
         hideNotification("setTokenAddress")
+        //reload
+        window.location.reload();
+
+    }
+
+
+    const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
+        const tx = await contractWithSigner?.functions.setAssignmentToken(
+            contributorReward,
+            reviewerReward
+        )
+        showNotification({
+            id: "setTokenDistribution",
+            title: t.Settings.Notification.Title,
+            message: t.Settings.Notification.Message,
+            loading: true,
+            autoClose: false
+        });
+        await tx?.wait()
+        hideNotification("setTokenDistribution")
         //reload
         window.location.reload();
 
@@ -244,9 +264,10 @@ export default (props: Props) => {
         vote: _vote,
         settleCurrentPollAndCreateNewPoll,
         candidateToPoll: _candidateToPoll,
-        setTokenAddress:_setTokenAddress,
+        setTokenAddress: _setTokenAddress,
         setStartTime: _setStartTime,
         setDuration: _setDuration,
         setPerspectives: _setPerspectives,
+        setTokenDistribution: _setTokenDistribution,
     };
 };
