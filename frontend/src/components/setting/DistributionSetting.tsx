@@ -26,11 +26,11 @@ export const DistributionSetting = () => {
 
       <TextInput
         value={contributorReward}
-        onChange={(e) => setContributorReward(e)}
+        onChange={(e) => setContributorReward(Number(e.target.value))}
         placeholder="7000" label={Contributor.Label} mb="sm" />
       <TextInput
         value={reviewerReward}
-        onChange={(e) => setReviewerReward(e)}
+        onChange={(e) => setReviewerReward(Number(e.target.value))}
         placeholder="3000" label={Reviewer.Label} mb="sm" />
       <Button onClick={onClick}>{t.Button.Update}</Button>
     </Paper>
