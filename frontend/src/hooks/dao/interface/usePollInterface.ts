@@ -19,5 +19,5 @@ export type usePollInterface = (props: {
     setStartTime: (pollId: number, startTimeStamp: number) => Promise<void>,
     setDuration: (pollId: number, durationDays: number) => Promise<void>,
     setPerspectives: (perspectives: string[]) => Promise<void>,
-    setTokenDistribution: (contributorReward: number, voterReward: number, commissionFee: number) => Promise<void>
+    setTokenDistribution: (contributorReward: number, voterReward: number) => Promise<void>
 }

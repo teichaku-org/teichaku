@@ -42,7 +42,7 @@ const usePollWeb2: usePollInterface = (props: {
     const _setPerspectives = async (perspectives: string[]) => {
     }
 
-    const _setTokenDistribution = async (contributorReward: number, voterReward: number, commissionFee: number) => {
+    const _setTokenDistribution = async (contributorReward: number, voterReward: number) => {
     }
 
 
