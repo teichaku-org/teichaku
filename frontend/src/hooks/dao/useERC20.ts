@@ -1,48 +1,22 @@
-import { useEffect, useState } from "react"
-import { Contract, ethers } from "ethers";
-import useMetaMask, { getContract, getContractWithSigner } from "../web3/useMetaMask";
-import artifact from "../../abi/token/DAOToken.sol/DAOToken.json";
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
 import { useAtom } from "jotai";
-import { TokenNameAtom, TokenSymbolAtom, TokenTotalSupplyAtom, TreasuryBalanceAtom, YourBalanceAtom } from "@/domains/atoms/TokenAtom";
-import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
-import usePoll from "./usePoll";
+import { useERC20Interface } from "./interface/useERC20Interface";
+import useERC20Web3 from "./web3/useERC20Web3";
 
-interface Props {
+const useERC20: useERC20Interface = (props: {
     contractAddress: string
-}
-export default (props: Props) => {
-    const { contractAddress } = props
-    const [tokenName, setTokenName] = useAtom(TokenNameAtom);
-    const [tokenSymbol, setTokenSymbol] = useAtom(TokenSymbolAtom);
-    const [tokenTotalSupply, setTokenTotalSupply] = useAtom(TokenTotalSupplyAtom);
-    const { address, login } = useMetaMask()
-    const [contract, setContract] = useState<Contract | null>(null)
-    const [contractWithSigner, setContractWithSigner] = useState<Contract | null>(null)
-
-    useEffect(() => {
-        if (contractAddress) {
-            setContract(getContract(contractAddress, artifact.abi) as Contract)
-            setContractWithSigner(getContractWithSigner(contractAddress, artifact.abi) as Contract)
-        }
-    }, [contractAddress])
-
-    const load = async () => {
-        if (contract) {
-            const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-            contract.functions.name().then(n => setTokenName(n[0]));
-            contract.functions.symbol().then(s => setTokenSymbol(s[0]));
-            contract.functions.totalSupply().then(t => setTokenTotalSupply(Number(ethers.utils.formatEther(t[0]))));
+}) => {
+    const [isWeb3] = useAtom(Web3FlagAtom)
+    const selectStrategy = () => {
+        if (isWeb3) {
+            return useERC20Web3(props)
+        } else {
+            return useERC20Web3(props)
         }
     }
+    const strategy = selectStrategy()
 
-    useEffect(() => {
-        if (!(contract)) return
-        load()
-    }, [contract])
+    return strategy
+};
 
-
-    return {
-        load, tokenName,
-        tokenSymbol, tokenTotalSupply,
-    };
-}
+export default useERC20

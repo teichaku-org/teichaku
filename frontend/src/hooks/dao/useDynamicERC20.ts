@@ -1,25 +1,23 @@
-import { Contract, ethers } from "ethers";
-import artifact from "../../abi/token/DAOToken.sol/DAOToken.json";
-import { getContract } from "../web3/useMetaMask";
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
+import { useAtom } from "jotai";
+import { useDynamicERC20Interface } from "./interface/useDynamicERC20Interface";
+import useDynamicERC20Web2 from "./web2/useDynamicERC20Web2";
+import useDynamicERC20Web3 from "./web3/useDynamicERC20Web3";
 
-export default () => {
-    const loadTokenSymbol = async (address: string) => {
-        const contract = getContract(address, artifact.abi) as Contract
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-        const symbol = await contract.functions.symbol()
-        return symbol[0]
+const useDynamicERC20: useDynamicERC20Interface = (props: {
+    contractAddress: string
+}) => {
+    const [isWeb3] = useAtom(Web3FlagAtom)
+    const selectStrategy = () => {
+        if (isWeb3) {
+            return useDynamicERC20Web3(props)
+        } else {
+            return useDynamicERC20Web2(props)
+        }
     }
+    const strategy = selectStrategy()
 
-    const loadTokenName = async (address: string) => {
-        const contract = getContract(address, artifact.abi) as Contract
-        const provider = new ethers.providers.Web3Provider((window as any).ethereum)
-        const name = await contract.functions.name()
-        return name[0]
-    }
+    return strategy
+};
 
-
-    return {
-        loadTokenSymbol,
-        loadTokenName,
-    };
-}
+export default useDynamicERC20
