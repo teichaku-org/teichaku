@@ -1,4 +1,12 @@
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
+import { useAtom } from "jotai";
+
 export const MetamaskCheck = () => {
+    const [isWeb3] = useAtom(Web3FlagAtom);
+    if (!isWeb3) {
+        return <div />
+    }
+
     const isMetaMaskInstalled = () => {
         const { ethereum } = window as any;
         return Boolean(ethereum && ethereum.isMetaMask);
