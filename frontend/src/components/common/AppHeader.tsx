@@ -1,4 +1,4 @@
-import useMetaMask from "@/hooks/web3/useMetaMask";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import {
   Center,
   Container,
@@ -23,7 +23,7 @@ const useStyles = createStyles((theme) => ({
 
 export function AppHeader() {
   const { classes, cx } = useStyles();
-  const { address } = useMetaMask();
+  const { address } = useWeb3Auth()
 
   return (
     <Header height={HEADER_HEIGHT} mb={120}>

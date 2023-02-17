@@ -2,6 +2,7 @@ import { Links } from "@/constants/Links";
 import useDaoHistory from "@/hooks/dao/useDaoHistory";
 import usePoll from "@/hooks/dao/usePoll";
 import useMetaMask from "@/hooks/web3/useMetaMask";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment";
 import { shortenAddress } from "@/utils/shortenAddress";
@@ -23,7 +24,7 @@ export const SingleAssessment = (props: Props) => {
   const router = useRouter();
   const { daoId, projectId } = router.query;
   const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
-  const { address } = useMetaMask();
+  const { address } = useWeb3Auth();
   const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
 
   const perspectives = pollDetail?.perspectives || [];

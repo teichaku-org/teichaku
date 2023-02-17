@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react"
-import { Contract, ethers } from "ethers";
-import useMetaMask, { getContract, getContractWithSigner } from "../../web3/useMetaMask";
-import artifact from "../../../abi/token/DAOToken.sol/DAOToken.json";
-import { useAtom } from "jotai";
+import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
 import { TokenNameAtom, TokenSymbolAtom, TokenTotalSupplyAtom, TreasuryBalanceAtom, YourBalanceAtom } from "@/domains/atoms/TokenAtom";
-import { PollContractAddress, TokenContractAddress } from "@/domains/atoms/DaoContractAddressAtom";
-import usePoll from "../usePoll";
+import { useAtom } from "jotai";
 import { useDaoTokenInterface } from "../interface/useDaoTokenInterface";
 
 interface Props {

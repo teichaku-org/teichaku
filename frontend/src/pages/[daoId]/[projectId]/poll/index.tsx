@@ -4,17 +4,16 @@ import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
 import useDaoToken from "@/hooks/dao/useDaoToken";
 import usePoll from "@/hooks/dao/usePoll";
-import useMetaMask from "@/hooks/web3/useMetaMask";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { Center, Container, Loader, Text, Title } from "@mantine/core";
-import { defaultProps } from "@nivo/bar";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Poll = () => {
   useDaoExistCheck();
   useDaoLoad();
-  const { address } = useMetaMask();
+  const { address } = useWeb3Auth();
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;

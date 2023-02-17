@@ -6,9 +6,14 @@ import { AppShell, MantineProvider } from "@mantine/core";
 import dynamic from "next/dynamic";
 import NetworkCheck from "../components/web3/common/NetworkCheck";
 import { NotificationsProvider } from '@mantine/notifications';
+import { SafeEventEmitterProvider } from "@web3auth/base";
+import { Web3Auth } from "@web3auth/modal";
+import { useEffect, useState } from "react";
+
 
 const MyApp = ({ Component, pageProps }: any) => {
   const SafeHydrate = dynamic(() => import("./SafeHydrage"), { ssr: false });
+
 
   const windowErrorRender = () => {
     return (

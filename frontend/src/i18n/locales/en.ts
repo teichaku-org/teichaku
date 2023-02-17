@@ -82,6 +82,7 @@ export const en = {
       SprintReview: "SprintReview",
       Assessments: "Assessments",
       Settings: "Settings",
+      Logout: "Logout",
     },
     NetworkCheck: {
       Title: "The currently connected network is not supported.",

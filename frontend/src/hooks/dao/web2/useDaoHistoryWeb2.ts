@@ -1,14 +1,7 @@
-import { Assessment } from "@/domains/Assessment";
 import { AssessmentListAtom } from "@/domains/atoms/AssessmentListAtom";
 import { DaoHistoryListAtom } from "@/domains/atoms/DaoHistoryListAtom";
 import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom";
-import { DAOHistory } from "@/types";
-import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import artifact from "../../../abi/DAOHistory.sol/DAOHistory.json";
-import {
-  getContract
-} from "../../web3/useMetaMask";
 import { useDaoHistoryInterface } from "../interface/useDaoHistoryInterface";
 
 interface Props {

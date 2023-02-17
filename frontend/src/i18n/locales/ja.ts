@@ -82,6 +82,7 @@ export const ja = {
       SprintReview: "スプリントレビュー",
       Assessments: "評価",
       Settings: "設定",
+      Logout: "ログアウト",
     },
     NetworkCheck: {
       Title: "現在接続されているネットワークはサポートされていません。",

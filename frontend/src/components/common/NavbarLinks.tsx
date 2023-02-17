@@ -1,7 +1,8 @@
 import { Links } from "@/constants/Links";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { Divider, Group, Space, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
-import { IconBackhoe, IconCoin, IconInfoSquare, IconMessages, IconSettings, IconWalk } from "@tabler/icons";
+import { IconBackhoe, IconCoin, IconInfoSquare, IconLogout, IconMessages, IconSettings, IconWalk } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -10,54 +11,58 @@ interface MainLinkProps {
   color: string;
   label: string;
   path: string;
+  onClick?: () => void;
 }
 
-function MainLink({ icon, color, label, path }: MainLinkProps) {
+function MainLink({ icon, color, label, path, onClick }: MainLinkProps) {
   const currentPath = useRouter().asPath;
   const isActivated = currentPath === path;
   return (
-    <Link href={path} passHref>
-      <UnstyledButton
-        sx={(theme) => ({
-          display: "block",
-          width: "100%",
-          padding: theme.spacing.xs,
-          borderRadius: theme.radius.sm,
-          backgroundColor: isActivated
-            ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).background
-            : "transparent",
-          color: isActivated
-            ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).color
-            : theme.colorScheme === "dark"
-            ? theme.colors.dark[0]
-            : theme.black,
-
-          "&:hover": {
+    <div onClick={onClick}>
+      <Link href={path} passHref>
+        <UnstyledButton
+          sx={(theme) => ({
+            display: "block",
+            width: "100%",
+            padding: theme.spacing.xs,
+            borderRadius: theme.radius.sm,
             backgroundColor: isActivated
               ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).background
+              : "transparent",
+            color: isActivated
+              ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).color
               : theme.colorScheme === "dark"
-              ? theme.colors.dark[6]
-              : theme.colors.gray[0],
-          },
-        })}
-      >
-        <Group>
-          <ThemeIcon color={color} variant="light">
-            {icon}
-          </ThemeIcon>
+                ? theme.colors.dark[0]
+                : theme.black,
 
-          <Text size="md">{label}</Text>
-        </Group>
-      </UnstyledButton>
-    </Link>
+            "&:hover": {
+              backgroundColor: isActivated
+                ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).background
+                : theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[0],
+            },
+          })}
+        >
+          <Group>
+            <ThemeIcon color={color} variant="light">
+              {icon}
+            </ThemeIcon>
+
+            <Text size="md">{label}</Text>
+          </Group>
+        </UnstyledButton>
+      </Link>
+    </div >
   );
 }
 
 export const NavbarLinks = () => {
   const { t } = useLocale();
-  const { Overviews, History, Assessments, Contribution, SprintReview, Settings, Info, Events, Admin } =
+  const { Overviews, History, Assessments, Contribution, SprintReview, Settings, Info, Events, Admin, Logout } =
     t.Common.AppMenu;
   const router = useRouter();
+  const { logout } = useWeb3Auth()
   const { daoId, projectId } = router.query;
   let commonPath = Links.getCommonPath(router);
   if (!(daoId && projectId)) {
@@ -98,6 +103,13 @@ export const NavbarLinks = () => {
       color: "grape",
       label: Settings,
       path: commonPath + "/settings",
+    },
+    {
+      icon: <IconLogout size={16} />,
+      color: "grey",
+      label: Logout,
+      path: "/",
+      onClick: logout,
     },
   ];
 
