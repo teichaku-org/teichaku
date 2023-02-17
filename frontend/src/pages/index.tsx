@@ -1,10 +1,13 @@
 import { HeroTitle } from "@/components/landing-page/HeroTitle";
 import { Problems } from "@/components/landing-page/Problems";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { css } from "@emotion/react";
 import { Container } from "@mantine/core";
 
 const Home = () => {
+
+  const { loggedInView, unloggedInView } = useWeb3Auth()
 
   const { locale } = useLocale()
   const slideUrl = () => {
@@ -19,6 +22,8 @@ const Home = () => {
     <div>
       <Container>
         <HeroTitle />
+        {unloggedInView}
+        {loggedInView}
 
         <div css={css`
         position: relative;
