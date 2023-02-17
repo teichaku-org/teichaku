@@ -14,7 +14,6 @@ const useERC20Web3: useERC20Interface = (props: Props) => {
     const [tokenName, setTokenName] = useAtom(TokenNameAtom);
     const [tokenSymbol, setTokenSymbol] = useAtom(TokenSymbolAtom);
     const [tokenTotalSupply, setTokenTotalSupply] = useAtom(TokenTotalSupplyAtom);
-    const { address, login } = useMetaMask()
     const [contract, setContract] = useState<Contract | null>(null)
     const [contractWithSigner, setContractWithSigner] = useState<Contract | null>(null)
 

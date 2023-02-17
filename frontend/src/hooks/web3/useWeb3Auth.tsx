@@ -94,42 +94,20 @@ export default () => {
     }
 
     const logout = async () => {
+        console.log("logout")
         if (!web3auth) {
             console.log("web3auth not initialized yet");
             return;
         }
         await web3auth.logout();
         setProvider(null);
+        setAddress(null);
     };
 
 
-
-
-    const loggedInView = (
-        <>
-            <button onClick={getUserInfo} className="card">
-                Get User Info
-            </button>
-            <button onClick={logout} className="card">
-                Log Out
-            </button>
-
-            <div id="console" style={{ whiteSpace: "pre-line" }}>
-                <p style={{ whiteSpace: "pre-line" }}></p>
-            </div>
-        </>
-    );
-
-    const unloggedInView = (
-        <button onClick={login} className="card">
-            Login
-        </button>
-    );
-
     return {
-        loggedInView,
-        unloggedInView,
         login,
+        logout,
         user,
         address
     }

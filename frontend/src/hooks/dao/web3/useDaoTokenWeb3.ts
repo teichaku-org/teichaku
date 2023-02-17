@@ -23,7 +23,7 @@ const useDaoTokenWeb3: useDaoTokenInterface = (props: Props) => {
 
     usePoll({ daoId: props.daoId, projectId: props.projectId })
 
-    const { address, login } = useMetaMask()
+    const { address } = useMetaMask()
 
     const [contractAddress] = useAtom(TokenContractAddress)
     const [contract, setContract] = useState<Contract | null>(null)
