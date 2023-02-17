@@ -17,7 +17,7 @@ export default () => {
                 chainConfig: {
                     chainNamespace: "eip155",
                     chainId: process.env.NEXT_PUBLIC_EXPECTED_NETWORK_CHAIN_ID,
-                    rpcTarget: process.env.NEXT_PUBLIC_EXPECTED_RPC_URL
+                    rpcTarget: process.env.NEXT_PUBLIC_EXPECTED_NETWORK_RPC_URL
                 },
             });
 
