@@ -1,13 +1,11 @@
-import { Links } from "@/constants/Links";
 import { Contribution } from "@/domains/Contribution";
-import useMetaMask from "@/hooks/web3/useMetaMask";
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { calculateTheTimeToVote } from "@/utils/theTimeToVote";
 import { Alert, Button, Group, Space, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { Container } from "@nivo/core";
 import { IconAlertCircle } from "@tabler/icons";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AddYourContribution } from "./AddYourContribution";
 import { CandidateCard } from "./CandidateCard";
@@ -27,7 +25,7 @@ interface Props {
 export const PollSystem = (props: Props) => {
   const { t } = useLocale();
   const { AlreadyVoteMessage } = t.Poll.PollSystem;
-  const { address } = useMetaMask();
+  const { address } = useWeb3Auth();
   const [pointObject, setPointObject] = useState<{ [key: string]: number[] }>({});
   const [commentObject, setCommentObject] = useState<{ [key: string]: string }>({});
   const [distributionObject, setDistributionObject] = useState<{ [key: string]: number }>({});

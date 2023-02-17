@@ -4,10 +4,12 @@ import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
 import { useLocale } from "@/i18n/useLocale";
 import { css } from "@emotion/react";
 import { Container } from "@mantine/core";
+import { json } from "stream/consumers";
+
 
 const Home = () => {
 
-  const { loggedInView, unloggedInView } = useWeb3Auth()
+  const { loggedInView, unloggedInView, address } = useWeb3Auth()
 
   const { locale } = useLocale()
   const slideUrl = () => {
@@ -24,6 +26,7 @@ const Home = () => {
         <HeroTitle />
         {unloggedInView}
         {loggedInView}
+        {address}
 
         <div css={css`
         position: relative;

@@ -2,12 +2,10 @@ import { AppInfo } from "@/constants/AppInfo";
 import { useLocale } from "@/i18n/useLocale";
 import { Box, Button, Modal, Text } from "@mantine/core";
 import useEth from "../../../hooks/web3/useEth";
-import useMetaMask from "../../../hooks/web3/useMetaMask";
 import { MetamaskCheck } from "./MetamaskCheck";
 
 const NetworkCheck = () => {
   const { network } = useEth();
-  const { address, login } = useMetaMask();
   const { t } = useLocale();
   const expectedNetwork = process.env.NEXT_PUBLIC_EXPECTED_NETWORK;
   const expectedNetworkChainId = process.env.NEXT_PUBLIC_EXPECTED_NETWORK_CHAIN_ID;
@@ -45,7 +43,7 @@ const NetworkCheck = () => {
     return (
       <Modal
         opened={network !== expectedNetwork}
-        onClose={() => {}}
+        onClose={() => { }}
         withCloseButton={false}
         centered
         radius="md"

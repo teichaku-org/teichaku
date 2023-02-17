@@ -1,5 +1,4 @@
 import { ethers } from "hardhat";
-import { getSigner } from "../../frontend/src/hooks/web3/useMetaMask";
 
 const daoId = "hackathon";
 const projectId = "demo";
