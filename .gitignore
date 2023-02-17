@@ -31,3 +31,7 @@ typechain-types
 cache
 artifacts
 
+# log file
+*.log
+
+.
