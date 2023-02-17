@@ -9,7 +9,7 @@ import { json } from "stream/consumers";
 
 const Home = () => {
 
-  const { loggedInView, unloggedInView, address } = useWeb3Auth()
+  const { address } = useWeb3Auth()
 
   const { locale } = useLocale()
   const slideUrl = () => {
@@ -24,9 +24,6 @@ const Home = () => {
     <div>
       <Container>
         <HeroTitle />
-        {unloggedInView}
-        {loggedInView}
-        {address}
 
         <div css={css`
         position: relative;
