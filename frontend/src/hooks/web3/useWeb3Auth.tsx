@@ -109,6 +109,6 @@ export default () => {
         login,
         logout,
         user,
-        address
+        address: address || "",
     }
 }
