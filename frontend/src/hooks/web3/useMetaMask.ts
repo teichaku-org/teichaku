@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { ethers } from "ethers";
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
+import { useAtom } from "jotai";
 
 export const getProvider = () => {
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
@@ -25,6 +27,11 @@ export const getContract = (contractAddress: string, abi: any) => {
 }
 
 export default () => {
+    const [isWeb3] = useAtom(Web3FlagAtom)
+    if (!isWeb3) {
+        return { address: "", login: () => { } }
+    }
+
     const [address, setAddress] = useState("")
 
     const getSignerAddress = async () => {

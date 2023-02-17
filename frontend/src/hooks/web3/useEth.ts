@@ -1,8 +1,15 @@
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
 import { ethers } from "ethers";
+import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import useMetaMask from "./useMetaMask";
 
 export default () => {
+    const [isWeb3] = useAtom(Web3FlagAtom)
+    if (!isWeb3) {
+        return { balance: 0, network: "" }
+    }
+
     const [balance, setBalance] = useState(0);
     const [network, setNetwork] = useState("")
     const { address } = useMetaMask()
