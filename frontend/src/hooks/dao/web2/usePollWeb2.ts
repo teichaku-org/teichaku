@@ -22,9 +22,11 @@ const usePollWeb2: usePollInterface = (props: {
     }
 
     const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
+        throw new Error("Not implemented")
     }
 
     const settleCurrentPollAndCreateNewPoll = async () => {
+        throw new Error("Not implemented")
     }
 
     const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
@@ -40,9 +42,11 @@ const usePollWeb2: usePollInterface = (props: {
     }
 
     const _setPerspectives = async (perspectives: string[]) => {
+
     }
 
     const _setTokenDistribution = async (contributorReward: number, voterReward: number) => {
+
     }
 
 
