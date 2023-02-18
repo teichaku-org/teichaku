@@ -5,6 +5,7 @@ import {
   createStyles,
   Header
 } from "@mantine/core";
+import { DevWeb3Toggle } from "../dev/DevWeb3Toggle";
 import { ConnectWallet } from "../web3/login/ConnectWallet";
 import { AppLogo } from "./AppLogo";
 import { AppMenu } from "./AppMenu";
@@ -29,6 +30,7 @@ export function AppHeader() {
     <Header height={HEADER_HEIGHT} mb={120}>
       <Container className={classes.inner}>
         <AppLogo />
+        <DevWeb3Toggle />
         <Center>
           <LanguagePicker />
           <div style={{ width: 10 }} />

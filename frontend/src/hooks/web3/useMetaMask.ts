@@ -28,10 +28,6 @@ export const getContract = (contractAddress: string, abi: any) => {
 
 export default () => {
     const [isWeb3] = useAtom(Web3FlagAtom)
-    if (!isWeb3) {
-        return { address: "", login: () => { } }
-    }
-
     const [address, setAddress] = useState("")
 
     const getSignerAddress = async () => {
@@ -71,6 +67,8 @@ export default () => {
             }
         });
     }, [])
-
+    if (!isWeb3) {
+        return { address: "", login: () => { } }
+    }
     return { address }
 }
