@@ -67,6 +67,7 @@ export const ja = {
     ChangeNetwork: (network: string) => `ネットワークを${network}へ変更する`,
     Update: "更新",
     Add: "追加",
+    Web3Migration: "Web3移行",
   },
   Common: {
     NodataMessage: {
@@ -330,4 +331,7 @@ export const ja = {
       },
     },
   },
+  Migration: {
+    Title: "Web3へ移行する",
+  }
 };

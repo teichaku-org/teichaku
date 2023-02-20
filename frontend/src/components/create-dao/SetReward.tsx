@@ -4,9 +4,17 @@ import { useLocale } from "@/i18n/useLocale";
 import { Card, Center, NumberInput, Space, Text, TextInput, Title } from "@mantine/core";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const SetReward = () => {
+interface Props {
+    pollInfoDefault?: {
+        durationDay: number,
+        voterReward: number,
+        contributorReward: number,
+    }
+}
+
+export const SetReward = (props: Props) => {
     const { t } = useLocale();
     const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet);
     const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress)
@@ -14,6 +22,14 @@ export const SetReward = () => {
     const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
     const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration)
     const { loadTokenSymbol } = useDynamicERC20()
+
+    useEffect(() => {
+        //props.pollInfoDefaultが存在する場合は、初期値をセットする
+        if (!props.pollInfoDefault) return
+        setContributorReward(props.pollInfoDefault.contributorReward)
+        setReviewerReward(props.pollInfoDefault.voterReward)
+        setSprintDuration(props.pollInfoDefault.durationDay)
+    }, [props.pollInfoDefault])
 
     const onChangeTokenAddress = async (address: string) => {
         setTokenAddress(address);

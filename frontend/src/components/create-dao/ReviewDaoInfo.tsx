@@ -77,8 +77,6 @@ export const ReviewDaoInfo = () => {
                     <td>{t.Settings.PollDuration.Title}</td>
                     <td>{sprintDuration} {t.Settings.PollDuration.DayUnit}</td>
                 </tr>
-
-
             </tbody>
         </Table>
 

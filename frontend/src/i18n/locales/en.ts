@@ -67,6 +67,7 @@ export const en = {
     ChangeNetwork: (network: string) => `Change Network to ${network}`,
     Update: "Update",
     Add: "Add",
+    Web3Migration: "Web3 Migration",
   },
   Common: {
     NodataMessage: {
@@ -329,4 +330,7 @@ export const en = {
       },
     },
   },
+  Migration: {
+    Title: "Web3 Migration",
+  }
 };

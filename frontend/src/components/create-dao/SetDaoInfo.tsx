@@ -1,5 +1,6 @@
 import { AppInfo } from "@/constants/AppInfo";
 import { CreateDAOAvatar, CreateDAODescription, CreateDAOFirstProject, CreateDAOName } from "@/domains/atoms/CreateDaoAtom";
+import { DaoInfo } from "@/domains/DaoInfo";
 import { getContract } from "@/hooks/web3/useMetaMask";
 import { useLocale } from "@/i18n/useLocale";
 import { DAOHistory } from "@/types";
@@ -9,7 +10,11 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json";
 
-export const SetDaoInfo = () => {
+interface Props {
+    daoInfoDefault?: DaoInfo
+}
+
+export const SetDaoInfo = (props: Props) => {
     const { t } = useLocale();
     const [projectName, setProjectName] = useAtom(CreateDAOFirstProject)
     const [name, setName] = useAtom(CreateDAOName)
@@ -34,6 +39,15 @@ export const SetDaoInfo = () => {
             }
         })
     }
+
+    useEffect(() => {
+        //props.daoInfoDefaultが存在する場合は、初期値をセットする
+        if (!props.daoInfoDefault) return
+        setProjectName(props.daoInfoDefault.projects[0])
+        setName(props.daoInfoDefault.name)
+        setAvatar(props.daoInfoDefault.logo)
+        setDescription(props.daoInfoDefault.description)
+    }, [props.daoInfoDefault])
 
     useEffect(() => {
         checkDuplicate()
