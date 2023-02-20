@@ -16,10 +16,12 @@ export class APIClient implements HttpClient {
 
   public async get(path: string, params: any) {
     const options: AxiosRequestConfig = {
-      url: APIClient.baseUrl + path,
-      method: "GET",
-      data: params,
+      baseURL: APIClient.baseUrl,
+      url: path,
+      method: "get",
+      params: params,
     };
+
     const res: AxiosResponse | void = await axios(options).catch(
       (e: AxiosError<{ error: string }>) => {
         console.log(e.message);
@@ -30,10 +32,12 @@ export class APIClient implements HttpClient {
 
   public async post(path: string, params: any) {
     const options: AxiosRequestConfig = {
-      url: APIClient.baseUrl + path,
-      method: "POST",
+      baseURL: APIClient.baseUrl,
+      url: path,
+      method: "post",
       data: params,
     };
+
     const res: AxiosResponse | void = await axios(options).catch(
       (e: AxiosError<{ error: string }>) => {
         console.log(e.message);
@@ -44,10 +48,12 @@ export class APIClient implements HttpClient {
 
   public async put(path: string, params: any) {
     const options: AxiosRequestConfig = {
-      url: APIClient.baseUrl + path,
-      method: "PUT",
+      baseURL: APIClient.baseUrl,
+      url: path,
+      method: "put",
       data: params,
     };
+
     const res: AxiosResponse | void = await axios(options).catch(
       (e: AxiosError<{ error: string }>) => {
         console.log(e.message);
@@ -58,10 +64,12 @@ export class APIClient implements HttpClient {
 
   public async delete(path: string, params: any) {
     const options: AxiosRequestConfig = {
-      url: APIClient.baseUrl + path,
-      method: "DELETE",
+      baseURL: APIClient.baseUrl,
+      url: path,
+      method: "delete",
       data: params,
     };
+
     const res: AxiosResponse | void = await axios(options).catch(
       (e: AxiosError<{ error: string }>) => {
         console.log(e.message);
