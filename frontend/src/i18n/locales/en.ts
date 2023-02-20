@@ -24,7 +24,8 @@ export const en = {
     HeroText1: "New DAO Framework to ",
     HeroText2Colorful: "Make a Lasting Impact",
     HeroText3: " and Retain members.",
-    HeroSubText: "Fully on-chain and decentrized DAO Framework that are friendly to Agile development.",
+    HeroSubText:
+      "Fully on-chain and decentrized DAO Framework that are friendly to Agile development.",
     Problems: {
       Title: "Problems of DAO and Our Solutions",
       Onboarding: {
@@ -35,7 +36,8 @@ export const en = {
       },
       Hurdle: {
         Title: "The hurdle to get rewards is too high!",
-        SolutionTitle: "Any contribution is fine, just give it a try and everyone will evaluate it.",
+        SolutionTitle:
+          "Any contribution is fine, just give it a try and everyone will evaluate it.",
         SolutionName: "You can register your contributions without permission!",
       },
       Reward: {
@@ -86,12 +88,14 @@ export const en = {
     },
     NetworkCheck: {
       Title: "The currently connected network is not supported.",
-      Text: (name: string, network: string) => `${name} is running on ${network}!`,
+      Text: (name: string, network: string) =>
+        `${name} is running on ${network}!`,
     },
   },
   History: {
     Title: (daoname: string) => `The History of ${daoname}`,
-    SubTitle: (daoname: string) => `A list of contributions of the ${daoname} memebers`,
+    SubTitle: (daoname: string) =>
+      `A list of contributions of the ${daoname} memebers`,
     HistoryList: {
       Contributions: "Contributions",
       NothingFound: "Nothing found",
@@ -106,7 +110,8 @@ export const en = {
   Assessment: {
     Title: "Your Assessments",
     AssessmentTabs: {
-      NotConnectWallet: "You don't connect metamask yet. Connect wallet from right top button.",
+      NotConnectWallet:
+        "You don't connect metamask yet. Connect wallet from right top button.",
       Total: "Total",
       Individual: "Individual",
       TotalTab: {
@@ -200,7 +205,8 @@ export const en = {
     Title: "SprintReview",
     CurrentReviewerIncentive: "Current Reviewer Incentive:",
     PollIsEnded: "The current SprintReview is ended.",
-    ConfirmNoVoter: "No one has voted yet. If there are no reviewers, no tokens will be distributed and voting will be initialized.",
+    ConfirmNoVoter:
+      "No one has voted yet. If there are no reviewers, no tokens will be distributed and voting will be initialized.",
     PollSystem: {
       AlreadyVoteMessage: "You already voted but you can vote for revision",
       Notification: {
@@ -216,7 +222,8 @@ export const en = {
           Label: "comment (optional)",
           Placeholder: "Your comment",
         },
-        AlertVoteMyself: "This is your contribution, so you can't vote for yourself",
+        AlertVoteMyself:
+          "This is your contribution, so you can't vote for yourself",
       },
     },
   },
@@ -235,14 +242,14 @@ export const en = {
       FirstProjectName: "First project's name",
       FirstProjectNamePlaceholder: "Type your first project's name",
       FirstProjectNameDefault: "season1",
-
     },
     Step2: {
       Title: "Configure template",
       SubTitle: "Rewards and Sprint Duration",
       NotSet: "Not set",
       InvalidTokenAddress: "Invalid token address",
-      NoTokenSymbol: "We can't get token symbol. It might not be a token address",
+      NoTokenSymbol:
+        "We can't get token symbol. It might not be a token address",
     },
     Step3: {
       Title: "Review Information",
@@ -252,7 +259,6 @@ export const en = {
       ProjectUrl: "Project URL",
       ContributorReward: "Contributor Reward",
       ReviewerReward: "Reviewer Reward",
-
     },
     Complete: {
       Wait: "Click below button to confirm the transaction!",
@@ -260,9 +266,19 @@ export const en = {
       Retry: "Retry",
       Notification: {
         Title: "Your DAO is sent to blockchain!",
-        Message: "Please wait for the transaction to be completed.(About 1 minute)",
-      }
-    }
+        Message:
+          "Please wait for the transaction to be completed.(About 1 minute)",
+      },
+    },
+    CompleteWeb2: {
+      Wait: "Click below button to create the DAO！",
+      AcceptTransaction: "Create the DAO",
+      Retry: "Retry",
+      Notification: {
+        Title: "Your DAO is created！",
+        Message: "Please wait for the creating to be completed.",
+      },
+    },
   },
   Settings: {
     Title: "Settings",
@@ -285,7 +301,8 @@ export const en = {
         Placeholder: "Specify the amount of tokens you want to transfer",
       },
       TokenIsShortTitle: "Not enough tokens to distribute",
-      TokenIsShortDescription: (token: number) => `A minimum of ${token} tokens is required to close the vote. Please add more tokens and close the vote again.`,
+      TokenIsShortDescription: (token: number) =>
+        `A minimum of ${token} tokens is required to close the vote. Please add more tokens and close the vote again.`,
     },
     DistributionSetting: {
       Title: "Total Reward Per Sprint",
@@ -315,7 +332,7 @@ export const en = {
       },
       PollDeadline: {
         Label: "Sprint End Date",
-      }
+      },
     },
     PollDuration: {
       Title: "Poll Duration",

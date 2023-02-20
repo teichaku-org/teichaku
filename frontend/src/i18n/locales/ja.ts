@@ -24,7 +24,8 @@ export const ja = {
     HeroText1: "メンバーを定着させて",
     HeroText2Colorful: "継続的なインパクトを生み出す",
     HeroText3: "ための新しいDAOフレームワーク。",
-    HeroSubText: "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
+    HeroSubText:
+      "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
     Problems: {
       Title: "DAOの問題点とTeichakuの解決策",
       Onboarding: {
@@ -35,7 +36,8 @@ export const ja = {
       },
       Hurdle: {
         Title: "報酬を得るためのハードルが高すぎる！",
-        SolutionTitle: "どんな貢献でも構いませんし許可も不要です。レビュワーがあなたの貢献を評価して報酬を決めます。",
+        SolutionTitle:
+          "どんな貢献でも構いませんし許可も不要です。レビュワーがあなたの貢献を評価して報酬を決めます。",
         SolutionName: "簡単でパーミッションレス",
       },
       Reward: {
@@ -86,7 +88,8 @@ export const ja = {
     },
     NetworkCheck: {
       Title: "現在接続されているネットワークはサポートされていません。",
-      Text: (name: string, network: string) => `${name} は ${network}で動いています!`,
+      Text: (name: string, network: string) =>
+        `${name} は ${network}で動いています!`,
     },
   },
   History: {
@@ -106,7 +109,8 @@ export const ja = {
   Assessment: {
     Title: "自分の評価",
     AssessmentTabs: {
-      NotConnectWallet: "メタマスクとまだ接続できていません。 右上のウォレット接続ボタンから接続をお願いします。",
+      NotConnectWallet:
+        "メタマスクとまだ接続できていません。 右上のウォレット接続ボタンから接続をお願いします。",
       Total: "集計",
       Individual: "個別",
       TotalTab: {
@@ -200,7 +204,8 @@ export const ja = {
     Title: "スプリントレビュー",
     CurrentReviewerIncentive: "現在レビュアーが獲得できるトークン:",
     PollIsEnded: "スプリントレビューは終了しました。",
-    ConfirmNoVoter: "まだ誰も投票していません。レビュワーがいない場合はトークンは分配されず、投票が初期化されます。",
+    ConfirmNoVoter:
+      "まだ誰も投票していません。レビュワーがいない場合はトークンは分配されず、投票が初期化されます。",
     PollSystem: {
       AlreadyVoteMessage: "既に投票をしていますが、投票を修正できます。",
       Notification: {
@@ -244,7 +249,8 @@ export const ja = {
       SubTitle: "報酬とスプリントの長さを設定",
       NotSet: "未設定",
       InvalidTokenAddress: "無効なトークンアドレスです。",
-      NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
+      NoTokenSymbol:
+        "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
       Title: "確認",
@@ -262,8 +268,17 @@ export const ja = {
       Notification: {
         Title: "DAOがブロックチェーンに送信されました!",
         Message: "トランザクション完了までお待ちください。",
-      }
-    }
+      },
+    },
+    CompleteWeb2: {
+      Wait: "以下のボタンを押すとDAOが立ち上げられます！",
+      AcceptTransaction: "DAOを立ち上げる",
+      Retry: "リトライ",
+      Notification: {
+        Title: "DAOが立ち上げられました!",
+        Message: "DAOが立ち上げられるまでお待ちください。",
+      },
+    },
   },
   Settings: {
     Title: "設定",
@@ -286,7 +301,8 @@ export const ja = {
         Placeholder: "追加するトークンの量を指定します",
       },
       TokenIsShortTitle: "分配するトークンが不足しています",
-      TokenIsShortDescription: (token: number) => `投票を締め切るには最低でも${token}トークンが必要です。トークンを追加して再度投票の締め切りを行ってください。`,
+      TokenIsShortDescription: (token: number) =>
+        `投票を締め切るには最低でも${token}トークンが必要です。トークンを追加して再度投票の締め切りを行ってください。`,
     },
     DistributionSetting: {
       Title: "1スプリントあたりのトークン分配",
@@ -316,7 +332,7 @@ export const ja = {
       },
       PollDeadline: {
         Label: "Sprint End Date",
-      }
+      },
     },
     PollDuration: {
       Title: "スプリントの長さ",
