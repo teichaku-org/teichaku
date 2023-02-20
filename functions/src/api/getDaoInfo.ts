@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import { DAOHistory } from "../class/DAOHistory";
+import { DaoInfo } from "../types/dao/DaoInfo";
 
 export const getDaoInfo = functions
   .region("asia-northeast1")
@@ -14,27 +15,10 @@ export const getDaoInfo = functions
       res.status(204).send("");
     } else {
       const requestData = req.body;
-      console.log(requestData);
-
-      let daosDocRef = await admin
-        .firestore()
-        .collection("daos")
-        .doc(requestData.daoId as string);
-      daosDocRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            console.log("Document data:", doc.data());
-            res.send(doc.data());
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-            throw new Error("No such document!");
-          }
-        })
-        .catch((error) => {
-          console.log("Error getting document:", error);
-          throw new Error("Error getting document");
-        });
+      const daoHistory = new DAOHistory();
+      const response: string | DaoInfo = await daoHistory.getDaoInfo(
+        requestData.daoId
+      );
+      res.status(200).send(response);
     }
   });

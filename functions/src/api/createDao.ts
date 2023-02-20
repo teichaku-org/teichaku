@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
+import { DAOLauncher } from "../class/DAOLauncher";
 
-export const addDao = functions
+export const createDao = functions
   .region("asia-northeast1")
   .https.onRequest(async (req, res) => {
     res.set("Access-Control-Allow-Origin", "*");
@@ -13,11 +13,31 @@ export const addDao = functions
       res.set("Access-Control-Max-Age", "3600");
       res.status(204).send("");
     } else {
-      // addDaoして
-
-      // setTokenしてる
-      const requestData = req.body;
-      await admin.firestore().collection("daos").doc().set(requestData);
+      const requestData: {
+        daoId: string;
+        projectId: string;
+        name: string;
+        description: string;
+        website: string;
+        logo: string;
+        tokenAddress: string;
+        contributorToken: number;
+        voterToken: number;
+        votingDuration: number;
+      } = req.body;
+      const daoLauncher = new DAOLauncher();
+      daoLauncher.createDao(
+        requestData.daoId,
+        requestData.projectId,
+        requestData.name,
+        requestData.description,
+        requestData.website,
+        requestData.logo,
+        requestData.tokenAddress,
+        requestData.contributorToken,
+        requestData.voterToken,
+        requestData.votingDuration
+      );
       res.send({ message: "success" });
     }
   });
