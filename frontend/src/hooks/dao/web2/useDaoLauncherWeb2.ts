@@ -26,8 +26,8 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
   ) => {
     showNotification({
       id: "createDao",
-      title: t.CreateDao.Complete.Notification.Title,
-      message: t.CreateDao.Complete.Notification.Message,
+      title: t.CreateDao.CompleteWeb2.Notification.Title,
+      message: t.CreateDao.CompleteWeb2.Notification.Message,
       loading: true,
       autoClose: false,
     });
