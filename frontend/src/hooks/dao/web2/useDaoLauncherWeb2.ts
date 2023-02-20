@@ -30,17 +30,17 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       autoClose: false,
     });
 
-    await apiClient.post("/addDao", {
+    await apiClient.post("/createDao", {
       daoId: daoId,
       projectId: projectId,
-      daoName: daoName,
-      daoDescription: daoDescription,
+      name: daoName,
+      description: daoDescription,
       website: website,
       logo: logo,
       tokenAddress: tokenAddress,
       contributorReward: contributorReward,
       reviewerReward: reviewerReward,
-      votingDurattion: votingDurattion,
+      votingDuration: votingDurattion,
     });
 
     router.push(`/${daoId}/${projectId}/overview`);
