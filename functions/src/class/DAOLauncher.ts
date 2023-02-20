@@ -11,7 +11,8 @@ export class DAOLauncher {
     tokenAddress: string,
     contributorToken: number,
     voterToken: number,
-    votingDuration: number
+    votingDuration: number,
+    isWeb3: boolean
   ) {
     // IDAOHistory
     //  addDao
@@ -19,7 +20,15 @@ export class DAOLauncher {
 
     const daoHistory = new DAOHistory();
 
-    await daoHistory.addDao(daoId, projectId, name, description, website, logo);
+    await daoHistory.addDao(
+      daoId,
+      projectId,
+      name,
+      description,
+      website,
+      logo,
+      isWeb3
+    );
 
     // IPoll poll = IPoll(pollAddress);
     // poll.setAssignmentToken(_contributorToken, _voterToken);

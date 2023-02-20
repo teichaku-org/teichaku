@@ -12,7 +12,8 @@ export class DAOHistory {
     name: string,
     description: string,
     website: string,
-    logo: string
+    logo: string,
+    isWeb3: boolean
   ) {
     // daoIdが存在するかcheck
     let projects: string[] = [];
@@ -26,6 +27,7 @@ export class DAOHistory {
       description: description,
       website: website,
       logo: logo,
+      isWeb3: isWeb3,
     });
 
     // add Initial Poll

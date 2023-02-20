@@ -24,6 +24,7 @@ export const createDao = functions
         contributorToken: number;
         voterToken: number;
         votingDuration: number;
+        isWeb3: boolean;
       } = req.body;
       const daoLauncher = new DAOLauncher();
       daoLauncher.createDao(
@@ -36,7 +37,8 @@ export const createDao = functions
         requestData.tokenAddress,
         requestData.contributorToken,
         requestData.voterToken,
-        requestData.votingDuration
+        requestData.votingDuration,
+        requestData.isWeb3
       );
       res.send({ message: "success" });
     }
