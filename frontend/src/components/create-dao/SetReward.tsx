@@ -64,26 +64,28 @@ export const SetReward = () => {
       <Center mb="xl">
         <Title size="h1">{t.CreateDao.Step2.Title}</Title>
       </Center>
-
-      <Text size="md" weight={700}>
-        {t.Settings.TokenSetting.TokenDistribution}
-      </Text>
-      <Card mb="md">
-        {t.Settings.TokenSetting.CurrentTokenSymbol}{" "}
-        <Text size="lg" weight={500} mb="md" span>
-          {tokenSymbol}
-        </Text>
-      </Card>
       {isWeb3 && (
-        <TextInput
-          value={tokenAddress}
-          required
-          onChange={(e) => onChangeTokenAddress(e.currentTarget.value)}
-          placeholder="0x..."
-          error={errorMessage}
-          label={t.Settings.TokenSetting.AddressInput.Label}
-          mb="sm"
-        />
+        <>
+          <Text size="md" weight={700}>
+            {t.Settings.TokenSetting.TokenDistribution}
+          </Text>
+          <Card mb="md">
+            {t.Settings.TokenSetting.CurrentTokenSymbol}{" "}
+            <Text size="lg" weight={500} mb="md" span>
+              {tokenSymbol}
+            </Text>
+          </Card>
+
+          <TextInput
+            value={tokenAddress}
+            required
+            onChange={(e) => onChangeTokenAddress(e.currentTarget.value)}
+            placeholder="0x..."
+            error={errorMessage}
+            label={t.Settings.TokenSetting.AddressInput.Label}
+            mb="sm"
+          />
+        </>
       )}
 
       <Space h="md" />
