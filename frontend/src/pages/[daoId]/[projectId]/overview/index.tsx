@@ -1,43 +1,48 @@
-import { OrganizationCard } from "@/components/overview/OrganizationCard";
-import { TokenInfoCard } from "@/components/overview/TokenInfoCard";
-import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
-import useDaoHistory from "@/hooks/dao/useDaoHistory";
-import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
-import useDaoToken from "@/hooks/dao/useDaoToken";
-import usePoll from "@/hooks/dao/usePoll";
-import { useLocale } from "@/i18n/useLocale";
-import { Center, Grid, Title, Text, Loader } from "@mantine/core";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { OrganizationCard } from "@/components/overview/OrganizationCard"
+import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
+import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
+import useDaoHistory from "@/hooks/dao/useDaoHistory"
+import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
+import useDaoToken from "@/hooks/dao/useDaoToken"
+import usePoll from "@/hooks/dao/usePoll"
+import { useLocale } from "@/i18n/useLocale"
+import { APIClient } from "@/types/APIClient"
+import { Center, Grid, Title, Text, Loader } from "@mantine/core"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
-const Overview = () => {
-  useDaoExistCheck();
-  useDaoLoad();
+type props = {
+  isWeb3: boolean
+}
 
-  const { t } = useLocale();
-  const router = useRouter();
-  const { daoId, projectId } = router.query;
-  const dao = { daoId: daoId as string, projectId: projectId as string };
-  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao);
-  const contributionCount = daoHistory?.length || 0;
-  const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0;
-  const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0;
+const Overview = ({ isWeb3 }: props) => {
+  useDaoExistCheck(isWeb3)
+  useDaoLoad(isWeb3)
 
-  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao);
-  const { contributorReward, voterReward, commissionFee } = usePoll(dao);
+  const { t } = useLocale()
+  const router = useRouter()
+  const { daoId, projectId } = router.query
+  const dao = { daoId: daoId as string, projectId: projectId as string }
+  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao, isWeb3)
+  const contributionCount = daoHistory?.length || 0
+  const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0
+  const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0
+
+  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao, isWeb3)
+  const { contributorReward, voterReward, commissionFee } = usePoll(dao, isWeb3)
 
   useEffect(() => {
     if (daoId && projectId) {
-      load();
+      load()
     }
-  }, [daoId, projectId]);
+  }, [daoId, projectId])
 
   if (!daoInfo)
     return (
       <Center>
         <Loader size="lg" variant="dots" />
       </Center>
-    );
+    )
   return (
     <div>
       <Center>
@@ -74,6 +79,21 @@ const Overview = () => {
         </Grid.Col>
       </Grid>
     </div>
-  );
-};
-export default Overview;
+  )
+}
+
+export async function getServerSideProps(context: { query: { daoId: string } }) {
+  // Fetch data from external API
+  const apiClient = new APIClient()
+  let isWeb3: boolean = true
+  const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
+  console.log(res)
+  if (res) {
+    isWeb3 = res.data
+  }
+  console.log(isWeb3)
+  // Pass data to the page via props
+  return { props: { isWeb3 } }
+}
+
+export default Overview
