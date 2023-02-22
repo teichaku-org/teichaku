@@ -12,8 +12,9 @@ const SendTokenPage = () => {
     const router = useRouter();
     const { daoId, projectId } = router.query;
     const dao = { daoId: daoId as string, projectId: projectId as string }
-    const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao);
-    const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken(dao);
+      //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+    const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao, true);
+    const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken(dao, true);
     const isShort = treasuryBalance < contributorReward + voterReward + commissionFee;
     const [value, setValue] = useState("");
 

@@ -10,8 +10,9 @@ export const TokenSetting = () => {
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string });
-  const { setTokenAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string })
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, true);
+  const { setTokenAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true)
 
   const form = useForm({
     initialValues: {

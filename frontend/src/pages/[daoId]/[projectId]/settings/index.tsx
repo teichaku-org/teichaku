@@ -12,8 +12,9 @@ import { Center, Container, Title, Text } from "@mantine/core";
 
 const SettingPage = () => {
   const { t } = useLocale();
-  useDaoExistCheck();
-  useDaoLoad();
+    //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  useDaoExistCheck(true);
+  useDaoLoad(true);
   return (
     <Container>
       <Center>

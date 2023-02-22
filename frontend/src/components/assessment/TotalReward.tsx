@@ -11,7 +11,8 @@ export const TotalReward = (props: Props) => {
   const router = useRouter()
   const { daoId, projectId } = router.query
   const theme = useMantineTheme();
-  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string })
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, true)
   return (
     <Text
       component="span"

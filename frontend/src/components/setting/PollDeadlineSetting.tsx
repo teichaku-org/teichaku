@@ -10,7 +10,8 @@ export const PollDeadlineSetting = () => {
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const { pollDetail, loadCurrentMaxPoll, setStartTime, setDuration } = usePoll(dao)
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { pollDetail, loadCurrentMaxPoll, setStartTime, setDuration } = usePoll(dao, true)
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [pollDuration, setPollDuration] = useState<number | undefined>();

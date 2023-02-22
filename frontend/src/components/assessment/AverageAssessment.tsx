@@ -17,8 +17,9 @@ export const AverageAssessment = (props: Props) => {
   const { AverageAssessmentTitle } = t.Assessment.AssessmentTabs.TotalTab;
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string });
-  const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string });
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true);
+  const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string }, true);
   const perspectives = pollDetail?.perspectives || [];
   const averageAccessment = getAverageAssessment(assessments, perspectives, props.address, daoHistory);
   useEffect(() => {
