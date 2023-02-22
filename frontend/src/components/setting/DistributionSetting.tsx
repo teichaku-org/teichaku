@@ -9,7 +9,8 @@ export const DistributionSetting = () => {
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { setTokenDistribution } = usePoll({ daoId: daoId as string, projectId: projectId as string });
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { setTokenDistribution } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true);
   const { Contributor, Reviewer } = t.Settings.DistributionSetting;
   const [contributorReward, setContributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
   const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)

@@ -9,11 +9,12 @@ export const TreasurySetting = () => {
   const { t } = useLocale();
   const router = useRouter();
   const { daoId, projectId } = router.query;
-  const { contractAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string });
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { contractAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true);
   const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken({
     daoId: daoId as string,
     projectId: projectId as string,
-  });
+  }, true);
   const [value, setValue] = useState("");
   const _sendToken = () => {
     sendToken(contractAddress, Number(value));

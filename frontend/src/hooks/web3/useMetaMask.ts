@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { ethers } from "ethers";
 import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
 import { useAtom } from "jotai";
+import { Router } from "next/router";
 
 export const getProvider = () => {
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
@@ -30,14 +31,23 @@ export default () => {
     const [isWeb3] = useAtom(Web3FlagAtom)
     const [address, setAddress] = useState("")
 
+    const getSignerAddressOrLogin = async () => {
+        const address = await getSignerAddress();
+        if (!address) {
+            await login();
+        }
+    }
+
     const getSignerAddress = async () => {
         const provider = new ethers.providers.Web3Provider((window as any).ethereum)
         const signer = provider.getSigner()
         try {
             const address = await signer.getAddress()
             setAddress(address)
+            return address
         } catch (error) {
             console.log(error)
+            return null
         }
     }
 
@@ -50,13 +60,24 @@ export default () => {
         await provider.send("eth_requestAccounts", []);
     }
 
+    const forceMetamaskLogin = async () => {
+        if (!("ethereum" in window)) {
+            //TODO: メタマスクをログインしないと使えないようにする
+            return
+        }
+        getSignerAddressOrLogin();
+
+        //TODO: ここでもしログインを拒否られたら？？
+
+    }
 
     useEffect(() => {
         if (!("ethereum" in window)) {
             console.warn("MetaMask Plugin not found");
             return;
         }
-        getSignerAddress();
+        // getSignerAddress();
+        getSignerAddressOrLogin();
         (window as any).ethereum.on('accountsChanged', (accounts: any) => {
             // If user has locked/logout from MetaMask, this resets the accounts array to empty
             if (!accounts.length) {
@@ -67,8 +88,10 @@ export default () => {
             }
         });
     }, [])
+
+
     if (!isWeb3) {
-        return { address: "", login: () => { } }
+        return { address: "" }
     }
     return { address }
 }

@@ -9,7 +9,8 @@ export const PollPerspectiveSetting = () => {
   const { t } = useLocale();
   const router = useRouter()
   const dao = { daoId: router.query.daoId as string, projectId: router.query.projectId as string }
-  const { pollDetail, loadCurrentMaxPoll, setPerspectives } = usePoll(dao)
+  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
+  const { pollDetail, loadCurrentMaxPoll, setPerspectives } = usePoll(dao, true)
   const { PollPerspectiveSetting } = t.Settings;
   const { Perspective } = PollPerspectiveSetting;
 

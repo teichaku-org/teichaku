@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const SetReward = () => {
   const { t } = useLocale();

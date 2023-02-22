@@ -35,10 +35,10 @@ const Poll = ({ isWeb3 }: props) => {
     settleCurrentPollAndCreateNewPoll,
     voterReward,
     commissionFee,
-  } = usePoll(dao)
+  } = usePoll(dao, isWeb3)
 
-  const { tokenSymbol } = useDaoToken(dao)
-  const { treasuryBalance } = useDaoToken(dao)
+  const { tokenSymbol } = useDaoToken(dao, isWeb3)
+  const { treasuryBalance } = useDaoToken(dao, isWeb3)
   const isTokenShort = treasuryBalance < contributorReward + voterReward + commissionFee
 
   useEffect(() => {
