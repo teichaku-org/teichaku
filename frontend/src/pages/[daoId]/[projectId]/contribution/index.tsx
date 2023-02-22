@@ -1,39 +1,47 @@
-import { ContributionCard } from "@/components/contribution/ContributionCard";
-import { PollEndInfo } from "@/components/poll/PollEndInfo";
-import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck";
-import { useDaoLoad } from "@/hooks/dao/useDaoLoad";
-import usePoll from "@/hooks/dao/usePoll";
-import { useLocale } from "@/i18n/useLocale";
-import { Center, Container, Loader, Title } from "@mantine/core";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ContributionCard } from "@/components/contribution/ContributionCard"
+import { PollEndInfo } from "@/components/poll/PollEndInfo"
+import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
+import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
+import usePoll from "@/hooks/dao/usePoll"
+import { useLocale } from "@/i18n/useLocale"
+import { APIClient } from "@/types/APIClient"
+import { Center, Container, Loader, Title } from "@mantine/core"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
-const Poll = () => {
-  useDaoExistCheck();
-  useDaoLoad();
-  const router = useRouter();
-  const { t } = useLocale();
-  const { daoId, projectId } = router.query;
-  const { candidateToPoll, pollDetail, loadCurrentMaxPoll, contractAddress } = usePoll({
-    daoId: daoId as string,
-    projectId: projectId as string,
-  });
+type props = {
+  isWeb3: boolean
+}
+
+const Contribution = ({ isWeb3 }: props) => {
+  useDaoExistCheck(isWeb3)
+  useDaoLoad(isWeb3)
+  const router = useRouter()
+  const { t } = useLocale()
+  const { daoId, projectId } = router.query
+  const { candidateToPoll, pollDetail, loadCurrentMaxPoll, contractAddress } = usePoll(
+    {
+      daoId: daoId as string,
+      projectId: projectId as string,
+    },
+    isWeb3
+  )
 
   useEffect(() => {
-    loadCurrentMaxPoll();
-  }, [contractAddress]);
+    loadCurrentMaxPoll()
+  }, [contractAddress])
 
   const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
-    if (!candidateToPoll) return;
-    await candidateToPoll(contributionText, evidences, roles);
-  };
+    if (!candidateToPoll) return
+    await candidateToPoll(contributionText, evidences, roles)
+  }
 
   if (!pollDetail)
     return (
       <Center>
         <Loader size="lg" variant="dots" />
       </Center>
-    );
+    )
   return (
     <Container>
       <Center m="md">
@@ -43,6 +51,19 @@ const Poll = () => {
       <div style={{ height: 10 }} />
       <ContributionCard candidateToPoll={_candidateToPoll} />
     </Container>
-  );
-};
-export default Poll;
+  )
+}
+
+export async function getServerSideProps(context: { query: { daoId: string } }) {
+  // Fetch data from external API
+  const apiClient = new APIClient()
+  let isWeb3: boolean = true
+  const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
+  if (res) {
+    isWeb3 = res.data
+  }
+  // Pass data to the page via props
+  return { props: { isWeb3 } }
+}
+
+export default Contribution

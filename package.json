@@ -20,7 +20,8 @@
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
     "ethers": "^5.7.1",
     "hardhat": "^2.11.2",
-    "hardhat-gas-reporter": "^1.0.8"
+    "hardhat-gas-reporter": "^1.0.8",
+    "keyv": "^4.5.2"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.0",
