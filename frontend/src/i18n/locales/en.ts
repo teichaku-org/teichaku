@@ -349,5 +349,12 @@ export const en = {
   },
   Migration: {
     Title: "Web3 Migration",
+  },
+  TokenReceiveModal: {
+    Title: "This DAO is migrated to Web3!",
+    Description: "Please install Metamask to receive tokens.",
+  },
+  Alert: {
+    PleaseInstallMetamask: "Please install Metamask",
   }
 };

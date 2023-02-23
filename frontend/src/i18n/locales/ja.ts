@@ -349,5 +349,12 @@ export const ja = {
   },
   Migration: {
     Title: "Web3へ移行する",
+  },
+  TokenReceiveModal: {
+    Title: "このDAOはWeb3に移行しました",
+    Description: "Metamaskと連携してトークンを受け取りましょう"
+  },
+  Alert: {
+    PleaseInstallMetamask: "Metamaskをインストールしてください",
   }
 };
