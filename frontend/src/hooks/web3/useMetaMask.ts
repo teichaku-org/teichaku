@@ -93,5 +93,5 @@ export default () => {
     if (!isWeb3) {
         return { address: "" }
     }
-    return { address }
+    return { address, login }
 }
