@@ -1,4 +1,5 @@
-import { DAOHistory } from "./DAOHistory";
+import { DAOHistory } from "./DAOHistory"
+import { Poll } from "./Poll"
 
 export class DAOLauncher {
   async createDao(
@@ -8,31 +9,18 @@ export class DAOLauncher {
     description: string,
     website: string,
     logo: string,
-    tokenAddress: string,
-    contributorToken: number,
-    voterToken: number,
-    votingDuration: number,
+    _tokenAddress: string,
+    _contributorToken: number,
+    _voterToken: number,
+    _votingDuration: number,
     isWeb3: boolean
   ) {
-    // IDAOHistory
-    //  addDao
-    // Poll
+    const daoHistory = new DAOHistory()
 
-    const daoHistory = new DAOHistory();
+    await daoHistory.addDao(daoId, projectId, name, description, website, logo, isWeb3)
 
-    await daoHistory.addDao(
-      daoId,
-      projectId,
-      name,
-      description,
-      website,
-      logo,
-      isWeb3
-    );
-
-    // IPoll poll = IPoll(pollAddress);
-    // poll.setAssignmentToken(_contributorToken, _voterToken);
-    // poll.setTokenAddress(_tokenAddress, address(0));
-    // poll.setVotingDuration(0, _votingDuration);
+    const poll = new Poll(daoId, projectId)
+    poll.setAssignmentToken(_contributorToken, _voterToken)
+    poll.setVotingDuration(0, _votingDuration)
   }
 }
