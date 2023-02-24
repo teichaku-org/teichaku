@@ -9,6 +9,7 @@ import { NotificationsProvider } from '@mantine/notifications';
 import { SafeEventEmitterProvider } from "@web3auth/base";
 import { Web3Auth } from "@web3auth/modal";
 import { useEffect, useState } from "react";
+import { InformationModals } from "@/components/modals/InformationModals";
 
 
 const MyApp = ({ Component, pageProps }: any) => {
@@ -75,6 +76,7 @@ const MyApp = ({ Component, pageProps }: any) => {
               )}
               <Component {...pageProps} />
             </AppShell>
+            <InformationModals/>
           </NotificationsProvider>
         </MantineProvider>
       </div>

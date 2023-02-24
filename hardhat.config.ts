@@ -48,6 +48,12 @@ const config: HardhatUserConfig = {
       url: `https://goerli.infura.io/v3/${INFURA_PROJECT_ID}`,
       accounts: [PRIVATE_KEY],
       allowUnlimitedContractSize: true
+    },
+    shibuya: {
+      url: `https://shibuya.public.blastapi.io`,
+      accounts: [PRIVATE_KEY],
+      chainId:81,
+      allowUnlimitedContractSize: true
     }
   },
   etherscan: {
