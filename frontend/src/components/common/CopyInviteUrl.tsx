@@ -26,7 +26,7 @@ const CopyInviteUrl = () => {
       <div style={{ position: "relative" }}>
         <TextInput size={"lg"} mt={"md"} value={AppInfo.url + commonPath + "/overview"} readOnly />
         <div style={{ position: "absolute", top: "25%", right: 5, height: "100%" }}>
-          <IconCopyButton text={commonPath + "/overview"} />
+          <IconCopyButton text={AppInfo.url + commonPath + "/overview"} />
         </div>
       </div>
     </Container>
