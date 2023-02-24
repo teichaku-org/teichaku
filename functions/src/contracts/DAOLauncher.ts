@@ -15,9 +15,9 @@ export class DAOLauncher {
     _votingDuration: number,
     isWeb3: boolean
   ) {
-    const daoHistory = new DAOHistory()
+    const daoHistory = new DAOHistory("")
 
-    await daoHistory.addDao(daoId, projectId, name, description, website, logo, isWeb3)
+    await daoHistory.addDao(daoId, projectId, name, description, website, logo)
 
     const poll = new Poll(daoId, projectId)
     poll.setAssignmentToken(_contributorToken, _voterToken)

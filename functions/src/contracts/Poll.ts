@@ -1,10 +1,10 @@
 import * as admin from "firebase-admin"
-import { ContributionItem } from "../types/poll/ContributionItem"
-import { DetailPollItem } from "../types/poll/DetailPollItem"
-import { Vote } from "../types/poll/Vote"
-import { Assessment } from "../types/assessment/Assessment"
+import { ContributionItem } from "../struct/poll/ContributionItem"
+import { DetailPollItem } from "../struct/poll/DetailPollItem"
+import { Vote } from "../struct/poll/Vote"
+import { Assessment } from "../struct/assessment/Assessment"
 import { DAOHistory } from "./DAOHistory"
-import { DAOHistoryItemWithTimestamp } from "../types/dao/DAOHistoryItem"
+import { DAOHistoryItemWithTimestamp } from "../struct/dao/DAOHistoryItem"
 import { PollFactory } from "./PollFactory"
 
 export class Poll {
@@ -231,7 +231,7 @@ export class Poll {
     }
 
     //Save aggregation results in DAO History
-    const daoHistory = new DAOHistory()
+    const daoHistory = new DAOHistory("")
 
     const pollDetail = await this.getPollDetail(this.daoId)
     console.log("pollDetail: ", pollDetail)
@@ -251,7 +251,7 @@ export class Poll {
             evidences: contributionItem.evidences,
           })
         })
-        daoHistory.addDaoHistory(this.daoId, this.projectId, daoHistoryItemArray)
+        // daoHistory.addDaoHistory(this.daoId, this.projectId, ])
       }
     }
 
@@ -262,7 +262,7 @@ export class Poll {
    * @notice start new poll
    */
   async _createPoll() {
-    const pollFactory = new PollFactory(this.daoId)
+    const pollFactory = new PollFactory()
     // endTimeを新しいPollのstartTimeにして、Pollをつくる
 
     pollFactory.createPoll(this.daoId, this.projectId)

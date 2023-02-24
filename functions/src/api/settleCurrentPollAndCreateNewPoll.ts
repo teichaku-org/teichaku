@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions"
-import { Poll } from "../class/Poll"
+import { Poll } from "../contracts/Poll"
 
 export const settleCurrentPollAndCreateNewPoll = functions
   .region("asia-northeast1")
