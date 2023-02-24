@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions"
-import { Poll } from "../class/Poll"
+import { DAOHistory } from "../class/DAOHistory"
+import { DAOHistoryItem } from "../types/dao/DAOHistoryItem"
 
-export const candidateToCurrentPoll = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
+export const getDaoHistory = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
 
   if (req.method === "OPTIONS") {
@@ -12,8 +13,8 @@ export const candidateToCurrentPoll = functions.region("asia-northeast1").https.
     res.status(204).send("")
   } else {
     const requestData = req.body
-    const poll = new Poll(requestData.daoId, requestData.projectId)
-    await poll.candidateToCurrentPoll(requestData.contributionText, requestData.evidences, requestData.roles)
-    res.status(200).send({ message: "success" })
+    const daoHistory = new DAOHistory()
+    const response: DAOHistoryItem[] = await daoHistory.getDaoHistory(requestData.daoId, requestData.projectId)
+    res.status(200).send(response)
   }
 })
