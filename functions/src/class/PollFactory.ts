@@ -1,22 +1,36 @@
-import * as admin from "firebase-admin";
+import * as admin from "firebase-admin"
 
 export class PollFactory {
-  COMMISSION_RATE: number = 5;
-  COMMISSION_ADDRESS: string = "";
+  private daoId: string
 
-  async createPoll(
-    daoId: string,
-    projectId: string,
-    userId: string,
-    userAddress: string
-  ) {
-    await admin.firestore().collection("polls").doc(daoId).set({
-      daoId: daoId,
-      projectId: projectId,
-      userId: userId,
-      userAddress: userAddress,
-      commissionRate: this.COMMISSION_RATE,
-      commissionAddress: this.COMMISSION_RATE,
-    });
+  constructor(daoId: string) {
+    this.daoId = daoId
+  }
+
+  COMMISSION_RATE: number = 5
+  COMMISSION_ADDRESS: string = ""
+
+  async createPoll(daoId: string, projectId: string) {
+    await admin.firestore().collection("daos").doc(daoId).set(
+      {
+        pollId: daoId,
+        projectId: projectId,
+        commissionRate: this.COMMISSION_RATE,
+        commissionAddress: this.COMMISSION_RATE,
+      },
+      { merge: true }
+    )
+  }
+
+  async setCommissionRate(rate: number) {
+    await admin.firestore().collection("daos").doc(this.daoId).update({
+      commissionRate: rate,
+    })
+  }
+
+  async setCommissionAddress(addr: string) {
+    await admin.firestore().collection("daos").doc(this.daoId).update({
+      commissionAddress: addr,
+    })
   }
 }

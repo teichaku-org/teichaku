@@ -1,9 +1,9 @@
-import * as admin from "firebase-admin";
-import { PollFactory } from "./PollFactory";
-import { DAOHistoryItem } from "../types/dao/DAOHistoryItem";
+import * as admin from "firebase-admin"
+import { PollFactory } from "./PollFactory"
+import { DAOHistoryItem, DAOHistoryItemWithTimestamp } from "../types/dao/DAOHistoryItem"
 
-import { DaoInfo } from "../types/dao/DaoInfo";
-import { Assessment } from "../types/assessment/Assessment";
+import { DaoInfo } from "../types/dao/DaoInfo"
+import { Assessment } from "../types/assessment/Assessment"
 
 export class DAOHistory {
   async addDao(
@@ -16,8 +16,8 @@ export class DAOHistory {
     isWeb3: boolean
   ) {
     // daoIdが存在するかcheck
-    let projects: string[] = [];
-    projects.push(projectId);
+    let projects: string[] = []
+    projects.push(projectId)
 
     // Add Dao
     await admin.firestore().collection("daos").doc(daoId).set({
@@ -28,53 +28,44 @@ export class DAOHistory {
       website: website,
       logo: logo,
       isWeb3: isWeb3,
-    });
+    })
 
     // add Initial Poll
-    this.addProject(daoId, projectId);
+    await this.addProject(daoId, projectId)
   }
 
-  addProject(daoId: string, projectId: string) {
-    const pollFactory = new PollFactory();
-    let userId = "userId.....";
-    let userAddress = "userAddress....";
-    pollFactory.createPoll(daoId, projectId, userId, userAddress);
+  async addProject(daoId: string, projectId: string) {
+    const pollFactory = new PollFactory(daoId)
+    await pollFactory.createPoll(daoId, projectId)
   }
 
-  async addDaoHistory(
-    daoId: string,
-    projectId: string,
-    daoHistoryItem: DAOHistoryItem
-  ) {
+  async addDaoHistory(daoId: string, projectId: string, daoHistoryItemArray: DAOHistoryItemWithTimestamp[]) {
     await admin
       .firestore()
       .collection("histories")
       .doc(daoId)
-      .update({
-        daoId: daoId,
-        projectId: projectId,
-        daoHistoryItem: admin.firestore.FieldValue.arrayUnion(daoHistoryItem),
-      });
+      .set(
+        {
+          daoHistoryItem: admin.firestore.FieldValue.arrayUnion(...daoHistoryItemArray),
+        },
+        { merge: true }
+      )
   }
 
-  async addAssessment(
-    daoId: string,
-    projectId: string,
-    assessments: Assessment[]
-  ) {
+  async addAssessment(daoId: string, projectId: string, assessments: Assessment[]) {
     await admin
       .firestore()
       .collection("assessments")
       .doc(daoId)
-      .update({ daoId: daoId, projectId: projectId, assessments: assessments });
+      .set({ assessments: admin.firestore.FieldValue.arrayUnion(...assessments) }, { merge: true })
   }
 
-  async getDaoInfo(daoId: string): Promise<string | DaoInfo> {
-    let res: DaoInfo | string = "";
+  async getDaoInfo(daoId: string): Promise<DaoInfo> {
+    let res: DaoInfo
 
-    let docRef = admin.firestore().collection("daos").doc(daoId);
+    let docRef = admin.firestore().collection("daos").doc(daoId)
 
-    let doc = await docRef.get();
+    let doc = await docRef.get()
 
     if (doc.exists) {
       res = {
@@ -83,43 +74,47 @@ export class DAOHistory {
         website: doc.data()?.website,
         logo: doc.data()?.logo,
         projects: doc.data()?.projects,
-      };
+      }
     } else {
-      res = "No such a document!";
+      throw new Error("No such a document!")
     }
-    return res;
+    return res
   }
 
-  async getDaoHistory(daoId: string): Promise<string | DAOHistoryItem[]> {
-    let res: string | DAOHistoryItem[] = "";
+  async getDaoHistory(daoId: string, projectId: string): Promise<DAOHistoryItem[]> {
+    let res: DAOHistoryItem[] = []
 
-    let docRef = admin.firestore().collection("histories").doc(daoId);
+    let docRef = admin.firestore().collection("histories").doc(daoId)
 
-    let doc = await docRef.get();
+    let doc = await docRef.get()
 
     if (doc.exists) {
-      res = doc.data()?.daoHistoryItem;
+      // timestampをTimeStamp型からDate型に変換
+      res = doc.data()?.daoHistoryItem.map((daoHistoryItem: DAOHistoryItemWithTimestamp) => {
+        const date = daoHistoryItem.timestamp.toDate()
+        return {
+          ...daoHistoryItem,
+          timestamp: date,
+        }
+      })
     } else {
-      res = "No such a document!";
+      throw new Error("No such a document!")
     }
-    return res;
+    return res
   }
 
-  async getDaoAssessments(
-    daoId: string,
-    projectId: string
-  ): Promise<string | Assessment[]> {
-    let res: string | Assessment[] = "";
+  async getDaoAssessments(daoId: string, projectId: string): Promise<Assessment[]> {
+    let res: Assessment[] = []
 
-    let docRef = admin.firestore().collection("assessments").doc(daoId);
+    let docRef = admin.firestore().collection("assessments").doc(daoId)
     // TODO 修正する projectごとにassessmentはある
-    let doc = await docRef.get();
+    let doc = await docRef.get()
 
     if (doc.exists) {
-      res = doc.data()?.assessments;
+      res = doc.data()?.assessments
     } else {
-      res = "No such a document!";
+      throw new Error("No such a document!")
     }
-    return res;
+    return res
   }
 }
