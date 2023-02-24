@@ -11,6 +11,7 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { FloatingAddButton } from "@/components/contribution/FloatingAddButton"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
+import CopyInviteUrl from "@/components/common/CopyInviteUrl"
 
 type props = {
   isWeb3: boolean
@@ -43,7 +44,7 @@ const History = ({ isWeb3 }: props) => {
     )
 
   // No data
-  if (daoHistory.length === 0) return <NodataMessage />
+  if (daoHistory.length === 0) return <CopyInviteUrl />
 
   return (
     <div>
