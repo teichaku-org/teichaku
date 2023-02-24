@@ -123,11 +123,9 @@ export async function getServerSideProps(context: { query: { daoId: string } }) 
   const apiClient = new APIClient()
   let isWeb3: boolean = true
   const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  console.log(res)
   if (res) {
     isWeb3 = res.data
   }
-  console.log("isWeb3: ", isWeb3)
   // Pass data to the page via props
   return { props: { isWeb3 } }
 }
