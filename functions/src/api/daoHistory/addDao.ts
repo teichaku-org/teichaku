@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions"
-import { DAOLauncher } from "../contracts/DAOLauncher"
+import { DAOHistory } from "../../contracts/DAOHistory"
 
-export const createDao = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
+export const addDao = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
 
   if (req.method === "OPTIONS") {
@@ -11,34 +11,25 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
-    const requestData: {
+    type RequestData = {
       daoId: string
       projectId: string
       name: string
       description: string
       website: string
       logo: string
-      tokenAddress: string
-      contributorToken: number
-      voterToken: number
-      votingDuration: number
-      isWeb3: boolean
-    } = req.body
+    }
     const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
-    const daoLauncher = new DAOLauncher(sender)
-    daoLauncher.createDao(
+    const requestData: RequestData = req.body
+    const poll = new DAOHistory("NOT_USED", sender)
+    await poll.addDao(
       requestData.daoId,
       requestData.projectId,
       requestData.name,
       requestData.description,
       requestData.website,
-      requestData.logo,
-      requestData.tokenAddress,
-      requestData.contributorToken,
-      requestData.voterToken,
-      requestData.votingDuration,
-      requestData.isWeb3
+      requestData.logo
     )
-    res.send({ message: "success" })
+    res.status(200).send({ message: "success" })
   }
 })

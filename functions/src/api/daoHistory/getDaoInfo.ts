@@ -1,6 +1,5 @@
 import * as functions from "firebase-functions"
-import { DAOHistory } from "../class/DAOHistory"
-import { DaoInfo } from "../types/dao/DaoInfo"
+import { DAOHistory } from "../../contracts/DAOHistory"
 
 export const getDaoInfo = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
@@ -12,9 +11,11 @@ export const getDaoInfo = functions.region("asia-northeast1").https.onRequest(as
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
-    const requestData = req.body
-    const daoHistory = new DAOHistory()
-    const response: DaoInfo = await daoHistory.getDaoInfo(requestData.daoId)
+    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
+    type RequestData = { daoId: string }
+    const requestData: RequestData = req.body
+    const daoHistory = new DAOHistory("NOT_USED", sender)
+    const response = await daoHistory.getDaoInfo(requestData.daoId)
     res.status(200).send(response)
   }
 })

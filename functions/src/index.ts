@@ -3,14 +3,15 @@ import * as admin from "firebase-admin"
 admin.initializeApp()
 
 import { createDao } from "./api/createDao"
-import { getDaoInfo } from "./api/getDaoInfo"
+import { getDaoInfo } from "./api/daoHistory/getDaoInfo"
 import { getIsWeb3 } from "./api/getIsWeb3"
-import { getPollDetail } from "./api/getPollDetail"
-import { candidateToCurrentPoll } from "./api/candidateToCurrentPoll"
-import { vote } from "./api/vote"
-import { settleCurrentPollAndCreateNewPoll } from "./api/settleCurrentPollAndCreateNewPoll"
+import { getPollDetail } from "./api/poll/getPollDetail"
+import { candidateToCurrentPoll } from "./api/poll/candidateToCurrentPoll"
+import { vote } from "./api/poll/vote"
+import { settleCurrentPollAndCreateNewPoll } from "./api/poll/settleCurrentPollAndCreateNewPoll"
 import { getDaoHistory } from "./api/getDaoHistory"
 import { getDaoAssessments } from "./api/getDaoAssessments"
+import { addDao } from "./api/daoHistory/addDao"
 
 module.exports = {
   createDao,
@@ -22,4 +23,5 @@ module.exports = {
   settleCurrentPollAndCreateNewPoll,
   getDaoHistory,
   getDaoAssessments,
+  addDao,
 }

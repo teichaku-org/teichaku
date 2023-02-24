@@ -2,6 +2,11 @@ import { DAOHistory } from "./DAOHistory"
 import { Poll } from "./Poll"
 
 export class DAOLauncher {
+  sender: string
+  constructor(sender: string) {
+    this.sender = sender
+  }
+
   async createDao(
     daoId: string,
     projectId: string,
@@ -15,11 +20,12 @@ export class DAOLauncher {
     _votingDuration: number,
     isWeb3: boolean
   ) {
-    const daoHistory = new DAOHistory()
+    const daoHistory = new DAOHistory("", this.sender)
 
-    await daoHistory.addDao(daoId, projectId, name, description, website, logo, isWeb3)
+    await daoHistory.addDao(daoId, projectId, name, description, website, logo)
 
-    const poll = new Poll(daoId, projectId)
+    //TODO: この辺を実装する
+    const poll = new Poll(daoId, projectId, this.sender)
     poll.setAssignmentToken(_contributorToken, _voterToken)
     poll.setVotingDuration(0, _votingDuration)
   }
