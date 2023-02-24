@@ -5,7 +5,7 @@ export type DAOHistoryItem = {
   reward: number
   rewardToken: string
   roles: string[]
-  timestamp: Date
+  timestamp: number
   contributor: string
   pollId: number
   evidences: string[]

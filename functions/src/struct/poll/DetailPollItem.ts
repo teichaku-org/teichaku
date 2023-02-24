@@ -1,10 +1,10 @@
-import { ContributionItem } from "./ContributionItem";
+import { ContributionItem } from "./ContributionItem"
 
 export type DetailPollItem = {
-  pollId: string;
-  contributions: ContributionItem[];
-  voters: string[];
-  startTime: Date;
-  endTime: Date;
-  perspectives: string[];
-};
+  pollId: number
+  contributions: ContributionItem[]
+  voters: string[]
+  startTime: number
+  endTime: number
+  perspectives: string[]
+}

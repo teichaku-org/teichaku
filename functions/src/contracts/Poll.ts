@@ -4,77 +4,511 @@ import { DetailPollItem } from "../struct/poll/DetailPollItem"
 import { Vote } from "../struct/poll/Vote"
 import { Assessment } from "../struct/assessment/Assessment"
 import { DAOHistory } from "./DAOHistory"
-import { DAOHistoryItemWithTimestamp } from "../struct/dao/DAOHistoryItem"
+import { DAOHistoryItem, DAOHistoryItemWithTimestamp } from "../struct/dao/DAOHistoryItem"
 import { PollFactory } from "./PollFactory"
+import { Token } from "./Token"
 
 export class Poll {
+  // DAO ID
   private daoId: string
+  // Project Id
   private projectId: string
+  // Poll Address
+  private pollAddress: string
+  // msg.sender
+  private sender: string
 
-  constructor(daoId: string, projectId: string) {
+  // Constructor
+  constructor(daoId: string, projectId: string, sender: string) {
     this.daoId = daoId
     this.projectId = projectId
+
+    this.sender = sender
+
+    //TODO: 本来はdaoHistoryから紐づいているpollAddressを取得する
+    this.pollAddress = daoId //一時的にdaoIdをpollAddressとして扱っている
+
+    //初期値の登録はinit関数で行う
   }
+
+  async init() {}
+
+  // Pollを開始したり終了するなどの権限
+  // Role to start and end a Poll etc
+  POLL_ADMIN_ROLE = "POLL_ADMIN_ROLE"
+
+  // Poll Id
+  currentMaxPollId() {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .get()
+        .then((r) => {
+          return r.data()?.currentMaxPollId
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .set({ currentMaxPollId: value }, { merge: true })
+    }
+
+    const increment = async () => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .update({ currentMaxPollId: admin.firestore.FieldValue.increment(1) })
+    }
+
+    return { get, set, increment }
+  }
+
+  // 配布するDAOトークンのアドレス
+  // DAO token address to distribute
+  daoTokenAddress = "NOT_USED"
+
+  // 投票するのに必要なNFT(SBT)のアドレス
+  // NFT address required to vote
+  nftAddress = "NOT_USED"
+
+  // 投票結果等を保存するDAO履歴のアドレス
+  // DAO History address
+  daoHistoryAddress = "NOT_USED"
+
+  // Commissionを受け取るアドレス
+  // Address to receive Commission
+  commissionAddress = "NOT_USED"
+
+  // 立候補者(貢献者)に割り当てられるDAOトークンの総数
+  // total amount of DAO tokens to be distributed to candidates(contributors)
+  CONTRIBUTOR_ASSIGNMENT_TOKEN() {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .get()
+        .then((r) => {
+          return r.data()?.contributorAssignmentToken
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .set({ contributorAssignmentToken: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // 投票者に割り当てられるDAOトークンの総数
+  // total amount of DAO tokens to be distributed to voters
+  VOTER_ASSIGNMENT_TOKEN() {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .get()
+        .then((r) => {
+          return r.data()?.voterAssignmentToken
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .set({ voterAssignmentToken: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // 投票時に参加できる人数
+  // maximum number of people who can participate in voting
+
   VOTE_MAX_PARTICIPANT = 100
-  startTimeStamp = new Date()
-  endTimeStamp = new Date(new Date().setDate(this.startTimeStamp.getDate() + 14))
-  perspective = ["量", "質", "効果"]
-  activePerspective = 0
-  currentMaxPollId = 0
-  CONTRIBUTOR_ASSIGNMENT_TOKEN = 7000
-  VOTER_ASSIGNMENT_TOKEN = 3000
+
+  // 手数料率
+  // commission rate
+  COMMISSION_RATE = 5
+
+  // 立候補者のリスト
+  // list of candidates
+  // pollId => [candidate1, candidate2, ...]
+  candidates(pollId: number) {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("candidates")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.candidates
+        })
+    }
+
+    const set = async (value: string[]) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("candidates")
+        .doc(pollId.toString())
+        .set({ candidates: value }, { merge: true })
+    }
+
+    const push = async (value: string) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("candidates")
+        .doc(pollId.toString())
+        .update({ candidates: admin.firestore.FieldValue.arrayUnion(value) })
+    }
+
+    return { get, set, push }
+  }
+
+  // 立候補者の貢献リスト
+  // list of candidates
+  //pollId => [contribution1, contribution2, ...]
+  contributions(pollId: number) {
+    const push = async (item: ContributionItem) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("contributions")
+        .doc(pollId.toString())
+        .update({ contributions: admin.firestore.FieldValue.arrayUnion(item) })
+    }
+
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("contributions")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.contributions as ContributionItem[]
+        })
+    }
+
+    const set = async (value: ContributionItem[]) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("contributions")
+        .doc(pollId.toString())
+        .set({ contributions: value }, { merge: true })
+    }
+
+    return { push, get, set }
+  }
+
+  // 投票のリスト
+  // list of vote
+  // pollId => [vote1, vote2, ...]
+  votes(pollId: number) {
+    const push = async (value: Vote) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("votes")
+        .doc(pollId.toString())
+        .update({ votes: admin.firestore.FieldValue.arrayUnion(value) })
+    }
+
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("votes")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.votes as Vote[]
+        })
+    }
+
+    const set = async (value: Vote[]) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("votes")
+        .doc(pollId.toString())
+        .set({ votes: value }, { merge: true })
+    }
+
+    return { push, get, set }
+  }
+
+  // 投票の開始時間
+  // Start-time of polls
+  // pollId => startTime
+  startTime(pollId: number) {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("startTime")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.startTime
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("startTime")
+        .doc(pollId.toString())
+        .set({ startTime: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // 投票期間
+  // Voting duration
+  // pollId => duration
+  votingDuration(pollId: number) {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("votingDuration")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.votingDuration
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("votingDuration")
+        .doc(pollId.toString())
+        .set({ votingDuration: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // 投票の終了時間
+  // End-time of polls
+  // pollId => endTime
+  endTime(pollId: number) {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("endTime")
+        .doc(pollId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.endTime
+        })
+    }
+
+    const set = async (value: Date) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("endTime")
+        .doc(pollId.toString())
+        .set({ endTime: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // 投票観点
+  // perspective
+  // perspectiveId => perspective
+  perspectives(perspectiveId: number) {
+    const get = async () => {
+      return await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("perspectives")
+        .doc(perspectiveId.toString())
+        .get()
+        .then((r) => {
+          return r.data()?.perspectives
+        })
+    }
+
+    const set = async (value: string[]) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .collection("perspectives")
+        .doc(perspectiveId.toString())
+        .set({ perspectives: value }, { merge: true })
+    }
+
+    return { get, set }
+  }
+
+  // アクティブな投票観点ID
+  // active perspective id
+  activePerspective() {
+    const get = () => {
+      return admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .get()
+        .then((r) => {
+          return r.data()?.activePerspective
+        })
+    }
+
+    const set = async (value: number) => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .set({ activePerspective: value }, { merge: true })
+    }
+
+    const increment = async () => {
+      await admin
+        .firestore()
+        .collection("polls")
+        .doc(this.pollAddress)
+        .update({ activePerspective: admin.firestore.FieldValue.increment(1) })
+    }
+
+    return { get, set, increment }
+  }
+
+  setDaoHistoryAddress() {
+    throw new Error("NOT IMPLEMENTED")
+  }
+
+  setPollAdminRole() {
+    throw new Error("NOT IMPLEMENTED")
+  }
 
   async changePerspective(perspectiveTexts: string[]) {
-    await admin.firestore().collection("polls").doc(this.daoId).update({
-      perspective: perspectiveTexts,
-    })
+    const activePerspectiveId = await this.activePerspective().get()
+    await this.activePerspective().increment()
+    await this.perspectives(activePerspectiveId).set(perspectiveTexts)
+  }
+
+  setTokenAddress() {
+    throw new Error("NOT IMPLEMENTED")
   }
 
   async setAssignmentToken(_contributorToken: number, _voterToken: number) {
-    await admin.firestore().collection("polls").doc(this.daoId).set(
-      {
-        contributorAssignmentToken: _contributorToken,
-        voterAssignmentToken: _voterToken,
-      },
-      { merge: true }
-    )
+    await this.CONTRIBUTOR_ASSIGNMENT_TOKEN().set(_contributorToken)
+    await this.VOTER_ASSIGNMENT_TOKEN().set(_voterToken)
+  }
+
+  setVoteMaxParticipant() {
+    throw new Error("NOT IMPLEMENTED")
   }
 
   async setVotingDuration(pollId: number, _votingDuration: number) {
-    const _endTimeStamp = new Date(new Date().setDate(this.startTimeStamp.getDate() + _votingDuration))
-    await admin
-      .firestore()
-      .collection("polls")
-      .doc(this.daoId)
-      .set(
-        {
-          startTime: admin.firestore.Timestamp.fromDate(this.startTimeStamp),
-          endTime: admin.firestore.Timestamp.fromDate(_endTimeStamp),
-        },
-        { merge: true }
-      )
+    await this.votingDuration(pollId).set(_votingDuration)
+    const startTime = await this.startTime(pollId).get()
+    await this.endTime(pollId).set(startTime + _votingDuration)
+  }
+
+  async setStartTimeStamp(pollId: number, _startTimeStamp: number) {
+    await this.startTime(pollId).set(_startTimeStamp)
+    const votingDuration = await this.votingDuration(pollId).get()
+    await this.endTime(pollId).set(_startTimeStamp + votingDuration)
   }
 
   async candidateToCurrentPoll(contributionText: string, evidences: string[], roles: string[]) {
-    const _contributionItem: ContributionItem = {
-      contributionText: contributionText,
-      evidences: evidences,
-      roles: roles,
-      contributor: "myUserId",
-      pollId: 0,
+    let updateIndex = undefined
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    const currentCandidates = await this.candidates(currentMaxPollId).get()
+    for (let index = 0; index < currentCandidates.length; index++) {
+      if (currentCandidates[index] == this.sender) {
+        updateIndex = index
+        break
+      }
     }
-    await admin
-      .firestore()
-      .collection("polls")
-      .doc(this.daoId)
-      .update({ contributions: admin.firestore.FieldValue.arrayUnion(_contributionItem) })
+
+    if (updateIndex == undefined) {
+      await this.candidates(currentMaxPollId).push(this.sender)
+      const contributionItem: ContributionItem = {
+        contributionText,
+        evidences,
+        roles,
+        contributor: this.sender,
+        pollId: currentMaxPollId,
+      }
+      await this.contributions(currentMaxPollId).push(contributionItem)
+    } else {
+      const _prevContributions = await this.contributions(currentMaxPollId).get()
+      const contributionItem: ContributionItem = {
+        contributionText,
+        evidences,
+        roles,
+        contributor: this.sender,
+        pollId: currentMaxPollId,
+      }
+      _prevContributions[updateIndex] = contributionItem
+      await this.contributions(currentMaxPollId).set(_prevContributions)
+    }
   }
 
-  async vote(_pollId: string, _candidates: string[], _points: number[][], _comments: string[]): Promise<boolean> {
+  isEligibleToVote(_address: string) {
+    //TODO: 誰でも投票可能状態になっているので適切な権限設定を行う
+    return true
+  }
+
+  /**
+   * @notice vote to the current poll.
+   * @dev Voters assign points to candidates and register their votes.
+   * Points are normalized to a total of 100 points.
+   * A voted point for oneself will always be 0.
+   */
+  async vote(_pollId: number, _candidates: string[], _points: number[][], _comments: string[]): Promise<boolean> {
     const voters: string[] = await this.getVoters(_pollId)
 
     // Check if the voter is eligible to vote
-    // not implemented
+    if (!this.isEligibleToVote(this.sender)) {
+      throw new Error("Not eligible to vote.")
+    }
 
     // Check if the candidate is not empty
     if (_candidates.length == 0) {
@@ -85,15 +519,15 @@ export class Poll {
     if (_points.length != _candidates.length) {
       throw new Error("invalid points")
     }
-
-    const perspectives = await this.getPerspectives(_pollId)
-
     // Firebaseでは2次元配列が保存できないため、number[][]型を { contributor: string; point: number[] }[]型に変換して保存する
     let _pointsObject: { contributor: string; point: number[] }[] = []
 
+    const activePerspective = await this.activePerspective().get()
+    const perspectives = await this.perspectives(activePerspective).get()
+    const candidates = await this.candidates(_pollId).get()
     for (let index = 0; index < _candidates.length; index++) {
       // Check if the candidate is in the current poll
-      if (_candidates[index] != "myUserId") {
+      if (!candidates.includes(_candidates[index])) {
         throw new Error("Invalid candidate")
       }
 
@@ -103,7 +537,7 @@ export class Poll {
           throw new Error("Invalid points")
         }
         // A voted point for oneself will always be 0.
-        if (_candidates[index] === "myUserId") {
+        if (_candidates[index] === this.sender) {
           _points[index][i] = 0
         }
       }
@@ -114,69 +548,58 @@ export class Poll {
     // Check if the voter has already voted
     let voterIndex = this.VOTE_MAX_PARTICIPANT + 1
     for (let index = 0; index < voters.length; index++) {
-      if (voters[index] == "myUserId") {
+      if (voters[index] == this.sender) {
         voterIndex = index
       }
     }
+
     const _vote: Vote = {
-      voter: "myUserId",
+      voter: this.sender,
       candidates: _candidates,
       points: _pointsObject,
       comments: _comments,
-      perspectiveId: this.activePerspective,
+      perspectiveId: activePerspective,
     }
 
     if (voterIndex == this.VOTE_MAX_PARTICIPANT + 1) {
       // save the vote to the list of votes
-      voters.push("myUserId")
-      await admin
-        .firestore()
-        .collection("polls")
-        .doc(this.daoId)
-        .set({ voters: voters, votes: admin.firestore.FieldValue.arrayUnion(_vote) }, { merge: true })
+      this.votes(_pollId).push(_vote)
     } else {
       // update the vote to the list of votes
-      let res: Vote[] = []
-      let docRef = admin.firestore().collection("polls").doc(this.daoId)
-
-      let doc = await docRef.get()
-
-      if (doc.exists) {
-        res = doc.data()?.votes
-      }
-
-      if (res) {
-        res[voterIndex] = _vote
-        await admin.firestore().collection("polls").doc(this.daoId).update({ voters: voters, votes: res })
-      }
+      const _prevVotes = await this.votes(_pollId).get()
+      _prevVotes[voterIndex] = _vote
+      await this.votes(_pollId).set(_prevVotes)
     }
 
     return true
   }
 
   async settleCurrentPollAndCreateNewPoll() {
+    //TODO: 終了時刻前は締め切りができないようにする
     await this._settlePoll()
     await this._createPoll()
   }
 
   async _settlePoll() {
-    const _votes: Vote[] = await this.getVotes(this.daoId)
-    const _candidates: string[] = _votes[0].candidates
-    const _perspectives: string[] = await this.getPerspectives(this.daoId)
+    // Add up votes for each candidate
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    const _candidates: string[] = await this.candidates(currentMaxPollId).get()
+    const _votes: Vote[] = await this.votes(currentMaxPollId).get()
+    const activePerspective = await this.activePerspective().get()
+    const _perspectives: string[] = await this.perspectives(activePerspective).get()
+
     // Aggregated data for each candidate
     const candidatesAssessments: Assessment[][] = new Array(_candidates.length)
     // Aggregate score data (total score for each viewpoint)
-    const summedPoints: number[] = []
-
-    let candidatesAssessmentsArray: Assessment[] = []
+    const summedPoints: number[] = new Array(_candidates.length).fill(0)
 
     for (let c = 0; c < _candidates.length; c++) {
       candidatesAssessments[c] = new Array<Assessment>(_votes.length)
       for (let v = 0; v < _votes.length; v++) {
         //Skip vote whose perspective is not the latest
-        // if (_votes[v].perspective != _perspectives) {
-        //   continue
-        // }
+        if (_votes[v].perspectiveId != activePerspective) {
+          continue
+        }
         //Skip vote for oneself
         if (_votes[v].voter == _candidates[c]) {
           continue
@@ -185,13 +608,11 @@ export class Poll {
         candidatesAssessments[c][v] = {
           voter: _votes[v].voter,
           contributor: _candidates[c],
-          perspectiveId: this.activePerspective,
+          perspectiveId: activePerspective,
           points: _votes[v].points.find((p) => p.contributor === _candidates[c])?.point as number[],
           comment: _votes[v].comments[c],
-          pollId: this.currentMaxPollId,
+          pollId: currentMaxPollId,
         }
-
-        candidatesAssessmentsArray.push(candidatesAssessments[c][v])
 
         for (let p = 0; p < _perspectives.length; p++) {
           if (_votes[v].candidates[c] == _candidates[c]) {
@@ -214,156 +635,131 @@ export class Poll {
 
     // Decide how much to distribute to Contributors
     const assignmentToken: number[] = new Array<number>(_candidates.length)
+    const CONTRIBUTOR_ASSIGNMENT_TOKEN = await this.CONTRIBUTOR_ASSIGNMENT_TOKEN().get()
     for (let index = 0; index < _candidates.length; index++) {
       const points = summedPoints[index]
-      const token = (points * this.CONTRIBUTOR_ASSIGNMENT_TOKEN) / totalPoints
+      const token = (points * CONTRIBUTOR_ASSIGNMENT_TOKEN) / totalPoints
       assignmentToken[index] = token
     }
 
     this.transferTokenForContributor(_candidates, assignmentToken)
+    // TODO:  _transferTokenForCommission();
 
     // Decide how much to distribute to voters
-    const _voters = await this.getVoters(this.daoId)
+    const _voters = await this.getVoters(currentMaxPollId)
     const totalVoterCount = _voters.length
+    const VOTER_ASSIGNMENT_TOKEN = await this.VOTER_ASSIGNMENT_TOKEN().get()
     if (totalVoterCount > 0) {
-      const voterAssignmentToken = this.VOTER_ASSIGNMENT_TOKEN / totalVoterCount
+      const voterAssignmentToken = VOTER_ASSIGNMENT_TOKEN / totalVoterCount
       this.transferTokenForVoter(_voters, voterAssignmentToken)
     }
 
     //Save aggregation results in DAO History
-    const daoHistory = new DAOHistory("")
-
-    const pollDetail = await this.getPollDetail(this.daoId)
-    console.log("pollDetail: ", pollDetail)
-    const _contributions: ContributionItem[] = pollDetail.contributions
-    let daoHistoryItemArray: DAOHistoryItemWithTimestamp[] = []
-    if (_contributions) {
-      if (_contributions.length > 0) {
-        _contributions.forEach((contributionItem: ContributionItem, index) => {
-          daoHistoryItemArray.push({
-            contributionText: contributionItem.contributionText,
-            reward: assignmentToken[index],
-            rewardToken: "",
-            roles: contributionItem.roles,
-            timestamp: admin.firestore.Timestamp.now(),
-            contributor: _candidates[index],
-            pollId: this.currentMaxPollId,
-            evidences: contributionItem.evidences,
-          })
-        })
-        // daoHistory.addDaoHistory(this.daoId, this.projectId, ])
+    const daoHistory = new DAOHistory("NOT_USED")
+    for (let c = 0; c < _candidates.length; c++) {
+      const contributionItem = (await this.contributions(currentMaxPollId).get())[c]
+      const daoHistoryItem: DAOHistoryItem = {
+        contributionText: contributionItem.contributionText,
+        reward: assignmentToken[c],
+        rewardToken: "pt",
+        roles: contributionItem.roles,
+        timestamp: new Date().getTime(),
+        contributor: _candidates[c],
+        pollId: currentMaxPollId,
+        evidences: contributionItem.evidences,
       }
+      await daoHistory.addDaoHistory(this.daoId, this.projectId, daoHistoryItem)
+      await daoHistory.addAssessment(this.daoId, this.projectId, candidatesAssessments[c])
     }
-
-    daoHistory.addAssessment(this.daoId, this.projectId, candidatesAssessmentsArray)
   }
 
   /**
    * @notice start new poll
    */
   async _createPoll() {
-    const pollFactory = new PollFactory()
-    // endTimeを新しいPollのstartTimeにして、Pollをつくる
+    await this.currentMaxPollId().increment()
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    const prevEndTime = await this.endTime(currentMaxPollId - 1).get()
+    await this.startTime(currentMaxPollId).set(prevEndTime)
+    await this.endTime(currentMaxPollId).set(prevEndTime + this.votingDuration)
+  }
 
-    pollFactory.createPoll(this.daoId, this.projectId)
+  _transferTokenForCommission() {
+    throw new Error("Not implemented")
   }
 
   async transferTokenForContributor(to: string[], amount: number[]): Promise<void> {
     if (to.length !== amount.length) {
       throw new Error("to != amount")
     }
-    const tokenName = "pt"
+    const token = new Token(this.daoId)
     for (let index = 0; index < to.length; index++) {
-      await admin
-        .firestore()
-        .collection("users")
-        .doc(to[index])
-        .update({ [tokenName]: amount[index] })
+      await token.transfer(to[index], amount[index])
     }
   }
 
   async transferTokenForVoter(to: string[], amount: number): Promise<void> {
-    const tokenName = "pt"
+    const token = new Token(this.daoId)
     for (let index = 0; index < to.length; index++) {
-      await admin
-        .firestore()
-        .collection("users")
-        .doc(to[index])
-        .update({ [tokenName]: amount })
+      await token.transfer(to[index], amount)
     }
   }
 
-  async getPollDetail(daoId: string): Promise<DetailPollItem> {
-    let res: DetailPollItem
-
-    let docRef = admin.firestore().collection("polls").doc(daoId)
-
-    let doc = await docRef.get()
-
-    if (doc.exists) {
-      res = {
-        pollId: doc.data()?.pollId,
-        contributions: doc.data()?.contributions,
-        voters: doc.data()?.voters,
-        startTime: doc.data()?.startTime.toDate(),
-        endTime: doc.data()?.endTime.toDate(),
-        perspectives: doc.data()?.perspectives,
-      }
-    } else {
-      throw new Error("No such a document!")
-    }
-    return res
+  async getCurrentCandidates() {
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    return await this.candidates(currentMaxPollId).get()
   }
 
-  /**
-   * @notice get the poll's votes
-   */
-  async getVotes(pollId: string): Promise<Vote[]> {
-    let res: Vote[] = []
+  async getCurrentVotes() {
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    return await this.votes(currentMaxPollId).get()
+  }
 
-    let docRef = admin.firestore().collection("polls").doc(pollId)
+  async getVotes(pollId: number) {
+    return await this.votes(pollId).get()
+  }
 
-    let doc = await docRef.get()
-
-    if (doc.exists) {
-      res = doc.data()?.votes
-    } else {
-      throw new Error("No such a document!")
-    }
-    return res
+  async getCurrentPerspectives() {
+    const currentMaxPollId = await this.currentMaxPollId().get()
+    return await this.perspectives(currentMaxPollId).get()
   }
 
   /**
    * @notice get the current poll's voters
    */
-  async getVoters(pollId: string): Promise<string[]> {
-    let voters: string[] = []
-
-    let res: Vote[] = []
-    let docRef = admin.firestore().collection("polls").doc(pollId)
-
-    let doc = await docRef.get()
-
-    if (doc.exists) {
-      res = doc.data()?.votes
-    }
-    if (res) {
-      voters = res.map((_vote: Vote) => _vote.voter)
-    }
-
-    return voters
+  async getVoters(pollId: number): Promise<string[]> {
+    const _votes = await this.votes(pollId).get()
+    const _voters: string[] = []
+    _votes.forEach((vote) => {
+      _voters.push(vote.voter)
+    })
+    return _voters
   }
 
-  async getPerspectives(daoId: string): Promise<string[]> {
-    let res: string[] = []
-    let docRef = admin.firestore().collection("polls").doc(daoId)
+  async getPollDetail(_pollId: number) {
+    const _contributions = await this.contributions(_pollId).get()
+    const _voters = await this.getVoters(_pollId)
+    const _startTimeStamp = await this.startTime(_pollId).get()
+    const _endTimeStamp = await this.endTime(_pollId).get()
+    const _perspectives = await this.getCurrentPerspectives()
 
-    let doc = await docRef.get()
-
-    if (doc.exists) {
-      res = doc.data()?.perspectives
+    // DetailPollItemを作成
+    const _detailPollItem: DetailPollItem = {
+      pollId: _pollId,
+      contributions: _contributions,
+      voters: _voters,
+      startTime: _startTimeStamp,
+      endTime: _endTimeStamp,
+      perspectives: _perspectives,
     }
+    return _detailPollItem
+  }
 
-    return res
+  async getPerspectives(_pollId: number): Promise<string[]> {
+    return await this.perspectives(_pollId).get()
+  }
+
+  getCommissionToken() {
+    throw new Error("Not implemented")
   }
 }
