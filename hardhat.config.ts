@@ -50,7 +50,7 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true
     },
     shibuya: {
-      url: `https://evm.shibuya.astar.network`,
+      url: `https://shibuya.public.blastapi.io`,
       accounts: [PRIVATE_KEY],
       chainId:81,
       allowUnlimitedContractSize: true
