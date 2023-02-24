@@ -24,8 +24,7 @@ export const en = {
     HeroText1: "New DAO Framework to ",
     HeroText2Colorful: "Make a Lasting Impact",
     HeroText3: " and Retain members.",
-    HeroSubText:
-      "Fully on-chain and decentrized DAO Framework that are friendly to Agile development.",
+    HeroSubText: "Fully on-chain and decentrized DAO Framework that are friendly to Agile development.",
     Problems: {
       Title: "Problems of DAO and Our Solutions",
       Onboarding: {
@@ -36,8 +35,7 @@ export const en = {
       },
       Hurdle: {
         Title: "The hurdle to get rewards is too high!",
-        SolutionTitle:
-          "Any contribution is fine, just give it a try and everyone will evaluate it.",
+        SolutionTitle: "Any contribution is fine, just give it a try and everyone will evaluate it.",
         SolutionName: "You can register your contributions without permission!",
       },
       Reward: {
@@ -74,6 +72,10 @@ export const en = {
   Common: {
     NodataMessage: {
       Title: "Let's Start Contributing!",
+      Invite: {
+        Title: "Let's Invite Members",
+        Description: "Copy the url and share it with the members you want to invite to DAO!",
+      },
     },
     AppMenu: {
       Info: "Info",
@@ -89,14 +91,12 @@ export const en = {
     },
     NetworkCheck: {
       Title: "The currently connected network is not supported.",
-      Text: (name: string, network: string) =>
-        `${name} is running on ${network}!`,
+      Text: (name: string, network: string) => `${name} is running on ${network}!`,
     },
   },
   History: {
     Title: (daoname: string) => `The History of ${daoname}`,
-    SubTitle: (daoname: string) =>
-      `A list of contributions of the ${daoname} memebers`,
+    SubTitle: (daoname: string) => `A list of contributions of the ${daoname} memebers`,
     HistoryList: {
       Contributions: "Contributions",
       NothingFound: "Nothing found",
@@ -111,8 +111,7 @@ export const en = {
   Assessment: {
     Title: "Your Assessments",
     AssessmentTabs: {
-      NotConnectWallet:
-        "You don't connect metamask yet. Connect wallet from right top button.",
+      NotConnectWallet: "You don't connect metamask yet. Connect wallet from right top button.",
       Total: "Total",
       Individual: "Individual",
       TotalTab: {
@@ -223,8 +222,7 @@ export const en = {
           Label: "comment (optional)",
           Placeholder: "Your comment",
         },
-        AlertVoteMyself:
-          "This is your contribution, so you can't vote for yourself",
+        AlertVoteMyself: "This is your contribution, so you can't vote for yourself",
       },
     },
   },
@@ -249,8 +247,7 @@ export const en = {
       SubTitle: "Rewards and Sprint Duration",
       NotSet: "Not set",
       InvalidTokenAddress: "Invalid token address",
-      NoTokenSymbol:
-        "We can't get token symbol. It might not be a token address",
+      NoTokenSymbol: "We can't get token symbol. It might not be a token address",
     },
     Step3: {
       Title: "Review Information",
@@ -267,8 +264,7 @@ export const en = {
       Retry: "Retry",
       Notification: {
         Title: "Your DAO is sent to blockchain!",
-        Message:
-          "Please wait for the transaction to be completed.(About 1 minute)",
+        Message: "Please wait for the transaction to be completed.(About 1 minute)",
       },
     },
     CompleteWeb2: {
@@ -356,5 +352,5 @@ export const en = {
   },
   Alert: {
     PleaseInstallMetamask: "Please install Metamask",
-  }
-};
+  },
+}
