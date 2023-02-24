@@ -19,8 +19,9 @@ export const addDao = functions.region("asia-northeast1").https.onRequest(async 
       website: string
       logo: string
     }
+    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
     const requestData: RequestData = req.body
-    const poll = new DAOHistory("NOT_USED")
+    const poll = new DAOHistory("NOT_USED", sender)
     await poll.addDao(
       requestData.daoId,
       requestData.projectId,

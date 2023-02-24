@@ -12,8 +12,9 @@ export const getDaoHistory = functions.region("asia-northeast1").https.onRequest
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
+    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
     const requestData = req.body
-    const daoHistory = new DAOHistory("")
+    const daoHistory = new DAOHistory("", sender)
     const response: DAOHistoryItem[] = await daoHistory.getDaoHistory(requestData.daoId, requestData.projectId)
     res.status(200).send(response)
   }

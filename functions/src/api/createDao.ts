@@ -24,7 +24,8 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
       votingDuration: number
       isWeb3: boolean
     } = req.body
-    const daoLauncher = new DAOLauncher()
+    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
+    const daoLauncher = new DAOLauncher(sender)
     daoLauncher.createDao(
       requestData.daoId,
       requestData.projectId,

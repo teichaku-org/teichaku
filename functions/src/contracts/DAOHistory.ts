@@ -6,6 +6,7 @@ import { DaoInfo } from "../struct/dao/DaoInfo"
 import { Assessment } from "../struct/assessment/Assessment"
 
 export class DAOHistory {
+  sender: string
   // daoId => projectId => [DAOHistoryItem, ...]
   histories(daoId: string, projectId: string) {
     const get = () => {
@@ -101,8 +102,9 @@ export class DAOHistory {
 
   pollFactoryAddress = "NOT_USED"
 
-  constructor(pollFactoryAddress: string) {
+  constructor(pollFactoryAddress: string, sender: string) {
     this.pollFactoryAddress = pollFactoryAddress
+    this.sender = sender
   }
 
   /**
@@ -136,7 +138,7 @@ export class DAOHistory {
    * @notice Add Project and create a poll contract
    */
   async addProject(daoId: string, projectId: string) {
-    const _pollAddress = await new PollFactory().createPoll(daoId, projectId)
+    const _pollAddress = await new PollFactory(this.sender).createPoll(daoId, projectId)
     this.pollAddress(daoId, projectId).set(_pollAddress)
     return _pollAddress
   }

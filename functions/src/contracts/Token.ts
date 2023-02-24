@@ -1,5 +1,5 @@
 import * as admin from "firebase-admin"
-
+import { FieldValue } from "firebase-admin/firestore"
 export class Token {
   daoId: string
   constructor(daoId: string) {
@@ -22,7 +22,7 @@ export class Token {
         .doc(this.daoId)
         .collection("balances")
         .doc(userId)
-        .set({ amount: admin.firestore.FieldValue.increment(amount) })
+        .set({ amount: FieldValue.increment(amount) })
     }
 
     return { get, set, add }
