@@ -9,7 +9,9 @@ import { ConnectWallet } from "../web3/login/ConnectWallet"
 
 export const TokenReceiveModal = () => {
   const {t} = useLocale()
-  const [ opened, setOpened ] = useState(true)
+  const [ opened, setOpened ] = useState(false)
+
+  //TODO: このモーダルを開くかどうかを判定するロジックを実装する
 
   const onLogin = () => {
     // TODO: ここでアカウントIDとメタマスクウォレットアドレスを紐付けるAPIを実行する
