@@ -17,8 +17,7 @@ export class DAOLauncher {
     _tokenAddress: string,
     _contributorToken: number,
     _voterToken: number,
-    _votingDuration: number,
-    isWeb3: boolean
+    _votingDuration: number
   ) {
     const daoHistory = new DAOHistory("", this.sender)
 
