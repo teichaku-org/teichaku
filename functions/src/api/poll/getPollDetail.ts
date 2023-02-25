@@ -12,9 +12,13 @@ export const getPollDetail = functions.region("asia-northeast1").https.onRequest
     res.status(204).send("")
   } else {
     const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
-    const requestData = req.body
+    const requestData: {
+      daoId: string
+      projectId: string
+      pollId: number
+    } = req.body
     const poll = new Poll(requestData.daoId, requestData.projectId, sender)
-    const response = await poll.getPollDetail(requestData.daoId)
+    const response = await poll.getPollDetail(requestData.pollId)
     res.status(200).send(response)
   }
 })

@@ -92,13 +92,15 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
         pollId: res.data.pollId,
         contributions: res.data.contributions,
         voters: res.data.voters,
-        alreadyVoted: res.data.voters.includes("myUserId"),
-        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes("myUserId"),
-        startTimeStamp: new Date(res.data.startTime._seconds * 1000),
-        endTimeStamp: new Date(res.data.endTime._seconds * 1000),
+        alreadyVoted: res.data.voters.includes("TestUser"),
+        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes("TestUser"),
+        startTimeStamp: new Date(res.data.startTime),
+        endTimeStamp: new Date(res.data.endTime),
         perspectives: res.data.perspectives,
       }
     }
+
+    console.log(_pollDetail)
     return _pollDetail
   }
 
