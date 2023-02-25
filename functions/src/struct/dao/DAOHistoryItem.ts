@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore"
-
 export type DAOHistoryItem = {
   contributionText: string
   reward: number
@@ -11,12 +9,12 @@ export type DAOHistoryItem = {
   evidences: string[]
 }
 
-export type DAOHistoryItemWithTimestamp = {
+export type DAOHistoryItemWithDate = {
   contributionText: string
   reward: number
   rewardToken: string
   roles: string[]
-  timestamp: Timestamp
+  timestamp: Date
   contributor: string
   pollId: number
   evidences: string[]

@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions"
 import { Poll } from "../../contracts/Poll"
 
-export const vote = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
+export const currentMaxPollId = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
 
   if (req.method === "OPTIONS") {
@@ -15,13 +15,9 @@ export const vote = functions.region("asia-northeast1").https.onRequest(async (r
     const requestData: {
       daoId: string
       projectId: string
-      pollId: number
-      candidates: string[]
-      points: number[][]
-      comments: string[]
     } = req.body
     const poll = new Poll(requestData.daoId, requestData.projectId, sender)
-    await poll.vote(requestData.pollId, requestData.candidates, requestData.points, requestData.comments)
-    res.status(200).send({ message: "success" })
+    const response: number = await poll.currentMaxPollId().get()
+    res.status(200).send({ currentMaxPollId: response })
   }
 })

@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions"
 import { DAOHistory } from "../contracts/DAOHistory"
-import { DAOHistoryItem } from "../struct/dao/DAOHistoryItem"
+import { DAOHistoryItem, DAOHistoryItemWithDate } from "../struct/dao/DAOHistoryItem"
 
 export const getDaoHistory = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
@@ -16,6 +16,13 @@ export const getDaoHistory = functions.region("asia-northeast1").https.onRequest
     const requestData: { daoId: string; projectId: string } = req.body
     const daoHistory = new DAOHistory("", sender)
     const response: DAOHistoryItem[] = await daoHistory.getDaoHistory(requestData.daoId, requestData.projectId)
-    res.status(200).send(response)
+    // timestampをDate型にして返す
+    const daoHistoryItemsWithDate: DAOHistoryItemWithDate[] = response.map((daoHistoryItem: DAOHistoryItem) => {
+      return {
+        ...daoHistoryItem,
+        timestamp: new Date(daoHistoryItem.timestamp),
+      }
+    })
+    res.status(200).send(daoHistoryItemsWithDate)
   }
 })
