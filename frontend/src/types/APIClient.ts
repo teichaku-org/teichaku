@@ -8,9 +8,13 @@ export interface HttpClient {
 }
 
 export class APIClient implements HttpClient {
-  static baseUrl: string = "https://asia-northeast1-teichaku-fa2a9.cloudfunctions.net"
+  static baseUrl: string =
+    process.env.NODE_ENV === "development"
+      ? "http://127.0.0.1:5001/teichaku-fa2a9/asia-northeast1"
+      : "https://asia-northeast1-teichaku-fa2a9.cloudfunctions.net"
 
   public async get(path: string, params: any) {
+    console.log({ baseUrl: APIClient.baseUrl, path, params })
     const options: AxiosRequestConfig = {
       baseURL: APIClient.baseUrl,
       url: path,

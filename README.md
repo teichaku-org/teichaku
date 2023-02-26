@@ -97,6 +97,12 @@ npm ci
 npm run dev
 ```
 
+### Firebase のローカル起動
+
+```
+firebase emulators:start
+```
+
 # 開発用ドキュメント
 
 ## 型の自動生成
