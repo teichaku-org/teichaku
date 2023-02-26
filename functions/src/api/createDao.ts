@@ -22,7 +22,6 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
       contributorToken: number
       voterToken: number
       votingDuration: number
-      isWeb3: boolean
     } = req.body
     const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
     const daoLauncher = new DAOLauncher(sender)
@@ -36,8 +35,7 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
       requestData.tokenAddress,
       requestData.contributorToken,
       requestData.voterToken,
-      requestData.votingDuration,
-      requestData.isWeb3
+      requestData.votingDuration
     )
     res.send({ message: "success" })
   }

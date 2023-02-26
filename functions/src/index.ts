@@ -12,6 +12,7 @@ import { settleCurrentPollAndCreateNewPoll } from "./api/poll/settleCurrentPollA
 import { getDaoHistory } from "./api/getDaoHistory"
 import { getDaoAssessments } from "./api/getDaoAssessments"
 import { addDao } from "./api/daoHistory/addDao"
+import { test } from "./api/test"
 
 module.exports = {
   createDao,
@@ -24,4 +25,5 @@ module.exports = {
   getDaoHistory,
   getDaoAssessments,
   addDao,
+  test,
 }

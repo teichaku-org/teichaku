@@ -17,14 +17,12 @@ export class DAOLauncher {
     _tokenAddress: string,
     _contributorToken: number,
     _voterToken: number,
-    _votingDuration: number,
-    isWeb3: boolean
+    _votingDuration: number
   ) {
     const daoHistory = new DAOHistory("", this.sender)
 
     await daoHistory.addDao(daoId, projectId, name, description, website, logo)
 
-    //TODO: この辺を実装する
     const poll = new Poll(daoId, projectId, this.sender)
     poll.setAssignmentToken(_contributorToken, _voterToken)
     poll.setVotingDuration(0, _votingDuration)
