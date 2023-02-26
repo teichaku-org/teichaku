@@ -3,10 +3,11 @@ import { DaoHistoryListAtom } from "@/domains/atoms/DaoHistoryListAtom"
 import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom"
 import { useAtom } from "jotai"
 import { useDaoHistoryInterface } from "../interface/useDaoHistoryInterface"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 import { DaoHistory } from "@/domains/DaoHistory"
 import { Assessment } from "@/domains/Assessment"
 import { DaoInfo } from "@/domains/DaoInfo"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 
 interface Props {
   daoId: string
@@ -20,9 +21,14 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
   const [assessments, setAssessments] = useAtom(AssessmentListAtom)
   const [daoInfo, setDaoInfo] = useAtom(DaoInfoAtom)
   const apiClient = new APIClient()
+  const { getUserIdToken } = useWeb3Auth()
 
   const load = async () => {
-    const resDaoHistory = await apiClient.post("/getDaoHistory", { daoId: daoId, projectId: projectId })
+    const idToken = await getUserIdToken()
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+    const resDaoHistory = await apiClient.post("/getDaoHistory", { daoId: daoId, projectId: projectId }, headers)
 
     let _daoHistory: DaoHistory[] = []
     if (resDaoHistory) {
@@ -30,7 +36,11 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
     }
     setDaoHistory(_daoHistory)
 
-    const resDaoAssessments = await apiClient.post("/getDaoAssessments", { daoId: daoId, projectId: projectId })
+    const resDaoAssessments = await apiClient.post(
+      "/getDaoAssessments",
+      { daoId: daoId, projectId: projectId },
+      headers
+    )
 
     let _assessments: Assessment[] = []
     if (resDaoAssessments) {
@@ -38,7 +48,7 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
     }
     setAssessments(_assessments)
 
-    const resDaoInfo = await apiClient.post("/getDaoInfo", { daoId: daoId })
+    const resDaoInfo = await apiClient.post("/getDaoInfo", { daoId: daoId }, headers)
     let _daoInfo: DaoInfo | undefined
     if (resDaoInfo) {
       _daoInfo = resDaoInfo.data

@@ -14,7 +14,7 @@ import { useAtom } from "jotai"
 import { useRouter } from "next/router"
 import { useEffect, useLayoutEffect, useState } from "react"
 import useDaoLauncherWeb3 from "@/hooks/dao/web3/useDaoLauncherWeb3"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 
 type props = {
   isWeb3: boolean

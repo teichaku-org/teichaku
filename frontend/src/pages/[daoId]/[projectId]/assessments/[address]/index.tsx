@@ -9,7 +9,7 @@ import { shortenAddress } from "@/utils/shortenAddress"
 import { Center, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect, useLayoutEffect } from "react"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { useAtom } from "jotai"
 
