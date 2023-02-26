@@ -5,17 +5,28 @@ import { SBTSetting } from "@/components/setting/SBTSetting"
 import { TokenSetting } from "@/components/setting/TokenSetting"
 import { TreasurySetting } from "@/components/setting/TreasurySetting"
 import { Web3MigrationSetting } from "@/components/setting/Web3MigrationSetting"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
 import { Center, Container, Title, Text } from "@mantine/core"
+import { useAtom } from "jotai"
+import { useLayoutEffect } from "react"
 
-const SettingPage = () => {
+type Props = {
+  isWeb3: boolean
+}
+
+const SettingPage = ({ isWeb3 }: Props) => {
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
   const { t } = useLocale()
-  //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  useDaoExistCheck(true)
-  useDaoLoad(true)
+  useDaoExistCheck()
+  useDaoLoad()
   return (
     <Container>
       <Center>

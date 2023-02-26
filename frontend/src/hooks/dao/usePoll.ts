@@ -1,8 +1,11 @@
-import { usePollInterface, usePollInterfaceIsWeb3 } from "./interface/usePollInterface"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import { useAtom } from "jotai"
+import { usePollInterface } from "./interface/usePollInterface"
 import usePollWeb2 from "./web2/usePollWeb2"
 import usePollWeb3 from "./web3/usePollWeb3"
 
-const usePoll: usePollInterfaceIsWeb3 = (props: { daoId: string; projectId: string }, isWeb3: boolean) => {
+const usePoll: usePollInterface = (props: { daoId: string; projectId: string }) => {
+  const [isWeb3] = useAtom(Web3FlagAtom)
   const selectStrategy = () => {
     if (isWeb3) {
       return usePollWeb3(props)
@@ -11,7 +14,6 @@ const usePoll: usePollInterfaceIsWeb3 = (props: { daoId: string; projectId: stri
     }
   }
   const strategy = selectStrategy()
-
   return strategy
 }
 

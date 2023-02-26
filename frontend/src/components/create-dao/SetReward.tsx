@@ -3,61 +3,49 @@ import {
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,
   CreateDAOSprintDuration,
-} from "@/domains/atoms/CreateDaoAtom";
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom";
-import useDynamicERC20 from "@/hooks/dao/useDynamicERC20";
-import { useLocale } from "@/i18n/useLocale";
-import {
-  Card,
-  Center,
-  NumberInput,
-  Space,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core";
-import { ethers } from "ethers";
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+} from "@/domains/atoms/CreateDaoAtom"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
+import { useLocale } from "@/i18n/useLocale"
+import { Card, Center, NumberInput, Space, Text, TextInput, Title } from "@mantine/core"
+import { ethers } from "ethers"
+import { useAtom } from "jotai"
+import { useEffect, useState } from "react"
 
 export const SetReward = () => {
-  const { t } = useLocale();
-  const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet);
-  const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress);
-  const [contributorReward, setContributorReward] = useAtom(
-    CreateDAORewardTokenContributorAmount
-  );
-  const [reviewerReward, setReviewerReward] = useAtom(
-    CreateDAORewardTokenReviewerAmount
-  );
-  const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration);
-  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom);
-  const { loadTokenSymbol } = useDynamicERC20();
+  const { t } = useLocale()
+  const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
+  const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress)
+  const [contributorReward, setContributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
+  const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
+  const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration)
+  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom)
+  const { loadTokenSymbol } = useDynamicERC20()
 
   const onChangeTokenAddress = async (address: string) => {
-    setTokenAddress(address);
+    setTokenAddress(address)
     if (ethers.utils.isAddress(address)) {
-      const symbol = await loadTokenSymbol(address);
-      setTokenSymbol(symbol);
+      const symbol = await loadTokenSymbol(address)
+      setTokenSymbol(symbol)
     } else {
-      setTokenSymbol(t.CreateDao.Step2.NotSet);
+      setTokenSymbol(t.CreateDao.Step2.NotSet)
     }
-  };
+  }
 
-  const isTokenAddressYetEmpty = tokenAddress === "";
-  const invalidTokenAddress = !ethers.utils.isAddress(tokenAddress);
-  const noTokenSymbol = tokenSymbol === t.CreateDao.Step2.NotSet;
+  const isTokenAddressYetEmpty = tokenAddress === ""
+  const invalidTokenAddress = !ethers.utils.isAddress(tokenAddress)
+  const noTokenSymbol = tokenSymbol === t.CreateDao.Step2.NotSet
   const errorMessage = (() => {
     if (isTokenAddressYetEmpty) {
-      return "";
+      return ""
     }
     if (invalidTokenAddress) {
-      return t.CreateDao.Step2.InvalidTokenAddress;
+      return t.CreateDao.Step2.InvalidTokenAddress
     }
     if (noTokenSymbol) {
-      return t.CreateDao.Step2.NoTokenSymbol;
+      return t.CreateDao.Step2.NoTokenSymbol
     }
-  })();
+  })()
 
   return (
     <div>
@@ -125,5 +113,5 @@ export const SetReward = () => {
         onChange={(e) => setSprintDuration(e)}
       />
     </div>
-  );
-};
+  )
+}

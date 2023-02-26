@@ -1,5 +1,6 @@
 import { PollEndInfo } from "@/components/poll/PollEndInfo"
 import { PollSystem } from "@/components/poll/PollSystem"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import useDaoToken from "@/hooks/dao/useDaoToken"
@@ -8,16 +9,22 @@ import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
 import { Center, Container, Loader, Text, Title } from "@mantine/core"
+import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 
 type props = {
   isWeb3: boolean
 }
 
 const Poll = ({ isWeb3 }: props) => {
-  useDaoExistCheck(isWeb3)
-  useDaoLoad(isWeb3)
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
+  useDaoExistCheck()
+  useDaoLoad()
   const { address } = useWeb3Auth()
   const { t } = useLocale()
   const router = useRouter()
@@ -35,10 +42,10 @@ const Poll = ({ isWeb3 }: props) => {
     settleCurrentPollAndCreateNewPoll,
     voterReward,
     commissionFee,
-  } = usePoll(dao, isWeb3)
+  } = usePoll(dao)
 
-  const { tokenSymbol } = useDaoToken(dao, isWeb3)
-  const { treasuryBalance } = useDaoToken(dao, isWeb3)
+  const { tokenSymbol } = useDaoToken(dao)
+  const { treasuryBalance } = useDaoToken(dao)
   const isTokenShort = treasuryBalance < contributorReward + voterReward + commissionFee
 
   useEffect(() => {

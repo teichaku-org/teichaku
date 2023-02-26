@@ -9,23 +9,27 @@ import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
 import { Center, Container, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { APIClient } from "@/types/APIClient"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import { useAtom } from "jotai"
 
 type props = {
   isWeb3: boolean
 }
 
 const Assessment = ({ isWeb3 }: props) => {
-  useDaoExistCheck(isWeb3)
-  useDaoLoad(isWeb3)
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
+  useDaoExistCheck()
+  useDaoLoad()
   const router = useRouter()
   const { t } = useLocale()
   const { daoId, projectId } = router.query
-  const { daoHistory, load, assessments } = useDaoHistory(
-    { daoId: daoId as string, projectId: projectId as string },
-    isWeb3
-  )
+  const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string })
   const { address } = useWeb3Auth()
   useEffect(() => {
     if (daoId && projectId) {
