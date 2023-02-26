@@ -9,7 +9,7 @@ import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { FloatingAddButton } from "@/components/contribution/FloatingAddButton"
 import { useLocale } from "@/i18n/useLocale"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 import CopyInviteUrl from "@/components/common/CopyInviteUrl"
 
 type props = {

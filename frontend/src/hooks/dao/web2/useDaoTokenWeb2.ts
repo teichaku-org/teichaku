@@ -8,7 +8,8 @@ import {
 } from "@/domains/atoms/TokenAtom"
 import { useAtom } from "jotai"
 import { useDaoTokenInterface } from "../interface/useDaoTokenInterface"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 
 interface Props {
   daoId: string
@@ -23,13 +24,23 @@ const useDaoTokenWeb2: useDaoTokenInterface = (props: Props) => {
   const [pollAddress] = useAtom(PollContractAddress)
   const contractAddress = ""
   const apiClient = new APIClient()
+  const { getUserIdToken } = useWeb3Auth()
 
   const load = async () => {
     setTokenName("Point")
     setTokenSymbol("pt")
-    const res = await apiClient.post("/getMyBalance", {
-      daoId: props.daoId,
-    })
+    const idToken = await getUserIdToken()
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    const res = await apiClient.post(
+      "/getMyBalance",
+      {
+        daoId: props.daoId,
+      },
+      headers
+    )
     if (res) {
       setYourBalance(res.data.amount)
       console.log(res.data.amount)

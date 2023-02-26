@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions"
 import { DAOLauncher } from "../contracts/DAOLauncher"
 import * as admin from "firebase-admin"
+import { decodeJwt, getUserAddress } from "../utils/decodeJwt"
 
 export const createDao = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
@@ -8,7 +9,7 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
     res.set("Access-Control-Allow-Methods", "GET")
-    res.set("Access-Control-Allow-Headers", "Content-Type")
+    res.set("Access-Control-Allow-Headers", "Authorization, Content-Type")
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
@@ -25,7 +26,9 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
       votingDuration: number
     } = req.body
     console.log({ requestData })
-    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
+
+    const userId = getUserAddress(req.headers.authorization || "")
+    const sender = userId
     const daoLauncher = new DAOLauncher(sender)
     await daoLauncher.createDao(
       requestData.daoId,

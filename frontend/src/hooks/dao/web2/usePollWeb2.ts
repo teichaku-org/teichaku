@@ -3,12 +3,13 @@ import { usePollInterface } from "../interface/usePollInterface"
 import { useRouter } from "next/router"
 import { Links } from "@/constants/Links"
 import { useLocale } from "@/i18n/useLocale"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 import { useAtom } from "jotai"
 import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom"
 import { Contribution } from "@/domains/Contribution"
 import { PollDetail } from "@/domains/PollDetail"
 import { useEffect } from "react"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 
 const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string }) => {
   const router = useRouter()
@@ -20,6 +21,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const voterReward = 0
   const commissionFee = 0
   const apiClient = new APIClient()
+  const { getUserIdToken } = useWeb3Auth()
 
   const checkIsAdmin = async () => {}
 
@@ -33,10 +35,18 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   }, [])
 
   const _loadCurrentMaxPoll = async () => {
-    const res = await apiClient.post("/currentMaxPollId", {
-      daoId: props.daoId,
-      projectId: props.projectId,
-    })
+    const idToken = await getUserIdToken()
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+    const res = await apiClient.post(
+      "/currentMaxPollId",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+      },
+      headers
+    )
     if (res) {
       const pollId = res.data.currentMaxPollId
       _fetchPollDetail(pollId).then((res) => {
@@ -61,15 +71,27 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       loading: true,
       autoClose: false,
     })
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
 
-    await apiClient.post("/vote", {
-      daoId: props.daoId,
-      projectId: props.projectId,
-      pollId: pollId,
-      candidates: candidates,
-      points: points,
-      comments: comments,
-    })
+    await apiClient.post(
+      "/vote",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        pollId: pollId,
+        candidates: candidates,
+        points: points,
+        comments: comments,
+      },
+      headers
+    )
 
     clearLocalStorage()
     hideNotification("vote")
@@ -85,21 +107,43 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       loading: true,
       autoClose: false,
     })
-    await apiClient.post("/settleCurrentPollAndCreateNewPoll", {
-      daoId: props.daoId,
-      projectId: props.projectId,
-    })
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    await apiClient.post(
+      "/settleCurrentPollAndCreateNewPoll",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+      },
+      headers
+    )
     hideNotification("settle")
     const commonPath = Links.getCommonPath(router)
     router.push(commonPath + "/history")
   }
 
   const _fetchPollDetail = async (pollId: number): Promise<PollDetail | null> => {
-    const res = await apiClient.post("/getPollDetail", {
-      daoId: props.daoId,
-      projectId: props.projectId,
-      pollId: pollId,
-    })
+    const idToken = await getUserIdToken()
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    const res = await apiClient.post(
+      "/getPollDetail",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        pollId: pollId,
+      },
+      headers
+    )
     let _pollDetail: PollDetail | null = null
 
     if (res) {
@@ -125,15 +169,27 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       loading: true,
       autoClose: false,
     })
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
 
-    await apiClient.post("/candidateToCurrentPoll", {
-      daoId: props.daoId,
-      contributionText: contributionText,
-      evidences: evidences,
-      roles: roles,
-      contributor: "myUserId",
-      pollId: props.daoId,
-    })
+    await apiClient.post(
+      "/candidateToCurrentPoll",
+      {
+        daoId: props.daoId,
+        contributionText: contributionText,
+        evidences: evidences,
+        roles: roles,
+        contributor: "myUserId",
+        pollId: props.daoId,
+      },
+      headers
+    )
 
     hideNotification("candidate")
     const commonPath = Links.getCommonPath(router)

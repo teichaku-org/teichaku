@@ -6,7 +6,8 @@ import { useAtom } from "jotai"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useDaoLoadInterface } from "../interface/useDaoLoadInterface"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 
 export const useDaoLoadWeb2: useDaoLoadInterface = () => {
   const router = useRouter()
@@ -14,6 +15,7 @@ export const useDaoLoadWeb2: useDaoLoadInterface = () => {
   const daoId = _daoId as string
   const projectId = _projectId as string
   const apiClient = new APIClient()
+  const { getUserIdToken } = useWeb3Auth()
 
   const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
 
@@ -25,18 +27,31 @@ export const useDaoLoadWeb2: useDaoLoadInterface = () => {
   const [______, setNftContractAddress] = useAtom(NftContractAddress)
 
   const load = async () => {
-    const resContributorAssignmentToken = await apiClient.post("/contributorAssignmentToken", {
-      daoId: daoId,
-      projectId: projectId,
-    })
+    const idToken = await getUserIdToken()
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    const resContributorAssignmentToken = await apiClient.post(
+      "/contributorAssignmentToken",
+      {
+        daoId: daoId,
+        projectId: projectId,
+      },
+      headers
+    )
     if (resContributorAssignmentToken) {
       setContributorReward(resContributorAssignmentToken.data.contributorAssignmentToken)
     }
 
-    const resVoterAssignmentToken = await apiClient.post("/voterAssignmentToken", {
-      daoId: daoId,
-      projectId: projectId,
-    })
+    const resVoterAssignmentToken = await apiClient.post(
+      "/voterAssignmentToken",
+      {
+        daoId: daoId,
+        projectId: projectId,
+      },
+      headers
+    )
     if (resVoterAssignmentToken) {
       setVoterReward(resVoterAssignmentToken.data.contributorAssignmentToken)
     }

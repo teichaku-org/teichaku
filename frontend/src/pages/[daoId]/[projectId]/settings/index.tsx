@@ -8,7 +8,7 @@ import { Web3MigrationSetting } from "@/components/setting/Web3MigrationSetting"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { useLocale } from "@/i18n/useLocale"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 import { Center, Container, Title, Text } from "@mantine/core"
 
 type Props = {

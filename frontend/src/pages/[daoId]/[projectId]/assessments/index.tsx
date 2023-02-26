@@ -8,7 +8,7 @@ import { useLocale } from "@/i18n/useLocale"
 import { Center, Container, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { APIClient } from "@/types/APIClient"
+import { APIClient } from "@/utils/APIClient"
 
 type props = {
   isWeb3: boolean
