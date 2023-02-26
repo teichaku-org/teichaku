@@ -7,15 +7,8 @@ import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
 import { Center, Container, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
-<<<<<<< HEAD
-import { useEffect, useLayoutEffect } from "react"
-import { APIClient } from "@/utils/APIClient"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
-import { useAtom } from "jotai"
-=======
 import { useEffect } from "react"
-import { APIClient } from "@/types/APIClient"
->>>>>>> 0cd66ae483c36ce5fff0f6aa42122019afd57beb
+import { APIClient } from "@/utils/APIClient"
 
 type props = {
   isWeb3: boolean

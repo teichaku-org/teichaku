@@ -3,13 +3,8 @@ import { DaoHistoryListAtom } from "@/domains/atoms/DaoHistoryListAtom"
 import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom"
 import { useAtom } from "jotai"
 import { useDaoHistoryInterface } from "../interface/useDaoHistoryInterface"
-<<<<<<< HEAD
 import { APIClient } from "@/utils/APIClient"
-import { DaoHistory } from "@/domains/DaoHistory"
-=======
-import { APIClient } from "@/types/APIClient"
 import { DaoHistory, DaoHistoryWithNumber } from "@/domains/DaoHistory"
->>>>>>> 0cd66ae483c36ce5fff0f6aa42122019afd57beb
 import { Assessment } from "@/domains/Assessment"
 import { DaoInfo } from "@/domains/DaoInfo"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"

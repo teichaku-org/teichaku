@@ -1,11 +1,7 @@
 import * as functions from "firebase-functions"
 import { DAOHistory } from "../contracts/DAOHistory"
-<<<<<<< HEAD
-import { DAOHistoryItem, DAOHistoryItemWithDate } from "../struct/dao/DAOHistoryItem"
-import { getUserAddress } from "../utils/decodeJwt"
-=======
 import { DAOHistoryItem } from "../struct/dao/DAOHistoryItem"
->>>>>>> 0cd66ae483c36ce5fff0f6aa42122019afd57beb
+import { getUserAddress } from "../utils/decodeJwt"
 
 export const getDaoHistory = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
