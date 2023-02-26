@@ -4,7 +4,6 @@ import {
   CreateDAORewardTokenReviewerAmount,
   CreateDAOSprintDuration,
 } from "@/domains/atoms/CreateDaoAtom"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
 import { useLocale } from "@/i18n/useLocale"
 import { Card, Center, NumberInput, Space, Text, TextInput, Title } from "@mantine/core"
@@ -12,14 +11,14 @@ import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 
-export const SetReward = () => {
+export const SetReward = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
   const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
   const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress)
   const [contributorReward, setContributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
   const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration)
-  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom)
+
   const { loadTokenSymbol } = useDynamicERC20()
 
   const onChangeTokenAddress = async (address: string) => {
@@ -52,7 +51,7 @@ export const SetReward = () => {
       <Center mb="xl">
         <Title size="h1">{t.CreateDao.Step2.Title}</Title>
       </Center>
-      {isWeb3 && (
+      {props.isWeb3 && (
         <>
           <Text size="md" weight={700}>
             {t.Settings.TokenSetting.TokenDistribution}

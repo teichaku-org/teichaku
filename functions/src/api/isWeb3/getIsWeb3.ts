@@ -20,7 +20,7 @@ export const getIsWeb3 = functions.region("asia-northeast1").https.onRequest(asy
     const dao = await daoRef.get()
     if (dao.exists) {
       const data = dao.data()
-      const isWeb3 = data?.isWeb3 || true
+      const isWeb3 = data ? data.isWeb3 : true
       res.status(200).send({
         isWeb3,
       })

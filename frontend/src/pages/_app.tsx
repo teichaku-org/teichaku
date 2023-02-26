@@ -1,30 +1,26 @@
-import { AppFooter } from "@/components/common/AppFooter";
-import { AppHeader } from "@/components/common/AppHeader";
-import { AppNavbar } from "@/components/common/AppNavbar";
-import { AppInfo } from "@/constants/AppInfo";
-import { AppShell, MantineProvider } from "@mantine/core";
-import dynamic from "next/dynamic";
-import NetworkCheck from "../components/web3/common/NetworkCheck";
-import { NotificationsProvider } from '@mantine/notifications';
-import { SafeEventEmitterProvider } from "@web3auth/base";
-import { Web3Auth } from "@web3auth/modal";
-import { useEffect, useState } from "react";
-import { InformationModals } from "@/components/modals/InformationModals";
-
+import { AppFooter } from "@/components/common/AppFooter"
+import { AppHeader } from "@/components/common/AppHeader"
+import { AppNavbar } from "@/components/common/AppNavbar"
+import { AppInfo } from "@/constants/AppInfo"
+import { AppShell, MantineProvider } from "@mantine/core"
+import dynamic from "next/dynamic"
+import NetworkCheck from "../components/web3/common/NetworkCheck"
+import { NotificationsProvider } from "@mantine/notifications"
+import { SafeEventEmitterProvider } from "@web3auth/base"
+import { Web3Auth } from "@web3auth/modal"
+import { useEffect, useState } from "react"
+import { InformationModals } from "@/components/modals/InformationModals"
 
 const MyApp = ({ Component, pageProps }: any) => {
-  const SafeHydrate = dynamic(() => import("./SafeHydrage"), { ssr: false });
-
+  const SafeHydrate = dynamic(() => import("./SafeHydrage"), { ssr: false })
 
   const windowErrorRender = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="text-2xl font-bold">
-          このページを開くことはできません(お問い合わせをお願いします)
-        </div>
+        <div className="text-2xl font-bold">このページを開くことはできません(お問い合わせをお願いします)</div>
       </div>
-    );
-  };
+    )
+  }
 
   const render = () => {
     return (
@@ -61,34 +57,31 @@ const MyApp = ({ Component, pageProps }: any) => {
               footer={Component.noNavbar ? <AppFooter /> : undefined}
               styles={(theme) => ({
                 main: {
-                  backgroundColor:
-                    theme.colorScheme === "dark"
-                      ? theme.colors.dark[8]
-                      : theme.colors.gray[0],
+                  backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
                 },
               })}
             >
               {/* パスが/である場合は表示する */}
               {!Component.noNeedWallet && (
                 <>
-                  <NetworkCheck />
+                  <NetworkCheck isWeb3={false} />
                 </>
               )}
               <Component {...pageProps} />
             </AppShell>
-            <InformationModals/>
+            <InformationModals />
           </NotificationsProvider>
         </MantineProvider>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <SafeHydrate>
       <title>{AppInfo.name}</title>
       {typeof window === "undefined" ? windowErrorRender() : render()}
     </SafeHydrate>
-  );
-};
+  )
+}
 
-export default MyApp;
+export default MyApp

@@ -9,34 +9,28 @@ import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
 import { Center, Grid, Title, Text, Loader } from "@mantine/core"
-import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { createContext, useEffect, useLayoutEffect } from "react"
+import { useEffect } from "react"
 
 type props = {
   isWeb3: boolean
 }
 
 const Overview = ({ isWeb3 }: props) => {
-  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
-  useLayoutEffect(() => {
-    setIsWeb3Flag(isWeb3)
-  }, [isWeb3])
-
-  useDaoExistCheck()
-  useDaoLoad()
+  useDaoExistCheck(isWeb3)
+  useDaoLoad(isWeb3)
 
   const { t } = useLocale()
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao)
+  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao, isWeb3)
   const contributionCount = daoHistory?.length || 0
   const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0
   const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0
 
-  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao)
-  const { contributorReward, voterReward, commissionFee } = usePoll(dao)
+  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao, isWeb3)
+  const { contributorReward, voterReward, commissionFee } = usePoll(dao, isWeb3)
 
   useEffect(() => {
     if (daoId && projectId) {
@@ -93,7 +87,7 @@ export async function getServerSideProps(context: { query: { daoId: string } }) 
   // Fetch data from external API
   const apiClient = new APIClient()
   const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  return { props: { isWeb3: res?.data.isWeb3 || true } }
+  return { props: { isWeb3: res ? res.data.isWeb3 : true } }
 }
 
 export default Overview
