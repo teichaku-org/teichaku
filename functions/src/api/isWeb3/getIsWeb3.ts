@@ -11,19 +11,23 @@ export const getIsWeb3 = functions.region("asia-northeast1").https.onRequest(asy
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
-    const requestData = req.body
-
-    let response: boolean = true
-
-    let docRef = admin.firestore().collection("daos").doc(requestData.daoId)
-
-    let doc = await docRef.get()
-
-    if (doc.exists) {
-      response = doc.data()?.isWeb3
-    } else {
-      throw new Error("no such a document!")
+    type RequestData = {
+      daoId: string
     }
-    res.status(200).send(response)
+    const requestData: RequestData = req.body
+    const db = admin.firestore()
+    const daoRef = db.collection("isWeb3").doc(requestData.daoId)
+    const dao = await daoRef.get()
+    if (dao.exists) {
+      const data = dao.data()
+      const isWeb3 = data?.isWeb3 || true
+      res.status(200).send({
+        isWeb3,
+      })
+    } else {
+      res.status(200).send({
+        isWeb3: true,
+      })
+    }
   }
 })
