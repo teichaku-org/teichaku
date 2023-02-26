@@ -4,7 +4,7 @@ import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom"
 import { useAtom } from "jotai"
 import { useDaoHistoryInterface } from "../interface/useDaoHistoryInterface"
 import { APIClient } from "@/types/APIClient"
-import { DaoHistory } from "@/domains/DaoHistory"
+import { DaoHistory, DaoHistoryWithNumber } from "@/domains/DaoHistory"
 import { Assessment } from "@/domains/Assessment"
 import { DaoInfo } from "@/domains/DaoInfo"
 
@@ -26,8 +26,14 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
 
     let _daoHistory: DaoHistory[] = []
     if (resDaoHistory) {
-      _daoHistory = resDaoHistory.data
+      _daoHistory = resDaoHistory.data.map((d: DaoHistoryWithNumber) => {
+        return {
+          ...d,
+          timestamp: new Date(d.timestamp),
+        }
+      })
     }
+
     setDaoHistory(_daoHistory)
 
     const resDaoAssessments = await apiClient.post("/getDaoAssessments", { daoId: daoId, projectId: projectId })
