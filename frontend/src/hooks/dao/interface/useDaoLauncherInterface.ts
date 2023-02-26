@@ -1,4 +1,4 @@
-export type useDaoLauncherInterface = () => {
+export type useDaoLauncherInterface = (isWeb3?: boolean) => {
   createDao: (
     daoId: string,
     projectId: string,

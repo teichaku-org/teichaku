@@ -1,4 +1,7 @@
-export type useDaoTokenInterface = (props: { daoId: string; projectId: string }) => {
+export type useDaoTokenInterface = (
+  props: { daoId: string; projectId: string },
+  isWeb3?: boolean
+) => {
   load: () => Promise<void>
   tokenName: string
   tokenSymbol: string
