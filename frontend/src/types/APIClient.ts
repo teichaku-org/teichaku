@@ -21,7 +21,6 @@ export class APIClient implements HttpClient {
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
       console.log(e.message)
     })
-    if (!res) throw new Error("no response!")
     return res
   }
 
@@ -37,8 +36,6 @@ export class APIClient implements HttpClient {
       console.log(e.message)
     })
 
-    if (!res) throw new Error("no response!")
-    if (res.status !== 200) throw new Error("status code is not 200")
     return res
   }
 
