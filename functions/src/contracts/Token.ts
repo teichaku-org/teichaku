@@ -8,7 +8,16 @@ export class Token {
 
   balances(userId: string) {
     const get = () => {
-      return admin.firestore().collection("Token").doc(this.daoId).collection("balances").doc(userId).get()
+      return admin
+        .firestore()
+        .collection("Token")
+        .doc(this.daoId)
+        .collection("balances")
+        .doc(userId)
+        .get()
+        .then((r) => {
+          return r.data()?.amount
+        })
     }
 
     const set = (amount: number) => {

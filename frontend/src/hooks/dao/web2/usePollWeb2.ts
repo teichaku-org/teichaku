@@ -49,6 +49,10 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
   const loadCurrentMaxPoll = () => {}
 
+  const loadCurrentMaxPollId = async () => {
+    return 1
+  }
+
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
     showNotification({
       id: "vote",
@@ -110,7 +114,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
         perspectives: res.data.perspectives,
       }
     }
-    console.log(_pollDetail)
     return _pollDetail
   }
 
@@ -153,6 +156,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     checkIsAdmin,
     pollDetail,
     loadCurrentMaxPoll,
+    loadCurrentMaxPollId,
     contributorReward,
     voterReward,
     commissionFee,

@@ -6,6 +6,7 @@ export type usePollInterface = (props: { daoId: string; projectId: string }) => 
   checkIsAdmin: () => Promise<void>
   pollDetail: PollDetail | undefined
   loadCurrentMaxPoll: () => void
+  loadCurrentMaxPollId: () => Promise<number>
   contributorReward: number
   voterReward: number
   commissionFee: number
@@ -31,7 +32,7 @@ export type usePollInterfaceIsWeb3 = (
   checkIsAdmin: () => Promise<void>
   pollDetail: PollDetail | undefined
   loadCurrentMaxPoll: () => void
-  contributorReward: number
+  loadCurrentMaxPollId: () => Promise<number>
   voterReward: number
   commissionFee: number
   vote: (pollId: number, candidates: string[], points: number[][], comments: string[]) => Promise<void>
