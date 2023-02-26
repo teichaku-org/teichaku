@@ -1,9 +1,4 @@
-export type useERC20Interface = (
-  props: {
-    contractAddress: string
-  },
-  isWeb3: boolean
-) => {
+export type useERC20Interface = (props: { contractAddress: string }) => {
   load: () => Promise<void>
   tokenName: string
   tokenSymbol: string

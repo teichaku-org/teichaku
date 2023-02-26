@@ -8,9 +8,9 @@ const useDaoLauncher: useDaoLauncherInterface = () => {
   const [isWeb3] = useAtom(Web3FlagAtom)
   const selectStrategy = () => {
     if (isWeb3) {
-      return useDaoLauncherWeb3(isWeb3)
+      return useDaoLauncherWeb3()
     } else {
-      return useDaoLauncherWeb2(isWeb3)
+      return useDaoLauncherWeb2()
     }
   }
   const strategy = selectStrategy()

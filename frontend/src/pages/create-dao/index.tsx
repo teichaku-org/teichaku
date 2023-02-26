@@ -6,14 +6,14 @@ import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy"
 import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { Center, Container } from "@mantine/core"
 import { useAtom } from "jotai"
-import { useEffect } from "react"
+import { createContext, useEffect, useLayoutEffect } from "react"
 
 interface Props {
   isWeb3: boolean
 }
 const Page = ({ isWeb3 }: Props) => {
   const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsWeb3Flag(isWeb3)
   }, [isWeb3])
 
@@ -65,6 +65,5 @@ export async function getServerSideProps(context: { query: { daoId: string } }) 
   // Fetch data from external API
   return { props: { isWeb3: false } }
 }
-
 Page.noNavbar = true
 export default Page

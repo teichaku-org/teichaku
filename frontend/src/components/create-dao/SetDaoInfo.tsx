@@ -5,6 +5,7 @@ import {
   CreateDAOFirstProject,
   CreateDAOName,
 } from "@/domains/atoms/CreateDaoAtom"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { getContract } from "@/hooks/web3/useMetaMask"
 import { useLocale } from "@/i18n/useLocale"
 import { DAOHistory } from "@/types"
@@ -21,28 +22,30 @@ export const SetDaoInfo = () => {
   const [avatar, setAvatar] = useAtom(CreateDAOAvatar)
   const [description, setDescription] = useAtom(CreateDAODescription)
   const [alreadyExist, setAlreadyExist] = useState(false)
+  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom)
 
   const snakedName = snakeCase(name)
   const snakedProjectName = snakeCase(projectName)
   const urlPath = "/" + snakedName + "/" + snakedProjectName
 
-  // const checkDuplicate = () => {
-  //   //TODO: hookから呼び出す
-  //   const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
-  //   const contract = getContract(contractAddress, artifact.abi) as DAOHistory
-  //   contract.functions.getDaoInfo(snakedName).then((res) => {
-  //     const _daoInfo = res[0]
-  //     if (_daoInfo[0].length > 0) {
-  //       setAlreadyExist(true)
-  //     } else {
-  //       setAlreadyExist(false)
-  //     }
-  //   })
-  // }
+  const checkDuplicate = () => {
+    //TODO: hookから呼び出す
+    if (!isWeb3) return
+    const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
+    const contract = getContract(contractAddress, artifact.abi) as DAOHistory
+    contract.functions.getDaoInfo(snakedName).then((res) => {
+      const _daoInfo = res[0]
+      if (_daoInfo[0].length > 0) {
+        setAlreadyExist(true)
+      } else {
+        setAlreadyExist(false)
+      }
+    })
+  }
 
   useEffect(() => {
     // TODO: Web2で動作しないため、一旦コメントアウトする。これによって、既存のDAO名を入力しても、重複エラーが出なくなる。
-    //checkDuplicate()
+    checkDuplicate()
   }, [name])
 
   return (
