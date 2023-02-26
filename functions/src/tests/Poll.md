@@ -48,7 +48,7 @@ http://127.0.0.1:5001/teichaku-fa2a9/asia-northeast1/vote
 
 ## 締め切り
 
-URL: http://127.0.0.1:5001/teichaku-fa2a9/asia-northeast1/settleCurrentPollAndCreateNewPoll
+http://127.0.0.1:5001/teichaku-fa2a9/asia-northeast1/settleCurrentPollAndCreateNewPoll
 
 ```
 {

@@ -11,6 +11,7 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { FloatingAddButton } from "@/components/contribution/FloatingAddButton"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
+import CopyInviteUrl from "@/components/common/CopyInviteUrl"
 
 type props = {
   isWeb3: boolean
@@ -43,7 +44,7 @@ const History = ({ isWeb3 }: props) => {
     )
 
   // No data
-  if (daoHistory.length === 0) return <NodataMessage />
+  if (daoHistory.length === 0) return <CopyInviteUrl />
 
   return (
     <div>
@@ -56,7 +57,7 @@ const History = ({ isWeb3 }: props) => {
 export async function getServerSideProps(context: { query: { daoId: string } }) {
   // Fetch data from external API
   const apiClient = new APIClient()
-  let isWeb3: boolean = true
+  let isWeb3: boolean = false
   const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
   if (res) {
     isWeb3 = res.data

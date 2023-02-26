@@ -35,7 +35,8 @@ export class Poll {
     const currentMaxPollId = 1
     const activePerspective = 1
     this.startTime(currentMaxPollId).set(new Date().getTime())
-    this.endTime(currentMaxPollId).set(new Date().getTime() + 14 * 24 * 60 * 60 * 1000)
+    this.endTime(currentMaxPollId).set(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
+    this.votingDuration(currentMaxPollId).set(7 * 24 * 60 * 60 * 1000)
     this.perspectives(activePerspective).set(["Planning", "Execution", "Improvement"])
     this.currentMaxPollId().set(currentMaxPollId)
     this.activePerspective().set(activePerspective)
@@ -742,8 +743,8 @@ export class Poll {
   }
 
   async getCurrentPerspectives() {
-    const currentMaxPollId = await this.currentMaxPollId().get()
-    return await this.perspectives(currentMaxPollId).get()
+    const activePerspectiveId = await this.activePerspective().get()
+    return await this.perspectives(activePerspectiveId).get()
   }
 
   /**

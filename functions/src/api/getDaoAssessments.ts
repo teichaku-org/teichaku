@@ -13,7 +13,10 @@ export const getDaoAssessments = functions.region("asia-northeast1").https.onReq
     res.status(204).send("")
   } else {
     const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
-    const requestData = req.body
+    const requestData: {
+      daoId: string
+      projectId: string
+    } = req.body
     const daoHistory = new DAOHistory("", sender)
     const response: Assessment[] = await daoHistory.getDaoAssessments(requestData.daoId, requestData.projectId)
     res.status(200).send(response)

@@ -39,7 +39,7 @@ export class DAOHistory {
     const get = () => {
       return admin
         .firestore()
-        .collection("DAOHistory")
+        .collection("assessments")
         .doc(daoId)
         .collection("projects")
         .doc(projectId)
