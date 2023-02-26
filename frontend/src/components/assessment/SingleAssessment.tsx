@@ -1,56 +1,54 @@
-import { Links } from "@/constants/Links";
-import useDaoHistory from "@/hooks/dao/useDaoHistory";
-import usePoll from "@/hooks/dao/usePoll";
-import useMetaMask from "@/hooks/web3/useMetaMask";
-import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
-import { useLocale } from "@/i18n/useLocale";
-import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment";
-import { shortenAddress } from "@/utils/shortenAddress";
-import { Button, Center, Container, Paper, Text } from "@mantine/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { AssessmentRadar } from "../graphs/AssessmentRadar";
-import { Comments } from "./Comments";
-import { EarnedCoin } from "./EarnedCoin";
-import { Evidences } from "./Evidences";
+import { Links } from "@/constants/Links"
+import useDaoHistory from "@/hooks/dao/useDaoHistory"
+import usePoll from "@/hooks/dao/usePoll"
+import useMetaMask from "@/hooks/web3/useMetaMask"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
+import { useLocale } from "@/i18n/useLocale"
+import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment"
+import { shortenAddress } from "@/utils/shortenAddress"
+import { Button, Center, Container, Paper, Text } from "@mantine/core"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
+import { AssessmentRadar } from "../graphs/AssessmentRadar"
+import { Comments } from "./Comments"
+import { EarnedCoin } from "./EarnedCoin"
+import { Evidences } from "./Evidences"
 
 interface Props {
-  contributor: string;
-  pollId: number;
+  contributor: string
+  pollId: number
 }
 export const SingleAssessment = (props: Props) => {
-  const { t } = useLocale();
-  const router = useRouter();
-  const { daoId, projectId } = router.query;
+  const { t } = useLocale()
+  const router = useRouter()
+  const { daoId, projectId } = router.query
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true);
-  const { address } = useWeb3Auth();
-  const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string }, true);
-  const perspectives = pollDetail?.perspectives || [];
+  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true)
+  const { address } = useWeb3Auth()
+  const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string }, true)
+  const perspectives = pollDetail?.perspectives || []
   useEffect(() => {
     //TODO: pollIdごとに異なるperspectivesを取得したい
-    loadCurrentMaxPoll();
-  }, []);
+    loadCurrentMaxPoll()
+  }, [])
 
-  const contribution = daoHistory.find(
-    (item) => item.contributor === props.contributor && item.pollId === props.pollId
-  );
+  const contribution = daoHistory.find((item) => item.contributor === props.contributor && item.pollId === props.pollId)
   const targetAssessments = assessments.filter(
     (item) => item.contributor === props.contributor && item.pollId === props.pollId
-  );
+  )
   const comments = targetAssessments.map((item) => {
     return {
       comment: item.comment,
       author: item.voter,
       timestamp: contribution?.timestamp || new Date(),
-    };
-  });
-  const evidences = contribution?.evidences;
+    }
+  })
+  const evidences = contribution?.evidences
 
-  const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId);
-  const isYourContribution = props.contributor === address;
-  const link = Links.getCommonPath(router) + "/assessments/" + props.contributor;
+  const data = getSingleAssessment(assessments, perspectives, props.contributor, props.pollId)
+  const isYourContribution = props.contributor === address
+  const link = Links.getCommonPath(router) + "/assessments/" + props.contributor
 
   return (
     <div>
@@ -70,7 +68,8 @@ export const SingleAssessment = (props: Props) => {
       <Container>
         <EarnedCoin
           reward={String(Math.round(contribution?.reward || 0))}
-          contractAddress={contribution?.rewardToken} />
+          contractAddress={contribution?.rewardToken}
+        />
       </Container>
 
       <Text mt="lg" mb="xs" color="dimmed">
@@ -111,5 +110,5 @@ export const SingleAssessment = (props: Props) => {
 
       <div style={{ height: 300 }} />
     </div>
-  );
-};
+  )
+}

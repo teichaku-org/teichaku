@@ -1,22 +1,22 @@
-import { Links } from "@/constants/Links";
-import useWeb3Auth from "@/hooks/web3/useWeb3Auth";
-import { useLocale } from "@/i18n/useLocale";
-import { Divider, Group, Space, Text, ThemeIcon, UnstyledButton } from "@mantine/core";
-import { IconBackhoe, IconCoin, IconInfoSquare, IconLogout, IconMessages, IconSettings, IconWalk } from "@tabler/icons";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { Links } from "@/constants/Links"
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
+import { useLocale } from "@/i18n/useLocale"
+import { Divider, Group, Space, Text, ThemeIcon, UnstyledButton } from "@mantine/core"
+import { IconBackhoe, IconCoin, IconInfoSquare, IconLogout, IconMessages, IconSettings, IconWalk } from "@tabler/icons"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 interface MainLinkProps {
-  icon: React.ReactNode;
-  color: string;
-  label: string;
-  path: string;
-  onClick?: () => void;
+  icon: React.ReactNode
+  color: string
+  label: string
+  path: string
+  onClick?: () => void
 }
 
 function MainLink({ icon, color, label, path, onClick }: MainLinkProps) {
-  const currentPath = useRouter().asPath;
-  const isActivated = currentPath === path;
+  const currentPath = useRouter().asPath
+  const isActivated = currentPath === path
   return (
     <div onClick={onClick}>
       <Link href={path} passHref>
@@ -32,15 +32,15 @@ function MainLink({ icon, color, label, path, onClick }: MainLinkProps) {
             color: isActivated
               ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).color
               : theme.colorScheme === "dark"
-                ? theme.colors.dark[0]
-                : theme.black,
+              ? theme.colors.dark[0]
+              : theme.black,
 
             "&:hover": {
               backgroundColor: isActivated
                 ? theme.fn.variant({ variant: "light", color: theme.primaryColor }).background
                 : theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[0],
+                ? theme.colors.dark[6]
+                : theme.colors.gray[0],
             },
           })}
         >
@@ -53,20 +53,20 @@ function MainLink({ icon, color, label, path, onClick }: MainLinkProps) {
           </Group>
         </UnstyledButton>
       </Link>
-    </div >
-  );
+    </div>
+  )
 }
 
 export const NavbarLinks = () => {
-  const { t } = useLocale();
+  const { t } = useLocale()
   const { Overviews, History, Assessments, Contribution, SprintReview, Settings, Info, Events, Admin, Logout } =
-    t.Common.AppMenu;
-  const router = useRouter();
+    t.Common.AppMenu
+  const router = useRouter()
   const { logout } = useWeb3Auth()
-  const { daoId, projectId } = router.query;
-  let commonPath = Links.getCommonPath(router);
+  const { daoId, projectId } = router.query
+  let commonPath = Links.getCommonPath(router)
   if (!(daoId && projectId)) {
-    commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || commonPath;
+    commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || commonPath
   }
   const data = [
     {
@@ -82,7 +82,7 @@ export const NavbarLinks = () => {
       label: Assessments,
       path: commonPath + "/assessments",
     },
-  ];
+  ]
   const event = [
     {
       icon: <IconWalk size={16} />,
@@ -96,7 +96,7 @@ export const NavbarLinks = () => {
       label: SprintReview,
       path: commonPath + "/poll",
     },
-  ];
+  ]
   const admin = [
     {
       icon: <IconSettings size={16} />,
@@ -108,14 +108,17 @@ export const NavbarLinks = () => {
       icon: <IconLogout size={16} />,
       color: "grey",
       label: Logout,
-      path: "/",
-      onClick: logout,
+      path: "",
+      onClick: async () => {
+        await logout()
+        window.location.href = "/"
+      },
     },
-  ];
+  ]
 
-  const dataLinks = data.map((link) => <MainLink {...link} key={link.label} />);
-  const eventLinks = event.map((link) => <MainLink {...link} key={link.label} />);
-  const adminLinks = admin.map((link) => <MainLink {...link} key={link.label} />);
+  const dataLinks = data.map((link) => <MainLink {...link} key={link.label} />)
+  const eventLinks = event.map((link) => <MainLink {...link} key={link.label} />)
+  const adminLinks = admin.map((link) => <MainLink {...link} key={link.label} />)
   return (
     <div>
       <Text color="dimmed">{Info}</Text>
@@ -131,5 +134,5 @@ export const NavbarLinks = () => {
       <Text color="dimmed">{Admin}</Text>
       {adminLinks}
     </div>
-  );
-};
+  )
+}

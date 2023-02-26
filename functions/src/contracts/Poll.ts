@@ -28,7 +28,7 @@ export class Poll {
     //TODO: 本来はdaoHistoryから紐づいているpollAddressを取得する
     this.pollAddress = daoId //一時的にdaoIdをpollAddressとして扱っている
 
-    //初期値の登録はinit関数で行う
+    //↓初期値の登録はinit関数で行う
   }
 
   async init() {

@@ -23,7 +23,6 @@ export class DAOLauncher {
 
     await daoHistory.addDao(daoId, projectId, name, description, website, logo)
 
-    //TODO: この辺を実装する
     const poll = new Poll(daoId, projectId, this.sender)
     poll.setAssignmentToken(_contributorToken, _voterToken)
     poll.setVotingDuration(0, _votingDuration)

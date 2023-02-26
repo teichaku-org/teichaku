@@ -35,7 +35,7 @@ export const createDao = functions.region("asia-northeast1").https.onRequest(asy
       requestData.tokenAddress,
       requestData.contributorToken,
       requestData.voterToken,
-      requestData.votingDuration * 24 * 60 * 60 * 1000
+      requestData.votingDuration
     )
     res.status(200).send({ message: "success" })
   }

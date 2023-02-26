@@ -17,6 +17,8 @@ import { currentMaxPollId } from "./api/poll/currentMaxPollId"
 import { getCommissionToken } from "./api/poll/getCommissionToken"
 import { voterAssignmentToken } from "./api/poll/voterAssignmentToken"
 import { getMyBalance } from "./api/token/getMyBalance"
+import { test } from "./api/test"
+
 
 module.exports = {
   createDao,
@@ -34,4 +36,5 @@ module.exports = {
   getCommissionToken,
   voterAssignmentToken,
   getMyBalance,
+  test,
 }
