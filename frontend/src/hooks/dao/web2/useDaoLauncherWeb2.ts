@@ -19,7 +19,7 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     tokenAddress: string,
     contributorReward: number,
     reviewerReward: number,
-    votingDurattion: number
+    votingDuration: number
   ) => {
     showNotification({
       id: "createDao",
@@ -37,9 +37,9 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       website: website,
       logo: logo,
       tokenAddress: tokenAddress,
-      contributorReward: contributorReward,
-      reviewerReward: reviewerReward,
-      votingDuration: votingDurattion,
+      contributorReward,
+      reviewerReward,
+      votingDuration: votingDuration * 60 * 60 * 24,
     })
 
     router.push(`/${daoId}/${projectId}/overview`)

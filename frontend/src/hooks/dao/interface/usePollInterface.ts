@@ -33,6 +33,7 @@ export type usePollInterfaceIsWeb3 = (
   pollDetail: PollDetail | undefined
   loadCurrentMaxPoll: () => void
   loadCurrentMaxPollId: () => Promise<number>
+  contributorReward: number
   voterReward: number
   commissionFee: number
   vote: (pollId: number, candidates: string[], points: number[][], comments: string[]) => Promise<void>

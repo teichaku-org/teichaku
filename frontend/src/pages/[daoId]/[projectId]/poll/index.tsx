@@ -121,9 +121,7 @@ const Poll = ({ isWeb3 }: props) => {
 export async function getServerSideProps(context: { query: { daoId: string } }) {
   // Fetch data from external API
   const apiClient = new APIClient()
-  let isWeb3: boolean = false
   const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  // Pass data to the page via props
-  return { props: { isWeb3: res.data.isWeb3 } }
+  return { props: { isWeb3: res?.data.isWeb3 || true } }
 }
 export default Poll
