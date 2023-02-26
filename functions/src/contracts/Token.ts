@@ -22,7 +22,7 @@ export class Token {
         .doc(this.daoId)
         .collection("balances")
         .doc(userId)
-        .set({ amount: FieldValue.increment(amount) })
+        .update({ amount: FieldValue.increment(amount) })
     }
 
     return { get, set, add }
