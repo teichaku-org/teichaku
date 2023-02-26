@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions"
 import { DAOHistory } from "../contracts/DAOHistory"
 import { DAOHistoryItem, DAOHistoryItemWithDate } from "../struct/dao/DAOHistoryItem"
+import { getUserAddress } from "../utils/decodeJwt"
 
 export const getDaoHistory = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
@@ -8,11 +9,12 @@ export const getDaoHistory = functions.region("asia-northeast1").https.onRequest
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
     res.set("Access-Control-Allow-Methods", "GET")
-    res.set("Access-Control-Allow-Headers", "Content-Type")
+    res.set("Access-Control-Allow-Headers", "Authorization, Content-Type")
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
-    const sender = "TestUser" //TODO: 本当はログインユーザーのアドレスを使う
+    const userId = getUserAddress(req.headers.authorization || "")
+    const sender = userId || ""
     const requestData: { daoId: string; projectId: string } = req.body
     const daoHistory = new DAOHistory("", sender)
     const response: DAOHistoryItem[] = await daoHistory.getDaoHistory(requestData.daoId, requestData.projectId)

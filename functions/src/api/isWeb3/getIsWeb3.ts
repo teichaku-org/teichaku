@@ -7,7 +7,7 @@ export const getIsWeb3 = functions.region("asia-northeast1").https.onRequest(asy
   if (req.method === "OPTIONS") {
     // Send response to OPTIONS requests
     res.set("Access-Control-Allow-Methods", "GET")
-    res.set("Access-Control-Allow-Headers", "Content-Type")
+    res.set("Access-Control-Allow-Headers", "Authorization, Content-Type")
     res.set("Access-Control-Max-Age", "3600")
     res.status(204).send("")
   } else {
@@ -16,10 +16,13 @@ export const getIsWeb3 = functions.region("asia-northeast1").https.onRequest(asy
     }
     const requestData: RequestData = req.body
     const db = admin.firestore()
+    console.log({ requestData })
     const daoRef = db.collection("isWeb3").doc(requestData.daoId)
     const dao = await daoRef.get()
+    console.log({ dao })
     if (dao.exists) {
       const data = dao.data()
+      console.log({ data })
       const isWeb3 = data?.isWeb3 || true
       res.status(200).send({
         isWeb3,
