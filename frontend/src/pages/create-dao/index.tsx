@@ -3,9 +3,20 @@ import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo"
 import { SetDaoInfo } from "@/components/create-dao/SetDaoInfo"
 import { SetReward } from "@/components/create-dao/SetReward"
 import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { Center, Container } from "@mantine/core"
+import { useAtom } from "jotai"
+import { createContext, useEffect, useLayoutEffect } from "react"
 
-const Page = () => {
+interface Props {
+  isWeb3: boolean
+}
+const Page = ({ isWeb3 }: Props) => {
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
   const step1 = () => {
     return (
       <Container mt="md">
@@ -54,6 +65,5 @@ export async function getServerSideProps(context: { query: { daoId: string } }) 
   // Fetch data from external API
   return { props: { isWeb3: false } }
 }
-
 Page.noNavbar = true
 export default Page

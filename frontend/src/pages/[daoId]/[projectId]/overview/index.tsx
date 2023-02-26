@@ -1,5 +1,6 @@
 import { OrganizationCard } from "@/components/overview/OrganizationCard"
 import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
@@ -8,28 +9,34 @@ import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/types/APIClient"
 import { Center, Grid, Title, Text, Loader } from "@mantine/core"
+import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { createContext, useEffect, useLayoutEffect } from "react"
 
 type props = {
   isWeb3: boolean
 }
 
 const Overview = ({ isWeb3 }: props) => {
-  useDaoExistCheck(isWeb3)
-  useDaoLoad(isWeb3)
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
+  useDaoExistCheck()
+  useDaoLoad()
 
   const { t } = useLocale()
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao, isWeb3)
+  const { daoInfo, load, daoHistory, assessments } = useDaoHistory(dao)
   const contributionCount = daoHistory?.length || 0
   const contributorCount = daoHistory ? new Set(daoHistory.map((history) => history.contributor)).size : 0
   const voterCount = assessments ? new Set(assessments.map((history) => history.voter)).size : 0
 
-  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao, isWeb3)
-  const { contributorReward, voterReward, commissionFee } = usePoll(dao, isWeb3)
+  const { tokenTotalSupply, tokenSymbol, tokenName, contractAddress, treasuryBalance } = useDaoToken(dao)
+  const { contributorReward, voterReward, commissionFee } = usePoll(dao)
 
   useEffect(() => {
     if (daoId && projectId) {

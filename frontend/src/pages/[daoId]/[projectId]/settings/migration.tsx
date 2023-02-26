@@ -12,11 +12,20 @@ import { Card, Center, Container, TextInput, Title, Text, Table, Button, Loader,
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import useDaoLauncherWeb3 from "@/hooks/dao/web3/useDaoLauncherWeb3"
 import { APIClient } from "@/types/APIClient"
 
-const Page = () => {
+type props = {
+  isWeb3: boolean
+}
+
+const Page = ({ isWeb3 }: props) => {
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
   useDaoExistCheckWeb2()
   useDaoLoadWeb2()
 
@@ -24,7 +33,6 @@ const Page = () => {
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom)
   const { contributorReward, voterReward, pollDetail } = usePollWeb2(dao)
   const { createDao } = useDaoLauncherWeb3()
   const { daoInfo } = useDaoHistoryWeb2(dao)
@@ -53,10 +61,6 @@ const Page = () => {
       return t.CreateDao.Step2.NoTokenSymbol
     }
   })()
-
-  useEffect(() => {
-    setIsWeb3(true)
-  }, [])
 
   const onChangeTokenAddress = async (address: string) => {
     setTokenAddress(address)
@@ -225,9 +229,8 @@ const Page = () => {
 
 export async function getServerSideProps(context: { query: { daoId: string } }) {
   // Fetch data from external API
-  const apiClient = new APIClient()
-  const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  return { props: { isWeb3: res?.data.isWeb3 || true } }
+  // migrationのため必ずisWeb3がtrue
+  return { props: { isWeb3: true } }
 }
 
 Page.noNavbar = true

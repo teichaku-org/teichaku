@@ -8,22 +8,26 @@ import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { shortenAddress } from "@/utils/shortenAddress"
 import { Center, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useEffect, useLayoutEffect } from "react"
 import { APIClient } from "@/types/APIClient"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import { useAtom } from "jotai"
 
 type props = {
   isWeb3: boolean
 }
 
 const Assessment = ({ isWeb3 }: props) => {
-  useDaoExistCheck(isWeb3)
-  useDaoLoad(isWeb3)
+  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
+  useLayoutEffect(() => {
+    setIsWeb3Flag(isWeb3)
+  }, [isWeb3])
+
+  useDaoExistCheck()
+  useDaoLoad()
   const router = useRouter()
   const { daoId, projectId, address } = router.query
-  const { daoHistory, load, assessments } = useDaoHistory(
-    { daoId: daoId as string, projectId: projectId as string },
-    isWeb3
-  )
+  const { daoHistory, load, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string })
   useEffect(() => {
     if (daoId && projectId) {
       load()
