@@ -5,7 +5,6 @@ import {
   CreateDAOFirstProject,
   CreateDAOName,
 } from "@/domains/atoms/CreateDaoAtom"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { getContract } from "@/hooks/web3/useMetaMask"
 import { useLocale } from "@/i18n/useLocale"
 import { DAOHistory } from "@/types"
@@ -15,14 +14,13 @@ import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json"
 
-export const SetDaoInfo = () => {
+export const SetDaoInfo = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
   const [projectName, setProjectName] = useAtom(CreateDAOFirstProject)
   const [name, setName] = useAtom(CreateDAOName)
   const [avatar, setAvatar] = useAtom(CreateDAOAvatar)
   const [description, setDescription] = useAtom(CreateDAODescription)
   const [alreadyExist, setAlreadyExist] = useState(false)
-  const [isWeb3, setIsWeb3] = useAtom(Web3FlagAtom)
 
   const snakedName = snakeCase(name)
   const snakedProjectName = snakeCase(projectName)
@@ -30,7 +28,7 @@ export const SetDaoInfo = () => {
 
   const checkDuplicate = () => {
     //TODO: hookから呼び出す
-    if (!isWeb3) return
+    if (!props.isWeb3) return
     const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
     const contract = getContract(contractAddress, artifact.abi) as DAOHistory
     contract.functions.getDaoInfo(snakedName).then((res) => {

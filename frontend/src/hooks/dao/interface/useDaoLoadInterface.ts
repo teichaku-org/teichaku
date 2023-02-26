@@ -1,1 +1,1 @@
-export type useDaoLoadInterface = () => void
+export type useDaoLoadInterface = (isWeb3?: boolean) => void

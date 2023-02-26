@@ -17,12 +17,12 @@ import { useAtom } from "jotai"
 import { PollContractAddress } from "@/domains/atoms/DaoContractAddressAtom"
 import { useLocale } from "@/i18n/useLocale"
 import usePoll from "@/hooks/dao/usePoll"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import { useRouter } from "next/router"
 
 interface Props {
   myDaoHistory: DaoHistory[]
   address: string //TODO: myDaoHistoryを渡すかaddressを渡すか統一する
+  isWeb3: boolean
 }
 
 const TotalTab = (props: Props) => {
@@ -34,8 +34,7 @@ const TotalTab = (props: Props) => {
   const { myDaoHistory } = props
   const [currentMaxPollId, setCurrentMaxPollId] = useState<number>(0)
   const [contractAddress] = useAtom(PollContractAddress)
-  const [isWeb3] = useAtom(Web3FlagAtom)
-  const { loadCurrentMaxPollId } = usePoll({ daoId: daoId as string, projectId: projectId as string }, isWeb3)
+  const { loadCurrentMaxPollId } = usePoll({ daoId: daoId as string, projectId: projectId as string }, props.isWeb3)
 
   useEffect(() => {
     loadCurrentMaxPollId().then((res: number) => {

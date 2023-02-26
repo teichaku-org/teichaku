@@ -1,6 +1,9 @@
 import { PollDetail } from "@/domains/PollDetail"
 
-export type usePollInterface = (props: { daoId: string; projectId: string }) => {
+export type usePollInterface = (
+  props: { daoId: string; projectId: string },
+  isWeb3?: boolean
+) => {
   contractAddress: string
   isAdmin: boolean
   checkIsAdmin: () => Promise<void>

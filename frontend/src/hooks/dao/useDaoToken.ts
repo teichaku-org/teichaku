@@ -9,8 +9,7 @@ interface Props {
   projectId: string
 }
 
-const useDaoToken: useDaoTokenInterface = (props: Props) => {
-  const [isWeb3] = useAtom(Web3FlagAtom)
+const useDaoToken: useDaoTokenInterface = (props: Props, isWeb3?: boolean) => {
   const selectStrategy = () => {
     if (isWeb3) {
       return useDaoTokenWeb3(props)

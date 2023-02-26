@@ -1,23 +1,16 @@
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { Paper, TextInput, Button, Text, Alert } from "@mantine/core"
 import { IconAlertCircle } from "@tabler/icons"
-import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useLayoutEffect, useState } from "react"
+import { useState } from "react"
 
 type props = {
   isWeb3: boolean
 }
 
 const SendTokenPage = ({ isWeb3 }: props) => {
-  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
-  useLayoutEffect(() => {
-    setIsWeb3Flag(isWeb3)
-  }, [isWeb3])
-
   // トレジャリーにある資金が、分配に必要な資金を下回っている場合にwarningを出す
   const { t } = useLocale()
   const router = useRouter()
