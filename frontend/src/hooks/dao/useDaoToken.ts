@@ -1,4 +1,4 @@
-import { useDaoTokenInterfaceIsWeb3 } from "./interface/useDaoTokenInterface"
+import { useDaoTokenInterface } from "./interface/useDaoTokenInterface"
 import useDaoTokenWeb2 from "./web2/useDaoTokenWeb2"
 import useDaoTokenWeb3 from "./web3/useDaoTokenWeb3"
 
@@ -7,12 +7,12 @@ interface Props {
   projectId: string
 }
 
-const useDaoToken: useDaoTokenInterfaceIsWeb3 = (props: Props, isWeb3: boolean) => {
+const useDaoToken: useDaoTokenInterface = (props: Props, isWeb3: boolean) => {
   const selectStrategy = () => {
     if (isWeb3) {
-      return useDaoTokenWeb3(props)
+      return useDaoTokenWeb3(props, isWeb3)
     } else {
-      return useDaoTokenWeb2(props)
+      return useDaoTokenWeb2(props, isWeb3)
     }
   }
   const strategy = selectStrategy()
