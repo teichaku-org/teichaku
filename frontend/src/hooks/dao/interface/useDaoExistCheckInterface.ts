@@ -1,1 +1,1 @@
-export type useDaoExistCheckInterface = () => () => void
+export type useDaoExistCheckInterface = () => void

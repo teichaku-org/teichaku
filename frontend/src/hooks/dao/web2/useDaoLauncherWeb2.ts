@@ -31,8 +31,10 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     })
 
     const idToken = await getUserIdToken()
+    console.log({ idToken })
     if (!idToken) {
       window.alert("Please login first.")
+      return
     }
     const headers = {
       Authorization: `Bearer ${idToken}`,

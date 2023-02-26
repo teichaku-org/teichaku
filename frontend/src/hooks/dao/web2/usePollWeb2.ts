@@ -74,6 +74,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
+      return
     }
     const headers = {
       Authorization: `Bearer ${idToken}`,
@@ -109,6 +110,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
+      return
     }
     const headers = {
       Authorization: `Bearer ${idToken}`,
@@ -170,6 +172,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
+      return
     }
     const headers = {
       Authorization: `Bearer ${idToken}`,
