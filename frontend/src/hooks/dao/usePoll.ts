@@ -14,7 +14,6 @@ const usePoll: usePollInterface = (props: { daoId: string; projectId: string }) 
     }
   }
   const strategy = selectStrategy()
-
   return strategy
 }
 

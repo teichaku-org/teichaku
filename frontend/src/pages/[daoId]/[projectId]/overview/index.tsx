@@ -11,7 +11,7 @@ import { APIClient } from "@/types/APIClient"
 import { Center, Grid, Title, Text, Loader } from "@mantine/core"
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect, useLayoutEffect } from "react"
+import { createContext, useEffect, useLayoutEffect } from "react"
 
 type props = {
   isWeb3: boolean
