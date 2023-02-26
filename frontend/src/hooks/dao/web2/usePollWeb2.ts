@@ -33,28 +33,42 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   }, [])
 
   const _loadCurrentMaxPoll = async () => {
-    _fetchPollDetail().then((res) => {
-      if (res) {
-        setPollDetail(res)
-      }
+    const res = await apiClient.post("/currentMaxPollId", {
+      daoId: props.daoId,
+      projectId: props.projectId,
     })
+    if (res) {
+      const pollId = res.data.currentMaxPollId
+      _fetchPollDetail(pollId).then((res) => {
+        if (res) {
+          setPollDetail(res)
+        }
+      })
+    }
   }
 
   const loadCurrentMaxPoll = () => {}
 
+  const loadCurrentMaxPollId = async () => {
+    return 1
+  }
+
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
-    await apiClient.post("/vote", {
-      pollId: pollId,
-      candidates: candidates,
-      points: points,
-      comments: comments,
-    })
     showNotification({
       id: "vote",
       title: t.Poll.PollSystem.Notification.Title,
       message: t.Poll.PollSystem.Notification.Message,
       loading: true,
       autoClose: false,
+    })
+
+    await apiClient.post("/vote", {
+      daoId: props.daoId,
+      projectId: props.projectId,
+      pollId: pollId,
+      candidates: candidates,
+      points: points,
+      comments: comments,
     })
 
     clearLocalStorage()
@@ -80,10 +94,11 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     router.push(commonPath + "/history")
   }
 
-  const _fetchPollDetail = async (): Promise<PollDetail | null> => {
+  const _fetchPollDetail = async (pollId: number): Promise<PollDetail | null> => {
     const res = await apiClient.post("/getPollDetail", {
       daoId: props.daoId,
       projectId: props.projectId,
+      pollId: pollId,
     })
     let _pollDetail: PollDetail | null = null
 
@@ -92,10 +107,10 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
         pollId: res.data.pollId,
         contributions: res.data.contributions,
         voters: res.data.voters,
-        alreadyVoted: res.data.voters.includes("myUserId"),
-        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes("myUserId"),
-        startTimeStamp: new Date(res.data.startTime._seconds * 1000),
-        endTimeStamp: new Date(res.data.endTime._seconds * 1000),
+        alreadyVoted: res.data.voters.includes("TestUser"),
+        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes("TestUser"),
+        startTimeStamp: new Date(res.data.startTime),
+        endTimeStamp: new Date(res.data.endTime),
         perspectives: res.data.perspectives,
       }
     }
@@ -141,6 +156,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     checkIsAdmin,
     pollDetail,
     loadCurrentMaxPoll,
+    loadCurrentMaxPollId,
     contributorReward,
     voterReward,
     commissionFee,

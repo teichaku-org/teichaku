@@ -22,10 +22,9 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
   const apiClient = new APIClient()
 
   const load = async () => {
-    const resDaoHistory = await apiClient.post("/getDaoHistory", { daoId: daoId })
+    const resDaoHistory = await apiClient.post("/getDaoHistory", { daoId: daoId, projectId: projectId })
 
     let _daoHistory: DaoHistory[] = []
-
     if (resDaoHistory) {
       _daoHistory = resDaoHistory.data
     }
@@ -42,13 +41,7 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
     const resDaoInfo = await apiClient.post("/getDaoInfo", { daoId: daoId })
     let _daoInfo: DaoInfo | undefined
     if (resDaoInfo) {
-      _daoInfo = {
-        name: resDaoInfo.data?.name,
-        description: resDaoInfo.data?.description,
-        website: resDaoInfo.data?.website,
-        logo: resDaoInfo.data?.logo,
-        projects: resDaoInfo.data?.projects,
-      }
+      _daoInfo = resDaoInfo.data
     }
     setDaoInfo(_daoInfo)
   }

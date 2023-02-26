@@ -12,7 +12,13 @@ import { settleCurrentPollAndCreateNewPoll } from "./api/poll/settleCurrentPollA
 import { getDaoHistory } from "./api/getDaoHistory"
 import { getDaoAssessments } from "./api/getDaoAssessments"
 import { addDao } from "./api/daoHistory/addDao"
+import { contributorAssignmentToken } from "./api/poll/contributorAssignmentToken"
+import { currentMaxPollId } from "./api/poll/currentMaxPollId"
+import { getCommissionToken } from "./api/poll/getCommissionToken"
+import { voterAssignmentToken } from "./api/poll/voterAssignmentToken"
+import { getMyBalance } from "./api/token/getMyBalance"
 import { test } from "./api/test"
+
 
 module.exports = {
   createDao,
@@ -25,5 +31,10 @@ module.exports = {
   getDaoHistory,
   getDaoAssessments,
   addDao,
+  contributorAssignmentToken,
+  currentMaxPollId,
+  getCommissionToken,
+  voterAssignmentToken,
+  getMyBalance,
   test,
 }
