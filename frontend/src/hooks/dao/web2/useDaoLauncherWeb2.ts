@@ -52,7 +52,7 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
         tokenAddress: tokenAddress,
         contributorReward,
         reviewerReward,
-        votingDuration: votingDuration * 60 * 60 * 24,
+        votingDuration: votingDuration * 60 * 60 * 24 * 1000,
       },
       headers
     )
