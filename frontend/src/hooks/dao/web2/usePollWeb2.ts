@@ -60,7 +60,26 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const loadCurrentMaxPoll = () => {}
 
   const loadCurrentMaxPollId = async () => {
-    return 1
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    const res = await apiClient.post(
+      "/currentMaxPollId",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+      },
+      headers
+    )
+    if (res) {
+      return res.data.currentMaxPollId
+    }
   }
 
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
@@ -198,13 +217,134 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
   const _setTokenAddress = async (_daoTokenAddress: string | null, _nftAddress: string | null) => {}
 
-  const _setStartTime = async (pollId: number, startTimeStamp: number) => {}
+  const _setStartTime = async (pollId: number, startTimeStamp: number) => {
+    showNotification({
+      id: "setStartTimeStamp",
+      title: t.Settings.Notification.Title,
+      message: t.Settings.Notification.Message,
+      loading: true,
+      autoClose: false,
+    })
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+    await apiClient.post(
+      "/setStartTimeStamp",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        pollId: pollId,
+        startTimeStamp: startTimeStamp * 1000,
+      },
+      headers
+    )
 
-  const _setDuration = async (pollId: number, durationDays: number) => {}
+    hideNotification("setStartTimeStamp")
+    //reload
+    window.location.reload()
+  }
 
-  const _setPerspectives = async (perspectives: string[]) => {}
+  const _setDuration = async (pollId: number, durationDays: number) => {
+    showNotification({
+      id: "setDuration",
+      title: t.Settings.Notification.Title,
+      message: t.Settings.Notification.Message,
+      loading: true,
+      autoClose: false,
+    })
 
-  const _setTokenDistribution = async (contributorReward: number, voterReward: number) => {}
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+    await apiClient.post(
+      "/setVotingDuration",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        pollId: pollId,
+        durationDays: durationDays * 24 * 60 * 60 * 1000,
+      },
+      headers
+    )
+    hideNotification("setDuration")
+    //reload
+    window.location.reload()
+  }
+
+  const _setPerspectives = async (perspectives: string[]) => {
+    showNotification({
+      id: "setPerspectives",
+      title: t.Settings.Notification.Title,
+      message: t.Settings.Notification.Message,
+      loading: true,
+      autoClose: false,
+    })
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    await apiClient.post(
+      "/changePerspective",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        perspectiveTexts: perspectives,
+      },
+      headers
+    )
+    hideNotification("setPerspectives")
+    //reload
+    window.location.reload()
+  }
+
+  const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
+    showNotification({
+      id: "setTokenDistribution",
+      title: t.Settings.Notification.Title,
+      message: t.Settings.Notification.Message,
+      loading: true,
+      autoClose: false,
+    })
+
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    await apiClient.post(
+      "/setAssignmentToken",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+        contributorReward: contributorReward,
+        reviewerReward: reviewerReward,
+      },
+      headers
+    )
+
+    hideNotification("setTokenDistribution")
+    //reload
+    window.location.reload()
+  }
 
   return {
     contractAddress,

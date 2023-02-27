@@ -14,8 +14,13 @@ import { getDaoAssessments } from "./api/getDaoAssessments"
 import { addDao } from "./api/daoHistory/addDao"
 import { currentMaxPollId } from "./api/poll/currentMaxPollId"
 import { getCommissionToken } from "./api/poll/getCommissionToken"
+import { contributorAssignmentToken } from "./api/poll/contributorAssignmentToken"
 import { voterAssignmentToken } from "./api/poll/voterAssignmentToken"
 import { getMyBalance } from "./api/token/getMyBalance"
+import { setAssignmentToken } from "./api/setting/setAssignmentToken"
+import { changePerspective } from "./api/setting/changePerspective"
+import { setVotingDuration } from "./api/setting/setVotingDuration"
+import { setStartTimeStamp } from "./api/setting/setStartTimeStamp"
 import { test } from "./api/test"
 
 module.exports = {
@@ -31,7 +36,12 @@ module.exports = {
   addDao,
   currentMaxPollId,
   getCommissionToken,
+  contributorAssignmentToken,
   voterAssignmentToken,
   getMyBalance,
+  setAssignmentToken,
+  changePerspective,
+  setVotingDuration,
+  setStartTimeStamp,
   test,
 }
