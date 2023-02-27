@@ -66,7 +66,6 @@ const usePollWeb3: usePollInterface = (props: { daoId: string; projectId: string
   }
 
   const loadCurrentMaxPollId = async () => {
-    //TODO: hookからアクセスするようにする
     const contract = getContract(contractAddress, artifact.abi) as Poll
     const currentMaxPollId = await contract.functions.currentMaxPollId()
     return currentMaxPollId[0].toNumber()

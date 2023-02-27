@@ -39,6 +39,7 @@ const TotalTab = (props: Props) => {
   useEffect(() => {
     loadCurrentMaxPollId().then((res: number) => {
       setCurrentMaxPollId(res)
+      console.log("res: ", res)
     })
   }, [])
 

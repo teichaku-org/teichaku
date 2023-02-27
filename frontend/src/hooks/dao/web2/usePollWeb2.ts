@@ -60,7 +60,26 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const loadCurrentMaxPoll = () => {}
 
   const loadCurrentMaxPollId = async () => {
-    return 1
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      window.alert("Please login first.")
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
+    const res = await apiClient.post(
+      "/currentMaxPollId",
+      {
+        daoId: props.daoId,
+        projectId: props.projectId,
+      },
+      headers
+    )
+    if (res) {
+      return res.data.currentMaxPollId
+    }
   }
 
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
