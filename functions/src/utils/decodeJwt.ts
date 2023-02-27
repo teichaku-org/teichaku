@@ -2,8 +2,8 @@ export const decodeJwt = (token: string) => {
   if (!token) return null
   const _token = token.split("Bearer ")[1]
   var base64Url = _token.split(".")[1]
+  if (!base64Url) return null
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/")
-
   var encodeURI = encodeURIComponent(atob(base64))
   var decodeString = decodeURIComponent(encodeURI)
   return JSON.parse(decodeString)
