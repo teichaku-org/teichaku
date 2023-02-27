@@ -402,7 +402,7 @@ export class Poll {
         .firestore()
         .collection("polls")
         .doc(this.pollAddress)
-        .update({ activePerspective: admin.firestore.FieldValue.increment(1) })
+        .update({ activePerspective: FieldValue.increment(1) })
     }
 
     return { get, set, increment }
@@ -419,7 +419,7 @@ export class Poll {
   async changePerspective(perspectiveTexts: string[]) {
     const activePerspectiveId = await this.activePerspective().get()
     await this.activePerspective().increment()
-    await this.perspectives(activePerspectiveId).set(perspectiveTexts)
+    await this.perspectives(activePerspectiveId + 1).set(perspectiveTexts)
   }
 
   setTokenAddress() {
