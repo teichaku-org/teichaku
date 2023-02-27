@@ -1,31 +1,32 @@
-import useDaoToken from "@/hooks/dao/useDaoToken";
-import { useLocale } from "@/i18n/useLocale";
-import { Button, Text, Paper, TextInput, Card } from "@mantine/core";
-import { useRouter } from "next/router";
-import {useForm} from "@mantine/form";
-import usePoll from "@/hooks/dao/usePoll";
-import {ethers} from "ethers";
+import useDaoToken from "@/hooks/dao/useDaoToken"
+import { useLocale } from "@/i18n/useLocale"
+import { Button, Text, Paper, TextInput, Card } from "@mantine/core"
+import { useRouter } from "next/router"
+import { useForm } from "@mantine/form"
+import usePoll from "@/hooks/dao/usePoll"
+import { ethers } from "ethers"
 
-export const TokenSetting = () => {
-  const { t } = useLocale();
-  const router = useRouter();
-  const { daoId, projectId } = router.query;
+export const TokenSetting = (props: { isWeb3: boolean }) => {
+  const { t } = useLocale()
+  const router = useRouter()
+  const { daoId, projectId } = router.query
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, true);
-  const { setTokenAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true)
+  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, props.isWeb3)
+  const { setTokenAddress } = usePoll({ daoId: daoId as string, projectId: projectId as string }, props.isWeb3)
 
   const form = useForm({
     initialValues: {
       tokenAddress: "",
     },
     validate: {
-      tokenAddress: (value) => (value != "" && !ethers.utils.isAddress(value)? t.CreateDao.Step2.InvalidTokenAddress : null),
+      tokenAddress: (value) =>
+        value != "" && !ethers.utils.isAddress(value) ? t.CreateDao.Step2.InvalidTokenAddress : null,
     },
-    validateInputOnChange: true
-  });
+    validateInputOnChange: true,
+  })
 
   const update = () => {
-    setTokenAddress(form.values.tokenAddress,null)
+    setTokenAddress(form.values.tokenAddress, null)
   }
 
   const shouldBeDisabled = () => {
@@ -43,8 +44,15 @@ export const TokenSetting = () => {
           {tokenSymbol}
         </Text>
       </Card>
-      <TextInput placeholder="0x..." label={t.Settings.TokenSetting.AddressInput.Label} mb="sm" {...form.getInputProps("tokenAddress")}　/>
-      <Button disabled={shouldBeDisabled()} onClick={update}>{t.Button.Update}</Button>
+      <TextInput
+        placeholder="0x..."
+        label={t.Settings.TokenSetting.AddressInput.Label}
+        mb="sm"
+        {...form.getInputProps("tokenAddress")}
+      />
+      <Button disabled={shouldBeDisabled()} onClick={update}>
+        {t.Button.Update}
+      </Button>
     </Paper>
-  );
-};
+  )
+}

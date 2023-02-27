@@ -28,7 +28,7 @@ const Page = ({ isWeb3 }: Props) => {
   const step3 = () => {
     return (
       <Container mt="md">
-        <ReviewDaoInfo />
+        <ReviewDaoInfo isWeb3={isWeb3} />
       </Container>
     )
   }

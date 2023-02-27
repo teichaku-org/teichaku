@@ -18,15 +18,22 @@ import { Evidences } from "./Evidences"
 interface Props {
   contributor: string
   pollId: number
+  isWeb3: boolean
 }
 export const SingleAssessment = (props: Props) => {
   const { t } = useLocale()
   const router = useRouter()
   const { daoId, projectId } = router.query
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  const { pollDetail, loadCurrentMaxPoll } = usePoll({ daoId: daoId as string, projectId: projectId as string }, true)
+  const { pollDetail, loadCurrentMaxPoll } = usePoll(
+    { daoId: daoId as string, projectId: projectId as string },
+    props.isWeb3
+  )
   const { address } = useWeb3Auth()
-  const { daoHistory, assessments } = useDaoHistory({ daoId: daoId as string, projectId: projectId as string }, true)
+  const { daoHistory, assessments } = useDaoHistory(
+    { daoId: daoId as string, projectId: projectId as string },
+    props.isWeb3
+  )
   const perspectives = pollDetail?.perspectives || []
   useEffect(() => {
     //TODO: pollIdごとに異なるperspectivesを取得したい
@@ -69,6 +76,7 @@ export const SingleAssessment = (props: Props) => {
         <EarnedCoin
           reward={String(Math.round(contribution?.reward || 0))}
           contractAddress={contribution?.rewardToken}
+          isWeb3={props.isWeb3}
         />
       </Container>
 

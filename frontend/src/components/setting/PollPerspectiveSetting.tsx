@@ -1,18 +1,18 @@
-import usePoll from "@/hooks/dao/usePoll";
-import { useLocale } from "@/i18n/useLocale";
-import { Button, Paper, TextInput, Text } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import usePoll from "@/hooks/dao/usePoll"
+import { useLocale } from "@/i18n/useLocale"
+import { Button, Paper, TextInput, Text } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
-export const PollPerspectiveSetting = () => {
-  const { t } = useLocale();
+export const PollPerspectiveSetting = (props: { isWeb3: boolean }) => {
+  const { t } = useLocale()
   const router = useRouter()
   const dao = { daoId: router.query.daoId as string, projectId: router.query.projectId as string }
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  const { pollDetail, loadCurrentMaxPoll, setPerspectives } = usePoll(dao, true)
-  const { PollPerspectiveSetting } = t.Settings;
-  const { Perspective } = PollPerspectiveSetting;
+  const { pollDetail, loadCurrentMaxPoll, setPerspectives } = usePoll(dao, props.isWeb3)
+  const { PollPerspectiveSetting } = t.Settings
+  const { Perspective } = PollPerspectiveSetting
 
   useEffect(() => {
     loadCurrentMaxPoll()
@@ -38,7 +38,7 @@ export const PollPerspectiveSetting = () => {
       perspective4: "",
       perspective5: "",
     },
-  });
+  })
 
   const update = () => {
     const result = [
@@ -105,5 +105,5 @@ export const PollPerspectiveSetting = () => {
       <div style={{ height: 10 }} />
       <Button onClick={update}>{t.Button.Update}</Button>
     </Paper>
-  );
-};
+  )
+}
