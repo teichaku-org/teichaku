@@ -14,18 +14,12 @@ import { useAtom } from "jotai"
 import { useRouter } from "next/router"
 import { useEffect, useLayoutEffect, useState } from "react"
 import useDaoLauncherWeb3 from "@/hooks/dao/web3/useDaoLauncherWeb3"
-import { APIClient } from "@/utils/APIClient"
 
 type props = {
   isWeb3: boolean
 }
 
 const Page = ({ isWeb3 }: props) => {
-  const [_, setIsWeb3Flag] = useAtom(Web3FlagAtom)
-  useLayoutEffect(() => {
-    setIsWeb3Flag(isWeb3)
-  }, [isWeb3])
-
   useDaoExistCheckWeb2()
   useDaoLoadWeb2()
 
@@ -36,7 +30,7 @@ const Page = ({ isWeb3 }: props) => {
   const { contributorReward, voterReward, pollDetail } = usePollWeb2(dao)
   const { createDao } = useDaoLauncherWeb3()
   const { daoInfo } = useDaoHistoryWeb2(dao)
-  const { loadTokenSymbol, loadTokenName } = useDynamicERC20()
+  const { loadTokenSymbol, loadTokenName } = useDynamicERC20(isWeb3)
   const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
   const [tokenName, setTokenName] = useState(t.CreateDao.Step2.NotSet)
   const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress)

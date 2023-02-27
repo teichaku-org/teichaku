@@ -9,13 +9,9 @@ import { Center, Container, Loader, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
-type props = {
-  isWeb3: boolean
-}
-
-const Contribution = ({ isWeb3 }: props) => {
-  useDaoExistCheck(isWeb3)
-  useDaoLoad(isWeb3)
+const Contribution = (props: { isWeb3: boolean }) => {
+  useDaoExistCheck(props.isWeb3)
+  useDaoLoad(props.isWeb3)
   const router = useRouter()
   const { t } = useLocale()
   const { daoId, projectId } = router.query
@@ -24,7 +20,7 @@ const Contribution = ({ isWeb3 }: props) => {
       daoId: daoId as string,
       projectId: projectId as string,
     },
-    isWeb3
+    props.isWeb3
   )
 
   useEffect(() => {

@@ -21,7 +21,7 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
-  const { createDao } = useDaoLauncher()
+  const { createDao } = useDaoLauncher(props.isWeb3)
   const [name] = useAtom(CreateDAOName)
   const [projectName] = useAtom(CreateDAOFirstProject)
   const [description] = useAtom(CreateDAODescription)

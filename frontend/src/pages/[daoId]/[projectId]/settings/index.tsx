@@ -28,12 +28,12 @@ const SettingPage = ({ isWeb3 }: Props) => {
         <Text color="dimmed">{t.Settings.SubTitle}</Text>
       </Center>
 
-      <TokenSetting />
-      <TreasurySetting />
+      <TokenSetting isWeb3={isWeb3} />
+      <TreasurySetting isWeb3={isWeb3} />
       <DistributionSetting />
-      <PollPerspectiveSetting />
-      <PollDeadlineSetting />
-      <SBTSetting />
+      <PollPerspectiveSetting isWeb3={isWeb3} />
+      <PollDeadlineSetting isWeb3={isWeb3} />
+      <SBTSetting isWeb3={isWeb3} />
       <Web3MigrationSetting />
     </Container>
   )

@@ -1,51 +1,52 @@
-import { useEffect, useState } from "react";
-import { Center, Drawer, ScrollArea, Text, Title, useInputProps, useMantineTheme } from "@mantine/core";
-import { keys } from "@mantine/utils";
-import { css } from "@emotion/react";
-import { HistoryCard } from "./HistoryCard";
-import { SortButton } from "./SortButton";
-import { FilterButton } from "./FilterButton";
-import { SingleAssessment } from "../assessment/SingleAssessment";
-import { DaoHistory } from "@/domains/DaoHistory";
-import { useLocale } from "@/i18n/useLocale";
+import { useEffect, useState } from "react"
+import { Center, Drawer, ScrollArea, Text, Title, useInputProps, useMantineTheme } from "@mantine/core"
+import { keys } from "@mantine/utils"
+import { css } from "@emotion/react"
+import { HistoryCard } from "./HistoryCard"
+import { SortButton } from "./SortButton"
+import { FilterButton } from "./FilterButton"
+import { SingleAssessment } from "../assessment/SingleAssessment"
+import { DaoHistory } from "@/domains/DaoHistory"
+import { useLocale } from "@/i18n/useLocale"
 
 interface Props {
-  data: DaoHistory[];
-  title?: string;
-  subTitle?: string;
+  data: DaoHistory[]
+  title?: string
+  subTitle?: string
+  isWeb3: boolean
 }
 
 function filterByRole(data: DaoHistory[], filterRoles: string[]) {
-  if (filterRoles.includes("all")) return data;
+  if (filterRoles.includes("all")) return data
   return data.filter((item) => {
-    return item.roles.some((role) => filterRoles.includes(role));
-  });
+    return item.roles.some((role) => filterRoles.includes(role))
+  })
 }
 
 function filterData(data: DaoHistory[], search: string) {
-  const query = search.toLowerCase().trim();
-  return data.filter((item) => keys(data[0]).some((key) => String(item[key]).includes(query)));
+  const query = search.toLowerCase().trim()
+  return data.filter((item) => keys(data[0]).some((key) => String(item[key]).includes(query)))
 }
 
 function sortData(data: DaoHistory[], payload: { sortBy: keyof DaoHistory | null; reversed: boolean; search: string }) {
-  const { sortBy } = payload;
+  const { sortBy } = payload
 
   if (!sortBy) {
-    return filterData(data, payload.search);
+    return filterData(data, payload.search)
   }
 
   if (sortBy === "timestamp") {
     return filterData(
       data.sort((x, y) => {
-        const firstDate = new Date(x.timestamp);
-        const SecondDate = new Date(y.timestamp);
+        const firstDate = new Date(x.timestamp)
+        const SecondDate = new Date(y.timestamp)
 
-        if (firstDate < SecondDate) return payload.reversed ? -1 : 1;
-        if (firstDate > SecondDate) return payload.reversed ? 1 : -1;
-        return 0;
+        if (firstDate < SecondDate) return payload.reversed ? -1 : 1
+        if (firstDate > SecondDate) return payload.reversed ? 1 : -1
+        return 0
       }),
       payload.search
-    );
+    )
   }
 
   if (sortBy === "reward") {
@@ -54,46 +55,46 @@ function sortData(data: DaoHistory[], payload: { sortBy: keyof DaoHistory | null
         if (payload.reversed) {
           return String(b[sortBy]).localeCompare(String(a[sortBy]), undefined, {
             numeric: true,
-          });
+          })
         }
 
         return String(a[sortBy]).localeCompare(String(b[sortBy]), undefined, {
           numeric: true,
-        });
+        })
       }),
       payload.search
-    );
+    )
   }
 
   return filterData(
     [...data].sort((a, b) => {
       if (payload.reversed) {
-        return String(b[sortBy]).localeCompare(String(a[sortBy]));
+        return String(b[sortBy]).localeCompare(String(a[sortBy]))
       }
 
-      return String(a[sortBy]).localeCompare(String(b[sortBy]));
+      return String(a[sortBy]).localeCompare(String(b[sortBy]))
     }),
     payload.search
-  );
+  )
 }
 
 export interface FilterRoles {
-  [index: string]: boolean;
+  [index: string]: boolean
 }
 
 export interface SortKeys {
-  [index: string]: boolean;
+  [index: string]: boolean
 }
 
-export function HistoryList({ data, title, subTitle }: Props) {
-  const { t } = useLocale();
-  const theme = useMantineTheme();
+export function HistoryList({ data, title, subTitle, isWeb3 }: Props) {
+  const { t } = useLocale()
+  const theme = useMantineTheme()
   const [selectedContribution, setSelectedContribution] = useState<{
-    pollId: number;
-    contributor: string;
-  }>();
-  const opened = selectedContribution !== undefined;
-  const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({});
+    pollId: number
+    contributor: string
+  }>()
+  const opened = selectedContribution !== undefined
+  const [filterObjRoles, setFilterObjRoles] = useState<FilterRoles>({})
 
   //TODO: viewとkeyは分ける
   const [sortKeys, setSortKeys] = useState<SortKeys>({
@@ -101,89 +102,89 @@ export function HistoryList({ data, title, subTitle }: Props) {
     [t.History.SortKeys.Oldest]: false,
     [t.History.SortKeys.Largest]: false,
     [t.History.SortKeys.Smallest]: false,
-  });
+  })
 
   const handleFilterRoles = (role: string) => {
     if (role === "all") {
-      const roles: FilterRoles = {};
+      const roles: FilterRoles = {}
       if (filterObjRoles["all"]) {
         Object.keys(filterObjRoles).forEach((key) => {
-          roles[key] = false;
-        });
-        setFilterObjRoles(roles);
+          roles[key] = false
+        })
+        setFilterObjRoles(roles)
       } else {
         Object.keys(filterObjRoles).forEach((key) => {
-          roles[key] = true;
-        });
-        setFilterObjRoles(roles);
+          roles[key] = true
+        })
+        setFilterObjRoles(roles)
       }
-      return;
+      return
     } else {
-      const roles = { ...filterObjRoles };
-      roles[role] = !roles[role];
+      const roles = { ...filterObjRoles }
+      roles[role] = !roles[role]
       if (!roles[role]) {
-        roles["all"] = false;
+        roles["all"] = false
       }
-      setFilterObjRoles(roles);
+      setFilterObjRoles(roles)
     }
-    return;
-  };
+    return
+  }
 
   const onClickCard = (row: { pollId: number; contributor: string }) => {
     if (selectedContribution?.pollId === row.pollId && selectedContribution?.contributor === row.contributor) {
-      setSelectedContribution(undefined);
-      return;
+      setSelectedContribution(undefined)
+      return
     }
     setSelectedContribution({
       pollId: row.pollId,
       contributor: row.contributor,
-    });
-  };
+    })
+  }
 
   const handleSortKeys = (selectedKey: string) => {
-    const newSortKeys: FilterRoles = {};
+    const newSortKeys: FilterRoles = {}
     Object.keys(sortKeys).forEach((key) => {
       if (selectedKey === key) {
-        newSortKeys[key] = true;
-        return;
+        newSortKeys[key] = true
+        return
       }
-      newSortKeys[key] = false;
-    });
-    setSortKeys(newSortKeys);
-    return;
-  };
+      newSortKeys[key] = false
+    })
+    setSortKeys(newSortKeys)
+    return
+  }
 
   useEffect(() => {
     //ロールを抽出
-    const roles: FilterRoles = { all: true };
+    const roles: FilterRoles = { all: true }
     data.forEach((dao) => {
       dao.roles.forEach((role) => {
-        roles[role] = true;
-      });
-    });
-    setFilterObjRoles(roles);
-  }, []);
+        roles[role] = true
+      })
+    })
+    setFilterObjRoles(roles)
+  }, [])
 
   const sortBy = (): keyof DaoHistory | null => {
     if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Oldest]) {
-      return "timestamp";
+      return "timestamp"
     }
-    return "reward";
-  };
+    return "reward"
+  }
 
   const reversed = (): boolean => {
     if (sortKeys[t.History.SortKeys.Newest] || sortKeys[t.History.SortKeys.Smallest]) {
-      return false;
+      return false
     }
-    return true;
-  };
+    return true
+  }
 
-  const filterRoles = Object.keys(filterObjRoles).filter((key) => filterObjRoles[key]);
+  const filterRoles = Object.keys(filterObjRoles).filter((key) => filterObjRoles[key])
   const sortedData = sortData(filterByRole(data, filterRoles), {
     sortBy: sortBy(),
     reversed: reversed(),
     search: "",
-  });
+  })
 
   const rows = sortedData.map((row, index) => (
     <div
@@ -201,9 +202,10 @@ export function HistoryList({ data, title, subTitle }: Props) {
         timestamp={row.timestamp.toLocaleString()}
         onClick={() => onClickCard({ pollId: row.pollId, contributor: row.contributor })}
         contributor={row.contributor}
+        isWeb3={isWeb3}
       />
     </div>
-  ));
+  ))
 
   return (
     <div
@@ -274,10 +276,14 @@ export function HistoryList({ data, title, subTitle }: Props) {
       >
         {selectedContribution && (
           <ScrollArea style={{ height: "100%" }} p="lg">
-            <SingleAssessment pollId={selectedContribution.pollId} contributor={selectedContribution.contributor} />
+            <SingleAssessment
+              pollId={selectedContribution.pollId}
+              contributor={selectedContribution.contributor}
+              isWeb3={isWeb3}
+            />
           </ScrollArea>
         )}
       </Drawer>
     </div>
-  );
+  )
 }

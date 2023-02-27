@@ -19,7 +19,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
   const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration)
 
-  const { loadTokenSymbol } = useDynamicERC20()
+  const { loadTokenSymbol } = useDynamicERC20(props.isWeb3)
 
   const onChangeTokenAddress = async (address: string) => {
     setTokenAddress(address)

@@ -1,18 +1,19 @@
-import useDaoToken from "@/hooks/dao/useDaoToken";
-import { css } from "@emotion/react";
-import { Text, useMantineTheme } from "@mantine/core";
+import useDaoToken from "@/hooks/dao/useDaoToken"
+import { css } from "@emotion/react"
+import { Text, useMantineTheme } from "@mantine/core"
 import { useRouter } from "next/router"
 
 interface Props {
-  reward: string;
+  reward: string
+  isWeb3: boolean
 }
 
 export const TotalReward = (props: Props) => {
   const router = useRouter()
   const { daoId, projectId } = router.query
-  const theme = useMantineTheme();
+  const theme = useMantineTheme()
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
-  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, true)
+  const { tokenSymbol } = useDaoToken({ daoId: daoId as string, projectId: projectId as string }, props.isWeb3)
   return (
     <Text
       component="span"
@@ -36,5 +37,5 @@ export const TotalReward = (props: Props) => {
         {tokenSymbol}
       </span>
     </Text>
-  );
-};
+  )
+}

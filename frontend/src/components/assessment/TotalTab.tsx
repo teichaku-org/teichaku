@@ -82,7 +82,7 @@ const TotalTab = (props: Props) => {
           }}
         >
           <Stack spacing={0}>
-            <TotalReward reward={String(Math.round(totalReward))} />
+            <TotalReward reward={String(Math.round(totalReward))} isWeb3={props.isWeb3} />
             <Group>
               <Text size="xs" color="dimmed">
                 {ComparedPreviousReward}
@@ -143,7 +143,7 @@ const TotalTab = (props: Props) => {
         <CumulativeReward />
       </Grid.Col>
       <Grid.Col md={12} lg={4}>
-        <AverageAssessment address={props.address} />
+        <AverageAssessment address={props.address} isWeb3={props.isWeb3} />
       </Grid.Col>
       <Grid.Col md={12} lg={8}>
         <RewardHistoryCol />

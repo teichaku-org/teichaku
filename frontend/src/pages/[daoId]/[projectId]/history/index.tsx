@@ -47,7 +47,7 @@ const History = ({ isWeb3 }: props) => {
 
   return (
     <div>
-      <HistoryList data={daoHistory} title={title} subTitle={subTitle} />
+      <HistoryList data={daoHistory} title={title} subTitle={subTitle} isWeb3={isWeb3} />
       <FloatingAddButton />
     </div>
   )

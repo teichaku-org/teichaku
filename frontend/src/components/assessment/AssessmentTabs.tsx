@@ -45,7 +45,7 @@ const AssessmentTabs = (props: Props) => {
       </Tabs.Panel>
 
       <Tabs.Panel value="individual" pt="xs">
-        <IndivisualTab myDaoHistory={myDaoHistory()} />
+        <IndivisualTab myDaoHistory={myDaoHistory()} isWeb3={props.isWeb3} />
       </Tabs.Panel>
     </Tabs>
   )
