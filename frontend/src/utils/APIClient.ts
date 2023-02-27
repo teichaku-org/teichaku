@@ -41,6 +41,7 @@ export class APIClient implements HttpClient {
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
       console.log(e.message)
     })
+    console.log(res)
 
     return res
   }
