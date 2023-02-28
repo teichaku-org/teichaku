@@ -53,7 +53,7 @@ export const useDaoLoadWeb2: useDaoLoadInterface = () => {
       headers
     )
     if (resVoterAssignmentToken) {
-      setVoterReward(resVoterAssignmentToken.data.contributorAssignmentToken)
+      setVoterReward(resVoterAssignmentToken.data.voterAssignmentToken)
     }
   }
 

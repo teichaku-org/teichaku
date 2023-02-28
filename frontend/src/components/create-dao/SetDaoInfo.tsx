@@ -24,7 +24,7 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
 
   const snakedName = snakeCase(name)
   const snakedProjectName = snakeCase(projectName)
-  const urlPath = "/" + snakedName + "/" + snakedProjectName
+  const urlPath = "/web2/" + snakedName + "/" + snakedProjectName
 
   const checkDuplicate = () => {
     //TODO: hookから呼び出す
