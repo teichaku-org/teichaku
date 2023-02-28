@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions"
 import { DAOLauncher } from "../contracts/DAOLauncher"
 import * as admin from "firebase-admin"
-import { decodeJwt, getUserAddress } from "../utils/decodeJwt"
+import { getUserAddress } from "../utils/decodeJwt"
 
 export const createDao = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")

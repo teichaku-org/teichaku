@@ -48,8 +48,7 @@ const useDaoLauncherWeb3: useDaoLauncherInterface = () => {
       autoClose: false,
     })
     await tx.wait()
-    const commonPath = Links.getCommonPath(router)
-    router.push(`/${commonPath}/overview`)
+    router.push(`/web3/${daoId}/${projectId}/overview`)
     hideNotification("createDao")
   }
 

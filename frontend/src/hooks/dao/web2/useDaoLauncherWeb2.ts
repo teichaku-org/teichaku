@@ -32,7 +32,6 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     })
 
     const idToken = await getUserIdToken()
-    console.log({ idToken })
     if (!idToken) {
       window.alert("Please login first.")
       return
@@ -58,8 +57,7 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       headers
     )
 
-    const commonPath = Links.getCommonPath(router)
-    router.push(`/${commonPath}/overview`)
+    router.push(`/web2/${daoId}/${projectId}/overview`)
     hideNotification("createDao")
   }
 
