@@ -1,7 +1,4 @@
-import {
-  CreateDAORewardTokenContributorAmount,
-  CreateDAORewardTokenReviewerAmount,
-} from "@/domains/atoms/CreateDaoAtom"
+import { ContributorRewardAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { Button, Card, Paper, Text, TextInput } from "@mantine/core"
@@ -15,8 +12,8 @@ export const DistributionSetting = (props: { isWeb3: boolean }) => {
   //TODO: Buildを通すために一旦isWeb3 = Trueを入れる
   const { setTokenDistribution } = usePoll({ daoId: daoId as string, projectId: projectId as string }, props.isWeb3)
   const { Contributor, Reviewer } = t.Settings.DistributionSetting
-  const [contributorReward, setContributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
-  const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
+  const [contributorReward, setContributorReward] = useAtom(ContributorRewardAtom)
+  const [reviewerReward, setReviewerReward] = useAtom(VoterRewardAtom)
 
   const onClick = () => {
     if (contributorReward === undefined || reviewerReward === undefined) return
