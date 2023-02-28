@@ -1,3 +1,4 @@
+import { Links } from "@/constants/Links"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { Text, Progress, Card, Button, Input, TextInput, Paper } from "@mantine/core"
@@ -7,9 +8,9 @@ import { useState } from "react"
 export const Web3MigrationSetting = () => {
   const { t } = useLocale()
   const router = useRouter()
-  const { daoId, projectId } = router.query
   const onClick = () => {
-    router.push(`/${daoId}/${projectId}/settings/migration`)
+    const commonPath = Links.getCommonPath(router)
+    router.push(`/${commonPath}/settings/migration`)
   }
 
   return (

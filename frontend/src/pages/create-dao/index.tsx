@@ -54,7 +54,7 @@ const Page = ({ isWeb3 }: Props) => {
 }
 
 export async function getServerSideProps(context: { query: { daoId: string } }) {
-  // Fetch data from external API
+  // create daoは常にweb3はfalse
   return { props: { isWeb3: false } }
 }
 Page.noNavbar = true
