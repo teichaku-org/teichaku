@@ -1,15 +1,13 @@
 import { AppFooter } from "@/components/common/AppFooter"
 import { AppHeader } from "@/components/common/AppHeader"
 import { AppNavbar } from "@/components/common/AppNavbar"
+import { InformationModals } from "@/components/modals/InformationModals"
 import { AppInfo } from "@/constants/AppInfo"
 import { AppShell, MantineProvider } from "@mantine/core"
-import dynamic from "next/dynamic"
-import NetworkCheck from "../components/web3/common/NetworkCheck"
 import { NotificationsProvider } from "@mantine/notifications"
-import { SafeEventEmitterProvider } from "@web3auth/base"
-import { Web3Auth } from "@web3auth/modal"
-import { useEffect, useState } from "react"
-import { InformationModals } from "@/components/modals/InformationModals"
+import dynamic from "next/dynamic"
+import NextNProgress from "nextjs-progressbar"
+import NetworkCheck from "../components/web3/common/NetworkCheck"
 
 const MyApp = ({ Component, pageProps }: any) => {
   const SafeHydrate = dynamic(() => import("./SafeHydrage"), { ssr: false })
