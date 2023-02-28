@@ -22,7 +22,6 @@ export const PollDeadlineSetting = (props: { isWeb3: boolean }) => {
 
   useEffect(() => {
     if (pollDetail) {
-      console.log(pollDetail)
       setStartDate(pollDetail.startTimeStamp)
       setEndDate(pollDetail.endTimeStamp)
       // duraitonを計算　end - start

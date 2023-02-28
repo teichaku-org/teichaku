@@ -22,7 +22,8 @@ export const getIsWeb3 = functions.region("asia-northeast1").https.onRequest(asy
     console.log({ dao })
     if (dao.exists) {
       const data = dao.data()
-      const isWeb3 = data ? data.isWeb3 : true
+      if (!data) throw new Error("data is undefined")
+      const isWeb3 = data.isWeb3
       res.status(200).send({
         isWeb3,
       })

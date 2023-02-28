@@ -24,7 +24,7 @@ export class APIClient implements HttpClient {
     }
 
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
-      console.log(e.message)
+      console.error(e.message)
     })
     return res
   }
@@ -37,11 +37,11 @@ export class APIClient implements HttpClient {
       data: params,
       headers: headers || {},
     }
-    console.log("Post options", options)
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
       console.log(e.message)
     })
-    console.log(res)
+    console.log({ postRequest: options })
+    console.log({ postResponse: res?.data })
 
     return res
   }
@@ -56,7 +56,7 @@ export class APIClient implements HttpClient {
     }
 
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
-      console.log(e.message)
+      console.error(e.message)
     })
     return res
   }
@@ -71,7 +71,7 @@ export class APIClient implements HttpClient {
     }
 
     const res: AxiosResponse | void = await axios(options).catch((e: AxiosError<{ error: string }>) => {
-      console.log(e.message)
+      console.error(e.message)
     })
     return res
   }

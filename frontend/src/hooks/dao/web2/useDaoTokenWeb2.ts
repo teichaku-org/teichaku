@@ -43,7 +43,6 @@ const useDaoTokenWeb2: useDaoTokenInterface = (props: Props) => {
     )
     if (res) {
       setYourBalance(res.data.amount)
-      console.log(res.data.amount)
     }
   }
 
