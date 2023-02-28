@@ -11,6 +11,7 @@ import { FloatingAddButton } from "@/components/contribution/FloatingAddButton"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/utils/APIClient"
 import CopyInviteUrl from "@/components/common/CopyInviteUrl"
+import { checkWeb3 } from "@/utils/checkWeb3"
 
 type props = {
   isWeb3: boolean
@@ -53,11 +54,14 @@ const History = ({ isWeb3 }: props) => {
   )
 }
 
-export async function getServerSideProps(context: { query: { daoId: string } }) {
-  // Fetch data from external API
-  const apiClient = new APIClient()
-  const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  return { props: { isWeb3: res ? res.data.isWeb3 : true } }
+export async function getServerSideProps(context: { query: { daoId: string; type: "check" | "web2" | "web3" } }) {
+  const webType = context.query.type
+  const daoId = context.query.daoId
+  const isWeb3 = await checkWeb3(webType, daoId)
+  return {
+    props: {
+      isWeb3,
+    },
+  }
 }
-
 export default History

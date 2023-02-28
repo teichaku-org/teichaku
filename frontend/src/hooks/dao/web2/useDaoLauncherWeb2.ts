@@ -4,6 +4,7 @@ import { useDaoLauncherInterface } from "../interface/useDaoLauncherInterface"
 import { hideNotification, showNotification } from "@mantine/notifications"
 import { APIClient } from "@/utils/APIClient"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
+import { Links } from "@/constants/Links"
 
 const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
   const router = useRouter()
@@ -57,7 +58,8 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       headers
     )
 
-    router.push(`/${daoId}/${projectId}/overview`)
+    const commonPath = Links.getCommonPath(router)
+    router.push(`/${commonPath}/overview`)
     hideNotification("createDao")
   }
 

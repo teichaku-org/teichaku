@@ -1,5 +1,6 @@
 import { PollEndInfo } from "@/components/poll/PollEndInfo"
 import { PollSystem } from "@/components/poll/PollSystem"
+import { Links } from "@/constants/Links"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import useDaoToken from "@/hooks/dao/useDaoToken"
@@ -7,6 +8,7 @@ import usePoll from "@/hooks/dao/usePoll"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/utils/APIClient"
+import { checkWeb3 } from "@/utils/checkWeb3"
 import { Center, Container, Loader, Text, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -73,7 +75,8 @@ const Poll = ({ isWeb3 }: props) => {
   const _settle = async () => {
     // トークンがない場合はトークン振込ページへ
     if (isTokenShort) {
-      router.push(`/${daoId}/${projectId}/settings/send-token`)
+      const commonPath = Links.getCommonPath(router)
+      router.push(`/${commonPath}/settings/send-token`)
       return
     }
     if (voters.length === 0) {
@@ -118,10 +121,14 @@ const Poll = ({ isWeb3 }: props) => {
   )
 }
 
-export async function getServerSideProps(context: { query: { daoId: string } }) {
-  // Fetch data from external API
-  const apiClient = new APIClient()
-  const res = await apiClient.post("/getIsWeb3", { daoId: context.query.daoId })
-  return { props: { isWeb3: res ? res.data.isWeb3 : true } }
+export async function getServerSideProps(context: { query: { daoId: string; type: "check" | "web2" | "web3" } }) {
+  const webType = context.query.type
+  const daoId = context.query.daoId
+  const isWeb3 = await checkWeb3(webType, daoId)
+  return {
+    props: {
+      isWeb3,
+    },
+  }
 }
 export default Poll
