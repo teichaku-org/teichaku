@@ -5,7 +5,7 @@ import { Links } from "@/constants/Links"
 import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/utils/APIClient"
 import { useAtom } from "jotai"
-import { PollDetailAtom } from "@/domains/atoms/PollDetailAtom"
+import { ContributorRewardAtom, PollDetailAtom, VoterRewardAtom } from "@/domains/atoms/PollDetailAtom"
 import { Contribution } from "@/domains/Contribution"
 import { PollDetail } from "@/domains/PollDetail"
 import { useEffect } from "react"
@@ -17,8 +17,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const contractAddress = ""
   const isAdmin = false
   const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
-  const contributorReward = 0
-  const voterReward = 0
+  const [contributorReward] = useAtom(ContributorRewardAtom)
+  const [voterReward] = useAtom(VoterRewardAtom)
   const commissionFee = 0
   const apiClient = new APIClient()
   const { getUserIdToken } = useWeb3Auth()

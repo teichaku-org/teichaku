@@ -10,6 +10,7 @@ import { useAtom } from "jotai"
 import { useDaoTokenInterface } from "../interface/useDaoTokenInterface"
 import { APIClient } from "@/utils/APIClient"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
+import { useEffect } from "react"
 
 interface Props {
   daoId: string
@@ -45,6 +46,11 @@ const useDaoTokenWeb2: useDaoTokenInterface = (props: Props) => {
       setYourBalance(res.data.amount)
     }
   }
+
+  useEffect(() => {
+    if (!(props.daoId && props.projectId)) return
+    load()
+  }, [props.daoId, props.projectId])
 
   const sendToken = async (to: string, amount: number) => {}
 
