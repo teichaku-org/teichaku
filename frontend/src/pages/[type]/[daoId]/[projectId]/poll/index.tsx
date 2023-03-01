@@ -74,7 +74,7 @@ const Poll = ({ isWeb3 }: props) => {
 
   const _settle = async () => {
     // トークンがない場合はトークン振込ページへ
-    if (isTokenShort) {
+    if (isWeb3 && isTokenShort) {
       const commonPath = Links.getCommonPath(router)
       router.push(`/${commonPath}/settings/send-token`)
       return
