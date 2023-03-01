@@ -8,6 +8,7 @@
     "test": "npx hardhat test",
     "dev": "npx hardhat run scripts/deploy-local.ts --network localhost",
     "firebase": "firebase emulators:start",
+    "function-deploy": "firebase deploy --only functions",
     "generate": "cp -rp ./artifacts/contracts/. ./frontend/src/abi/ && rm -rf ./frontend/src/abi/*/*.dbg.json && npx typechain --target=ethers-v5 --out-dir ./frontend/src/types ./frontend/src/abi/*/*.json ",
     "coverage": "npx hardhat coverage",
     "size-check": "npx hardhat size-contracts"
