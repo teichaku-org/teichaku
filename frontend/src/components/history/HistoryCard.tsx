@@ -1,12 +1,12 @@
-import { Links } from "@/constants/Links";
-import { shortenAddress } from "@/utils/shortenAddress";
-import { css } from "@emotion/react";
-import { createStyles, Grid, Paper, Space, Text, useMantineTheme } from "@mantine/core";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { MouseEventHandler } from "react";
-import { EarnedCoin } from "../assessment/EarnedCoin";
-import { RoleBadge } from "../common/RoleBadge";
+import { Links } from "@/constants/Links"
+import { shortenAddress } from "@/utils/shortenAddress"
+import { css } from "@emotion/react"
+import { createStyles, Grid, Paper, Space, Text, useMantineTheme } from "@mantine/core"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { MouseEventHandler } from "react"
+import { EarnedCoin } from "../assessment/EarnedCoin"
+import { RoleBadge } from "../common/RoleBadge"
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -23,38 +23,29 @@ const useStyles = createStyles((theme) => ({
     },
   },
   reward: {},
-}));
+}))
 
 interface HistoryCardProps {
-  contributionText: string;
-  reward: string;
-  contractAddress: string;
-  roles: string[];
-  timestamp: string;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  contributionText: string
+  reward: string
+  contractAddress: string
+  roles: string[]
+  timestamp: string
+  onClick?: MouseEventHandler<HTMLDivElement>
   contributor: string
+  isWeb3: boolean
 }
 
 export function HistoryCard(props: HistoryCardProps) {
-  const { classes } = useStyles();
-  const { contributionText, reward, contractAddress, roles, timestamp, onClick, contributor } = props;
-  const theme = useMantineTheme();
+  const { classes } = useStyles()
+  const { contributionText, reward, contractAddress, roles, timestamp, onClick, contributor } = props
+  const theme = useMantineTheme()
   const router = useRouter()
-  const link = Links.getCommonPath(router) + "/assessments/" + contributor;
-
+  const link = Links.getCommonPath(router) + "/assessments/" + contributor
 
   return (
-    <Paper
-      withBorder
-      radius="md"
-      p="lg"
-      className={classes.card}
-      onClick={onClick}
-    >
-      <EarnedCoin
-        reward={reward}
-        contractAddress={contractAddress}
-      />
+    <Paper withBorder radius="md" p="lg" className={classes.card} onClick={onClick}>
+      <EarnedCoin reward={reward} contractAddress={contractAddress} isWeb3={props.isWeb3} />
       <Grid justify="left" align="center" my="sm">
         <RoleBadge roles={roles} />
       </Grid>
@@ -74,13 +65,9 @@ export function HistoryCard(props: HistoryCardProps) {
       >
         {contributionText}
       </Text>
-      <Text
-        size="sm"
-        mt="sm"
-        color={theme.colorScheme === "dark" ? "white" : "black"}
-      >
+      <Text size="sm" mt="sm" color={theme.colorScheme === "dark" ? "white" : "black"}>
         {timestamp}
       </Text>
     </Paper>
-  );
+  )
 }

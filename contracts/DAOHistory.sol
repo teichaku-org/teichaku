@@ -21,7 +21,7 @@ contract DAOHistory is IDAOHistory, AccessControl, Ownable {
     // daoId => projectId => [Assessment, ...]
     mapping(string => mapping(string => Assessment[])) public assessments;
 
-    // daoId => projectId => [Poll, ...]
+    // daoId => projectId => pollAddress
     mapping(string => mapping(string => address)) public pollAddress;
 
     // daoId => [DAOInfo, ...]

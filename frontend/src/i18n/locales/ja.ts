@@ -24,8 +24,7 @@ export const ja = {
     HeroText1: "メンバーを定着させて",
     HeroText2Colorful: "継続的なインパクトを生み出す",
     HeroText3: "ための新しいDAOフレームワーク。",
-    HeroSubText:
-      "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
+    HeroSubText: "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
     Problems: {
       Title: "DAOの問題点とTeichakuの解決策",
       Onboarding: {
@@ -36,8 +35,7 @@ export const ja = {
       },
       Hurdle: {
         Title: "報酬を得るためのハードルが高すぎる！",
-        SolutionTitle:
-          "どんな貢献でも構いませんし許可も不要です。レビュワーがあなたの貢献を評価して報酬を決めます。",
+        SolutionTitle: "どんな貢献でも構いませんし許可も不要です。レビュワーがあなたの貢献を評価して報酬を決めます。",
         SolutionName: "簡単でパーミッションレス",
       },
       Reward: {
@@ -74,6 +72,10 @@ export const ja = {
   Common: {
     NodataMessage: {
       Title: "貢献を始めましょう!",
+      Invite: {
+        Title: "他のメンバーを招待しよう",
+        Description: "urlをコピーして、DAOに招待したいメンバーに共有しよう！",
+      },
     },
     AppMenu: {
       Info: "情報",
@@ -89,8 +91,7 @@ export const ja = {
     },
     NetworkCheck: {
       Title: "現在接続されているネットワークはサポートされていません。",
-      Text: (name: string, network: string) =>
-        `${name} は ${network}で動いています!`,
+      Text: (name: string, network: string) => `${name} は ${network}で動いています!`,
     },
   },
   History: {
@@ -110,8 +111,7 @@ export const ja = {
   Assessment: {
     Title: "自分の評価",
     AssessmentTabs: {
-      NotConnectWallet:
-        "メタマスクとまだ接続できていません。 右上のウォレット接続ボタンから接続をお願いします。",
+      NotConnectWallet: "メタマスクとまだ接続できていません。 右上のウォレット接続ボタンから接続をお願いします。",
       Total: "集計",
       Individual: "個別",
       TotalTab: {
@@ -205,8 +205,7 @@ export const ja = {
     Title: "スプリントレビュー",
     CurrentReviewerIncentive: "現在レビュアーが獲得できるトークン:",
     PollIsEnded: "スプリントレビューは終了しました。",
-    ConfirmNoVoter:
-      "まだ誰も投票していません。レビュワーがいない場合はトークンは分配されず、投票が初期化されます。",
+    ConfirmNoVoter: "まだ誰も投票していません。レビュワーがいない場合はトークンは分配されず、投票が初期化されます。",
     PollSystem: {
       AlreadyVoteMessage: "既に投票をしていますが、投票を修正できます。",
       Notification: {
@@ -250,8 +249,7 @@ export const ja = {
       SubTitle: "報酬とスプリントの長さを設定",
       NotSet: "未設定",
       InvalidTokenAddress: "無効なトークンアドレスです。",
-      NoTokenSymbol:
-        "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
+      NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
       Title: "確認",
@@ -352,9 +350,9 @@ export const ja = {
   },
   TokenReceiveModal: {
     Title: "このDAOはWeb3に移行しました",
-    Description: "Metamaskと連携してトークンを受け取りましょう"
+    Description: "Metamaskと連携してトークンを受け取りましょう",
   },
   Alert: {
     PleaseInstallMetamask: "Metamaskをインストールしてください",
-  }
-};
+  },
+}

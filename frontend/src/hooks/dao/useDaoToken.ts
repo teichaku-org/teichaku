@@ -1,4 +1,6 @@
-import { useDaoTokenInterfaceIsWeb3 } from "./interface/useDaoTokenInterface"
+import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import { useAtom } from "jotai"
+import { useDaoTokenInterface } from "./interface/useDaoTokenInterface"
 import useDaoTokenWeb2 from "./web2/useDaoTokenWeb2"
 import useDaoTokenWeb3 from "./web3/useDaoTokenWeb3"
 
@@ -7,7 +9,7 @@ interface Props {
   projectId: string
 }
 
-const useDaoToken: useDaoTokenInterfaceIsWeb3 = (props: Props, isWeb3: boolean) => {
+const useDaoToken: useDaoTokenInterface = (props: Props, isWeb3?: boolean) => {
   const selectStrategy = () => {
     if (isWeb3) {
       return useDaoTokenWeb3(props)
