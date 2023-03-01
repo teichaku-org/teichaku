@@ -16,7 +16,7 @@ const SendTokenPage = ({ isWeb3 }: props) => {
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao)
+  const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao, isWeb3)
   const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken(dao, isWeb3)
   const isShort = treasuryBalance < contributorReward + voterReward + commissionFee
   const [value, setValue] = useState("")
