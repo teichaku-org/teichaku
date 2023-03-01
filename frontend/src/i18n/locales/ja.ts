@@ -59,6 +59,7 @@ export const ja = {
     ConnectWallet: "ウォレットを接続",
     SaveDraft: "下書き保存",
     SubmitToBlockchain: "ブロックチェーンに登録",
+    SubmitToDatabase: "データベースに登録",
     WaitToVote: (date: Date) => `${date.toLocaleDateString()}から投票可能`,
     AddYourContribution: "自分の貢献を追加する",
     UpdateYourContribution: "自分の貢献を更新する",
@@ -140,6 +141,10 @@ export const ja = {
         Title: "貢献内容がブロックチェーンに送信されました！",
         Message: "トランザクション完了までお待ちください。",
       },
+      NotificationWeb2: {
+        Title: "貢献内容がデータベースに送信されました！",
+        Message: "トランザクション完了までお待ちください。",
+      },
       Contribution: {
         Label: "貢献内容",
         Placeholder: "DAOのために何をしましたか？",
@@ -212,8 +217,16 @@ export const ja = {
         Title: "投票がブロックチェーンに送信されました!",
         Message: "トランザクション完了までお待ちください。",
       },
+      NotificationWeb2: {
+        Title: "投票がデータベースに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
+      },
       Settle: {
         Title: "あなたのトランザクションはブロックチェーンに送信されました！",
+        Message: "トランザクション完了までお待ちください。",
+      },
+      SettleWeb2: {
+        Title: "あなたのトランザクションはデータベースに送信されました！",
         Message: "トランザクション完了までお待ちください。",
       },
       CandidateCard: {
@@ -274,8 +287,8 @@ export const ja = {
       AcceptTransaction: "DAOを立ち上げる",
       Retry: "リトライ",
       Notification: {
-        Title: "DAOが立ち上げられました!",
-        Message: "DAOが立ち上げられるまでお待ちください。",
+        Title: "DAOがデータベースに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
       },
     },
   },
@@ -284,6 +297,10 @@ export const ja = {
     SubTitle: "設定は現在開発中です! ほとんどの機能はまだ動作しません。",
     Notification: {
       Title: "設定がブロックチェーンに送信されました!",
+      Message: "トランザクション完了までお待ちください。",
+    },
+    NotificationWeb2: {
+      Title: "設定がデータベースに送信されました!",
       Message: "トランザクション完了までお待ちください。",
     },
     TokenSetting: {

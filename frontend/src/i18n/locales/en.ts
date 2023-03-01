@@ -59,6 +59,7 @@ export const en = {
     ConnectWallet: "Connect Wallet",
     SaveDraft: "Save Draft",
     SubmitToBlockchain: "Submit to Blockchain",
+    SubmitToDatabase: "Submit to Database",
     WaitToVote: (date: Date) => `Wait Until ${date.toLocaleDateString()}`,
     AddYourContribution: "Add Your Contribution",
     UpdateYourContribution: "Update Your Contribution",
@@ -140,6 +141,10 @@ export const en = {
         Title: "Your Contribution is sent to blockchain!",
         Message: "Please wait for the transaction to be completed.",
       },
+      NotificationWeb2: {
+        Title: "Your Contribution is sent to database",
+        Message: "Please wait for the transaction to be completed.",
+      },
       Contribution: {
         Label: "Your contribution",
         Placeholder: "What did you do for the DAO?",
@@ -213,8 +218,16 @@ export const en = {
         Title: "Your Vote is sent to blockchain!",
         Message: "Please wait for the transaction to be completed.",
       },
+      NotificationWeb2: {
+        Title: "Your Vote is sent to database!",
+        Message: "Please wait for the transaction to be completed.",
+      },
       Settle: {
         Title: "Your transaction is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
+      SettleWeb2: {
+        Title: "Your transaction is sent to database!",
         Message: "Please wait for the transaction to be completed.",
       },
       CandidateCard: {
@@ -272,8 +285,8 @@ export const en = {
       AcceptTransaction: "Create the DAO",
       Retry: "Retry",
       Notification: {
-        Title: "Your DAO is created！",
-        Message: "Please wait for the creating to be completed.",
+        Title: "Your DAO is sent to database!",
+        Message: "Please wait for the transaction to be completed.",
       },
     },
   },
@@ -282,6 +295,10 @@ export const en = {
     SubTitle: "Setting is being built now! Most features still don't work.",
     Notification: {
       Title: "Your setting is sent to blockchain!",
+      Message: "Please wait for the transaction to be completed.",
+    },
+    NotificationWeb2: {
+      Title: "Your setting is sent to database!",
       Message: "Please wait for the transaction to be completed.",
     },
     TokenSetting: {

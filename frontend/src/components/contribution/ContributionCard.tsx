@@ -1,23 +1,24 @@
-import { Links } from "@/constants/Links";
-import { useLocale } from "@/i18n/useLocale";
-import { Button, Group, MultiSelect, Textarea, TextInput, Title } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { ContributionExamples } from "../poll/ContributionExamples";
+import { Links } from "@/constants/Links"
+import { useLocale } from "@/i18n/useLocale"
+import { Button, Group, MultiSelect, Textarea, TextInput, Title } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { ContributionExamples } from "../poll/ContributionExamples"
 
 interface Props {
-  candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => any;
-  title?: string;
+  candidateToPoll: (contributionText: string, evidences: string[], roles: string[]) => any
+  title?: string
+  isWeb3: boolean
 }
 
 export const ContributionCard = (props: Props) => {
-  const { t } = useLocale();
-  const { Notification, Contribution, Evidence, Role } = t.Contribution.ContributionCard;
-  const router = useRouter();
-  const sprintReviewPath = Links.getCommonPath(router) + "/poll";
-  const [showExample, setShowExample] = useState(true);
-  const [placeholder, setPlaceholder] = useState(Contribution.Placeholder);
+  const { t } = useLocale()
+  const { Notification, Contribution, Evidence, Role } = t.Contribution.ContributionCard
+  const router = useRouter()
+  const sprintReviewPath = Links.getCommonPath(router) + "/poll"
+  const [showExample, setShowExample] = useState(true)
+  const [placeholder, setPlaceholder] = useState(Contribution.Placeholder)
   const [roles, setRoles] = useState([
     "Engineer",
     "Designer",
@@ -32,7 +33,7 @@ export const ContributionCard = (props: Props) => {
     "Product Manager",
     "Sales",
     "Customer Support",
-  ]);
+  ])
   const form = useForm({
     initialValues: {
       roles: [] as string[],
@@ -41,48 +42,48 @@ export const ContributionCard = (props: Props) => {
       evidence2: "",
       evidence3: "",
     },
-  });
+  })
 
   useEffect(() => {
-    loadLocalStorage();
-  }, []);
+    loadLocalStorage()
+  }, [])
 
   useEffect(() => {
-    loadLocalStorage();
-  }, []);
+    loadLocalStorage()
+  }, [])
 
   const loadLocalStorage = () => {
-    const candidate = localStorage.getItem("candidate");
+    const candidate = localStorage.getItem("candidate")
     if (candidate) {
-      form.setValues(JSON.parse(candidate));
-      setShowExample(false);
+      form.setValues(JSON.parse(candidate))
+      setShowExample(false)
     }
-  };
+  }
 
   const clearLocalStorage = () => {
-    localStorage.removeItem("candidate");
-  };
+    localStorage.removeItem("candidate")
+  }
 
   const saveLocalStorage = () => {
-    localStorage.setItem("candidate", JSON.stringify(form.values));
-    window.location.reload();
-  };
+    localStorage.setItem("candidate", JSON.stringify(form.values))
+    window.location.reload()
+  }
 
   const _candidate = async () => {
-    clearLocalStorage();
+    clearLocalStorage()
     await props.candidateToPoll(
       form.values.contributionText,
       [form.values.evidence1, form.values.evidence2, form.values.evidence3],
       form.values.roles
-    );
-  };
+    )
+  }
 
   const onClickExample = (exmapleText: string, defaultRole: string) => {
     //form.setFieldValue("contributionText", exmapleText)
-    setPlaceholder(exmapleText);
-    form.setFieldValue("roles", [defaultRole]);
-    setShowExample(false);
-  };
+    setPlaceholder(exmapleText)
+    form.setFieldValue("roles", [defaultRole])
+    setShowExample(false)
+  }
   return (
     <>
       {showExample ? (
@@ -156,8 +157,8 @@ export const ContributionCard = (props: Props) => {
             dropdownPosition="top"
             getCreateLabel={(query) => Role.CreateLabel(query)}
             onCreate={(query) => {
-              setRoles([...roles, query]);
-              return query;
+              setRoles([...roles, query])
+              return query
             }}
             {...form.getInputProps("roles")}
           />
@@ -166,11 +167,11 @@ export const ContributionCard = (props: Props) => {
               {t.Button.SaveDraft}
             </Button>
             <Button radius="md" onClick={_candidate} variant="gradient" gradient={{ from: "blue", to: "grape" }}>
-              {t.Button.SubmitToBlockchain}
+              {props.isWeb3 ? t.Button.SubmitToBlockchain : t.Button.SubmitToDatabase}
             </Button>
           </Group>
         </>
       )}
     </>
-  );
-};
+  )
+}
