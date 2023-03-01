@@ -658,7 +658,7 @@ export class Poll {
     }
     console.log("assignmentToken", assignmentToken)
 
-    this.transferTokenForContributor(_candidates, assignmentToken)
+    await this.transferTokenForContributor(_candidates, assignmentToken)
     // TODO:  _transferTokenForCommission();
 
     // Decide how much to distribute to voters
@@ -668,7 +668,7 @@ export class Poll {
     if (totalVoterCount > 0) {
       const voterAssignmentToken = VOTER_ASSIGNMENT_TOKEN / totalVoterCount
       console.log("voterAssignmentToken", voterAssignmentToken)
-      this.transferTokenForVoter(_voters, voterAssignmentToken)
+      await this.transferTokenForVoter(_voters, voterAssignmentToken)
     }
 
     //Save aggregation results in DAO History
