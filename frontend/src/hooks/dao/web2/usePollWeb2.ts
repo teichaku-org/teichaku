@@ -85,8 +85,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
     showNotification({
       id: "vote",
-      title: t.Poll.PollSystem.Notification.Title,
-      message: t.Poll.PollSystem.Notification.Message,
+      title: t.Poll.PollSystem.NotificationWeb2.Title,
+      message: t.Poll.PollSystem.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -121,8 +121,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const settleCurrentPollAndCreateNewPoll = async () => {
     showNotification({
       id: "settle",
-      title: t.Poll.PollSystem.Settle.Title,
-      message: t.Poll.PollSystem.Settle.Message,
+      title: t.Poll.PollSystem.SettleWeb2.Title,
+      message: t.Poll.PollSystem.SettleWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -183,8 +183,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
     showNotification({
       id: "candidate",
-      title: t.Contribution.ContributionCard.Notification.Title,
-      message: t.Contribution.ContributionCard.Notification.Message,
+      title: t.Contribution.ContributionCard.NotificationWeb2.Title,
+      message: t.Contribution.ContributionCard.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -220,8 +220,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setStartTime = async (pollId: number, startTimeStamp: number) => {
     showNotification({
       id: "setStartTimeStamp",
-      title: t.Settings.Notification.Title,
-      message: t.Settings.Notification.Message,
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -252,8 +252,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setDuration = async (pollId: number, durationDays: number) => {
     showNotification({
       id: "setDuration",
-      title: t.Settings.Notification.Title,
-      message: t.Settings.Notification.Message,
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -284,8 +284,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setPerspectives = async (perspectives: string[]) => {
     showNotification({
       id: "setPerspectives",
-      title: t.Settings.Notification.Title,
-      message: t.Settings.Notification.Message,
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })
@@ -315,8 +315,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
     showNotification({
       id: "setTokenDistribution",
-      title: t.Settings.Notification.Title,
-      message: t.Settings.Notification.Message,
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
       loading: true,
       autoClose: false,
     })

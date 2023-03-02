@@ -46,7 +46,7 @@ const Contribution = (props: { isWeb3: boolean }) => {
       </Center>
       <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
       <div style={{ height: 10 }} />
-      <ContributionCard candidateToPoll={_candidateToPoll} />
+      <ContributionCard candidateToPoll={_candidateToPoll} isWeb3={props.isWeb3} />
     </Container>
   )
 }

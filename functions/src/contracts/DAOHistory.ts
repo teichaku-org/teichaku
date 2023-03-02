@@ -150,6 +150,7 @@ export class DAOHistory {
   async addAssessment(daoId: string, projectId: string, assessments: Assessment[]) {
     for (let index = 0; index < assessments.length; index++) {
       const element = assessments[index]
+      if (!element) continue
       await this.assessments(daoId, projectId).push(element)
     }
   }

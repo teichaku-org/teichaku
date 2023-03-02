@@ -25,8 +25,8 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
   const [sprintDuration] = useAtom(CreateDAOSprintDuration)
   const { loadTokenSymbol, loadTokenName } = useDynamicERC20(props.isWeb3)
 
-  const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
-  const [tokenName, setTokenName] = useState(t.CreateDao.Step2.NotSet)
+  const [tokenSymbol, setTokenSymbol] = useState("pt")
+  const [tokenName, setTokenName] = useState("Point")
 
   useEffect(() => {
     if (ethers.utils.isAddress(tokenAddress)) {
@@ -36,8 +36,6 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
       const name = loadTokenName(tokenAddress).then((name) => {
         setTokenName(name)
       })
-    } else {
-      setTokenSymbol(t.CreateDao.Step2.NotSet)
     }
   }, [tokenAddress])
 

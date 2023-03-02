@@ -116,6 +116,7 @@ const Poll = ({ isWeb3 }: props) => {
         settle={_settle}
         tokenSymbol={tokenSymbol}
         endDate={pollDetail.endTimeStamp}
+        isWeb3={isWeb3}
       />
     </Container>
   )
