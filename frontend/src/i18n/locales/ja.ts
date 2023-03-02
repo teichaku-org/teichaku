@@ -24,7 +24,8 @@ export const ja = {
     HeroText1: "メンバーを定着させて",
     HeroText2Colorful: "継続的なインパクトを生み出す",
     HeroText3: "ための新しいDAOフレームワーク。",
-    HeroSubText: "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
+    HeroSubText:
+      "スクラム開発のように運営できて、相互評価でトークンを分配します。Web3移行でフルオンチェーン版にスムーズに移行できます。",
     Problems: {
       Title: "DAOの問題点とTeichakuの解決策",
       Onboarding: {

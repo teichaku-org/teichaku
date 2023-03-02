@@ -1,26 +1,24 @@
-import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo"
-import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy"
 import { CreateDAORewardTokenAddress } from "@/domains/atoms/CreateDaoAtom"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
-import { useDaoLoadWeb2 } from "@/hooks/dao/web2/useDaoLoadWeb2"
 import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
 import { useDaoExistCheckWeb2 } from "@/hooks/dao/web2/useDaoExistCheckWeb2"
 import useDaoHistoryWeb2 from "@/hooks/dao/web2/useDaoHistoryWeb2"
+import { useDaoLoadWeb2 } from "@/hooks/dao/web2/useDaoLoadWeb2"
 import usePollWeb2 from "@/hooks/dao/web2/usePollWeb2"
+import useDaoLauncherWeb3 from "@/hooks/dao/web3/useDaoLauncherWeb3"
+import { useMigrateWeb3 } from "@/hooks/useMigrateWeb3"
 import { useLocale } from "@/i18n/useLocale"
-import { Card, Center, Container, TextInput, Title, Text, Table, Button, Loader, Stack } from "@mantine/core"
+import { Button, Card, Center, Container, Loader, Stack, Table, Text, TextInput, Title } from "@mantine/core"
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect, useLayoutEffect, useState } from "react"
-import useDaoLauncherWeb3 from "@/hooks/dao/web3/useDaoLauncherWeb3"
+import { useState } from "react"
 
 type props = {
   isWeb3: boolean
 }
 
 const Page = ({ isWeb3 }: props) => {
-  useDaoExistCheckWeb2()
+  useDaoExistCheckWeb2(isWeb3)
   useDaoLoadWeb2()
 
   const { t } = useLocale()
@@ -28,6 +26,7 @@ const Page = ({ isWeb3 }: props) => {
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
   const { contributorReward, voterReward, pollDetail } = usePollWeb2(dao)
+  const { migrateDao } = useMigrateWeb3()
   const { createDao } = useDaoLauncherWeb3()
   const { daoInfo } = useDaoHistoryWeb2(dao)
   const { loadTokenSymbol, loadTokenName } = useDynamicERC20(isWeb3)
@@ -74,6 +73,9 @@ const Page = ({ isWeb3 }: props) => {
     setDeployErrorMessage("")
     setLoading(true)
     try {
+      await migrateDao()
+      console.log({ durationDay })
+
       await createDao(
         daoId as string,
         projectId as string,
