@@ -248,7 +248,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
     hideNotification("setStartTimeStamp")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setDuration = async (pollId: number, durationDays: number) => {
@@ -280,7 +280,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     )
     hideNotification("setDuration")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setPerspectives = async (perspectives: string[]) => {
@@ -312,7 +312,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     )
     hideNotification("setPerspectives")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
@@ -346,7 +346,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
     hideNotification("setTokenDistribution")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   return {
