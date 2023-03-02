@@ -18,7 +18,7 @@ type props = {
 }
 
 const Page = ({ isWeb3 }: props) => {
-  useDaoExistCheckWeb2()
+  useDaoExistCheckWeb2(isWeb3)
   useDaoLoadWeb2()
 
   const { t } = useLocale()
@@ -74,6 +74,8 @@ const Page = ({ isWeb3 }: props) => {
     setLoading(true)
     try {
       await migrateDao()
+      console.log({ durationDay })
+
       await createDao(
         daoId as string,
         projectId as string,
