@@ -9,3 +9,4 @@ export const CreateDAORewardTokenContributorAmount = atom<number | undefined>(un
 export const CreateDAORewardTokenReviewerAmount = atom<number | undefined>(undefined)
 export const CreateDAOSprintDuration = atom<number | undefined>(7)
 export const CreateDAOPerspectives = atom<string[]>(["", "", ""])
+export const CreateDAOIsAlreadyExist = atom<boolean>(false)

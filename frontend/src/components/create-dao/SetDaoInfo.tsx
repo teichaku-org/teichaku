@@ -3,6 +3,7 @@ import {
   CreateDAOAvatar,
   CreateDAODescription,
   CreateDAOFirstProject,
+  CreateDAOIsAlreadyExist,
   CreateDAOName,
 } from "@/domains/atoms/CreateDaoAtom"
 import { getContract } from "@/hooks/web3/useMetaMask"
@@ -21,7 +22,7 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
   const [name, setName] = useAtom(CreateDAOName)
   const [avatar, setAvatar] = useAtom(CreateDAOAvatar)
   const [description, setDescription] = useAtom(CreateDAODescription)
-  const [alreadyExist, setAlreadyExist] = useState(false)
+  const [alreadyExist, setAlreadyExist] = useAtom(CreateDAOIsAlreadyExist)
 
   const snakedName = snakeCase(name)
   const snakedProjectName = snakeCase(projectName)
