@@ -9,7 +9,7 @@ interface Props {
 
 const useDaoHistory: useDaoHistoryInterface = (props: Props, isWeb3?: boolean) => {
   const selectStrategy = () => {
-    if (isWeb3) {
+    if (isWeb3 || isWeb3 == undefined) {
       return useDaoHistoryWeb3(props)
     } else {
       return useDaoHistoryWeb2(props)
