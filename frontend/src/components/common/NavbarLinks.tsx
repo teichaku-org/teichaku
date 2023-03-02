@@ -66,7 +66,7 @@ export const NavbarLinks = () => {
   const { daoId, projectId } = router.query
   let commonPath = Links.getCommonPath(router)
   if (!(daoId && projectId)) {
-    commonPath = "/web3" + process.env.NEXT_PUBLIC_DEMO_PATH
+    commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || ""
   }
   const data = [
     {

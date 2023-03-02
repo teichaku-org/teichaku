@@ -55,7 +55,7 @@ export const NotFoundPage = () => {
           variant="gradient"
           gradient={{ from: "blue", to: "grape" }}
           component="a"
-          href={`/web3${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`}
+          href={`${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`}
         >
           Try Demo
         </Button>

@@ -33,7 +33,7 @@ export const ActionButtons = () => {
   const { t } = useLocale()
   const router = useRouter()
   const onClickDemo = () => {
-    const path = `/web3${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`
+    const path = `${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`
     router.push(path)
   }
   return (
