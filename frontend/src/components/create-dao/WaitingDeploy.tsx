@@ -55,7 +55,9 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
         reviewerReward || 0,
         sprintDuration || 7 * 24 * 60 * 60
       )
-      await setPerspectives(perspectives)
+      if (!props.isWeb3) {
+        await setPerspectives(perspectives)
+      }
       setLoading(false)
     } catch (err: any) {
       //必要に応じてRetry
