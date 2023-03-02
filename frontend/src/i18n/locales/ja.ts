@@ -248,7 +248,7 @@ export const ja = {
       Title: "名前を決める",
       SubTitle: "DAOの名前や説明を決める",
       URLPreview: "URLプレビュー: ",
-      DAOName: "DAOの名前",
+      DAOName: "DAOの名前 (英数字)",
       DAOVision: "DAOが掲げるビジョン",
       DAONamePlaceholder: "DAOの名前を入力してください",
       Duplicate: "この名前は既に使われています。",

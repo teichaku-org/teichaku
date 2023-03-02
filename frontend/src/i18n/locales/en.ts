@@ -245,7 +245,7 @@ export const en = {
       Title: "Claim a name",
       SubTitle: "Claim a name for your DAO",
       URLPreview: "URL Preview: ",
-      DAOName: "DAO's name",
+      DAOName: "DAO's name()",
       DAOVision: "DAO's vision",
       DAONamePlaceholder: "Type your DAO's name",
       Duplicate: "This name is already taken",
