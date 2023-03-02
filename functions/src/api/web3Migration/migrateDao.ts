@@ -15,19 +15,25 @@ export const migrateDao = functions.region("asia-northeast1").https.onRequest(as
     const requestData: RequestData = req.body
 
     //TODO: このDAOでトークンを持つユーザの一覧を取得
-    const registerUserList = [{ userId: "test", token: 1000 }]
+    const registerUserList = await admin
+      .firestore()
+      .collection("Token")
+      .doc(requestData.daoId)
+      .collection("balances")
+      .listDocuments()
 
     //トークンを持つユーザの一覧をmigrationコレクションに登録
     const batch = admin.firestore().batch()
-    registerUserList.forEach((u) => {
+    for (const u of registerUserList) {
+      const amount = await u.get()
       const migrationUserRef = admin
         .firestore()
         .collection("migration")
-        .doc(requestData.daoId + "/" + u.userId)
+        .doc(requestData.daoId + "/" + u.id)
       batch.set(migrationUserRef, {
-        token: u.token,
+        token: amount.data()?.amount || 0,
       })
-    })
+    }
     await batch.commit()
 
     // isWeb3をTrueにする
