@@ -72,8 +72,8 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
             value={description}
             required
             onChange={(e) => setDescription(e.currentTarget.value)}
-            placeholder={t.CreateDao.Step1.DAODescription}
-            label={t.CreateDao.Step1.DAODescriptionPlaceholder}
+            placeholder={t.CreateDao.Step1.DAOVision}
+            label={t.CreateDao.Step1.DAOVisionPlaceholder}
             mb="sm"
           />
           <TextInput

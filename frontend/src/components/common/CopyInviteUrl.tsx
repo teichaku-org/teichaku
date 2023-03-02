@@ -4,11 +4,14 @@ import { Button, Center, Container, Group, Text, TextInput, Title } from "@manti
 import { useRouter } from "next/router"
 import { IconCopyButton } from "./CopyButton"
 import { AppInfo } from "@/constants/AppInfo"
+import { useAtom } from "jotai"
+import { DaoInfoAtom } from "@/domains/atoms/DaoInfoAtom"
 
 const CopyInviteUrl = () => {
   const { t } = useLocale()
   const router = useRouter()
   const commonPath = Links.getCommonPath(router)
+  const [daoInfo] = useAtom(DaoInfoAtom)
   return (
     <Container>
       <Title
@@ -21,7 +24,7 @@ const CopyInviteUrl = () => {
         {t.Common.NodataMessage.Invite.Title}
       </Title>
       <Center my={"xl"}>
-        <Text size="xl"> {t.Common.NodataMessage.Invite.Description}</Text>
+        <Text size="xl"> {t.Common.NodataMessage.Invite.Description(daoInfo?.description as string)}</Text>
       </Center>
       <div style={{ position: "relative" }}>
         <TextInput size={"lg"} mt={"md"} value={AppInfo.url + commonPath + "/overview"} readOnly />
