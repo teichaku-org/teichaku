@@ -76,7 +76,8 @@ export const ja = {
       Title: "貢献を始めましょう!",
       Invite: {
         Title: "他のメンバーを招待しよう",
-        Description: (vision: string) => `urlをコピーして、${vision}をやるDAOに招待したいメンバーに共有しよう！`,
+        Description: "urlをコピーして、DAOに招待したいメンバーに共有しよう！",
+        Vision: "ビジョン",
       },
     },
     AppMenu: {

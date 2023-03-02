@@ -24,11 +24,26 @@ const CopyInviteUrl = () => {
         {t.Common.NodataMessage.Invite.Title}
       </Title>
       <Center my={"xl"}>
-        <Text size="xl"> {t.Common.NodataMessage.Invite.Description(daoInfo?.description as string)}</Text>
+        <Text size="xl"> {t.Common.NodataMessage.Invite.Description}</Text>
       </Center>
       <div style={{ position: "relative" }}>
-        <TextInput size={"lg"} mt={"md"} value={AppInfo.url + commonPath + "/overview"} readOnly />
-        <div style={{ position: "absolute", top: "25%", right: 5, height: "100%" }}>
+        <Text size="sm" mb={-10}>
+          {t.CreateDao.Step1.DAOName}
+        </Text>
+        <TextInput size={"lg"} my={"md"} value={daoInfo?.name} readOnly />
+        <Text size="sm" mb={-10}>
+          {t.CreateDao.Step1.FirstProjectName}
+        </Text>
+        <TextInput size={"lg"} my={"md"} value={daoInfo?.projects[0]} readOnly />
+        <Text size="sm" mb={-10}>
+          {t.Common.NodataMessage.Invite.Vision}
+        </Text>
+        <TextInput size={"lg"} my={"md"} value={daoInfo?.description} readOnly />
+        <Text size="sm" mb={-10}>
+          URL
+        </Text>
+        <TextInput size={"lg"} my={"md"} value={AppInfo.url + commonPath + "/overview"} readOnly />
+        <div style={{ position: "absolute", top: "90%", right: 5, height: "100%" }}>
           <IconCopyButton text={AppInfo.url + commonPath + "/overview"} />
         </div>
       </div>

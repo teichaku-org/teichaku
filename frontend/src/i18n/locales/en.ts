@@ -75,8 +75,8 @@ export const en = {
       Title: "Let's Start Contributing!",
       Invite: {
         Title: "Let's Invite Members",
-        Description: (vision: string) =>
-          `Copy the url and share it with the members you want to invite to the DAO that does the ${vision}!`,
+        Description: "Copy the url and share it with the members you want to invite to the DAO!",
+        Vision: "vision",
       },
     },
     AppMenu: {
