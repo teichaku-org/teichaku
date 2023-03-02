@@ -13,6 +13,7 @@ import { Card, Center, SimpleGrid, Text, TextInput, Title } from "@mantine/core"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json"
+import { APIClient } from "@/utils/APIClient"
 
 export const SetDaoInfo = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
@@ -26,24 +27,36 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
   const snakedProjectName = snakeCase(projectName)
   const urlPath = "/web2/" + snakedName + "/" + snakedProjectName
 
+  const apiClient = new APIClient()
+
   const checkDuplicate = () => {
     //TODO: hookから呼び出す
-    if (!props.isWeb3) return
-    const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
-    const contract = getContract(contractAddress, artifact.abi) as DAOHistory
-    contract.functions.getDaoInfo(snakedName).then((res) => {
-      const _daoInfo = res[0]
-      if (_daoInfo[0].length > 0) {
-        setAlreadyExist(true)
-      } else {
-        setAlreadyExist(false)
-      }
-    })
+    if (props.isWeb3) {
+      const contractAddress = process.env.NEXT_PUBLIC_DAOHISTORY_CONTRACT_ADDRESS as string
+      const contract = getContract(contractAddress, artifact.abi) as DAOHistory
+      contract.functions.getDaoInfo(snakedName).then((res) => {
+        const _daoInfo = res[0]
+        if (_daoInfo[0].length > 0) {
+          setAlreadyExist(true)
+        } else {
+          setAlreadyExist(false)
+        }
+      })
+    } else {
+      apiClient.post("/getDaoInfo", { daoId: snakedName }).then((res) => {
+        if (res?.data.name) {
+          setAlreadyExist(true)
+        } else {
+          setAlreadyExist(false)
+        }
+      })
+    }
   }
 
   useEffect(() => {
     // TODO: Web2で動作しないため、一旦コメントアウトする。これによって、既存のDAO名を入力しても、重複エラーが出なくなる。
-    checkDuplicate()
+    // checkDuplicate()
+    setAlreadyExist(false)
   }, [name])
 
   return (
@@ -67,6 +80,7 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
             placeholder={t.CreateDao.Step1.DAONamePlaceholder}
             label={t.CreateDao.Step1.DAOName}
             mb="sm"
+            onBlur={() => checkDuplicate()}
           />
           <TextInput
             value={description}

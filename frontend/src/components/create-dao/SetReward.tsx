@@ -24,9 +24,9 @@ export const SetReward = (props: { isWeb3: boolean }) => {
   const { Perspective } = t.Settings.PollPerspectiveSetting
   const form = useForm({
     initialValues: {
-      perspective1: "量",
-      perspective2: "質",
-      perspective3: "有効性",
+      perspective1: perspectives[0] ? perspectives[0] : "量",
+      perspective2: perspectives[1] ? perspectives[1] : "質",
+      perspective3: perspectives[2] ? perspectives[2] : "有効性",
     },
   })
   const update = () => {
@@ -61,10 +61,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
       return t.CreateDao.Step2.NoTokenSymbol
     }
   })()
-
-  useEffect(() => {
-    return () => update()
-  }, [update])
 
   return (
     <div>
@@ -110,6 +106,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective1: e.currentTarget.value,
               })
             }
+            onBlur={() => update()}
           />
 
           <TextInput
@@ -124,6 +121,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective2: e.currentTarget.value,
               })
             }
+            onBlur={() => update()}
           />
 
           <TextInput
@@ -138,6 +136,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective3: e.currentTarget.value,
               })
             }
+            onBlur={() => update()}
           />
         </>
       )}
