@@ -86,7 +86,7 @@ const Page = ({ isWeb3 }: props) => {
         tokenAddress,
         contributorReward || 0,
         voterReward || 0,
-        (durationDay || 7) * 24 * 60 * 60
+        durationDay || 7
       )
       setLoading(false)
     } catch (err: any) {
