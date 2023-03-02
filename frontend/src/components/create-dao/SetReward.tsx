@@ -62,6 +62,10 @@ export const SetReward = (props: { isWeb3: boolean }) => {
     }
   })()
 
+  useEffect(() => {
+    return () => update()
+  }, [])
+
   return (
     <div>
       <Center mb="xl">
@@ -106,7 +110,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective1: e.currentTarget.value,
               })
             }
-            onBlur={() => update()}
           />
 
           <TextInput
@@ -121,7 +124,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective2: e.currentTarget.value,
               })
             }
-            onBlur={() => update()}
           />
 
           <TextInput
@@ -136,7 +138,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
                 perspective3: e.currentTarget.value,
               })
             }
-            onBlur={() => update()}
           />
         </>
       )}
