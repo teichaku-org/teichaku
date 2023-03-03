@@ -8,10 +8,11 @@ import {
 import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
 import { useLocale } from "@/i18n/useLocale"
 import { Card, Center, NumberInput, Space, Text, TextInput, Title } from "@mantine/core"
+import { useForm } from "@mantine/form"
+import { IconPremiumRights } from "@tabler/icons"
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
-import { useForm } from "@mantine/form"
 
 export const SetReward = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
@@ -62,122 +63,137 @@ export const SetReward = (props: { isWeb3: boolean }) => {
     }
   })()
 
+  const Web2Setting = () => {
+    return (
+      <>
+        <Text size="md" weight={700}>
+          {t.Settings.PollPerspectiveSetting.Title}
+        </Text>
+
+        <TextInput
+          label={Perspective.Label(1)}
+          placeholder={Perspective.InitialValues.Perspective1}
+          name="perspective1"
+          variant="filled"
+          {...form.getInputProps("perspective1")}
+          onChange={(e) =>
+            form.setValues({
+              perspective1: e.currentTarget.value,
+            })
+          }
+        />
+
+        <TextInput
+          label={Perspective.Label(2)}
+          placeholder={Perspective.InitialValues.Perspective2}
+          mt="md"
+          name="perspective2"
+          variant="filled"
+          {...form.getInputProps("perspective2")}
+          onChange={(e) =>
+            form.setValues({
+              perspective2: e.currentTarget.value,
+            })
+          }
+        />
+
+        <TextInput
+          label={Perspective.Label(3)}
+          placeholder={Perspective.InitialValues.Perspective3}
+          mt="md"
+          name="perspective3"
+          variant="filled"
+          {...form.getInputProps("perspective3")}
+          onChange={(e) =>
+            form.setValues({
+              perspective3: e.currentTarget.value,
+            })
+          }
+        />
+      </>
+    )
+  }
+
+  const Web3Setting = () => {
+    return (
+      <>
+        <Text size="md" weight={700}>
+          {t.Settings.TokenSetting.TokenDistribution}
+        </Text>
+        <Card mb="md">
+          {t.Settings.TokenSetting.CurrentTokenSymbol}{" "}
+          <Text size="lg" weight={500} mb="md" span>
+            {tokenSymbol}
+          </Text>
+        </Card>
+
+        <TextInput
+          value={tokenAddress}
+          required
+          onChange={(e) => onChangeTokenAddress(e.currentTarget.value)}
+          placeholder="0x..."
+          error={errorMessage}
+          label={t.Settings.TokenSetting.AddressInput.Label}
+          mb="sm"
+        />
+      </>
+    )
+  }
+
   useEffect(() => {
     return () => update()
   }, [])
 
   return (
     <div>
-      <Center mb="xl">
-        <Title size="h1">{t.CreateDao.Step2.Title}</Title>
-      </Center>
-      {props.isWeb3 ? (
-        <>
-          <Text size="md" weight={700}>
-            {t.Settings.TokenSetting.TokenDistribution}
-          </Text>
-          <Card mb="md">
-            {t.Settings.TokenSetting.CurrentTokenSymbol}{" "}
-            <Text size="lg" weight={500} mb="md" span>
-              {tokenSymbol}
-            </Text>
-          </Card>
+      <Card shadow="xl" p="xl" mb="xl" mt={60} bg="black">
+        <Center mb="xl">
+          <Title size="h1">{t.CreateDao.Step2.Title}</Title>
+        </Center>
+        {props.isWeb3 && Web3Setting()}
+        <Space h="md" />
 
-          <TextInput
-            value={tokenAddress}
-            required
-            onChange={(e) => onChangeTokenAddress(e.currentTarget.value)}
-            placeholder="0x..."
-            error={errorMessage}
-            label={t.Settings.TokenSetting.AddressInput.Label}
-            mb="sm"
-          />
-        </>
-      ) : (
-        <>
-          <Text size="md" weight={700}>
-            {t.Settings.PollPerspectiveSetting.Title}
-          </Text>
+        <NumberInput
+          label={t.Settings.PollDuration.Title2}
+          description={t.Settings.PollDuration.Description}
+          defaultValue={7}
+          min={1}
+          max={30}
+          value={sprintDuration}
+          onChange={(e) => setSprintDuration(e || 0)}
+          size="md"
+        />
+        <Space h="md" />
+        {/* 
+        <Text size="md" weight={700}>
+          {t.Settings.DistributionSetting.Title}
+        </Text> */}
 
-          <TextInput
-            label={Perspective.Label(1)}
-            placeholder={Perspective.InitialValues.Perspective1}
-            name="perspective1"
-            variant="filled"
-            {...form.getInputProps("perspective1")}
-            onChange={(e) =>
-              form.setValues({
-                perspective1: e.currentTarget.value,
-              })
-            }
-          />
-
-          <TextInput
-            label={Perspective.Label(2)}
-            placeholder={Perspective.InitialValues.Perspective2}
-            mt="md"
-            name="perspective2"
-            variant="filled"
-            {...form.getInputProps("perspective2")}
-            onChange={(e) =>
-              form.setValues({
-                perspective2: e.currentTarget.value,
-              })
-            }
-          />
-
-          <TextInput
-            label={Perspective.Label(3)}
-            placeholder={Perspective.InitialValues.Perspective3}
-            mt="md"
-            name="perspective3"
-            variant="filled"
-            {...form.getInputProps("perspective3")}
-            onChange={(e) =>
-              form.setValues({
-                perspective3: e.currentTarget.value,
-              })
-            }
-          />
-        </>
-      )}
-
-      <Space h="md" />
-      <Text size="md" weight={700}>
-        {t.Settings.DistributionSetting.Title}
-      </Text>
-
-      <NumberInput
-        required
-        min={0}
-        value={contributorReward}
-        onChange={(e) => setContributorReward(e || 0)}
-        placeholder="7000"
-        label={t.Settings.DistributionSetting.Contributor.Label}
-        mb="sm"
-      />
-      <NumberInput
-        required
-        min={0}
-        value={reviewerReward}
-        onChange={(e) => setReviewerReward(e || 0)}
-        placeholder="3000"
-        label={t.Settings.DistributionSetting.Reviewer.Label}
-        mb="sm"
-      />
-
-      <Space h="md" />
-      <Text size="md" weight={700}>
-        {t.Settings.PollDuration.Title}
-      </Text>
-      <NumberInput
-        label={t.Settings.PollDuration.Days}
-        defaultValue={7}
-        min={1}
-        max={30}
-        value={sprintDuration}
-        onChange={(e) => setSprintDuration(e || 0)}
-      />
+        <NumberInput
+          required
+          min={0}
+          value={contributorReward}
+          icon={<IconPremiumRights />}
+          onChange={(e) => setContributorReward(e || 0)}
+          placeholder="7000"
+          label={t.Settings.DistributionSetting.Contributor.Label}
+          description={t.Settings.DistributionSetting.Contributor.Description}
+          size="md"
+          mb="sm"
+        />
+        <NumberInput
+          required
+          min={0}
+          icon={<IconPremiumRights />}
+          value={reviewerReward}
+          onChange={(e) => setReviewerReward(e || 0)}
+          placeholder="3000"
+          label={t.Settings.DistributionSetting.Reviewer.Label}
+          description={t.Settings.DistributionSetting.Reviewer.Description}
+          size="md"
+          mb="sm"
+        />
+      </Card>
     </div>
   )
 }

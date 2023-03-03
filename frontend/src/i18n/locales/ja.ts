@@ -245,14 +245,16 @@ export const ja = {
   },
   CreateDao: {
     Step1: {
-      Title: "名前を決める",
+      Title: "DAOの名前を決める",
       SubTitle: "DAOの名前や説明を決める",
       URLPreview: "URLプレビュー: ",
-      DAOName: "DAOの名前 (英数字)",
+      DAOName: "DAOの名前",
+      DAONameDescription: "DAOの名前は英数字で入力してください",
       DAOVision: "DAOが掲げるビジョン",
-      DAONamePlaceholder: "your-dao-name",
+      DAONamePlaceholder: "your_dao_name",
       Duplicate: "この名前は既に使われています。",
       DAOVisionPlaceholder: "DAOが掲げるビジョンを入力してください",
+      DAOVisionDescription: "目的・目標をシェアした仲間を集めるためにビジョンは重要です",
       LogoUrl: "ロゴのURL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "最初のプロジェクトの名前",
@@ -260,15 +262,15 @@ export const ja = {
       FirstProjectNameDefault: "season1",
     },
     Step2: {
-      Title: "設定する",
+      Title: "スプリントを設定する",
       SubTitle: "報酬とスプリントの長さを設定",
       NotSet: "未設定",
       InvalidTokenAddress: "無効なトークンアドレスです。",
       NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
-      Title: "確認",
-      SubTitle: "DAOの設定を確認",
+      Title: "始動",
+      SubTitle: "設定を確認してDAO作成",
       Setting: "設定",
       Value: "値",
       ProjectUrl: "プロジェクトのURL",
@@ -325,10 +327,14 @@ export const ja = {
     DistributionSetting: {
       Title: "1スプリントあたりのトークン分配",
       Contributor: {
-        Label: "貢献者への分配",
+        Label: "貢献者へのトークン分配",
+        Description:
+          "1スプリントで貢献者に分配されるトークンの総量。スプリントレビューと呼ばれる投票で内訳を決定します。",
       },
       Reviewer: {
-        Label: "レビュアーへの分配",
+        Label: "レビュアーへのトークン分配",
+        Description:
+          "1スプリントでレビュワーに分配されるトークンの総量。スプリントレビューで投票した人の間で等分されて分配されます。",
       },
     },
     PollPerspectiveSetting: {
@@ -355,6 +361,9 @@ export const ja = {
     PollDuration: {
       Title: "スプリントの長さ",
       Days: "1-30の日数を選択",
+      Title2: "スプリントの長さ(1-30の日数を選択)",
+      Description:
+        "Teichakuでは1~4週間の期間を設定し、その中でやったことをスプリントレビューと呼ばれる投票で相互レビューします。",
       DayUnit: "日",
     },
     SBTSetting: {

@@ -10,7 +10,7 @@ import { getContract } from "@/hooks/web3/useMetaMask"
 import { useLocale } from "@/i18n/useLocale"
 import { DAOHistory } from "@/types"
 import { snakeCase } from "@/utils/snakeCase"
-import { Card, Center, SimpleGrid, Text, TextInput, Title } from "@mantine/core"
+import { Card, Center, SimpleGrid, Text, Textarea, TextInput, Title } from "@mantine/core"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import artifact from "../../abi/DAOHistory.sol/DAOHistory.json"
@@ -62,43 +62,47 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
 
   return (
     <div>
-      <Center mb="xl">
-        <Title size="h1">{t.CreateDao.Step1.Title}</Title>
-      </Center>
-
       <SimpleGrid cols={1} spacing="lg" breakpoints={[{ maxWidth: 800, cols: 1, spacing: "sm" }]}>
-        <Card shadow="" p="xl" mb="xl">
-          <Text mb="md">
+        <Card shadow="xl" p="xl" mb="xl" mt={60} bg="black">
+          <Center mb="xl">
+            <Title size="h1">{t.CreateDao.Step1.Title}</Title>
+          </Center>
+          {/* <Text mb="md">
             {t.CreateDao.Step1.URLPreview}
             {AppInfo.url}
             <b>{urlPath}</b>
-          </Text>
+          </Text> */}
+
           <TextInput
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
             required
             error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
             placeholder={t.CreateDao.Step1.DAONamePlaceholder}
+            description={t.CreateDao.Step1.DAONameDescription}
             label={t.CreateDao.Step1.DAOName}
-            mb="sm"
+            size="xl"
+            mb="xl"
             onBlur={() => checkDuplicate()}
           />
-          <TextInput
+          <Textarea
             value={description}
             required
             onChange={(e) => setDescription(e.currentTarget.value)}
             placeholder={t.CreateDao.Step1.DAOVision}
             label={t.CreateDao.Step1.DAOVisionPlaceholder}
+            description={t.CreateDao.Step1.DAOVisionDescription}
+            size="xl"
             mb="sm"
           />
-          <TextInput
+          {/* <TextInput
             value={projectName}
             required
             onChange={(e) => setProjectName(e.currentTarget.value)}
             placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder}
             label={t.CreateDao.Step1.FirstProjectName}
             mb="sm"
-          />
+          /> */}
         </Card>
         {/* 
             <Card shadow="" p="xl" mb="xl" >
