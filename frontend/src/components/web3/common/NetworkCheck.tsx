@@ -36,6 +36,10 @@ const NetworkCheck = (props: { isWeb3: boolean }) => {
     }
   }
 
+  console.log({
+    network,
+    expectedNetwork,
+  })
   if (!isMetaMaskInstalled()) {
     return <MetamaskCheck isWeb3={props.isWeb3} />
   }

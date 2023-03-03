@@ -1,5 +1,6 @@
 import { PollEndInfo } from "@/components/poll/PollEndInfo"
 import { PollSystem } from "@/components/poll/PollSystem"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { Links } from "@/constants/Links"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
@@ -88,6 +89,7 @@ const Poll = ({ isWeb3 }: props) => {
   if (!pollDetail)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )

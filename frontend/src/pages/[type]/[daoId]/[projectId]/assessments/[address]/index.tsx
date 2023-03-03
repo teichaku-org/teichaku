@@ -9,6 +9,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { APIClient } from "@/utils/APIClient"
 import { checkWeb3 } from "@/utils/checkWeb3"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 
 type props = {
   isWeb3: boolean
@@ -32,6 +33,7 @@ const Assessment = ({ isWeb3 }: props) => {
   if (!daoHistory && !assessments)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )
