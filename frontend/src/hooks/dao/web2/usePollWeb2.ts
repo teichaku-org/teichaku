@@ -21,7 +21,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const [voterReward] = useAtom(VoterRewardAtom)
   const commissionFee = 0
   const apiClient = new APIClient()
-  const { getUserIdToken } = useWeb3Auth()
+  const { getUserIdToken, login } = useWeb3Auth()
 
   const checkIsAdmin = async () => {}
 
@@ -62,7 +62,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const loadCurrentMaxPollId = async () => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -85,7 +86,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -122,7 +124,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const settleCurrentPollAndCreateNewPoll = async () => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -184,7 +187,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -221,7 +225,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setStartTime = async (pollId: number, startTimeStamp: number) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -254,7 +259,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setDuration = async (pollId: number, durationDays: number) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -286,7 +292,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setPerspectives = async (perspectives: string[]) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {
@@ -318,7 +325,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {

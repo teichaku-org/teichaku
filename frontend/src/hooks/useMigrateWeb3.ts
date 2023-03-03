@@ -57,7 +57,8 @@ export const useMigrateWeb3 = () => {
     //ログインも必要だしMetamaskも必要
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     if (!address) {
