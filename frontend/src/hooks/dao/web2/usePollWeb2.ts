@@ -10,6 +10,7 @@ import { Contribution } from "@/domains/Contribution"
 import { PollDetail } from "@/domains/PollDetail"
 import { useEffect } from "react"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
+import { WalletAddressAtom } from "@/domains/atoms/WalletAddressAtom"
 
 const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string }) => {
   const router = useRouter()
@@ -19,6 +20,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
   const [contributorReward] = useAtom(ContributorRewardAtom)
   const [voterReward] = useAtom(VoterRewardAtom)
+  const [address] = useAtom(WalletAddressAtom)
   const commissionFee = 0
   const apiClient = new APIClient()
   const { getUserIdToken, login } = useWeb3Auth()
@@ -154,6 +156,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
   const _fetchPollDetail = async (pollId: number): Promise<PollDetail | null> => {
     const idToken = await getUserIdToken()
+    console.log("address---------------:", address)
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
@@ -174,8 +177,8 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
         pollId: res.data.pollId,
         contributions: res.data.contributions,
         voters: res.data.voters,
-        alreadyVoted: res.data.voters.includes("TestUser"),
-        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes("TestUser"),
+        alreadyVoted: res.data.voters.includes(address),
+        alreadyContributed: res.data.contributions.map((c: Contribution) => c.contributor).includes(address),
         startTimeStamp: new Date(res.data.startTime),
         endTimeStamp: new Date(res.data.endTime),
         perspectives: res.data.perspectives,
@@ -233,13 +236,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
-    showNotification({
-      id: "setStartTimeStamp",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     await apiClient.post(
       "/setStartTimeStamp",
       {
@@ -251,7 +247,13 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       headers
     )
 
-    hideNotification("setStartTimeStamp")
+    showNotification({
+      id: "setStartTimeStamp",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: false,
+      autoClose: true,
+    })
     //reload
     // window.location.reload()
   }
@@ -267,13 +269,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
-    showNotification({
-      id: "setDuration",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     await apiClient.post(
       "/setVotingDuration",
       {
@@ -284,7 +279,13 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       },
       headers
     )
-    hideNotification("setDuration")
+    showNotification({
+      id: "setDuration",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: false,
+      autoClose: true,
+    })
     //reload
     // window.location.reload()
   }
@@ -300,14 +301,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
-    showNotification({
-      id: "setPerspectives",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
-
     await apiClient.post(
       "/changePerspective",
       {
@@ -317,7 +310,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       },
       headers
     )
-    hideNotification("setPerspectives")
+
+    showNotification({
+      id: "setPerspectives",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: false,
+      autoClose: true,
+    })
     //reload
     // window.location.reload()
   }
@@ -333,14 +333,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
-    showNotification({
-      id: "setTokenDistribution",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
-
     await apiClient.post(
       "/setAssignmentToken",
       {
@@ -352,7 +344,13 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       headers
     )
 
-    hideNotification("setTokenDistribution")
+    showNotification({
+      id: "setTokenDistribution",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: false,
+      autoClose: true,
+    })
     //reload
     // window.location.reload()
   }
