@@ -38,7 +38,7 @@ const Page = ({ isWeb3 }: props) => {
   const [isSetToken, setIsSetToken] = useState(false)
 
   const durationDay = pollDetail
-    ? (pollDetail.endTimeStamp.getTime() - pollDetail.startTimeStamp.getTime()) / (60 * 60 * 24 * 1000)
+    ? Math.floor((pollDetail.endTimeStamp.getTime() - pollDetail.startTimeStamp.getTime()) / (60 * 60 * 24 * 1000))
     : 7
   const isTokenAddressYetEmpty = tokenAddress === ""
   const invalidTokenAddress = !ethers.utils.isAddress(tokenAddress)
@@ -86,7 +86,7 @@ const Page = ({ isWeb3 }: props) => {
         tokenAddress,
         contributorReward || 0,
         voterReward || 0,
-        (durationDay || 7) * 24 * 60 * 60
+        durationDay || 7
       )
       setLoading(false)
     } catch (err: any) {

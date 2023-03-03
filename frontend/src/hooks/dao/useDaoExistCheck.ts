@@ -7,7 +7,7 @@ import { useDaoExistCheckWeb3 } from "./web3/useDaoExistCheckWeb3"
 export const useDaoExistCheck: useDaoExistCheckInterface = (isWeb3: boolean) => {
   const [_, setIsWeb3] = useAtom(Web3FlagAtom)
   const selectStrategy = () => {
-    if (isWeb3) {
+    if (isWeb3 || isWeb3 == undefined) {
       return useDaoExistCheckWeb3(isWeb3)
     } else {
       return useDaoExistCheckWeb2(isWeb3)

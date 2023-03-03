@@ -4,7 +4,7 @@ import useDynamicERC20Web3 from "./web3/useDynamicERC20Web3"
 
 const useDynamicERC20: useDynamicERC20Interface = (isWeb3?: boolean) => {
   const selectStrategy = () => {
-    if (isWeb3) {
+    if (isWeb3 || isWeb3 == undefined) {
       return useDynamicERC20Web3()
     } else {
       return useDynamicERC20Web2()

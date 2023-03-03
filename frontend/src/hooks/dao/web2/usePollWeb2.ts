@@ -83,13 +83,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   }
 
   const _vote = async (pollId: number, candidates: string[], points: number[][], comments: string[]) => {
-    showNotification({
-      id: "vote",
-      title: t.Poll.PollSystem.NotificationWeb2.Title,
-      message: t.Poll.PollSystem.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -98,6 +91,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "vote",
+      title: t.Poll.PollSystem.NotificationWeb2.Title,
+      message: t.Poll.PollSystem.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
 
     await apiClient.post(
       "/vote",
@@ -119,13 +120,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   }
 
   const settleCurrentPollAndCreateNewPoll = async () => {
-    showNotification({
-      id: "settle",
-      title: t.Poll.PollSystem.SettleWeb2.Title,
-      message: t.Poll.PollSystem.SettleWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -135,6 +129,13 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
+    showNotification({
+      id: "settle",
+      title: t.Poll.PollSystem.SettleWeb2.Title,
+      message: t.Poll.PollSystem.SettleWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
     await apiClient.post(
       "/settleCurrentPollAndCreateNewPoll",
       {
@@ -181,13 +182,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   }
 
   const _candidateToPoll = async (contributionText: string, evidences: string[], roles: string[]) => {
-    showNotification({
-      id: "candidate",
-      title: t.Contribution.ContributionCard.NotificationWeb2.Title,
-      message: t.Contribution.ContributionCard.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -197,6 +191,13 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       Authorization: `Bearer ${idToken}`,
     }
 
+    showNotification({
+      id: "candidate",
+      title: t.Contribution.ContributionCard.NotificationWeb2.Title,
+      message: t.Contribution.ContributionCard.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
     await apiClient.post(
       "/candidateToCurrentPoll",
       {
@@ -218,13 +219,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const _setTokenAddress = async (_daoTokenAddress: string | null, _nftAddress: string | null) => {}
 
   const _setStartTime = async (pollId: number, startTimeStamp: number) => {
-    showNotification({
-      id: "setStartTimeStamp",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -233,6 +227,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "setStartTimeStamp",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
     await apiClient.post(
       "/setStartTimeStamp",
       {
@@ -246,18 +248,10 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
     hideNotification("setStartTimeStamp")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setDuration = async (pollId: number, durationDays: number) => {
-    showNotification({
-      id: "setDuration",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
-
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -266,6 +260,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "setDuration",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
     await apiClient.post(
       "/setVotingDuration",
       {
@@ -278,17 +280,10 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     )
     hideNotification("setDuration")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setPerspectives = async (perspectives: string[]) => {
-    showNotification({
-      id: "setPerspectives",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -297,6 +292,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "setPerspectives",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
 
     await apiClient.post(
       "/changePerspective",
@@ -309,18 +312,10 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     )
     hideNotification("setPerspectives")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   const _setTokenDistribution = async (contributorReward: number, reviewerReward: number) => {
-    showNotification({
-      id: "setTokenDistribution",
-      title: t.Settings.NotificationWeb2.Title,
-      message: t.Settings.NotificationWeb2.Message,
-      loading: true,
-      autoClose: false,
-    })
-
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -329,6 +324,14 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "setTokenDistribution",
+      title: t.Settings.NotificationWeb2.Title,
+      message: t.Settings.NotificationWeb2.Message,
+      loading: true,
+      autoClose: false,
+    })
 
     await apiClient.post(
       "/setAssignmentToken",
@@ -343,7 +346,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
     hideNotification("setTokenDistribution")
     //reload
-    window.location.reload()
+    // window.location.reload()
   }
 
   return {

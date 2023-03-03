@@ -23,14 +23,6 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     reviewerReward: number,
     votingDuration: number
   ) => {
-    showNotification({
-      id: "createDao",
-      title: t.CreateDao.CompleteWeb2.Notification.Title,
-      message: t.CreateDao.CompleteWeb2.Notification.Message,
-      loading: true,
-      autoClose: false,
-    })
-
     const idToken = await getUserIdToken()
     if (!idToken) {
       window.alert("Please login first.")
@@ -39,6 +31,14 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }
+
+    showNotification({
+      id: "createDao",
+      title: t.CreateDao.CompleteWeb2.Notification.Title,
+      message: t.CreateDao.CompleteWeb2.Notification.Message,
+      loading: true,
+      autoClose: false,
+    })
 
     await apiClient.post(
       "/createDao",

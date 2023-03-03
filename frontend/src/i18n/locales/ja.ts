@@ -77,6 +77,7 @@ export const ja = {
       Invite: {
         Title: "他のメンバーを招待しよう",
         Description: "urlをコピーして、DAOに招待したいメンバーに共有しよう！",
+        Vision: "ビジョン",
       },
     },
     AppMenu: {
@@ -247,11 +248,11 @@ export const ja = {
       Title: "名前を決める",
       SubTitle: "DAOの名前や説明を決める",
       URLPreview: "URLプレビュー: ",
-      DAOName: "DAOの名前",
-      DAODescription: "DAOの説明",
+      DAOName: "DAOの名前 (英数字)",
+      DAOVision: "DAOが掲げるビジョン",
       DAONamePlaceholder: "DAOの名前を入力してください",
       Duplicate: "この名前は既に使われています。",
-      DAODescriptionPlaceholder: "DAOの説明を入力してください",
+      DAOVisionPlaceholder: "DAOが掲げるビジョンを入力してください",
       LogoUrl: "ロゴのURL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "最初のプロジェクトの名前",

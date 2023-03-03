@@ -4,7 +4,7 @@ import useDaoLauncherWeb3 from "./web3/useDaoLauncherWeb3"
 
 const useDaoLauncher: useDaoLauncherInterface = (isWeb3?: boolean) => {
   const selectStrategy = () => {
-    if (isWeb3) {
+    if (isWeb3 || isWeb3 == undefined) {
       return useDaoLauncherWeb3()
     } else {
       return useDaoLauncherWeb2()

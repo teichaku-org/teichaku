@@ -75,6 +75,7 @@ const Overview = ({ isWeb3 }: props) => {
             contributorReward={contributorReward}
             commissionFee={commissionFee}
             voterReward={voterReward}
+            isWeb3={isWeb3}
           />
         </Grid.Col>
       </Grid>

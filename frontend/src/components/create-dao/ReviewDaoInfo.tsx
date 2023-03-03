@@ -2,6 +2,7 @@ import { AppInfo } from "@/constants/AppInfo"
 import {
   CreateDAOFirstProject,
   CreateDAOName,
+  CreateDAOPerspectives,
   CreateDAORewardTokenAddress,
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,
@@ -24,6 +25,7 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
   const [reviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration] = useAtom(CreateDAOSprintDuration)
   const { loadTokenSymbol, loadTokenName } = useDynamicERC20(props.isWeb3)
+  const [perspective] = useAtom(CreateDAOPerspectives)
 
   const [tokenSymbol, setTokenSymbol] = useState("pt")
   const [tokenName, setTokenName] = useState("Point")
@@ -62,13 +64,23 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
               <b>{urlPath}</b>
             </td>
           </tr>
-
-          <tr>
-            <td>{t.Settings.TokenSetting.TokenDistribution}</td>
-            <td>
-              {tokenName} (<b>{tokenSymbol}</b>)
-            </td>
-          </tr>
+          {props.isWeb3 ? (
+            <tr>
+              <td>{t.Settings.TokenSetting.TokenDistribution}</td>
+              <td>
+                {tokenName} (<b>{tokenSymbol}</b>)
+              </td>
+            </tr>
+          ) : (
+            <tr>
+              <td>{t.Settings.PollPerspectiveSetting.Title}</td>
+              <td>
+                {perspective.map((perspective) => (
+                  <p key={perspective}>{perspective}</p>
+                ))}
+              </td>
+            </tr>
+          )}
 
           <tr>
             <td>{t.CreateDao.Step3.ContributorReward}</td>

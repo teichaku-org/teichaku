@@ -7,8 +7,10 @@ import {
   CreateDAOSprintDuration,
   CreateDAODescription,
   CreateDAOAvatar,
+  CreateDAOPerspectives,
 } from "@/domains/atoms/CreateDaoAtom"
 import useDaoLauncher from "@/hooks/dao/useDaoLauncher"
+import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { snakeCase } from "@/utils/snakeCase"
 import { Button, Center, Container, Loader, Stack, Text } from "@mantine/core"
@@ -30,9 +32,12 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
   const [contributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
   const [reviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration] = useAtom(CreateDAOSprintDuration)
+  const [perspectives] = useAtom(CreateDAOPerspectives)
 
   const daoId = snakeCase(name)
   const projectId = snakeCase(projectName)
+
+  const { setPerspectives } = usePoll({ daoId, projectId }, props.isWeb3)
 
   const _createDao = async () => {
     setErrorMessage("")
@@ -50,6 +55,9 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
         reviewerReward || 0,
         sprintDuration || 7 * 24 * 60 * 60
       )
+      if (!props.isWeb3) {
+        await setPerspectives(perspectives)
+      }
       setLoading(false)
     } catch (err: any) {
       //必要に応じてRetry
