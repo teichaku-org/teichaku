@@ -2,7 +2,6 @@ import { CreateDaoStepper } from "@/components/create-dao/CreateDaoStepper"
 import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo"
 import { SetDaoInfo } from "@/components/create-dao/SetDaoInfo"
 import { SetReward } from "@/components/create-dao/SetReward"
-import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy"
 import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { Center, Container } from "@mantine/core"
 
@@ -34,23 +33,10 @@ const Page = ({ isWeb3 }: Props) => {
     )
   }
 
-  const completedStep = () => {
-    return (
-      <Container mt="md" p="xl">
-        <WaitingDeploy isWeb3={isWeb3} />
-      </Container>
-    )
-  }
-
   return (
     <Container my="xl">
       <NetworkCheck isWeb3={isWeb3} />
-      <CreateDaoStepper
-        step1Component={step1()}
-        step2Component={step2()}
-        step3Component={step3()}
-        completedComponent={completedStep()}
-      />
+      <CreateDaoStepper step1Component={step1()} step2Component={step2()} step3Component={step3()} />
     </Container>
   )
 }

@@ -242,14 +242,16 @@ export const en = {
   },
   CreateDao: {
     Step1: {
-      Title: "Claim a name",
+      Title: "Claim a DAO name",
       SubTitle: "Claim a name for your DAO",
       URLPreview: "URL Preview: ",
-      DAOName: "DAO's name()",
+      DAOName: "DAO's name",
+      DAONameDescription: "Enter the DAO ID in alphanumeric characters",
       DAOVision: "DAO's vision",
       DAONamePlaceholder: "Type your DAO's name",
       Duplicate: "This name is already taken",
       DAOVisionPlaceholder: "Type your DAO's vision",
+      DAOVisionDescription: "A vision is important to get people to gather friends who share the purpose and goals.",
       LogoUrl: "Logo URL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "First project's name",
@@ -257,7 +259,7 @@ export const en = {
       FirstProjectNameDefault: "season1",
     },
     Step2: {
-      Title: "Configure template",
+      Title: "Configure Sprint template",
       SubTitle: "Rewards and Sprint Duration",
       NotSet: "Not set",
       InvalidTokenAddress: "Invalid token address",
@@ -323,9 +325,13 @@ export const en = {
       Title: "Total Reward Per Sprint",
       Contributor: {
         Label: "Contributor Distribution",
+        Description:
+          "Total amount of tokens distributed to contributors in one sprint. A poll called the Sprint Review determines the breakdown.",
       },
       Reviewer: {
         Label: "Reviewer Distribution",
+        Description:
+          "Total amount of tokens distributed to reviewers in one sprint. Divided equally among those who voted in the Sprint Review.",
       },
     },
     PollPerspectiveSetting: {
@@ -352,6 +358,9 @@ export const en = {
     PollDuration: {
       Title: "Poll Duration",
       Days: "Type 1-30 days",
+      Title2: "Poll Duration(Type 1-30 days)",
+      Description:
+        "At Teichaku, we set a period of 1 to 4 weeks, during which we review what we have done in a poll called a sprint review.",
       DayUnit: "days",
     },
     SBTSetting: {

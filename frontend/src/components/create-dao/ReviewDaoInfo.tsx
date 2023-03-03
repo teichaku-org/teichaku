@@ -1,5 +1,6 @@
 import { AppInfo } from "@/constants/AppInfo"
 import {
+  CreateDAODescription,
   CreateDAOFirstProject,
   CreateDAOName,
   CreateDAOPerspectives,
@@ -11,14 +12,16 @@ import {
 import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
 import { useLocale } from "@/i18n/useLocale"
 import { snakeCase } from "@/utils/snakeCase"
-import { Center, Table, Title } from "@mantine/core"
+import { Card, Center, Table, Title } from "@mantine/core"
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
+import { DeployButton } from "./DeployButton"
 
 export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
   const [name] = useAtom(CreateDAOName)
+  const [vision] = useAtom(CreateDAODescription)
   const [projectName] = useAtom(CreateDAOFirstProject)
   const [tokenAddress] = useAtom(CreateDAORewardTokenAddress)
   const [contributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
@@ -32,10 +35,10 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
 
   useEffect(() => {
     if (ethers.utils.isAddress(tokenAddress)) {
-      const symbol = loadTokenSymbol(tokenAddress).then((symbol) => {
+      loadTokenSymbol(tokenAddress).then((symbol) => {
         setTokenSymbol(symbol)
       })
-      const name = loadTokenName(tokenAddress).then((name) => {
+      loadTokenName(tokenAddress).then((name) => {
         setTokenName(name)
       })
     }
@@ -46,64 +49,53 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
   const urlPath = "/" + snakedName + "/" + snakedProjectName
   return (
     <div>
-      <Center mb="xl">
-        <Title size="h1">{t.CreateDao.Step3.Title}</Title>
-      </Center>
+      <Card shadow="xl" p="xl" mb="xl" mt={60} bg="black" style={{ overflow: "scroll" }}>
+        <Center mb="xl">
+          <Title size="h1">{t.CreateDao.Step3.Title}</Title>
+        </Center>
 
-      <Table horizontalSpacing="md" verticalSpacing="sm" fontSize="lg">
-        <thead>
-          <tr>
-            <th>{t.CreateDao.Step3.Setting}</th>
-            <th>{t.CreateDao.Step3.Value}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{t.CreateDao.Step3.ProjectUrl}</td>
-            <td>
-              <b>{urlPath}</b>
-            </td>
-          </tr>
-          {props.isWeb3 ? (
+        <Table horizontalSpacing="md" verticalSpacing="sm" fontSize="lg">
+          <thead>
             <tr>
-              <td>{t.Settings.TokenSetting.TokenDistribution}</td>
+              <th style={{ minWidth: 250 }}>{t.CreateDao.Step3.Setting}</th>
+              <th style={{ minWidth: 250 }}>{t.CreateDao.Step3.Value}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{t.CreateDao.Step1.DAOName}</td>
+              <td>{name}</td>
+            </tr>
+            <tr>
+              <td>{t.CreateDao.Step1.DAOVision}</td>
+              <td>{vision}</td>
+            </tr>
+
+            <tr>
+              <td>{t.CreateDao.Step3.ContributorReward}</td>
               <td>
-                {tokenName} (<b>{tokenSymbol}</b>)
+                {contributorReward || 0} <b>{tokenSymbol}</b>
               </td>
             </tr>
-          ) : (
+
             <tr>
-              <td>{t.Settings.PollPerspectiveSetting.Title}</td>
+              <td>{t.CreateDao.Step3.ReviewerReward}</td>
               <td>
-                {perspective.map((perspective) => (
-                  <p key={perspective}>{perspective}</p>
-                ))}
+                {reviewerReward || 0} <b>{tokenSymbol}</b>
               </td>
             </tr>
-          )}
 
-          <tr>
-            <td>{t.CreateDao.Step3.ContributorReward}</td>
-            <td>
-              {contributorReward || 0} <b>{tokenSymbol}</b>
-            </td>
-          </tr>
+            <tr>
+              <td>{t.Settings.PollDuration.Title}</td>
+              <td>
+                {sprintDuration} {t.Settings.PollDuration.DayUnit}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
 
-          <tr>
-            <td>{t.CreateDao.Step3.ReviewerReward}</td>
-            <td>
-              {reviewerReward || 0} <b>{tokenSymbol}</b>
-            </td>
-          </tr>
-
-          <tr>
-            <td>{t.Settings.PollDuration.Title}</td>
-            <td>
-              {sprintDuration} {t.Settings.PollDuration.DayUnit}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+        <DeployButton isWeb3={props.isWeb3} />
+      </Card>
     </div>
   )
 }
