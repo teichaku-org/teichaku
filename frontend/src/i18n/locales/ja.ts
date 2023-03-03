@@ -250,7 +250,7 @@ export const ja = {
       URLPreview: "URLプレビュー: ",
       DAOName: "DAOの名前 (英数字)",
       DAOVision: "DAOが掲げるビジョン",
-      DAONamePlaceholder: "DAOの名前を入力してください",
+      DAONamePlaceholder: "your-dao-name",
       Duplicate: "この名前は既に使われています。",
       DAOVisionPlaceholder: "DAOが掲げるビジョンを入力してください",
       LogoUrl: "ロゴのURL",

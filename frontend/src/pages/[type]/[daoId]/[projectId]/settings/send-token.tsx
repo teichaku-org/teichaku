@@ -1,3 +1,4 @@
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
@@ -27,6 +28,7 @@ const SendTokenPage = ({ isWeb3 }: props) => {
 
   return (
     <>
+      <NetworkCheck isWeb3={isWeb3} />
       {isShort && (
         <Alert
           my="lg"

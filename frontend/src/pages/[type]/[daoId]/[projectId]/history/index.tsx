@@ -12,6 +12,7 @@ import { useLocale } from "@/i18n/useLocale"
 import { APIClient } from "@/utils/APIClient"
 import CopyInviteUrl from "@/components/common/CopyInviteUrl"
 import { checkWeb3 } from "@/utils/checkWeb3"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 
 type props = {
   isWeb3: boolean
@@ -39,6 +40,7 @@ const History = ({ isWeb3 }: props) => {
   if (!daoHistory)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )

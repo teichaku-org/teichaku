@@ -5,6 +5,7 @@ import { SBTSetting } from "@/components/setting/SBTSetting"
 import { TokenSetting } from "@/components/setting/TokenSetting"
 import { TreasurySetting } from "@/components/setting/TreasurySetting"
 import { Web3MigrationSetting } from "@/components/setting/Web3MigrationSetting"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import { useLocale } from "@/i18n/useLocale"
@@ -22,6 +23,7 @@ const SettingPage = ({ isWeb3 }: Props) => {
   useDaoLoad(isWeb3)
   return (
     <Container>
+      <NetworkCheck isWeb3={isWeb3} />
       <Center>
         <Title size="h1">{t.Settings.Title}</Title>
       </Center>

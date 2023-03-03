@@ -10,7 +10,7 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
   const router = useRouter()
   const { t } = useLocale()
   const apiClient = new APIClient()
-  const { getUserIdToken } = useWeb3Auth()
+  const { getUserIdToken, login } = useWeb3Auth()
   const createDao = async (
     daoId: string,
     projectId: string,
@@ -25,7 +25,8 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
   ) => {
     const idToken = await getUserIdToken()
     if (!idToken) {
-      window.alert("Please login first.")
+      //window.alert("Please login first.")
+      await login()
       return
     }
     const headers = {

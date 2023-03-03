@@ -3,6 +3,7 @@ import { ReviewDaoInfo } from "@/components/create-dao/ReviewDaoInfo"
 import { SetDaoInfo } from "@/components/create-dao/SetDaoInfo"
 import { SetReward } from "@/components/create-dao/SetReward"
 import { WaitingDeploy } from "@/components/create-dao/WaitingDeploy"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { Center, Container } from "@mantine/core"
 
 interface Props {
@@ -43,6 +44,7 @@ const Page = ({ isWeb3 }: Props) => {
 
   return (
     <Container my="xl">
+      <NetworkCheck isWeb3={isWeb3} />
       <CreateDaoStepper
         step1Component={step1()}
         step2Component={step2()}

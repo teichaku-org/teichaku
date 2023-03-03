@@ -6,7 +6,6 @@ import { AppInfo } from "@/constants/AppInfo"
 import { AppShell, MantineProvider } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import dynamic from "next/dynamic"
-import NextNProgress from "nextjs-progressbar"
 import NetworkCheck from "../components/web3/common/NetworkCheck"
 
 const MyApp = ({ Component, pageProps }: any) => {
@@ -59,12 +58,6 @@ const MyApp = ({ Component, pageProps }: any) => {
                 },
               })}
             >
-              {/* パスが/である場合は表示する */}
-              {!Component.noNeedWallet && (
-                <>
-                  <NetworkCheck isWeb3={false} />
-                </>
-              )}
               <Component {...pageProps} />
             </AppShell>
             <InformationModals />

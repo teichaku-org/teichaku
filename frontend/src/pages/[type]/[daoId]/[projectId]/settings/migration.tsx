@@ -1,3 +1,4 @@
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { CreateDAORewardTokenAddress } from "@/domains/atoms/CreateDaoAtom"
 import useDynamicERC20 from "@/hooks/dao/useDynamicERC20"
 import { useDaoExistCheckWeb2 } from "@/hooks/dao/web2/useDaoExistCheckWeb2"
@@ -213,6 +214,7 @@ const Page = ({ isWeb3 }: props) => {
 
   return (
     <Container my="xl">
+      <NetworkCheck isWeb3={isWeb3} />
       <Center mb="xl">
         <Title size="h1">{t.Migration.Title}</Title>
       </Center>

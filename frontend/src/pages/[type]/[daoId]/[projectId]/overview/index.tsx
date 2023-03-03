@@ -1,5 +1,6 @@
 import { OrganizationCard } from "@/components/overview/OrganizationCard"
 import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
@@ -40,6 +41,7 @@ const Overview = ({ isWeb3 }: props) => {
   if (!daoInfo)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )
