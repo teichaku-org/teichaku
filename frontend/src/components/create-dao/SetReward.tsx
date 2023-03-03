@@ -151,7 +151,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
         required
         min={0}
         value={contributorReward}
-        onChange={(e) => setContributorReward(e)}
+        onChange={(e) => setContributorReward(e || 0)}
         placeholder="7000"
         label={t.Settings.DistributionSetting.Contributor.Label}
         mb="sm"
@@ -160,7 +160,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
         required
         min={0}
         value={reviewerReward}
-        onChange={(e) => setReviewerReward(e)}
+        onChange={(e) => setReviewerReward(e || 0)}
         placeholder="3000"
         label={t.Settings.DistributionSetting.Reviewer.Label}
         mb="sm"
@@ -176,7 +176,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
         min={1}
         max={30}
         value={sprintDuration}
-        onChange={(e) => setSprintDuration(e)}
+        onChange={(e) => setSprintDuration(e || 0)}
       />
     </div>
   )
