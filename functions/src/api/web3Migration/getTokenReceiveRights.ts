@@ -2,7 +2,7 @@ import * as functions from "firebase-functions"
 import * as admin from "firebase-admin"
 import { getUserAddress } from "../../utils/decodeJwt"
 
-export const getTokenRecieveRights = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
+export const getTokenReceiveRights = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
 
   if (req.method === "OPTIONS") {
@@ -14,11 +14,14 @@ export const getTokenRecieveRights = functions.region("asia-northeast1").https.o
   } else {
     type RequestData = { daoId: string }
     const userId = getUserAddress(req.headers.authorization || "") || ""
+    console.log("userId: ", userId)
     const requestData: RequestData = req.body
     const migrationUserData = await admin
       .firestore()
       .collection("migration")
-      .doc(requestData.daoId + "/" + userId)
+      .doc(requestData.daoId)
+      .collection("balances")
+      .doc(userId)
       .get()
     const isExist = migrationUserData.exists
     const migrationUser = migrationUserData.data()
