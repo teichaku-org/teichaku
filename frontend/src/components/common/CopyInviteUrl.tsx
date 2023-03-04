@@ -1,6 +1,6 @@
 import { Links } from "@/constants/Links"
 import { useLocale } from "@/i18n/useLocale"
-import { Button, Center, Container, Group, Text, Textarea, TextInput, Title } from "@mantine/core"
+import { Button, Center, Container, Group, Loader, Text, Textarea, TextInput, Title } from "@mantine/core"
 import { useRouter } from "next/router"
 import { IconCopyButton } from "./CopyButton"
 import { AppInfo } from "@/constants/AppInfo"
@@ -18,6 +18,8 @@ const CopyInviteUrl = () => {
 
 ${AppInfo.url + commonPath + "/overview"}
 あなたの参加を心待ちにしています！`
+
+  if (!daoInfo) return <Loader />
 
   return (
     <Container>
