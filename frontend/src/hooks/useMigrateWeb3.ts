@@ -9,7 +9,7 @@ export const useMigrateWeb3 = () => {
   const { daoId, projectId } = router.query
   const { getUserIdToken } = useWeb3Auth()
   const apiClient = new APIClient()
-  const { address } = useMetaMask()
+  const { address, login: loginMetamask } = useMetaMask(true)
   const { login } = useWeb3Auth()
 
   const migrateDao = async () => {
@@ -62,7 +62,7 @@ export const useMigrateWeb3 = () => {
       return
     }
     if (!address) {
-      window.alert("Please connect to Metamask.")
+      await loginMetamask()
       return
     }
 

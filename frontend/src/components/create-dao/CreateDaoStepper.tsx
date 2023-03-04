@@ -52,7 +52,6 @@ export const CreateDaoStepper = (props: Props) => {
         <Stepper.Step label={t.CreateDao.Step3.Title} description={t.CreateDao.Step3.SubTitle}>
           {props.step3Component}
         </Stepper.Step>
-        {/* <Stepper.Completed>{props.completedComponent}</Stepper.Completed> */}
       </Stepper>
 
       <Group position="center" mt="xl">
