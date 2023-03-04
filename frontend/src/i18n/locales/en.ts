@@ -75,7 +75,7 @@ export const en = {
       Title: "Let's Start Contributing!",
       Invite: {
         Title: "Let's Invite Members",
-        Description: "Copy the url and share it with the members you want to invite to the DAO!",
+        Description: "Copy the url and share it with members who share your vision!",
         Vision: "vision",
       },
     },
@@ -301,8 +301,8 @@ export const en = {
       Message: "Please wait for the transaction to be completed.",
     },
     NotificationWeb2: {
-      Title: "Your setting is sent to database!",
-      Message: "Please wait for the transaction to be completed.",
+      Title: "Configuration changes have been completed!",
+      Message: "Configuration changes have been completed.",
     },
     TokenSetting: {
       TokenDistribution: "Token for Reward",

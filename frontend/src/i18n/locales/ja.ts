@@ -76,7 +76,7 @@ export const ja = {
       Title: "貢献を始めましょう!",
       Invite: {
         Title: "他のメンバーを招待しよう",
-        Description: "DAOに招待したいメンバーに共有しよう！",
+        Description: "招待文を共有して、ビジョンに共感するメンバーを集めよう！",
         Vision: "ビジョン",
       },
     },
@@ -88,7 +88,7 @@ export const ja = {
       History: "ヒストリー",
       Contribution: "貢献登録",
       SprintReview: "スプリントレビュー",
-      Assessments: "評価",
+      Assessments: "自分の評価",
       Settings: "設定",
       Logout: "ログアウト",
     },
@@ -304,8 +304,8 @@ export const ja = {
       Message: "トランザクション完了までお待ちください。",
     },
     NotificationWeb2: {
-      Title: "設定がデータベースに送信されました!",
-      Message: "トランザクション完了までお待ちください。",
+      Title: "設定の変更が完了しました!",
+      Message: "設定の変更が完了しました。。",
     },
     TokenSetting: {
       TokenDistribution: "報酬に用いるトークン",
