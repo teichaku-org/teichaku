@@ -26,8 +26,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const checkIsAdmin = async () => {}
 
   const clearLocalStorage = () => {
-    localStorage.removeItem("points")
-    localStorage.removeItem("comments")
+    localStorage.removeItem("poll")
   }
 
   useEffect(() => {
@@ -115,7 +114,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       headers
     )
 
-    clearLocalStorage()
+    // clearLocalStorage()
     hideNotification("vote")
     //reload
     window.location.reload()

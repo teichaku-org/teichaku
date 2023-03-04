@@ -22,13 +22,32 @@ interface Props {
   settle: () => void
   endDate: Date
   isWeb3: boolean
+  pollId: number
 }
+
+type PointObject = {
+  [key: string]: number[]
+}
+
+type CommentObject = {
+  [key: string]: string
+}
+
+type Poll = {
+  points: PointObject
+  comments: CommentObject
+}
+
+type PollObject = {
+  [key: number]: Poll
+}
+
 export const PollSystem = (props: Props) => {
   const { t } = useLocale()
   const { AlreadyVoteMessage } = t.Poll.PollSystem
   const { address } = useWeb3Auth()
-  const [pointObject, setPointObject] = useState<{ [key: string]: number[] }>({})
-  const [commentObject, setCommentObject] = useState<{ [key: string]: string }>({})
+  const [pointObject, setPointObject] = useState<PointObject>({})
+  const [commentObject, setCommentObject] = useState<CommentObject>({})
   const [distributionObject, setDistributionObject] = useState<{ [key: string]: number }>({})
   const theTimeCanVote = calculateTheTimeToVote(props.endDate)
   const isTheTimeCanVote = theTimeCanVote < new Date()
@@ -61,20 +80,29 @@ export const PollSystem = (props: Props) => {
 
   useEffect(() => {
     //自動でローカルストレージに保存
-    if (Object.keys(pointObject).length) {
-      localStorage.setItem("points", JSON.stringify(pointObject))
+    let pollObject: PollObject = {
+      [props.pollId]: {
+        points: pointObject,
+        comments: commentObject,
+      },
     }
-    if (Object.keys(commentObject).length) {
-      localStorage.setItem("comments", JSON.stringify(commentObject))
+    if (Object.keys(pointObject).length || Object.keys(commentObject).length) {
+      localStorage.setItem("poll", JSON.stringify(pollObject))
     }
   }, [pointObject, commentObject])
 
   const loadLocalStorage = () => {
-    const points = localStorage.getItem("points")
-    const comments = localStorage.getItem("comments")
-    if (points && comments) {
-      setPointObject(JSON.parse(points))
-      setCommentObject(JSON.parse(comments))
+    const poll = localStorage.getItem("poll")
+    if (poll) {
+      let pollObject: PollObject = JSON.parse(poll)
+      for (const key in pollObject) {
+        if (Number(key) == props.pollId) {
+          setPointObject(pollObject[key].points)
+          setCommentObject(pollObject[key].comments)
+        } else {
+          localStorage.removeItem("poll")
+        }
+      }
     }
   }
 
