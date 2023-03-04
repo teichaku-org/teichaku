@@ -43,10 +43,7 @@ export const useMigrateWeb3 = () => {
         },
         headers
       )
-      const { token } = res?.data
-      if (token) {
-        return token
-      }
+      return res?.data.token
     } catch (e) {
       console.log(e)
     }
@@ -70,7 +67,7 @@ export const useMigrateWeb3 = () => {
       Authorization: `Bearer ${idToken}`,
     }
     const res = await apiClient.post(
-      "/getTokenReceiveRights",
+      "/registerWallet",
       {
         daoId: daoId,
         walletAddress: address,
