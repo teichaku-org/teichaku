@@ -127,7 +127,7 @@ export const PollSystem = (props: Props) => {
               gradient={{ from: "blue", to: "grape" }}
               disabled={!isTheTimeCanVote}
             >
-              {isTheTimeCanVote ? t.Button.SubmitToBlockchain : t.Button.WaitToVote(theTimeCanVote)}
+              {isTheTimeCanVote ? t.Button.Vote : t.Button.WaitToVote(theTimeCanVote)}
             </Button>
             {props.isAdmin ? (
               <Group position="center" my="xl">

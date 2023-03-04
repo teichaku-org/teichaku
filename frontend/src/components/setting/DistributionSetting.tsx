@@ -33,6 +33,7 @@ export const DistributionSetting = (props: { isWeb3: boolean }) => {
         placeholder="7000"
         label={t.Settings.DistributionSetting.Contributor.Label}
         mb="sm"
+        step={1000}
       />
       <NumberInput
         min={0}
@@ -41,6 +42,7 @@ export const DistributionSetting = (props: { isWeb3: boolean }) => {
         placeholder="3000"
         label={Reviewer.Label}
         mb="sm"
+        step={1000}
       />
       <Button onClick={onClick}>{t.Button.Update}</Button>
     </Paper>

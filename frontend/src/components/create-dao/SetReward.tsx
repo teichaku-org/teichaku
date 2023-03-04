@@ -1,5 +1,4 @@
 import {
-  CreateDAOPerspectives,
   CreateDAORewardTokenAddress,
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,
@@ -18,23 +17,9 @@ export const SetReward = (props: { isWeb3: boolean }) => {
   const { t } = useLocale()
   const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
   const [tokenAddress, setTokenAddress] = useAtom(CreateDAORewardTokenAddress)
-  const [perspectives, setPerspectives] = useAtom(CreateDAOPerspectives)
   const [contributorReward, setContributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
   const [reviewerReward, setReviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration, setSprintDuration] = useAtom(CreateDAOSprintDuration)
-  const { Perspective } = t.Settings.PollPerspectiveSetting
-  const form = useForm({
-    initialValues: {
-      perspective1: perspectives[0],
-      perspective2: perspectives[1],
-      perspective3: perspectives[2],
-    },
-  })
-  const update = () => {
-    const result = [form.values.perspective1, form.values.perspective2, form.values.perspective3]
-    const perspectives = result.filter((item) => item !== "" && item !== undefined)
-    setPerspectives(perspectives)
-  }
 
   const { loadTokenSymbol } = useDynamicERC20(props.isWeb3)
 
@@ -63,57 +48,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
     }
   })()
 
-  const Web2Setting = () => {
-    return (
-      <>
-        <Text size="md" weight={700}>
-          {t.Settings.PollPerspectiveSetting.Title}
-        </Text>
-
-        <TextInput
-          label={Perspective.Label(1)}
-          placeholder={Perspective.InitialValues.Perspective1}
-          name="perspective1"
-          variant="filled"
-          {...form.getInputProps("perspective1")}
-          onChange={(e) =>
-            form.setValues({
-              perspective1: e.currentTarget.value,
-            })
-          }
-        />
-
-        <TextInput
-          label={Perspective.Label(2)}
-          placeholder={Perspective.InitialValues.Perspective2}
-          mt="md"
-          name="perspective2"
-          variant="filled"
-          {...form.getInputProps("perspective2")}
-          onChange={(e) =>
-            form.setValues({
-              perspective2: e.currentTarget.value,
-            })
-          }
-        />
-
-        <TextInput
-          label={Perspective.Label(3)}
-          placeholder={Perspective.InitialValues.Perspective3}
-          mt="md"
-          name="perspective3"
-          variant="filled"
-          {...form.getInputProps("perspective3")}
-          onChange={(e) =>
-            form.setValues({
-              perspective3: e.currentTarget.value,
-            })
-          }
-        />
-      </>
-    )
-  }
-
   const Web3Setting = () => {
     return (
       <>
@@ -139,10 +73,6 @@ export const SetReward = (props: { isWeb3: boolean }) => {
       </>
     )
   }
-
-  useEffect(() => {
-    return () => update()
-  }, [])
 
   return (
     <div>
@@ -180,6 +110,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
           description={t.Settings.DistributionSetting.Contributor.Description}
           size="md"
           mb="sm"
+          step={1000}
         />
         <NumberInput
           required
@@ -192,6 +123,7 @@ export const SetReward = (props: { isWeb3: boolean }) => {
           description={t.Settings.DistributionSetting.Reviewer.Description}
           size="md"
           mb="sm"
+          step={1000}
         />
       </Card>
     </div>

@@ -88,6 +88,7 @@ export default () => {
     const public_key = wallets[0].public_key
     const walletAddress = wallets[0].address
     setAddress(walletAddress || public_key)
+    sessionStorage.setItem("address", walletAddress || public_key)
   }
 
   const logout = async () => {
@@ -98,6 +99,7 @@ export default () => {
     await web3auth.logout()
     setProvider(null)
     setAddress(null)
+    sessionStorage.removeItem("address")
   }
 
   return {

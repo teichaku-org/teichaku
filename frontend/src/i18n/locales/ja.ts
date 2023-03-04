@@ -59,6 +59,7 @@ export const ja = {
     Unfollow: "フォローを解除",
     ConnectWallet: "ウォレットを接続",
     SaveDraft: "下書き保存",
+    Vote: "投票する",
     SubmitToBlockchain: "ブロックチェーンに登録",
     SubmitToDatabase: "データベースに登録",
     WaitToVote: (date: Date) => `${date.toLocaleDateString()}から投票可能`,

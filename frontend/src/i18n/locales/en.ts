@@ -58,6 +58,7 @@ export const en = {
     Unfollow: "Unfollow",
     ConnectWallet: "Connect Wallet",
     SaveDraft: "Save Draft",
+    Vote: "Vote",
     SubmitToBlockchain: "Submit to Blockchain",
     SubmitToDatabase: "Submit to Database",
     WaitToVote: (date: Date) => `Wait Until ${date.toLocaleDateString()}`,
