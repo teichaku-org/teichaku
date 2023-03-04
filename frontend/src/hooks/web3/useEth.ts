@@ -5,7 +5,7 @@ import useMetaMask from "./useMetaMask"
 export default (isWeb3: boolean) => {
   const [balance, setBalance] = useState(0)
   const [network, setNetwork] = useState("")
-  const { address } = useMetaMask()
+  const { address } = useMetaMask(isWeb3)
 
   const getSigner = () => {
     if (!address) return undefined

@@ -55,8 +55,6 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
   }
 
   useEffect(() => {
-    // TODO: Web2で動作しないため、一旦コメントアウトする。これによって、既存のDAO名を入力しても、重複エラーが出なくなる。
-    // checkDuplicate()
     setAlreadyExist(false)
   }, [name])
 
@@ -67,11 +65,6 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
           <Center mb="xl">
             <Title size="h1">{t.CreateDao.Step1.Title}</Title>
           </Center>
-          {/* <Text mb="md">
-            {t.CreateDao.Step1.URLPreview}
-            {AppInfo.url}
-            <b>{urlPath}</b>
-          </Text> */}
 
           <TextInput
             value={name}
@@ -104,23 +97,6 @@ export const SetDaoInfo = (props: { isWeb3: boolean }) => {
             mb="sm"
           /> */}
         </Card>
-        {/* 
-            <Card shadow="" p="xl" mb="xl" >
-                <Text mb="md">{t.CreateDao.Step1.URLPreview}
-                    {AppInfo.url}<b>{urlPath}</b>
-                </Text>
-                <TextInput
-                    value={name}
-                    onChange={(e) => setName(e.currentTarget.value)}
-                    required
-                    error={alreadyExist ? t.CreateDao.Step1.Duplicate : ""}
-                    placeholder={t.CreateDao.Step1.DAONamePlaceholder} label={t.CreateDao.Step1.DAOName} mb="sm" />
-                <TextInput
-                    value={projectName}
-                    required
-                    onChange={e => setProjectName(e.currentTarget.value)}
-                    placeholder={t.CreateDao.Step1.FirstProjectNamePlaceholder} label={t.CreateDao.Step1.FirstProjectName} mb="sm" />
-            </Card> */}
       </SimpleGrid>
     </div>
   )

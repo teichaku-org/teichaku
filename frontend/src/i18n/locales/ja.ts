@@ -76,7 +76,7 @@ export const ja = {
       Title: "貢献を始めましょう!",
       Invite: {
         Title: "他のメンバーを招待しよう",
-        Description: "urlをコピーして、ビジョンに共感するメンバーに共有しよう！",
+        Description: "招待文を共有して、ビジョンに共感するメンバーを集めよう！",
         Vision: "ビジョン",
       },
     },
@@ -269,7 +269,7 @@ export const ja = {
       NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
-      Title: "始動",
+      Title: "DAOを始動する",
       SubTitle: "設定を確認してDAO作成",
       Setting: "設定",
       Value: "値",

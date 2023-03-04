@@ -1,4 +1,5 @@
 import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import { useLocale } from "@/i18n/useLocale"
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
@@ -26,10 +27,9 @@ export const getContract = (contractAddress: string, abi: any) => {
   return contract
 }
 
-export default () => {
-  const [isWeb3] = useAtom(Web3FlagAtom)
+export default (isWeb3: boolean) => {
   const [address, setAddress] = useState("")
-
+  const { t } = useLocale()
   const getSignerAddressOrLogin = async () => {
     const address = await getSignerAddress()
     if (!address) {
@@ -52,7 +52,7 @@ export default () => {
 
   const login = async () => {
     if (!("ethereum" in window)) {
-      console.warn("MetaMask Plugin not found")
+      alert(t.Alert.PleaseInstallMetamask)
       return
     }
     const provider = new ethers.providers.Web3Provider((window as any).ethereum)
@@ -88,7 +88,12 @@ export default () => {
   }, [])
 
   if (!isWeb3) {
-    return { address: "" }
+    return {
+      address: "",
+      login: () => {
+        console.error("Web2でMetamaskログインが求められています。")
+      },
+    }
   }
   return { address, login }
 }

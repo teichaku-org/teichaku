@@ -28,7 +28,6 @@ export const ReviewDaoInfo = (props: { isWeb3: boolean }) => {
   const [reviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration] = useAtom(CreateDAOSprintDuration)
   const { loadTokenSymbol, loadTokenName } = useDynamicERC20(props.isWeb3)
-  const [perspective] = useAtom(CreateDAOPerspectives)
 
   const [tokenSymbol, setTokenSymbol] = useState("pt")
   const [tokenName, setTokenName] = useState("Point")

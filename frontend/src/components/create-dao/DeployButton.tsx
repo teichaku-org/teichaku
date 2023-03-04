@@ -58,6 +58,8 @@ export const DeployButton = (props: Props) => {
         reviewerReward || 0,
         sprintDuration || 7 * 24 * 60 * 60
       )
+
+      //TODO: ここが実行される前に画面遷移するけど動くのかな？？
       if (!props.isWeb3) {
         await setPerspectives(perspectives)
       }
