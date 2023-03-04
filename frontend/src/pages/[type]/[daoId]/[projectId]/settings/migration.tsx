@@ -29,7 +29,7 @@ const Page = ({ isWeb3 }: props) => {
   const { contributorReward, voterReward, pollDetail } = usePollWeb2(dao)
   const { migrateDao } = useMigrateWeb3()
   const { createDao } = useDaoLauncherWeb3()
-  const { daoInfo } = useDaoHistoryWeb2(dao)
+  const { daoInfo, load } = useDaoHistoryWeb2(dao)
   const { loadTokenSymbol, loadTokenName } = useDynamicERC20(isWeb3)
   const [tokenSymbol, setTokenSymbol] = useState(t.CreateDao.Step2.NotSet)
   const [tokenName, setTokenName] = useState(t.CreateDao.Step2.NotSet)
@@ -75,7 +75,8 @@ const Page = ({ isWeb3 }: props) => {
     setLoading(true)
     try {
       await migrateDao()
-      console.log({ durationDay })
+
+      if (!daoInfo) await load()
 
       await createDao(
         daoId as string,
