@@ -29,7 +29,9 @@ export const migrateDao = functions.region("asia-northeast1").https.onRequest(as
       const migrationUserRef = admin
         .firestore()
         .collection("migration")
-        .doc(requestData.daoId + "/" + u.id)
+        .doc(requestData.daoId)
+        .collection("balances")
+        .doc(u.id)
       batch.set(migrationUserRef, {
         token: amount.data()?.amount || 0,
       })

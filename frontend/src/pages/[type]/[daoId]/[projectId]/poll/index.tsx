@@ -81,7 +81,9 @@ const Poll = ({ isWeb3 }: props) => {
       return
     }
     if (voters.length === 0) {
-      window.confirm(t.Poll.ConfirmNoVoter)
+      if (!window.confirm(t.Poll.ConfirmNoVoter)) {
+        return
+      }
     }
     await settleCurrentPollAndCreateNewPoll()
   }
@@ -119,6 +121,7 @@ const Poll = ({ isWeb3 }: props) => {
         tokenSymbol={tokenSymbol}
         endDate={pollDetail.endTimeStamp}
         isWeb3={isWeb3}
+        pollId={pollDetail.pollId}
       />
     </Container>
   )

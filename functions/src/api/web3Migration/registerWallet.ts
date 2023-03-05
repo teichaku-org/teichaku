@@ -19,7 +19,9 @@ export const registerWallet = functions.region("asia-northeast1").https.onReques
     const migrationUserData = await admin
       .firestore()
       .collection("migration")
-      .doc(requestData.daoId + "/" + userId)
+      .doc(requestData.daoId)
+      .collection("balances")
+      .doc(userId)
       .get()
     const isExist = migrationUserData.exists
     const migrationUser = migrationUserData.data()
@@ -37,7 +39,9 @@ export const registerWallet = functions.region("asia-northeast1").https.onReques
     const migrationUserRef = admin
       .firestore()
       .collection("migration")
-      .doc(requestData.daoId + "/" + userId)
+      .doc(requestData.daoId)
+      .collection("balances")
+      .doc(userId)
     await migrationUserRef.update({
       walletAddress: requestData.walletAddress,
     })

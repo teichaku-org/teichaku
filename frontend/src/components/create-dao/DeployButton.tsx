@@ -7,7 +7,6 @@ import {
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,
   CreateDAOSprintDuration,
-  CreateDAOPerspectives,
 } from "@/domains/atoms/CreateDaoAtom"
 import useDaoLauncher from "@/hooks/dao/useDaoLauncher"
 import usePoll from "@/hooks/dao/usePoll"
@@ -35,12 +34,9 @@ export const DeployButton = (props: Props) => {
   const [contributorReward] = useAtom(CreateDAORewardTokenContributorAmount)
   const [reviewerReward] = useAtom(CreateDAORewardTokenReviewerAmount)
   const [sprintDuration] = useAtom(CreateDAOSprintDuration)
-  const [perspectives] = useAtom(CreateDAOPerspectives)
 
   const daoId = snakeCase(name)
   const projectId = snakeCase(projectName)
-
-  const { setPerspectives } = usePoll({ daoId, projectId }, props.isWeb3)
 
   const _createDao = async () => {
     setErrorMessage("")
@@ -56,13 +52,9 @@ export const DeployButton = (props: Props) => {
         tokenAddress,
         contributorReward || 0,
         reviewerReward || 0,
-        sprintDuration || 7 * 24 * 60 * 60
+        sprintDuration || 7
       )
 
-      //TODO: ここが実行される前に画面遷移するけど動くのかな？？
-      if (!props.isWeb3) {
-        await setPerspectives(perspectives)
-      }
       setLoading(false)
     } catch (err: any) {
       //必要に応じてRetry

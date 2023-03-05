@@ -156,8 +156,7 @@ const usePollWeb3: usePollInterface = (props: { daoId: string; projectId: string
   }
 
   const clearLocalStorage = () => {
-    localStorage.removeItem("points")
-    localStorage.removeItem("comments")
+    localStorage.removeItem("poll")
   }
 
   const _setPerspectives = async (perspectives: string[]) => {
@@ -216,7 +215,7 @@ const usePollWeb3: usePollInterface = (props: { daoId: string; projectId: string
     })
 
     await tx?.wait()
-    clearLocalStorage()
+    // clearLocalStorage()
     hideNotification("vote")
     //reload
     window.location.reload()

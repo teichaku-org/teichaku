@@ -21,7 +21,7 @@ import { setAssignmentToken } from "./api/setting/setAssignmentToken"
 import { setStartTimeStamp } from "./api/setting/setStartTimeStamp"
 import { setVotingDuration } from "./api/setting/setVotingDuration"
 import { getMyBalance } from "./api/token/getMyBalance"
-import { getTokenRecieveRights } from "./api/web3Migration/getTokenReceiveRights"
+import { getTokenReceiveRights } from "./api/web3Migration/getTokenReceiveRights"
 import { migrateDao } from "./api/web3Migration/migrateDao"
 import { registerWallet } from "./api/web3Migration/registerWallet"
 
@@ -45,7 +45,7 @@ module.exports = {
   changePerspective,
   setVotingDuration,
   setStartTimeStamp,
-  getTokenRecieveRights,
+  getTokenReceiveRights,
   migrateDao,
   registerWallet,
 }

@@ -3,7 +3,6 @@ import {
   CreateDAODescription,
   CreateDAOFirstProject,
   CreateDAOName,
-  CreateDAOPerspectives,
   CreateDAORewardTokenAddress,
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,

@@ -10,7 +10,6 @@ import { Contribution } from "@/domains/Contribution"
 import { PollDetail } from "@/domains/PollDetail"
 import { useEffect } from "react"
 import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
-import { WalletAddressAtom } from "@/domains/atoms/WalletAddressAtom"
 
 const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string }) => {
   const router = useRouter()
@@ -20,7 +19,6 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const [pollDetail, setPollDetail] = useAtom(PollDetailAtom)
   const [contributorReward] = useAtom(ContributorRewardAtom)
   const [voterReward] = useAtom(VoterRewardAtom)
-  const [address] = useAtom(WalletAddressAtom)
   const commissionFee = 0
   const apiClient = new APIClient()
   const { getUserIdToken, login } = useWeb3Auth()
@@ -28,8 +26,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
   const checkIsAdmin = async () => {}
 
   const clearLocalStorage = () => {
-    localStorage.removeItem("points")
-    localStorage.removeItem("comments")
+    localStorage.removeItem("poll")
   }
 
   useEffect(() => {
@@ -117,7 +114,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
       headers
     )
 
-    clearLocalStorage()
+    // clearLocalStorage()
     hideNotification("vote")
     //reload
     window.location.reload()
@@ -156,7 +153,7 @@ const usePollWeb2: usePollInterface = (props: { daoId: string; projectId: string
 
   const _fetchPollDetail = async (pollId: number): Promise<PollDetail | null> => {
     const idToken = await getUserIdToken()
-    console.log("address---------------:", address)
+    let address = sessionStorage.getItem("address")
     const headers = {
       Authorization: `Bearer ${idToken}`,
     }

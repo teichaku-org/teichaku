@@ -4,6 +4,9 @@ import { ConnectWallet } from "../web3/login/ConnectWallet"
 import { AppLogo } from "./AppLogo"
 import { AppMenu } from "./AppMenu"
 import { LanguagePicker } from "./LanguagePicker"
+import { useAtom } from "jotai"
+import { WalletAddressAtom } from "@/domains/atoms/WalletAddressAtom"
+import { useEffect } from "react"
 
 const HEADER_HEIGHT = 70
 
@@ -18,7 +21,12 @@ const useStyles = createStyles((theme) => ({
 
 export function AppHeader() {
   const { classes, cx } = useStyles()
-  const { address } = useWeb3Auth()
+  // const { address } = useWeb3Auth()
+  const [address, setAddress] = useAtom(WalletAddressAtom)
+
+  useEffect(() => {
+    setAddress(sessionStorage.getItem("address"))
+  }, [address])
 
   return (
     <Header height={HEADER_HEIGHT} mb={120}>
