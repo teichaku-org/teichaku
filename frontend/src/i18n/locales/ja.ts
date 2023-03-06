@@ -356,7 +356,7 @@ export const ja = {
         Label: "スプリント開始日",
       },
       PollDeadline: {
-        Label: "Sprint End Date",
+        Label: "Sprint終了日時",
       },
     },
     PollDuration: {
@@ -383,5 +383,12 @@ export const ja = {
   },
   Alert: {
     PleaseInstallMetamask: "Metamaskをインストールしてください",
+  },
+  DemoStepper: {
+    Title: "Teichakuの使い方",
+    Step1: "① 貢献を登録する(遷移先で貢献を登録)",
+    Step2: "② 投票を行う(遷移先でデモデータに対して投票)",
+    Step3: "③ 投票を締め切る(遷移先で「投票を締め切る」をクリック)",
+    Step4: "④ Web3移行する(遷移先で「Web3移行」をクリック)",
   },
 }
