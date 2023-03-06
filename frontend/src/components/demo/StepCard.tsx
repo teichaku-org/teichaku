@@ -8,7 +8,7 @@ interface Props {
 export const StepCard = (props: Props) => {
   return (
     <Paper p="lg" mx="lg" variant="outline">
-      <Container
+      <div
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -19,7 +19,7 @@ export const StepCard = (props: Props) => {
         <Button variant="light" color="blue" radius="md" onClick={props.onClick}>
           GO
         </Button>
-      </Container>
+      </div>
     </Paper>
   )
 }
