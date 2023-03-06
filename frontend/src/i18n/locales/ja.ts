@@ -57,7 +57,7 @@ export const ja = {
     AppMenu: "メニュー",
     Follow: "フォローする",
     Unfollow: "フォローを解除",
-    ConnectWallet: "ウォレットを接続",
+    ConnectWallet: "ログイン",
     SaveDraft: "下書き保存",
     Vote: "投票する",
     SubmitToBlockchain: "ブロックチェーンに登録",

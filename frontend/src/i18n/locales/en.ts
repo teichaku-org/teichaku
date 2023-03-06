@@ -56,7 +56,7 @@ export const en = {
     AppMenu: "menu",
     Follow: "Follow",
     Unfollow: "Unfollow",
-    ConnectWallet: "Connect Wallet",
+    ConnectWallet: "Login",
     SaveDraft: "Save Draft",
     Vote: "Vote",
     SubmitToBlockchain: "Submit to Blockchain",

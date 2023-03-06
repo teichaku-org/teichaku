@@ -28,7 +28,7 @@ const MyApp = ({ Component, pageProps }: any) => {
           theme={{
             /** Put your mantine theme override here */
             colorScheme: "dark",
-            fontFamily: "Open Sans, sans serif",
+            fontFamily: "Nunito, Kosugi Maru,  sans serif",
             shadows: {
               xs: "-1px 1px 4px #BE4BDB, 1px -1px 4px #228BE6",
               sm: "-1px 1px 5px 2px #BE4BDB, 2px -2px 5px 2px #228BE6",
