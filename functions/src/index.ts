@@ -1,4 +1,5 @@
 import * as admin from "firebase-admin"
+import { createCandidateDemoData } from "./api/createCandidateDemoData"
 
 admin.initializeApp()
 
@@ -48,4 +49,5 @@ module.exports = {
   getTokenReceiveRights,
   migrateDao,
   registerWallet,
+  createCandidateDemoData,
 }

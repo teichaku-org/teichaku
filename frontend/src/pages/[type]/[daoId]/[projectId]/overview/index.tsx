@@ -1,3 +1,4 @@
+import { DemoStepper } from "@/components/demo/DemoStepper"
 import { OrganizationCard } from "@/components/overview/OrganizationCard"
 import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
 import NetworkCheck from "@/components/web3/common/NetworkCheck"
@@ -9,6 +10,7 @@ import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { checkWeb3 } from "@/utils/checkWeb3"
 import { Center, Grid, Loader, Text, Title } from "@mantine/core"
+import { PROPOSAL_CONTEXT } from "@walletconnect/sign-client"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -81,6 +83,8 @@ const Overview = ({ isWeb3 }: props) => {
           />
         </Grid.Col>
       </Grid>
+      <div style={{ height: 30 }} />
+      <DemoStepper isWeb3={isWeb3} />
     </div>
   )
 }

@@ -57,7 +57,7 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       headers
     )
 
-    router.push(`/web2/${daoId}/${projectId}/history`)
+    router.push(`/web2/${daoId}/${projectId}/overview`)
     hideNotification("createDao")
   }
 
