@@ -24,9 +24,7 @@ export const CandidateInfo = (props: Props) => {
         <Text span size="xs">
           by{" "}
           <Link href={link}>
-            <Text variant="link" span>
-              {shortenAddress(props.candidate.contributor)}
-            </Text>
+            <Anchor span>{shortenAddress(props.candidate.contributor)}</Anchor>
           </Link>
         </Text>
       </Grid>
