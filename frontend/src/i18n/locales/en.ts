@@ -380,5 +380,6 @@ export const en = {
   },
   Alert: {
     PleaseInstallMetamask: "Please install Metamask",
+    UnsupportedBrowsers: "Please use a Metamask enabled browser such as Chrome or Firefox",
   },
 }

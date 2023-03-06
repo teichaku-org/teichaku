@@ -383,5 +383,6 @@ export const ja = {
   },
   Alert: {
     PleaseInstallMetamask: "Metamaskをインストールしてください",
+    UnsupportedBrowsers: "ChromeやFirefoxなどのMetamask対応ブラウザを使用してください",
   },
 }
