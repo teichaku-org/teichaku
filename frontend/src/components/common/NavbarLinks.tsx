@@ -121,17 +121,17 @@ export const NavbarLinks = () => {
   const adminLinks = admin.map((link) => <MainLink {...link} key={link.label} />)
   return (
     <div>
-      <Text color="dimmed">{Info}</Text>
+      <Text color="#CED4DA">{Info}</Text>
       {dataLinks}
       <Space h="md" />
       <Divider />
       <Space h="md" />
-      <Text color="dimmed">{Events}</Text>
+      <Text color="#CED4DA">{Events}</Text>
       {eventLinks}
       <Space h="md" />
       <Divider />
       <Space h="md" />
-      <Text color="dimmed">{Admin}</Text>
+      <Text color="#CED4DA">{Admin}</Text>
       {adminLinks}
     </div>
   )

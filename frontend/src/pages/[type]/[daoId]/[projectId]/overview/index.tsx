@@ -52,7 +52,7 @@ const Overview = ({ isWeb3 }: props) => {
       </Center>
 
       <Center mb="md">
-        <Text color="dimmed">{t.Overview.SubTitle}</Text>
+        <Text color="#CED4DA">{t.Overview.SubTitle}</Text>
       </Center>
 
       <Grid>

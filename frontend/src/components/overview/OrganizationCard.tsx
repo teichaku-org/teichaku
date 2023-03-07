@@ -1,38 +1,38 @@
-import { useFollowDao } from "@/hooks/useFollowDao";
-import { useLocale } from "@/i18n/useLocale";
-import { Avatar, Text, Button, Paper, Group } from "@mantine/core";
+import { useFollowDao } from "@/hooks/useFollowDao"
+import { useLocale } from "@/i18n/useLocale"
+import { Avatar, Text, Button, Paper, Group } from "@mantine/core"
 
 interface Props {
-  daoId: string;
-  avatar: string;
-  name: string;
-  description: string;
-  contributionCount: number;
-  contributorCount: number;
-  voterCount: number;
+  daoId: string
+  avatar: string
+  name: string
+  description: string
+  contributionCount: number
+  contributorCount: number
+  voterCount: number
 }
 
 export function OrganizationCard(props: Props) {
-  const { daoId, avatar, name, description } = props;
-  const { follow, isFollowed, unfollow } = useFollowDao();
-  const { t } = useLocale();
-  const { Contributions, Contributors, Reviewer } = t.Overview.OrganizationCard;
+  const { daoId, avatar, name, description } = props
+  const { follow, isFollowed, unfollow } = useFollowDao()
+  const { t } = useLocale()
+  const { Contributions, Contributors, Reviewer } = t.Overview.OrganizationCard
 
   const stats = [
     { label: Contributions, value: props.contributionCount },
     { label: Contributors, value: props.contributorCount },
     { label: Reviewer, value: props.voterCount },
-  ];
+  ]
   const items = stats.map((stat) => (
     <div key={stat.label}>
       <Text align="center" size="lg" weight={500}>
         {stat.value}
       </Text>
-      <Text align="center" size="sm" color="dimmed">
+      <Text align="center" size="sm" color="#CED4DA">
         {stat.label}
       </Text>
     </div>
-  ));
+  ))
 
   return (
     <Paper
@@ -47,7 +47,7 @@ export function OrganizationCard(props: Props) {
       <Text align="center" size="lg" weight={500} mt="md">
         {name}
       </Text>
-      <Text align="center" color="dimmed" size="sm">
+      <Text align="center" color="#CED4DA" size="sm">
         {description}
       </Text>
       <Group mt="md" position="center" spacing={50}>
@@ -61,14 +61,14 @@ export function OrganizationCard(props: Props) {
         variant={isFollowed(daoId) ? "outline" : "filled"}
         onClick={() => {
           if (isFollowed(daoId)) {
-            unfollow(daoId);
+            unfollow(daoId)
           } else {
-            follow(daoId);
+            follow(daoId)
           }
         }}
       >
         {isFollowed(daoId) ? t.Button.Unfollow : t.Button.Follow}
       </Button>
     </Paper>
-  );
+  )
 }
