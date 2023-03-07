@@ -381,4 +381,11 @@ export const en = {
   Alert: {
     PleaseInstallMetamask: "Please install Metamask",
   },
+  DemoStepper: {
+    Title: "How to use Teichaku",
+    Step1: "① Register contribution (Register contribution at transition destination)",
+    Step2: "② Cast a vote (Vote against demo data at the transition destination)",
+    Step3: '③ Close voting (click "Close voting" at the transition destination)',
+    Step4: '④ Migrate to Web3 (click "Web3 Migrate" at the transition destination)',
+  },
 }
