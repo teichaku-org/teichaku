@@ -36,7 +36,7 @@ export const Comments = (props: Props) => {
                     <Anchor span>{shortenAddress(c.author)}</Anchor>
                   </Link>
                 </Text>
-                <Text size="xs" color="#CED4DA">
+                <Text size="xs" color="dimmed">
                   {c.timestamp.toLocaleString()}
                 </Text>
               </div>

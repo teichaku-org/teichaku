@@ -28,7 +28,7 @@ const SettingPage = ({ isWeb3 }: Props) => {
         <Title size="h1">{t.Settings.Title}</Title>
       </Center>
       <Center mb="md">
-        <Text color="#CED4DA">{t.Settings.SubTitle}</Text>
+        <Text color="dimmed">{t.Settings.SubTitle}</Text>
       </Center>
       {isWeb3 ? (
         <>

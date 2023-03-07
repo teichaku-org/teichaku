@@ -84,7 +84,7 @@ const TotalTab = (props: Props) => {
           <Stack spacing={0}>
             <TotalReward reward={String(Math.round(totalReward))} isWeb3={props.isWeb3} />
             <Group>
-              <Text size="xs" color="#CED4DA">
+              <Text size="xs" color="dimmed">
                 {ComparedPreviousReward}
               </Text>
               <Center>

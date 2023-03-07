@@ -28,7 +28,7 @@ export function OrganizationCard(props: Props) {
       <Text align="center" size="lg" weight={500}>
         {stat.value}
       </Text>
-      <Text align="center" size="sm" color="#CED4DA">
+      <Text align="center" size="sm" color="dimmed">
         {stat.label}
       </Text>
     </div>
@@ -47,7 +47,7 @@ export function OrganizationCard(props: Props) {
       <Text align="center" size="lg" weight={500} mt="md">
         {name}
       </Text>
-      <Text align="center" color="#CED4DA" size="sm">
+      <Text align="center" color="dimmed" size="sm">
         {description}
       </Text>
       <Group mt="md" position="center" spacing={50}>

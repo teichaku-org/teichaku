@@ -47,7 +47,7 @@ export function SolutionCard({ image, title, category }: ArticleCardImageProps) 
         <Text weight={500}>{category}</Text>
       </Group>
 
-      <Text size="sm" color="#CED4DA">
+      <Text size="sm" color="dimmed">
         {title}
       </Text>
     </Card>

@@ -37,7 +37,7 @@ export const PollEndInfo = (props: Props) => {
     }
     return (
       <>
-        <Text color="#CED4DA">{intervalText}</Text>
+        <Text color="dimmed">{intervalText}</Text>
         <Button size="lg" color="red" radius="md" onClick={props.settle}>
           {t.Button.SettlePoll}
         </Button>
@@ -47,7 +47,7 @@ export const PollEndInfo = (props: Props) => {
 
   return (
     <>
-      <Text color="#CED4DA">{intervalText}</Text>
+      <Text color="dimmed">{intervalText}</Text>
       <Text>
         {t.Contribution.PollEndInfo.LeftTimeText}
         {"  "}
