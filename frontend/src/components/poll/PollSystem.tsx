@@ -108,7 +108,13 @@ export const PollSystem = (props: Props) => {
 
   const _vote = async () => {
     const defaultPoints = props.perspectives.map(() => 0)
-    const points = props.candidates.map((c) => pointObject[c.contributor] || defaultPoints)
+    let points: number[][] = []
+    props.candidates.forEach((c) => {
+      while (pointObject[c.contributor].length < props.perspectives.length) {
+        pointObject[c.contributor].push(0)
+      }
+      points.push(pointObject[c.contributor] || defaultPoints)
+    })
     const comments = props.candidates.map((c) => commentObject[c.contributor] || "")
     await props.vote(points, comments)
   }
