@@ -232,7 +232,7 @@ export function HistoryList({ data, title, subTitle, isWeb3 }: Props) {
         </Center>
 
         <Center mb="md">
-          <Text color="dimmed">{subTitle}</Text>
+          <Text color="lightGray">{subTitle}</Text>
         </Center>
 
         <div

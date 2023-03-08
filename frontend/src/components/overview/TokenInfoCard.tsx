@@ -68,13 +68,13 @@ export function TokenInfoCard(props: Props) {
     >
       {props.isWeb3 && (
         <>
-          <Text size="xl" color="dimmed" mb="sm">
+          <Text size="xl" color="lightGray" mb="sm">
             {RewardsToken}
           </Text>
 
           <Group>
             <Card p="xl">
-              <Text size="xs" color="dimmed">
+              <Text size="xs" color="lightGray">
                 {ContractAddress}
               </Text>
               <Group spacing="xs">
@@ -83,26 +83,26 @@ export function TokenInfoCard(props: Props) {
               </Group>
             </Card>
             <Card p="xl">
-              <Text size="xs" color="dimmed">
+              <Text size="xs" color="lightGray">
                 {TokenName}
               </Text>
               <Text className={classes.lead}>{tokenName}</Text>
             </Card>
             <Card p="xl">
-              <Text size="xs" color="dimmed">
+              <Text size="xs" color="lightGray">
                 {TokenSymbol}
               </Text>
               <Text className={classes.lead}>{"$" + tokenSymbol}</Text>
             </Card>
 
             <Card p="xl">
-              <Text size="xs" color="dimmed">
+              <Text size="xs" color="lightGray">
                 {TotalSupply}
               </Text>
               <Text className={classes.lead}>{tokenTotalSupply}</Text>
             </Card>
             <Card p="xl">
-              <Text size="xs" color="dimmed">
+              <Text size="xs" color="lightGray">
                 {TreasuryBalance}
               </Text>
               <Text className={classes.lead}>{treasuryBalance}</Text>
@@ -111,7 +111,7 @@ export function TokenInfoCard(props: Props) {
         </>
       )}
 
-      <Text size="xl" color="dimmed" mt="xl" mb="sm">
+      <Text size="xl" color="lightGray" mt="xl" mb="sm">
         {TotalDistributionsPerSprint}
       </Text>
       <Progress

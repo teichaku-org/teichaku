@@ -43,6 +43,9 @@ const MyApp = ({ Component, pageProps }: any) => {
                 },
               },
             },
+            colors: {
+              lightGray: ["#CED4DA"],
+            },
           }}
         >
           <Notifications />
