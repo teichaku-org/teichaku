@@ -115,7 +115,7 @@ export const PollSystem = (props: Props) => {
 
   const renderItems = () => {
     return props.candidates.map((candidate) => {
-      const point = pointObject[candidate.contributor] || []
+      const point = pointObject[candidate.contributor] || props.perspectives.map(() => 0)
       const comment = commentObject[candidate.contributor] || ""
       const distribution = distributionObject[candidate.contributor] || 0
       const isYou = candidate.contributor === address

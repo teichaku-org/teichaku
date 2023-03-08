@@ -66,7 +66,7 @@ export const SingleAssessment = (props: Props) => {
         </Link>
       </Text>
 
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.EarnedTokens}
       </Text>
 
@@ -78,7 +78,7 @@ export const SingleAssessment = (props: Props) => {
         />
       </Container>
 
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Assessments}
       </Text>
       <Container style={{ height: 330, width: 330 }}>
@@ -86,7 +86,7 @@ export const SingleAssessment = (props: Props) => {
       </Container>
 
       {/* 貢献内容 */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Contribution}
       </Text>
       <Paper p="md" withBorder mb="sm">
@@ -96,13 +96,13 @@ export const SingleAssessment = (props: Props) => {
       </Paper>
 
       {/* エビデンス */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Evidences}
       </Text>
       <Evidences evidences={evidences || []} />
 
       {/* 投票者 & コメント */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.ReviewersAndComments}
       </Text>
       <Comments comments={comments} pollId={props.pollId} />
