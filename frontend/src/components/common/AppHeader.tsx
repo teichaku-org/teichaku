@@ -7,6 +7,7 @@ import { LanguagePicker } from "./LanguagePicker"
 import { useAtom } from "jotai"
 import { WalletAddressAtom } from "@/domains/atoms/WalletAddressAtom"
 import { useEffect } from "react"
+const BREAKPOINT = "@media (max-width: 755px)"
 
 const HEADER_HEIGHT = 70
 
@@ -16,6 +17,13 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  spacer: {
+    width: 10,
+    [BREAKPOINT]: {
+      width: 5,
+    },
   },
 }))
 
@@ -34,7 +42,7 @@ export function AppHeader() {
         <AppLogo />
         <Center>
           <LanguagePicker />
-          <div style={{ width: 10 }} />
+          <div className={classes.spacer} />
           {address ? <AppMenu /> : <ConnectWallet />}
         </Center>
       </Container>
