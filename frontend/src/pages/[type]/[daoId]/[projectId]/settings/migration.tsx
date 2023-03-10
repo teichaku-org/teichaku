@@ -93,6 +93,8 @@ const Page = ({ isWeb3 }: props) => {
           voterReward || 0,
           durationDay || 7
         )
+      } else {
+        throw new Error("Blockchain processing failed. Please try again.")
       }
 
       setLoading(false)
