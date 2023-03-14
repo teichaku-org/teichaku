@@ -37,7 +37,7 @@ export class Poll {
     this.startTime(currentMaxPollId).set(new Date().getTime())
     this.endTime(currentMaxPollId).set(new Date().getTime() + 7 * 24 * 60 * 60 * 1000)
     this.votingDuration(currentMaxPollId).set(7 * 24 * 60 * 60 * 1000)
-    this.perspectives(activePerspective).set(["Planning", "Execution", "Improvement"])
+    this.perspectives(activePerspective).set(["行動量", "助け合い", "影響力"])
     this.currentMaxPollId().set(currentMaxPollId)
     this.activePerspective().set(activePerspective)
     this.CONTRIBUTOR_ASSIGNMENT_TOKEN().set(7000)
@@ -658,7 +658,7 @@ export class Poll {
     }
     console.log("assignmentToken", assignmentToken)
 
-    this.transferTokenForContributor(_candidates, assignmentToken)
+    await this.transferTokenForContributor(_candidates, assignmentToken)
     // TODO:  _transferTokenForCommission();
 
     // Decide how much to distribute to voters
@@ -668,7 +668,7 @@ export class Poll {
     if (totalVoterCount > 0) {
       const voterAssignmentToken = VOTER_ASSIGNMENT_TOKEN / totalVoterCount
       console.log("voterAssignmentToken", voterAssignmentToken)
-      this.transferTokenForVoter(_voters, voterAssignmentToken)
+      await this.transferTokenForVoter(_voters, voterAssignmentToken)
     }
 
     //Save aggregation results in DAO History

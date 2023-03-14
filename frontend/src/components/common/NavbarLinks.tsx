@@ -66,7 +66,7 @@ export const NavbarLinks = () => {
   const { daoId, projectId } = router.query
   let commonPath = Links.getCommonPath(router)
   if (!(daoId && projectId)) {
-    commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || commonPath
+    commonPath = process.env.NEXT_PUBLIC_DEMO_PATH || ""
   }
   const data = [
     {
@@ -121,17 +121,17 @@ export const NavbarLinks = () => {
   const adminLinks = admin.map((link) => <MainLink {...link} key={link.label} />)
   return (
     <div>
-      <Text color="dimmed">{Info}</Text>
+      <Text color="lightGray">{Info}</Text>
       {dataLinks}
       <Space h="md" />
       <Divider />
       <Space h="md" />
-      <Text color="dimmed">{Events}</Text>
+      <Text color="lightGray">{Events}</Text>
       {eventLinks}
       <Space h="md" />
       <Divider />
       <Space h="md" />
-      <Text color="dimmed">{Admin}</Text>
+      <Text color="lightGray">{Admin}</Text>
       {adminLinks}
     </div>
   )

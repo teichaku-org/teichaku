@@ -4,9 +4,8 @@ import { AppNavbar } from "@/components/common/AppNavbar"
 import { InformationModals } from "@/components/modals/InformationModals"
 import { AppInfo } from "@/constants/AppInfo"
 import { AppShell, MantineProvider } from "@mantine/core"
-import { NotificationsProvider } from "@mantine/notifications"
+import { Notifications } from "@mantine/notifications"
 import dynamic from "next/dynamic"
-import NextNProgress from "nextjs-progressbar"
 import NetworkCheck from "../components/web3/common/NetworkCheck"
 
 const MyApp = ({ Component, pageProps }: any) => {
@@ -29,7 +28,7 @@ const MyApp = ({ Component, pageProps }: any) => {
           theme={{
             /** Put your mantine theme override here */
             colorScheme: "dark",
-            fontFamily: "Open Sans, sans serif",
+            fontFamily: "'M PLUS 1p', sans-serif",
             shadows: {
               xs: "-1px 1px 4px #BE4BDB, 1px -1px 4px #228BE6",
               sm: "-1px 1px 5px 2px #BE4BDB, 2px -2px 5px 2px #228BE6",
@@ -44,31 +43,27 @@ const MyApp = ({ Component, pageProps }: any) => {
                 },
               },
             },
+            colors: {
+              lightGray: ["#CED4DA"],
+            },
           }}
         >
-          <NotificationsProvider>
-            <AppShell
-              padding="md"
-              navbarOffsetBreakpoint={"md"}
-              navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
-              header={<AppHeader />}
-              footer={Component.noNavbar ? <AppFooter /> : undefined}
-              styles={(theme) => ({
-                main: {
-                  backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
-                },
-              })}
-            >
-              {/* パスが/である場合は表示する */}
-              {!Component.noNeedWallet && (
-                <>
-                  <NetworkCheck isWeb3={false} />
-                </>
-              )}
-              <Component {...pageProps} />
-            </AppShell>
-            <InformationModals />
-          </NotificationsProvider>
+          <Notifications />
+          <AppShell
+            padding="md"
+            navbarOffsetBreakpoint={"md"}
+            navbar={!Component.noNavbar ? <AppNavbar /> : undefined}
+            header={<AppHeader />}
+            footer={Component.noNavbar ? <AppFooter /> : undefined}
+            styles={(theme) => ({
+              main: {
+                backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+              },
+            })}
+          >
+            <Component {...pageProps} />
+          </AppShell>
+          <InformationModals />
         </MantineProvider>
       </div>
     )

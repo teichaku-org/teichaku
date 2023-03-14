@@ -24,7 +24,8 @@ export const ja = {
     HeroText1: "メンバーを定着させて",
     HeroText2Colorful: "継続的なインパクトを生み出す",
     HeroText3: "ための新しいDAOフレームワーク。",
-    HeroSubText: "フルオンチェーンで分散化されたDAOフレームワーク。アジャイル型組織に適しています。",
+    HeroSubText:
+      "スクラム開発のように運営できて、相互評価でトークンを分配します。Web3移行でフルオンチェーン版にスムーズに移行できます。",
     Problems: {
       Title: "DAOの問題点とTeichakuの解決策",
       Onboarding: {
@@ -56,9 +57,11 @@ export const ja = {
     AppMenu: "メニュー",
     Follow: "フォローする",
     Unfollow: "フォローを解除",
-    ConnectWallet: "ウォレットを接続",
+    ConnectWallet: "ログイン",
     SaveDraft: "下書き保存",
+    Vote: "投票する",
     SubmitToBlockchain: "ブロックチェーンに登録",
+    SubmitToDatabase: "データベースに登録",
     WaitToVote: (date: Date) => `${date.toLocaleDateString()}から投票可能`,
     AddYourContribution: "自分の貢献を追加する",
     UpdateYourContribution: "自分の貢献を更新する",
@@ -74,7 +77,8 @@ export const ja = {
       Title: "貢献を始めましょう!",
       Invite: {
         Title: "他のメンバーを招待しよう",
-        Description: "urlをコピーして、DAOに招待したいメンバーに共有しよう！",
+        Description: "招待文を共有して、ビジョンに共感するメンバーを集めよう！",
+        Vision: "ビジョン",
       },
     },
     AppMenu: {
@@ -85,7 +89,7 @@ export const ja = {
       History: "ヒストリー",
       Contribution: "貢献登録",
       SprintReview: "スプリントレビュー",
-      Assessments: "評価",
+      Assessments: "自分の評価",
       Settings: "設定",
       Logout: "ログアウト",
     },
@@ -138,6 +142,10 @@ export const ja = {
     ContributionCard: {
       Notification: {
         Title: "貢献内容がブロックチェーンに送信されました！",
+        Message: "トランザクション完了までお待ちください。",
+      },
+      NotificationWeb2: {
+        Title: "貢献内容がデータベースに送信されました！",
         Message: "トランザクション完了までお待ちください。",
       },
       Contribution: {
@@ -212,8 +220,16 @@ export const ja = {
         Title: "投票がブロックチェーンに送信されました!",
         Message: "トランザクション完了までお待ちください。",
       },
+      NotificationWeb2: {
+        Title: "投票がデータベースに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
+      },
       Settle: {
         Title: "あなたのトランザクションはブロックチェーンに送信されました！",
+        Message: "トランザクション完了までお待ちください。",
+      },
+      SettleWeb2: {
+        Title: "あなたのトランザクションはデータベースに送信されました！",
         Message: "トランザクション完了までお待ちください。",
       },
       CandidateCard: {
@@ -230,14 +246,16 @@ export const ja = {
   },
   CreateDao: {
     Step1: {
-      Title: "名前を決める",
+      Title: "DAOの名前を決める",
       SubTitle: "DAOの名前や説明を決める",
       URLPreview: "URLプレビュー: ",
       DAOName: "DAOの名前",
-      DAODescription: "DAOの説明",
-      DAONamePlaceholder: "DAOの名前を入力してください",
+      DAONameDescription: "DAOの名前は英数字で入力してください",
+      DAOVision: "DAOが掲げるビジョン",
+      DAONamePlaceholder: "your_dao_name",
       Duplicate: "この名前は既に使われています。",
-      DAODescriptionPlaceholder: "DAOの説明を入力してください",
+      DAOVisionPlaceholder: "DAOが掲げるビジョンを入力してください",
+      DAOVisionDescription: "目的・目標をシェアした仲間を集めるためにビジョンは重要です",
       LogoUrl: "ロゴのURL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "最初のプロジェクトの名前",
@@ -245,15 +263,15 @@ export const ja = {
       FirstProjectNameDefault: "season1",
     },
     Step2: {
-      Title: "設定する",
+      Title: "スプリントを設定する",
       SubTitle: "報酬とスプリントの長さを設定",
       NotSet: "未設定",
       InvalidTokenAddress: "無効なトークンアドレスです。",
       NoTokenSymbol: "シンボルを取得できませんでした。トークンのアドレスではないかもしれません。",
     },
     Step3: {
-      Title: "確認",
-      SubTitle: "DAOの設定を確認",
+      Title: "DAOを始動する",
+      SubTitle: "設定を確認してDAO作成",
       Setting: "設定",
       Value: "値",
       ProjectUrl: "プロジェクトのURL",
@@ -274,8 +292,8 @@ export const ja = {
       AcceptTransaction: "DAOを立ち上げる",
       Retry: "リトライ",
       Notification: {
-        Title: "DAOが立ち上げられました!",
-        Message: "DAOが立ち上げられるまでお待ちください。",
+        Title: "DAOがデータベースに送信されました!",
+        Message: "トランザクション完了までお待ちください。",
       },
     },
   },
@@ -285,6 +303,10 @@ export const ja = {
     Notification: {
       Title: "設定がブロックチェーンに送信されました!",
       Message: "トランザクション完了までお待ちください。",
+    },
+    NotificationWeb2: {
+      Title: "設定の変更が完了しました!",
+      Message: "設定の変更が完了しました。。",
     },
     TokenSetting: {
       TokenDistribution: "報酬に用いるトークン",
@@ -306,10 +328,14 @@ export const ja = {
     DistributionSetting: {
       Title: "1スプリントあたりのトークン分配",
       Contributor: {
-        Label: "貢献者への分配",
+        Label: "貢献者へのトークン分配",
+        Description:
+          "1スプリントで貢献者に分配されるトークンの総量。スプリントレビューと呼ばれる投票で内訳を決定します。",
       },
       Reviewer: {
-        Label: "レビュアーへの分配",
+        Label: "レビュアーへのトークン分配",
+        Description:
+          "1スプリントでレビュワーに分配されるトークンの総量。スプリントレビューで投票した人の間で等分されて分配されます。",
       },
     },
     PollPerspectiveSetting: {
@@ -330,12 +356,15 @@ export const ja = {
         Label: "スプリント開始日",
       },
       PollDeadline: {
-        Label: "Sprint End Date",
+        Label: "Sprint終了日時",
       },
     },
     PollDuration: {
       Title: "スプリントの長さ",
       Days: "1-30の日数を選択",
+      Title2: "スプリントの長さ(1-30の日数を選択)",
+      Description:
+        "Teichakuでは1~4週間の期間を設定し、その中でやったことをスプリントレビューと呼ばれる投票で相互レビューします。",
       DayUnit: "日",
     },
     SBTSetting: {
@@ -354,5 +383,12 @@ export const ja = {
   },
   Alert: {
     PleaseInstallMetamask: "Metamaskをインストールしてください",
+  },
+  DemoStepper: {
+    Title: "Teichakuの使い方",
+    Step1: "① 貢献を登録する(遷移先で貢献を登録)",
+    Step2: "② 投票を行う(遷移先でデモデータに対して投票)",
+    Step3: "③ 投票を締め切る(遷移先で「投票を締め切る」をクリック)",
+    Step4: "④ Web3移行する(遷移先で「Web3移行」をクリック)",
   },
 }

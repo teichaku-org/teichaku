@@ -1,7 +1,7 @@
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { Button, NumberInput, Paper, Space, Text } from "@mantine/core"
-import { DatePicker } from "@mantine/dates"
+import { DateInput, DatePicker } from "@mantine/dates"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
@@ -55,12 +55,12 @@ export const PollDeadlineSetting = (props: { isWeb3: boolean }) => {
       <Text size="md" weight={700}>
         {t.Settings.PollDeadlineSetting.Title}
       </Text>
-      <DatePicker
+      <DateInput
         mb="md"
         label={t.Settings.PollDeadlineSetting.DatePicker.Label}
         placeholder={t.Settings.PollDeadlineSetting.DatePicker.Placeholder}
         value={startDate}
-        inputFormat="YYYY/MM/DD"
+        valueFormat="YYYY/MM/DD"
         onChange={onChangeStartDate}
       />
 
@@ -73,7 +73,7 @@ export const PollDeadlineSetting = (props: { isWeb3: boolean }) => {
         min={1}
         max={30}
         value={pollDuration}
-        onChange={(e) => setSprintDuration(e)}
+        onChange={(e) => setSprintDuration(e || 0)}
       />
 
       <Space h="md" />

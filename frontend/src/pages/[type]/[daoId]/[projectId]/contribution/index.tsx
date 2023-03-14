@@ -1,5 +1,6 @@
 import { ContributionCard } from "@/components/contribution/ContributionCard"
 import { PollEndInfo } from "@/components/poll/PollEndInfo"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import usePoll from "@/hooks/dao/usePoll"
@@ -36,6 +37,7 @@ const Contribution = (props: { isWeb3: boolean }) => {
   if (!pollDetail)
     return (
       <Center>
+        <NetworkCheck isWeb3={props.isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )
@@ -46,7 +48,7 @@ const Contribution = (props: { isWeb3: boolean }) => {
       </Center>
       <PollEndInfo startDate={pollDetail.startTimeStamp} endDate={pollDetail.endTimeStamp} />
       <div style={{ height: 10 }} />
-      <ContributionCard candidateToPoll={_candidateToPoll} />
+      <ContributionCard candidateToPoll={_candidateToPoll} isWeb3={props.isWeb3} />
     </Container>
   )
 }

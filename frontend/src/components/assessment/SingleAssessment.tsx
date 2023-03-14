@@ -6,7 +6,7 @@ import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
 import { getSingleAssessment } from "@/utils/analysis/getSingleAssessment"
 import { shortenAddress } from "@/utils/shortenAddress"
-import { Button, Center, Container, Paper, Text } from "@mantine/core"
+import { Anchor, Button, Center, Container, Paper, Text } from "@mantine/core"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
@@ -62,13 +62,11 @@ export const SingleAssessment = (props: Props) => {
       <Text span size="xs">
         by{" "}
         <Link href={link}>
-          <Text variant="link" span>
-            {shortenAddress(props.contributor)}
-          </Text>
+          <Anchor span>{shortenAddress(props.contributor)}</Anchor>
         </Link>
       </Text>
 
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.EarnedTokens}
       </Text>
 
@@ -80,7 +78,7 @@ export const SingleAssessment = (props: Props) => {
         />
       </Container>
 
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Assessments}
       </Text>
       <Container style={{ height: 330, width: 330 }}>
@@ -88,7 +86,7 @@ export const SingleAssessment = (props: Props) => {
       </Container>
 
       {/* 貢献内容 */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Contribution}
       </Text>
       <Paper p="md" withBorder mb="sm">
@@ -98,13 +96,13 @@ export const SingleAssessment = (props: Props) => {
       </Paper>
 
       {/* エビデンス */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.Evidences}
       </Text>
       <Evidences evidences={evidences || []} />
 
       {/* 投票者 & コメント */}
-      <Text mt="lg" mb="xs" color="dimmed">
+      <Text mt="lg" mb="xs" color="lightGray">
         {t.Assessment.SingleAssessment.ReviewersAndComments}
       </Text>
       <Comments comments={comments} pollId={props.pollId} />

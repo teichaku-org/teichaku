@@ -1,3 +1,4 @@
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
@@ -16,7 +17,7 @@ const SendTokenPage = ({ isWeb3 }: props) => {
   const router = useRouter()
   const { daoId, projectId } = router.query
   const dao = { daoId: daoId as string, projectId: projectId as string }
-  const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao)
+  const { contractAddress, contributorReward, voterReward, commissionFee } = usePoll(dao, isWeb3)
   const { treasuryBalance, tokenSymbol, sendToken } = useDaoToken(dao, isWeb3)
   const isShort = treasuryBalance < contributorReward + voterReward + commissionFee
   const [value, setValue] = useState("")
@@ -27,6 +28,7 @@ const SendTokenPage = ({ isWeb3 }: props) => {
 
   return (
     <>
+      <NetworkCheck isWeb3={isWeb3} />
       {isShort && (
         <Alert
           my="lg"

@@ -5,7 +5,7 @@ import useEth from "../../../hooks/web3/useEth"
 import { MetamaskCheck } from "./MetamaskCheck"
 
 const NetworkCheck = (props: { isWeb3: boolean }) => {
-  const { network } = useEth()
+  const { network } = useEth(props.isWeb3)
   const { t } = useLocale()
   const expectedNetwork = process.env.NEXT_PUBLIC_EXPECTED_NETWORK
   const expectedNetworkChainId = process.env.NEXT_PUBLIC_EXPECTED_NETWORK_CHAIN_ID
@@ -36,6 +36,10 @@ const NetworkCheck = (props: { isWeb3: boolean }) => {
     }
   }
 
+  console.log({
+    network,
+    expectedNetwork,
+  })
   if (!isMetaMaskInstalled()) {
     return <MetamaskCheck isWeb3={props.isWeb3} />
   }

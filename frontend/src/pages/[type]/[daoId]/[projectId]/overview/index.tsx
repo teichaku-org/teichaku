@@ -1,15 +1,16 @@
+import { DemoStepper } from "@/components/demo/DemoStepper"
 import { OrganizationCard } from "@/components/overview/OrganizationCard"
 import { TokenInfoCard } from "@/components/overview/TokenInfoCard"
-import { Web3FlagAtom } from "@/domains/atoms/Web3FlagAtom"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import useDaoHistory from "@/hooks/dao/useDaoHistory"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
 import useDaoToken from "@/hooks/dao/useDaoToken"
 import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
-import { APIClient } from "@/utils/APIClient"
 import { checkWeb3 } from "@/utils/checkWeb3"
-import { Center, Grid, Title, Text, Loader } from "@mantine/core"
+import { Center, Grid, Loader, Text, Title } from "@mantine/core"
+import { PROPOSAL_CONTEXT } from "@walletconnect/sign-client"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -42,6 +43,7 @@ const Overview = ({ isWeb3 }: props) => {
   if (!daoInfo)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )
@@ -52,7 +54,7 @@ const Overview = ({ isWeb3 }: props) => {
       </Center>
 
       <Center mb="md">
-        <Text color="dimmed">{t.Overview.SubTitle}</Text>
+        <Text color="lightGray">{t.Overview.SubTitle}</Text>
       </Center>
 
       <Grid>
@@ -77,9 +79,12 @@ const Overview = ({ isWeb3 }: props) => {
             contributorReward={contributorReward}
             commissionFee={commissionFee}
             voterReward={voterReward}
+            isWeb3={isWeb3}
           />
         </Grid.Col>
       </Grid>
+      <div style={{ height: 30 }} />
+      <DemoStepper isWeb3={isWeb3} />
     </div>
   )
 }

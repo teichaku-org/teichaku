@@ -1,22 +1,26 @@
 import {
   CreateDAOName,
   CreateDAOFirstProject,
+  CreateDAODescription,
+  CreateDAOAvatar,
   CreateDAORewardTokenAddress,
   CreateDAORewardTokenContributorAmount,
   CreateDAORewardTokenReviewerAmount,
   CreateDAOSprintDuration,
-  CreateDAODescription,
-  CreateDAOAvatar,
 } from "@/domains/atoms/CreateDaoAtom"
 import useDaoLauncher from "@/hooks/dao/useDaoLauncher"
+import usePoll from "@/hooks/dao/usePoll"
 import { useLocale } from "@/i18n/useLocale"
 import { snakeCase } from "@/utils/snakeCase"
-import { Button, Center, Container, Loader, Stack, Text } from "@mantine/core"
+import { Stack, Center, Loader, Button, Text } from "@mantine/core"
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
-export const WaitingDeploy = (props: { isWeb3: boolean }) => {
+interface Props {
+  isWeb3: boolean
+}
+export const DeployButton = (props: Props) => {
   const { t } = useLocale()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -48,8 +52,9 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
         tokenAddress,
         contributorReward || 0,
         reviewerReward || 0,
-        sprintDuration || 7 * 24 * 60 * 60
+        sprintDuration || 7
       )
+
       setLoading(false)
     } catch (err: any) {
       //必要に応じてRetry
@@ -60,43 +65,27 @@ export const WaitingDeploy = (props: { isWeb3: boolean }) => {
   return (
     <Stack>
       <Center>{loading && <Loader color="violet" size="xl" />}</Center>
-      {props.isWeb3 ? (
-        <>
+      <>
+        <Center>
+          <Text>{props.isWeb3 ? t.CreateDao.Complete.Wait : t.CreateDao.CompleteWeb2.Wait}</Text>
+        </Center>
+        <Center>
+          <Text color="red">{errorMessage}</Text>
+        </Center>
+        {errorMessage ? (
           <Center>
-            <Text>{t.CreateDao.Complete.Wait}</Text>
+            <Button size="xl" variant="gradient" gradient={{ deg: 0, from: "blue", to: "grape" }} onClick={_createDao}>
+              {props.isWeb3 ? t.CreateDao.Complete.Retry : t.CreateDao.CompleteWeb2.Retry}
+            </Button>
           </Center>
+        ) : (
           <Center>
-            <Text color="red">{errorMessage}</Text>
+            <Button size="xl" variant="gradient" gradient={{ deg: 0, from: "blue", to: "grape" }} onClick={_createDao}>
+              {props.isWeb3 ? t.CreateDao.Complete.AcceptTransaction : t.CreateDao.CompleteWeb2.AcceptTransaction}
+            </Button>
           </Center>
-          {errorMessage ? (
-            <Center>
-              <Button onClick={_createDao}>{t.CreateDao.Complete.Retry}</Button>
-            </Center>
-          ) : (
-            <Center>
-              <Button onClick={_createDao}>{t.CreateDao.Complete.AcceptTransaction}</Button>
-            </Center>
-          )}
-        </>
-      ) : (
-        <>
-          <Center>
-            <Text>{t.CreateDao.CompleteWeb2.Wait}</Text>
-          </Center>
-          <Center>
-            <Text color="red">{errorMessage}</Text>
-          </Center>
-          {errorMessage ? (
-            <Center>
-              <Button onClick={_createDao}>{t.CreateDao.CompleteWeb2.Retry}</Button>
-            </Center>
-          ) : (
-            <Center>
-              <Button onClick={_createDao}>{t.CreateDao.CompleteWeb2.AcceptTransaction}</Button>
-            </Center>
-          )}
-        </>
-      )}
+        )}
+      </>
     </Stack>
   )
 }

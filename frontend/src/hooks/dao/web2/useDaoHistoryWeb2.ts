@@ -55,7 +55,13 @@ const useDaoHistoryWeb2: useDaoHistoryInterface = (props: Props) => {
     setAssessments(_assessments)
 
     const resDaoInfo = await apiClient.post("/getDaoInfo", { daoId: daoId }, headers)
-    let _daoInfo: DaoInfo | undefined
+    let _daoInfo: DaoInfo = {
+      name: "",
+      description: "",
+      website: "",
+      logo: "",
+      projects: [],
+    }
     if (resDaoInfo) {
       _daoInfo = resDaoInfo.data
     }

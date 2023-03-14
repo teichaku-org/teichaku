@@ -1,5 +1,6 @@
 import { PollEndInfo } from "@/components/poll/PollEndInfo"
 import { PollSystem } from "@/components/poll/PollSystem"
+import NetworkCheck from "@/components/web3/common/NetworkCheck"
 import { Links } from "@/constants/Links"
 import { useDaoExistCheck } from "@/hooks/dao/useDaoExistCheck"
 import { useDaoLoad } from "@/hooks/dao/useDaoLoad"
@@ -74,13 +75,15 @@ const Poll = ({ isWeb3 }: props) => {
 
   const _settle = async () => {
     // トークンがない場合はトークン振込ページへ
-    if (isTokenShort) {
+    if (isWeb3 && isTokenShort) {
       const commonPath = Links.getCommonPath(router)
       router.push(`/${commonPath}/settings/send-token`)
       return
     }
     if (voters.length === 0) {
-      window.confirm(t.Poll.ConfirmNoVoter)
+      if (!window.confirm(t.Poll.ConfirmNoVoter)) {
+        return
+      }
     }
     await settleCurrentPollAndCreateNewPoll()
   }
@@ -88,6 +91,7 @@ const Poll = ({ isWeb3 }: props) => {
   if (!pollDetail)
     return (
       <Center>
+        <NetworkCheck isWeb3={isWeb3} />
         <Loader size="lg" variant="dots" />
       </Center>
     )
@@ -116,6 +120,8 @@ const Poll = ({ isWeb3 }: props) => {
         settle={_settle}
         tokenSymbol={tokenSymbol}
         endDate={pollDetail.endTimeStamp}
+        isWeb3={isWeb3}
+        pollId={pollDetail.pollId}
       />
     </Container>
   )

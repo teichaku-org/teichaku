@@ -48,7 +48,7 @@ const useDaoLauncherWeb3: useDaoLauncherInterface = () => {
       autoClose: false,
     })
     await tx.wait()
-    router.push(`/web3/${daoId}/${projectId}/overview`)
+    router.push(`/web3/${daoId}/${projectId}/history`)
     hideNotification("createDao")
   }
 

@@ -7,7 +7,7 @@ const BREAKPOINT = "@media (max-width: 755px)"
 
 const useStyles = createStyles((theme) => ({
   controls: {
-    marginTop: theme.spacing.xl * 2,
+    marginTop: theme.spacing.xl + 10,
 
     [BREAKPOINT]: {
       marginTop: theme.spacing.xl,
@@ -33,7 +33,7 @@ export const ActionButtons = () => {
   const { t } = useLocale()
   const router = useRouter()
   const onClickDemo = () => {
-    const path = `/web3${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`
+    const path = `${process.env.NEXT_PUBLIC_DEMO_PATH}/overview`
     router.push(path)
   }
   return (
@@ -49,7 +49,7 @@ export const ActionButtons = () => {
           {t.Button.CreateYourDAO}
         </Button>
       </Link>
-      <Button size="xl" variant="default" className={classes.control} onClick={onClickDemo}>
+      <Button size="xl" variant="gradient" className={classes.control} onClick={onClickDemo}>
         {t.Button.Demo}
       </Button>
     </Group>

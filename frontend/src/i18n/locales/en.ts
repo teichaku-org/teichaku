@@ -56,9 +56,11 @@ export const en = {
     AppMenu: "menu",
     Follow: "Follow",
     Unfollow: "Unfollow",
-    ConnectWallet: "Connect Wallet",
+    ConnectWallet: "Login",
     SaveDraft: "Save Draft",
+    Vote: "Vote",
     SubmitToBlockchain: "Submit to Blockchain",
+    SubmitToDatabase: "Submit to Database",
     WaitToVote: (date: Date) => `Wait Until ${date.toLocaleDateString()}`,
     AddYourContribution: "Add Your Contribution",
     UpdateYourContribution: "Update Your Contribution",
@@ -74,7 +76,8 @@ export const en = {
       Title: "Let's Start Contributing!",
       Invite: {
         Title: "Let's Invite Members",
-        Description: "Copy the url and share it with the members you want to invite to DAO!",
+        Description: "Copy the url and share it with members who share your vision!",
+        Vision: "vision",
       },
     },
     AppMenu: {
@@ -138,6 +141,10 @@ export const en = {
     ContributionCard: {
       Notification: {
         Title: "Your Contribution is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
+      NotificationWeb2: {
+        Title: "Your Contribution is sent to database",
         Message: "Please wait for the transaction to be completed.",
       },
       Contribution: {
@@ -213,8 +220,16 @@ export const en = {
         Title: "Your Vote is sent to blockchain!",
         Message: "Please wait for the transaction to be completed.",
       },
+      NotificationWeb2: {
+        Title: "Your Vote is sent to database!",
+        Message: "Please wait for the transaction to be completed.",
+      },
       Settle: {
         Title: "Your transaction is sent to blockchain!",
+        Message: "Please wait for the transaction to be completed.",
+      },
+      SettleWeb2: {
+        Title: "Your transaction is sent to database!",
         Message: "Please wait for the transaction to be completed.",
       },
       CandidateCard: {
@@ -228,14 +243,16 @@ export const en = {
   },
   CreateDao: {
     Step1: {
-      Title: "Claim a name",
+      Title: "Claim a DAO name",
       SubTitle: "Claim a name for your DAO",
       URLPreview: "URL Preview: ",
       DAOName: "DAO's name",
-      DAODescription: "DAO's description",
+      DAONameDescription: "Enter the DAO ID in alphanumeric characters",
+      DAOVision: "DAO's vision",
       DAONamePlaceholder: "Type your DAO's name",
       Duplicate: "This name is already taken",
-      DAODescriptionPlaceholder: "Type your DAO's description",
+      DAOVisionPlaceholder: "Type your DAO's vision",
+      DAOVisionDescription: "A vision is important to get people to gather friends who share the purpose and goals.",
       LogoUrl: "Logo URL",
       LogoUrlPlaceholder: "https://...",
       FirstProjectName: "First project's name",
@@ -243,7 +260,7 @@ export const en = {
       FirstProjectNameDefault: "season1",
     },
     Step2: {
-      Title: "Configure template",
+      Title: "Configure Sprint template",
       SubTitle: "Rewards and Sprint Duration",
       NotSet: "Not set",
       InvalidTokenAddress: "Invalid token address",
@@ -272,8 +289,8 @@ export const en = {
       AcceptTransaction: "Create the DAO",
       Retry: "Retry",
       Notification: {
-        Title: "Your DAO is created！",
-        Message: "Please wait for the creating to be completed.",
+        Title: "Your DAO is sent to database!",
+        Message: "Please wait for the transaction to be completed.",
       },
     },
   },
@@ -283,6 +300,10 @@ export const en = {
     Notification: {
       Title: "Your setting is sent to blockchain!",
       Message: "Please wait for the transaction to be completed.",
+    },
+    NotificationWeb2: {
+      Title: "Configuration changes have been completed!",
+      Message: "Configuration changes have been completed.",
     },
     TokenSetting: {
       TokenDistribution: "Token for Reward",
@@ -305,9 +326,13 @@ export const en = {
       Title: "Total Reward Per Sprint",
       Contributor: {
         Label: "Contributor Distribution",
+        Description:
+          "Total amount of tokens distributed to contributors in one sprint. A poll called the Sprint Review determines the breakdown.",
       },
       Reviewer: {
         Label: "Reviewer Distribution",
+        Description:
+          "Total amount of tokens distributed to reviewers in one sprint. Divided equally among those who voted in the Sprint Review.",
       },
     },
     PollPerspectiveSetting: {
@@ -334,6 +359,9 @@ export const en = {
     PollDuration: {
       Title: "Poll Duration",
       Days: "Type 1-30 days",
+      Title2: "Poll Duration(Type 1-30 days)",
+      Description:
+        "At Teichaku, we set a period of 1 to 4 weeks, during which we review what we have done in a poll called a sprint review.",
       DayUnit: "days",
     },
     SBTSetting: {
@@ -352,5 +380,12 @@ export const en = {
   },
   Alert: {
     PleaseInstallMetamask: "Please install Metamask",
+  },
+  DemoStepper: {
+    Title: "How to use Teichaku",
+    Step1: "① Register contribution (Register contribution at transition destination)",
+    Step2: "② Cast a vote (Vote against demo data at the transition destination)",
+    Step3: '③ Close voting (click "Close voting" at the transition destination)',
+    Step4: '④ Migrate to Web3 (click "Web3 Migrate" at the transition destination)',
   },
 }

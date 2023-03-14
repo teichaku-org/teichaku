@@ -1,16 +1,15 @@
+import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
 import { useLocale } from "@/i18n/useLocale"
+import { APIClient } from "@/utils/APIClient"
+import { hideNotification, showNotification } from "@mantine/notifications"
 import { useRouter } from "next/router"
 import { useDaoLauncherInterface } from "../interface/useDaoLauncherInterface"
-import { hideNotification, showNotification } from "@mantine/notifications"
-import { APIClient } from "@/utils/APIClient"
-import useWeb3Auth from "@/hooks/web3/useWeb3Auth"
-import { Links } from "@/constants/Links"
 
 const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
   const router = useRouter()
   const { t } = useLocale()
   const apiClient = new APIClient()
-  const { getUserIdToken } = useWeb3Auth()
+  const { getUserIdToken, login } = useWeb3Auth()
   const createDao = async (
     daoId: string,
     projectId: string,
@@ -23,6 +22,16 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
     reviewerReward: number,
     votingDuration: number
   ) => {
+    const idToken = await getUserIdToken()
+    if (!idToken) {
+      //window.alert("Please login first.")
+      await login()
+      return
+    }
+    const headers = {
+      Authorization: `Bearer ${idToken}`,
+    }
+
     showNotification({
       id: "createDao",
       title: t.CreateDao.CompleteWeb2.Notification.Title,
@@ -30,15 +39,6 @@ const useDaoLauncherWeb2: useDaoLauncherInterface = () => {
       loading: true,
       autoClose: false,
     })
-
-    const idToken = await getUserIdToken()
-    if (!idToken) {
-      window.alert("Please login first.")
-      return
-    }
-    const headers = {
-      Authorization: `Bearer ${idToken}`,
-    }
 
     await apiClient.post(
       "/createDao",

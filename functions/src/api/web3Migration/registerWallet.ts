@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions"
 import * as admin from "firebase-admin"
+import { getUserAddress } from "../../utils/decodeJwt"
 
-export const candidateToCurrentPoll = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
+export const registerWallet = functions.region("asia-northeast1").https.onRequest(async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*")
 
   if (req.method === "OPTIONS") {
@@ -12,12 +13,15 @@ export const candidateToCurrentPoll = functions.region("asia-northeast1").https.
     res.status(204).send("")
   } else {
     type RequestData = { daoId: string; walletAddress: string }
-    const userId = "test" //TODO: HeaderのJWTから取得する
+    const userId = getUserAddress(req.headers.authorization || "") || ""
+
     const requestData: RequestData = req.body
     const migrationUserData = await admin
       .firestore()
       .collection("migration")
-      .doc(requestData.daoId + "/" + userId)
+      .doc(requestData.daoId)
+      .collection("balances")
+      .doc(userId)
       .get()
     const isExist = migrationUserData.exists
     const migrationUser = migrationUserData.data()
@@ -35,7 +39,9 @@ export const candidateToCurrentPoll = functions.region("asia-northeast1").https.
     const migrationUserRef = admin
       .firestore()
       .collection("migration")
-      .doc(requestData.daoId + "/" + userId)
+      .doc(requestData.daoId)
+      .collection("balances")
+      .doc(userId)
     await migrationUserRef.update({
       walletAddress: requestData.walletAddress,
     })
