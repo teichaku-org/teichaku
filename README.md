@@ -1,6 +1,4 @@
-# Basic Information
-
-## URL
+# サービスURL
 
 | Network | URL |
 | --- | --- |
@@ -8,7 +6,7 @@
 | Aster Shibuya | ~~https://hackathon.yunomy.com/~~ (Web3Auth not working, please use Goerli) |
 
 
-### Prerequisite
+## 前提
 
 - MetaMask がインストールされている Chrome(PC)もしくは Metamask の内蔵ブラウザ(Smartphone)
 - Etherium Goerli の ETH を持っている
