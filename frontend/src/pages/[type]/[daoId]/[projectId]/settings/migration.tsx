@@ -12,7 +12,7 @@ import { Button, Card, Center, Container, Loader, Stack, Table, Text, TextInput,
 import { ethers } from "ethers"
 import { useAtom } from "jotai"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type props = {
   isWeb3: boolean
@@ -37,6 +37,10 @@ const Page = ({ isWeb3 }: props) => {
   const [loading, setLoading] = useState(false)
   const [deployErrorMessage, setDeployErrorMessage] = useState("")
   const [isSetToken, setIsSetToken] = useState(false)
+
+  useEffect(() => {
+    if (!daoInfo) load()
+  }, [])
 
   const durationDay = pollDetail
     ? Math.floor((pollDetail.endTimeStamp.getTime() - pollDetail.startTimeStamp.getTime()) / (60 * 60 * 24 * 1000))
@@ -76,32 +80,23 @@ const Page = ({ isWeb3 }: props) => {
     try {
       await migrateDao()
 
-      if (!daoInfo) await load()
-      console.log("migrating...")
-      console.log({
-        daoId,
-        projectId,
-        name: daoInfo?.name || "",
-        description: daoInfo?.description || "",
-        logo: daoInfo?.logo || "",
-        tokenAddress,
-        contributorReward,
-        voterReward,
-        durationDay,
-      })
+      if (daoInfo) {
+        await createDao(
+          daoId as string,
+          projectId as string,
+          daoInfo.name,
+          daoInfo.description,
+          "https://...",
+          daoInfo.logo,
+          tokenAddress,
+          contributorReward || 0,
+          voterReward || 0,
+          durationDay || 7
+        )
+      } else {
+        throw new Error("Blockchain processing failed. Please try again.")
+      }
 
-      await createDao(
-        daoId as string,
-        projectId as string,
-        daoInfo?.name || "",
-        daoInfo?.description || "",
-        "https://...",
-        daoInfo?.logo || "",
-        tokenAddress,
-        contributorReward || 0,
-        voterReward || 0,
-        durationDay || 7
-      )
       setLoading(false)
     } catch (err: any) {
       //必要に応じてRetry
