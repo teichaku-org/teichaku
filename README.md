@@ -1,26 +1,31 @@
-# tokyo-web3-hackathon
-
-# 基本情報
+# Basic Information
 
 ## URL
 
-https://teichaku.vercel.app/
+| Network | URL |
+| --- | --- |
+| Etherium Goerli | https://teichaku.vercel.app/ |
+| Aster Shibuya | ~~https://hackathon.yunomy.com/~~ (Web3Auth not working, please use Goerli) |
 
-### 動作前提
+
+### Prerequisite
 
 - MetaMask がインストールされている Chrome(PC)もしくは Metamask の内蔵ブラウザ(Smartphone)
 - Etherium Goerli の ETH を持っている
 
-## 使用した tech stacks
+## tech stacks
 
 ### Backend
 
-フルオンチェーン！
-
+Web3
 - Solidity
 - Hardhat
 - OpenZeppelin
-- Polygon(Mumbai Testnet)
+
+Web2
+- Node.js(TypeScript)
+- Firebase Functions
+- Firestore
 
 ### Frontend
 
@@ -31,37 +36,20 @@ https://teichaku.vercel.app/
 
 ## deploy した Contract
 
-| コントラクト名 | 概略                                                     | コントラクトアドレス(Polygon Mumbai)       |
-| -------------- | -------------------------------------------------------- | ------------------------------------------ |
-| DAOHistory     | DAO における活動(貢献・投票)の情報を保持する。           | 0xBfDe11DDAB2c81e72d43872Fe3Ed1e47d54C1A75 |
-| PollFactory    | Poll コントラクトを作成する。DAOHistory から呼び出す。   | 0x476684620C5Dee01A411bc776D511f7081FF47b5 |
-| Poll           | 投票・集計・トークン分配を行う。                         | 0x7D31878Af5390930FDc95370364ef2a4328dA639 |
-| DAOToken       | 分配する ERC20 のトークン(デモ用)                        | 0xeCC7Bb4cf28Dc6fe99A9f0Fb0AdFD5a2E0F7707A |
-| DAONFT         | 複数アカウントによる不正投票を防止するための SBT(デモ用) | TBD                                        |
+| コントラクト名 | 概略                                                     | 
+| -------------- | -------------------------------------------------------- | 
+| DAOLauncher         |  DAOを立ち上げるための初期化用コントラクト |
+| DAOHistory     | DAO における活動(貢献・投票)の情報を保持する。           | 
+| PollFactory    | Poll コントラクトを作成する。   | 
+| Poll           | 投票・集計・トークン分配を行う。                         | 
+| DAOToken       | 分配する ERC20 のトークン(デモ用)                        | 
+| DAONFT         | 複数アカウントによる不正投票を防止するための SBT(デモ用) |
+| Wallet         |  手数料を徴収するためのコントラクトウォレット |
+
 
 ※ Poll コントラクトは Teichaku で DAO を作成するたびに生成されます。
 
-## テスト手順
 
-```
-npm ci
-npm run test
-```
-
-## application code やその他の file
-
-- /contracts/DAOHistory.sol
-  - Teichaku に関わるデータが保存される
-- /contracts/PollFactory.sol
-  - 投票コントラクトを作成する。イーサリアムのサイズ制限回避のため、DAOHistory から切り離している
-- /contracts/Poll.sol
-  - 投票コントラクト。受付・集計・トークン分配まで行う。
-- /scripts
-  - デプロイコードなどのスクリプト
-- /test
-  - 単体テスト
-- /frontend
-  - フロントエンド
 
 # 以下開発用のドキュメント
 
@@ -103,7 +91,12 @@ npm run dev
 firebase emulators:start
 ```
 
-# 開発用ドキュメント
+## テスト実行
+
+```
+npm ci
+npm run test
+```
 
 ## 型の自動生成
 
