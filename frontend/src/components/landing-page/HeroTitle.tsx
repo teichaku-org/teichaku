@@ -62,7 +62,7 @@ export function HeroTitle() {
           {t.LP.HeroText3}
         </h1>
 
-        <Text className={classes.description} color="lightGray">
+        <Text className={classes.description} color="lightGray" mb="lg">
           {t.LP.HeroSubText}
         </Text>
 

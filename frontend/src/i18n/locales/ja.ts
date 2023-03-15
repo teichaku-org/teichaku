@@ -48,7 +48,7 @@ export const ja = {
     },
   },
   Button: {
-    Demo: "デモ",
+    Demo: "デモ(実際の利用例)",
     CreateYourDAO: "新しくDAOを作成",
     StartFromHere: "ここから始めよう",
     SortBy: "並び替え",

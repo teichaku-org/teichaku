@@ -84,7 +84,8 @@ const Overview = ({ isWeb3 }: props) => {
         </Grid.Col>
       </Grid>
       <div style={{ height: 30 }} />
-      <DemoStepper isWeb3={isWeb3} />
+
+      {!isWeb3 && <DemoStepper isWeb3={isWeb3} />}
     </div>
   )
 }

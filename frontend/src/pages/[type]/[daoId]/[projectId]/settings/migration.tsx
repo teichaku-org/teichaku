@@ -77,6 +77,18 @@ const Page = ({ isWeb3 }: props) => {
       await migrateDao()
 
       if (!daoInfo) await load()
+      console.log("migrating...")
+      console.log({
+        daoId,
+        projectId,
+        name: daoInfo?.name || "",
+        description: daoInfo?.description || "",
+        logo: daoInfo?.logo || "",
+        tokenAddress,
+        contributorReward,
+        voterReward,
+        durationDay,
+      })
 
       await createDao(
         daoId as string,
