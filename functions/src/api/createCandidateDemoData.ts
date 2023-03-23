@@ -18,15 +18,20 @@ export const createCandidateDemoData = functions.region("asia-northeast1").https
     const requestData: RequestData = req.body
     const data = [
       {
-        contributionText:
-          "SNSログイン周りを実装し、Metamaskを接続しなくてもIDを取得できるようにしてWeb2版がしっかり動くようになった。",
+        contributionText: "車両の設計や安全装置の開発、予約システムの構築など、技術面でのサポートを行いました。",
         roles: ["Engineer"],
         evidences: [],
         sender: "0x261f350466E17cbDf9Bc00E2B3875685EF9aB07C",
       },
       {
-        contributionText: "スライド作成、メッセージのポイントやすぐにでも使いたいと思う切り口の検討",
-        roles: ["PM"],
+        contributionText: "データ分析を行い、運行スケジュールやルートの最適化を検討しました。",
+        roles: ["Data Scientist"],
+        evidences: [],
+        sender: "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec",
+      },
+      {
+        contributionText: "事業の資金調達や戦略的な成長計画を立案し、サービスの拡大に貢献しました。",
+        roles: ["Product Manager"],
         evidences: [],
         sender: "0x1CBd3b2770909D4e10f157cABC84C7264073C9Ec",
       },
