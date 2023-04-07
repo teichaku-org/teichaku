@@ -49,9 +49,9 @@ export const ActionButtons = () => {
           {t.Button.CreateYourDAO}
         </Button>
       </Link>
-      <Button size="xl" variant="gradient" className={classes.control} onClick={onClickDemo}>
+      {/* <Button size="xl" variant="gradient" className={classes.control} onClick={onClickDemo}>
         {t.Button.Demo}
-      </Button>
+      </Button> */}
     </Group>
   )
 }
